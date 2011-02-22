@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirastyarWordAddin", "VirastyarWordAddin\VirastyarWordAddin.csproj", "{2BD184C9-C27D-4077-B272-2580D0365B7C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TipOfTheDayCreator", "TipOfTheDayCreator\TipOfTheDayCreator.csproj", "{3AF43B45-B1AD-400F-AE59-980B3C15E058}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		DebugWithSetup|Any CPU = DebugWithSetup|Any CPU
+		Release|Any CPU = Release|Any CPU
+		ReleaseWithSetup|Any CPU = ReleaseWithSetup|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2BD184C9-C27D-4077-B272-2580D0365B7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2BD184C9-C27D-4077-B272-2580D0365B7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2BD184C9-C27D-4077-B272-2580D0365B7C}.DebugWithSetup|Any CPU.ActiveCfg = Debug|Any CPU
+		{2BD184C9-C27D-4077-B272-2580D0365B7C}.DebugWithSetup|Any CPU.Build.0 = Debug|Any CPU
+		{2BD184C9-C27D-4077-B272-2580D0365B7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2BD184C9-C27D-4077-B272-2580D0365B7C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2BD184C9-C27D-4077-B272-2580D0365B7C}.ReleaseWithSetup|Any CPU.ActiveCfg = Release|Any CPU
+		{2BD184C9-C27D-4077-B272-2580D0365B7C}.ReleaseWithSetup|Any CPU.Build.0 = Release|Any CPU
+		{3AF43B45-B1AD-400F-AE59-980B3C15E058}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3AF43B45-B1AD-400F-AE59-980B3C15E058}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3AF43B45-B1AD-400F-AE59-980B3C15E058}.DebugWithSetup|Any CPU.ActiveCfg = Debug|Any CPU
+		{3AF43B45-B1AD-400F-AE59-980B3C15E058}.DebugWithSetup|Any CPU.Build.0 = Debug|Any CPU
+		{3AF43B45-B1AD-400F-AE59-980B3C15E058}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3AF43B45-B1AD-400F-AE59-980B3C15E058}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3AF43B45-B1AD-400F-AE59-980B3C15E058}.ReleaseWithSetup|Any CPU.ActiveCfg = Release|Any CPU
+		{3AF43B45-B1AD-400F-AE59-980B3C15E058}.ReleaseWithSetup|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

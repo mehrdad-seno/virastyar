@@ -1,0 +1,120 @@
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <Choose>
+    <When Condition="'$(config)' == ''">
+      <PropertyGroup>
+        <BuildConfiguration>Debug</BuildConfiguration>
+      </PropertyGroup>
+    </When>
+    <When Condition="'$(config)' == 'Debug'">
+      <PropertyGroup>
+        <BuildConfiguration>Debug</BuildConfiguration>
+      </PropertyGroup>
+    </When>
+    <Otherwise>
+      <PropertyGroup>
+        <BuildConfiguration>Release</BuildConfiguration>
+      </PropertyGroup>
+    </Otherwise>
+  </Choose>
+
+  <Choose>
+    <When Condition="'$(buildType)' == ''">
+      <PropertyGroup>
+        <BuildType>Clean;Rebuild</BuildType>
+      </PropertyGroup>
+    </When>
+    <Otherwise>
+      <PropertyGroup>
+        <BuildType>$(buildType)</BuildType>
+      </PropertyGroup>
+    </Otherwise>
+  </Choose>
+
+  <ItemGroup>
+    <Lib Include="PersianTools\PersianTools.Lib\PersianTools.Lib.csproj" />
+    <Lib Include="Utility\Utility\SCICT.Utility.csproj" />
+    <Lib Include="PersianVerb\PersianVerb.Lib\PersianVerb.Lib.csproj" />
+    <Lib Include="ContentReader\ContentReader.Lib\ContentReader.Lib.csproj" />
+    <Lib Include="WordContainer\WordContainer.Lib\WordContainer.Lib.csproj" />
+    <Lib Include="SpellChecker\WordGenerator\WordGenerator.csproj" />
+    <Lib Include="StringDistance\StringDistance.Lib\StringDistance.Lib.csproj" />
+    <Lib Include="MorphologyAnalyser\MorphologyAnalyser.Lib\MorphologyAnalyser.Lib.csproj" />
+    <Lib Include="Lemmatization\Lemmatization.Lib\Lemmatization.Lib.csproj" />
+    <Lib Include="LanguageModel\LanguageModel\LanguageModel.csproj" />
+	<Lib Include="SpellChecker\SpellChecker.Lib\SpellChecker.Lib.csproj" />
+    <Lib Include="Punctuation\PunctuationChecker.Lib\Punctuation.Lib.csproj" />
+    <Lib Include="PinglishConverter\PinglishConverter.Lib\PinglishConverter.Lib.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Addin Include="VirastyarWordAddin\VirastyarWordAddin.sln" />
+  </ItemGroup>
+
+  <Target Name="Info">
+    <Message Text="Build-Type: $(BuildType)" Importance="high" />
+    <Message Text="BuildConfiguration: $(BuildConfiguration)" Importance="high" />
+  </Target>
+
+  <Target Name="Clean">
+    <Message Text="Cleaning all compiled binaries" />
+    <MSBuild Projects="@(Lib)" Properties="Configuration=$(BuildConfiguration)" Targets="Clean" />
+    <MSBuild Projects="@(Addin)" Properties="Configuration=$(BuildConfiguration)" Targets="Clean" />
+  </Target>
+
+  <Target Name="Pre-Build-All-Debug">
+    <Message Text="Build-All-Debug" />
+    <PropertyGroup>
+      <BuildType>Build</BuildType>
+      <BuildConfiguration>Debug</BuildConfiguration>
+    </PropertyGroup>
+  </Target>
+
+  <Target Name="Build-All-Debug" DependsOnTargets="Pre-Build-All-Debug;Info;Lib;Addin">
+  </Target>
+
+  <Target Name="Pre-Rebuild-All-Debug">
+    <PropertyGroup>
+      <BuildType>Clean;Rebuild</BuildType>
+      <BuildConfiguration>Debug</BuildConfiguration>
+    </PropertyGroup>
+  </Target>
+
+  <Target Name="Rebuild-All-Debug" DependsOnTargets="Pre-Rebuild-All-Debug;Info;Lib;Addin">
+  </Target>
+
+  <Target Name="Pre-Build-All-Release">
+    <PropertyGroup>
+      <BuildType>Build</BuildType>
+      <BuildConfiguration>Release</BuildConfiguration>
+    </PropertyGroup>
+  </Target>
+
+    <Target Name="Build-All-Release" DependsOnTargets="Pre-Build-All-Release;Info;Lib;Addin">
+    </Target>
+
+
+  <Target Name="Pre-Rebuild-All-Release">
+    <PropertyGroup>
+      <BuildType>Clean;Rebuild</BuildType>
+      <BuildConfiguration>Release</BuildConfiguration>
+    </PropertyGroup> 
+  </Target>
+
+  <Target Name="Rebuild-All-Release" DependsOnTargets="Pre-Rebuild-All-Release;Info;Lib;Addin">
+  </Target>
+
+  <Target Name="Lib" DependsOnTargets="Info">
+    <Message Text="Building Virastyar Libraries" />
+    <MSBuild Projects="@(Lib)" Properties="Configuration=$(BuildConfiguration)" Targets="$(BuildType)" />
+  </Target>
+
+  <Target Name="Addin" DependsOnTargets="Info;Lib">
+    <Message Text="Build Virastyar Addin" />
+    <MSBuild Projects="@(Addin)" Properties="Configuration=$(BuildConfiguration)" Targets="$(BuildType)" />
+  </Target>
+
+  <Target Name="Build" DependsOnTargets="Info;Lib;Addin;">
+    <Message Text="Building Addin" />
+  </Target>
+</Project>
