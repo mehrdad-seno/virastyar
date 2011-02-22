@@ -1,0 +1,1 @@
+@call msbuild Project.msbuild /t:Rebuild-All-Debug > build.log

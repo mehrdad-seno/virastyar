@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{73C3CEA9-8BDF-4447-9866-A764472D7CED}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SCICT.NLP.TextProofing.SpellChecker</RootNamespace>
+    <AssemblyName>SCICT.NLP.TextProofing.SpellChecker</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\..\Product_StrongKey\Virastyar.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\Lib\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DocumentationFile>..\..\Lib\SCICT.NLP.TextProofing.SpellChecker.XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\Lib\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="SCICT.NLP.Morphology.Inflection, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff2cf56caa65669b, processorArchitecture=MSIL">
+		<SpecificVersion>False</SpecificVersion>
+	</Reference>
+    <Reference Include="SCICT.NLP.Morphology.Inflection.Conjugation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff2cf56caa65669b, processorArchitecture=MSIL">
+		<SpecificVersion>False</SpecificVersion>
+	</Reference>
+    <Reference Include="SCICT.NLP.Morphology.Lemmatization, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff2cf56caa65669b, processorArchitecture=MSIL">
+		<SpecificVersion>False</SpecificVersion>
+	</Reference>
+    <Reference Include="SCICT.NLP.Utility.StringDistance, Version=1.0.3649.33593, Culture=neutral, PublicKeyToken=ff2cf56caa65669b, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\SCICT.NLP.Utility.StringDistance.dll</HintPath>
+    </Reference>
+    <Reference Include="SCICT.NLP.Utility.WordContainer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff2cf56caa65669b, processorArchitecture=MSIL">
+		<SpecificVersion>False</SpecificVersion>
+	</Reference>
+    <Reference Include="SCICT.NLP.Utility.WordGenerator, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff2cf56caa65669b, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\SCICT.NLP.Utility.WordGenerator.dll</HintPath>
+    </Reference>
+    <Reference Include="SCICT.PersianTools, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff2cf56caa65669b, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\SCICT.PersianTools.dll</HintPath>
+    </Reference>
+    <Reference Include="SCICT.Utility, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff2cf56caa65669b, processorArchitecture=MSIL">
+		<SpecificVersion>False</SpecificVersion>
+	</Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PersianSpellChecker.cs" />
+    <Compile Include="RuleBasedSpelling.cs" />
+    <Compile Include="SpellCheckerEngine.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

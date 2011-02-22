@@ -1,0 +1,498 @@
+﻿<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!--
+    This section defines project-level properties.
+
+    AssemblyName
+      Name of the output assembly.
+    Configuration
+      Specifies a default value for debug.
+    OutputType
+      Must be "Library" for VSTO.
+    Platform
+      Specifies what CPU the output of this project can run on.
+    NoStandardLibraries
+      Set to "false" for VSTO.
+    RootNamespace
+      In C#, this specifies the namespace given to new files. In VB, all objects are
+      wrapped in this namespace at runtime.
+  -->
+  <PropertyGroup>
+    <ProjectTypeGuids>{BAA0C2D2-18E2-41B9-852F-F413020CAA33};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{2BD184C9-C27D-4077-B272-2580D0365B7C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <NoStandardLibraries>false</NoStandardLibraries>
+    <RootNamespace>VirastyarWordAddin</RootNamespace>
+    <AssemblyName>VirastyarWordAddin</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\..\Product_StrongKey\Virastyar.snk</AssemblyOriginatorKeyFile>
+    <PublishUrl>publish\</PublishUrl>
+    <ApplicationVersion>1.0.0.0</ApplicationVersion>
+    <AutoIncrementApplicationRevision>true</AutoIncrementApplicationRevision>
+  </PropertyGroup>
+  <PropertyGroup>
+    <!--
+      VSTO_TrustAssembliesLocation
+        If "true", VSTO gives the project output full trust in user-level policy when the project is built.
+      VSTO_HostDocumentName
+        Not used in add-ins.
+    -->
+    <VSTO_TrustAssembliesLocation>true</VSTO_TrustAssembliesLocation>
+  </PropertyGroup>
+  <PropertyGroup>
+    <!--
+      Properties needed to register add-ins.
+
+      AddinRegistryHive
+        Root registry hive for the add-in.
+      AddinRegistryKey
+        Registry key where this add-in is registered.
+    -->
+    <AddinRegistryHive>CurrentUser</AddinRegistryHive>
+    <AddinRegistryKey>Software\Microsoft\Office\Word\Addins</AddinRegistryKey>
+  </PropertyGroup>
+  <!--
+    This section defines properties that are set when the "Debug" configuration is selected.
+
+    DebugSymbols
+      If "true", create symbols (.pdb). If "false", do not create symbols.
+    DefineConstants
+      Constants defined for the preprocessor.
+    EnableUnmanagedDebugging
+      If "true", starting the debugger will attach both managed and unmanaged debuggers.
+    Optimize
+      If "true", optimize the build output. If "false", do not optimize.
+    OutputPath
+      Output path of project relative to the project file.
+    WarningLevel
+      Warning level for the compiler.
+  -->
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <!--
+    This section defines properties that are set when the "Release" configuration is selected.
+
+    DebugSymbols
+      If "true", create symbols (.pdb). If "false", do not create symbols.
+    DefineConstants
+      Constants defined for the preprocessor.
+    EnableUnmanagedDebugging
+      If "true", starting the debugger will attach both managed and unmanaged debuggers.
+    Optimize
+      If "true", optimize the build output. If "false", do not optimize.
+    OutputPath
+      Output path of project relative to the project file.
+    WarningLevel
+      Warning level for the compiler.
+  -->
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+    <DefineConstants>TRACE</DefineConstants>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <!--
+    This section enables pre- and post-build steps. However, in VSTO use
+    MSBuild tasks instead of these properties.       
+  -->
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'DebugWithSetup|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\DebugWithSetup\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+  </PropertyGroup>
+  <!--
+    This section specifies references for the project.
+  -->
+  <ItemGroup>
+    <Reference Include="Accessibility" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\log4net\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="ManagedWinapi, Version=0.3.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\SpellCheckerLib\ManagedWinapi.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Word, Version=11.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="Microsoft.Office.Tools.Common, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="Microsoft.Office.Tools.Word, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Tools.Applications.Runtime, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="Office, Version=11.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="SCICT.Microsoft.Office.Word.ContentReader, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff2cf56caa65669b, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\SCICT.Microsoft.Office.Word.ContentReader.dll</HintPath>
+    </Reference>
+    <Reference Include="SCICT.NLP.TextProofing.Punctuation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff2cf56caa65669b, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\SCICT.NLP.TextProofing.Punctuation.dll</HintPath>
+    </Reference>
+    <Reference Include="SCICT.NLP.TextProofing.SpellChecker, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff2cf56caa65669b, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\SCICT.NLP.TextProofing.SpellChecker.dll</HintPath>
+    </Reference>
+    <Reference Include="SCICT.NLP.Utility.LanguageModel, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff2cf56caa65669b, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\SCICT.NLP.Utility.LanguageModel.dll</HintPath>
+    </Reference>
+    <Reference Include="SCICT.NLP.Utility.PinglishConverter, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff2cf56caa65669b, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\SCICT.NLP.Utility.PinglishConverter.dll</HintPath>
+    </Reference>
+    <Reference Include="SCICT.NLP.Utility.StringDistance, Version=1.0.3649.34659, Culture=neutral, PublicKeyToken=ff2cf56caa65669b, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\SCICT.NLP.Utility.StringDistance.dll</HintPath>
+    </Reference>
+    <Reference Include="SCICT.NLP.Utility.WordContainer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff2cf56caa65669b, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\SCICT.NLP.Utility.WordContainer.dll</HintPath>
+    </Reference>
+    <Reference Include="SCICT.NLP.Utility.WordGenerator, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff2cf56caa65669b, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\SCICT.NLP.Utility.WordGenerator.dll</HintPath>
+    </Reference>
+    <Reference Include="SCICT.PersianTools, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff2cf56caa65669b, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\SCICT.PersianTools.dll</HintPath>
+    </Reference>
+    <Reference Include="SCICT.Utility, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff2cf56caa65669b, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\SCICT.Utility.dll</HintPath>
+    </Reference>
+    <Reference Include="stdole, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Web.Extensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+  </ItemGroup>
+  <!--
+    This section defines the user source files that are part of the project.
+     
+    A "Compile" element specifies a source file to compile.
+    An "EmbeddedResource" element specifies an .resx file for embedded resources.
+    A "None" element specifies a file that is not to be passed to the compiler (for instance, 
+    a text file or XML file).
+    The "AppDesigner" element specifies the directory where the application properties files
+    can be found.
+  -->
+  <ItemGroup>
+    <Compile Include="AboutWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AboutWindow.Designer.cs">
+      <DependentUpon>AboutWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AxHost2.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Configurations\AddinConfigurationDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Configurations\AddinConfigurationDialog.Designer.cs">
+      <DependentUpon>AddinConfigurationDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Configurations\AddinConfigurationEvents.cs" />
+    <Compile Include="AllCharactersRefiner.cs" />
+    <Compile Include="Configurations\AllCharactersRefinerSettings.cs" />
+    <Compile Include="Configurations\SpellCheckerSettings.cs" />
+    <Compile Include="Constants.cs" />
+    <Compile Include="Controls\HotkeyControl2.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\HotkeyControl2.Designer.cs">
+      <DependentUpon>HotkeyControl2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TemplateGenerator.cs" />
+    <Compile Include="IVirastyarAddin.cs" />
+    <Compile Include="PreprocessSpellVerifier.cs" />
+    <Compile Include="ExceptionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ExceptionForm.Designer.cs">
+      <DependentUpon>ExceptionForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ListBoxWithOptionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ListBoxWithOptionForm.Designer.cs">
+      <DependentUpon>ListBoxWithOptionForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DateVerificationWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DateVerificationWindow.Designer.cs">
+      <DependentUpon>DateVerificationWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DateVerifier.cs" />
+    <Compile Include="Controls\HotkeyBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Configurations\IAddinConfigurationDialog.cs" />
+    <Compile Include="HelpConstants.cs" />
+    <Compile Include="ListBoxForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ListBoxForm.Designer.cs">
+      <DependentUpon>ListBoxForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NumberVerifier.cs" />
+    <Compile Include="PinglishVerifier.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <EmbeddedResource Include="Configurations\AddinConfigurationDialog.resx">
+      <DependentUpon>AddinConfigurationDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DateVerificationWindow.resx">
+      <DependentUpon>DateVerificationWindow.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SimpleVerificationWindow.resx">
+      <DependentUpon>SimpleVerificationWindow.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VerificationWindowBase.resx">
+      <DependentUpon>VerificationWindowBase.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="app.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="PunctuationVerifier.cs" />
+    <Compile Include="SettingsHelper.cs" />
+    <Compile Include="Resources\ResourceManager.cs" />
+    <Compile Include="RoundQueue.cs" />
+    <Compile Include="SimpleVerificationWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SimpleVerificationWindow.Designer.cs">
+      <DependentUpon>SimpleVerificationWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SpellCheckerVerificationWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SpellCheckerVerificationWindow.designer.cs">
+      <DependentUpon>SpellCheckerVerificationWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SpellCheckerVerifier.cs" />
+    <Compile Include="SpellCheckerWrapper.cs" />
+    <Compile Include="ThisAddIn.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <EmbeddedResource Include="Resources\Pinglish.dat" />
+    <EmbeddedResource Include="Resources\dic_informal.dat" />
+    <None Include="ThisAddIn.Designer.xml">
+      <DependentUpon>ThisAddIn.cs</DependentUpon>
+    </None>
+    <Compile Include="ThisAddIn.Designer.cs">
+      <DependentUpon>ThisAddIn.Designer.xml</DependentUpon>
+    </Compile>
+    <Compile Include="TipOfTheDayData.cs" />
+    <Compile Include="TipOfTheDayForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TipOfTheDayForm.Designer.cs">
+      <DependentUpon>TipOfTheDayForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Updater\UpdateNotificationWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Updater\UpdateNotificationWindow.Designer.cs">
+      <DependentUpon>UpdateNotificationWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UsageLogger.cs" />
+    <Compile Include="VerificationCanceledException.cs" />
+    <Compile Include="VerificationTypes.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="VerificationWinArgs.cs" />
+    <Compile Include="VerificationWindowBase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VerificationWindowBase.Designer.cs">
+      <DependentUpon>VerificationWindowBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VerificationWindowButtons.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="VerifierBase.cs" />
+    <Compile Include="VirastyarAddin.cs" />
+    <Compile Include="WindowListener.cs" />
+    <Compile Include="WordCompletionDistractionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WordCompletionDistractionForm.Designer.cs">
+      <DependentUpon>WordCompletionDistractionForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WordCompletionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WordCompletionForm.designer.cs">
+      <DependentUpon>WordCompletionForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WordHotKey.cs" />
+    <Compile Include="WordUIHelper.cs" />
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\DidYouKnow.png" />
+    <Content Include="Resources\IconTip.png" />
+    <Content Include="Resources\IconVirastyar.png" />
+    <Content Include="Resources\Virastyar.ico" />
+    <None Include="Resources\IconHelp.png" />
+    <None Include="Resources\IconGhafie.png" />
+    <None Include="Resources\IconDate.png" />
+    <None Include="Resources\IconCharRefiner.png" />
+    <None Include="Resources\IconSynonyms.png" />
+    <None Include="Resources\IconSpell.png" />
+    <None Include="Resources\IconSettings.png" />
+    <None Include="Resources\IconPuncAll.png" />
+    <None Include="Resources\IconPunc.png" />
+    <None Include="Resources\IconPrespell.png" />
+    <None Include="Resources\IconPinglishAll.png" />
+    <None Include="Resources\IconPinglish.png" />
+    <None Include="Resources\IconNumberConvertor.png" />
+    <EmbeddedResource Include="Resources\Tips.tod" />
+    <EmbeddedResource Include="Resources\Virastyar2003.dot" />
+    <EmbeddedResource Include="Resources\Virastyar2007.dotm" />
+    <EmbeddedResource Include="Resources\Virastyar2010.dotm" />
+    <EmbeddedResource Include="Resources\stem.dat" />
+    <EmbeddedResource Include="Controls\HotkeyControl2.resx">
+      <DependentUpon>HotkeyControl2.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\dic.dat" />
+    <EmbeddedResource Include="Resources\PinglishPreprocesses.dat" />
+    <EmbeddedResource Include="Resources\ShoraLogo.bmp" />
+    <EmbeddedResource Include="Resources\UserDictionary.dat" />
+    <EmbeddedResource Include="Resources\Virastyar.chm" />
+    <EmbeddedResource Include="ExceptionForm.resx">
+      <DependentUpon>ExceptionForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ListBoxWithOptionForm.resx">
+      <DependentUpon>ListBoxWithOptionForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ListBoxForm.resx">
+      <DependentUpon>ListBoxForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AboutWindow.resx">
+      <DependentUpon>AboutWindow.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Patterns.txt" />
+    <EmbeddedResource Include="SpellCheckerVerificationWindow.resx">
+      <DependentUpon>SpellCheckerVerificationWindow.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TipOfTheDayForm.resx">
+      <DependentUpon>TipOfTheDayForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Updater\UpdateNotificationWindow.resx">
+      <DependentUpon>UpdateNotificationWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WordCompletionDistractionForm.resx">
+      <DependentUpon>WordCompletionDistractionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WordCompletionForm.resx">
+      <DependentUpon>WordCompletionForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <!-- Include the build rules for a C# project. -->
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- Include additional build rules for an Office application add-in. -->
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v9.0\OfficeTools\Microsoft.VisualStudio.Tools.Office.Office2003.targets" />
+  <!-- This section defines VSTO properties that describe the host-changeable project properties. -->
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{BAA0C2D2-18E2-41B9-852F-F413020CAA33}">
+        <ProjectProperties HostName="Word" HostPackage="{D53BAEDE-5B63-42BE-8267-3DED11EDC582}" OfficeVersion="11.0" VstxVersion="3.0" ApplicationType="Word" Language="cs" TemplatesPath="" DebugInfoExeName="#Software\Microsoft\Office\11.0\Word\InstallRoot\Path#winword.exe" DebugInfoCommandLine="/w" />
+        <Host Name="Word" GeneratedCodeNamespace="VirastyarWordAddin" IconIndex="0">
+          <HostItem Name="ThisAddIn" Code="ThisAddIn.cs" CanonicalName="AddIn" CanActivate="false" IconIndex="1" Blueprint="ThisAddIn.Designer.xml" GeneratedCode="ThisAddIn.Designer.cs" />
+        </Host>
+        <ProjectClient>
+          <VSTO_CompatibleProducts ErrorProduct="This project requires Microsoft Office Word 2003 and the registered primary interop assemblies, but these are not installed." ErrorPIA="This project references the primary interop assembly for Microsoft Office Word 2003, but this primary interop assembly is not installed.">
+            <Product Code="{XXXXXXXX-6000-11D3-8CFE-0150048383C9}" Feature="WORDFiles" PIAFeature="Word_PIA" />
+          </VSTO_CompatibleProducts>
+        </ProjectClient>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+</Project>
