@@ -195,8 +195,6 @@ namespace SCICT.NLP.TextProofing.SpellChecker
         private const string RuleBasedSuggestionMessage = "اصلاح مبتنی بر قوانین";
         private const string KasraRedundantSuggestionMessage = "اصلاح کسره‌ی اضافه";
 
-        private readonly string[] m_realWordSuffixes = new string[] { "شست", "تیم", "تند", "تست", "میم", "مست", "اتم", "ترش", "مین", "می" };
-
         #endregion
 
         #region Constructor
@@ -1196,78 +1194,87 @@ namespace SCICT.NLP.TextProofing.SpellChecker
 
         private void ReSpellingSuggestionsThreadSafe(Object data)
         {
-            Thread.BeginThreadAffinity();
-
-            ReSpellingData inputData = (ReSpellingData) data;
-
-            string word = inputData.m_word;
-
-            string[] wordParts = word.Split(new char[] { PseudoSpace.ZWNJ }, StringSplitOptions.RemoveEmptyEntries);
-
-            if ((wordParts.Length == 1 || wordParts[0].Length <= 3) ||
-                (wordParts[0].EndsWith("ه") &&  wordParts[1].StartsWith("گ")))
+            try
             {
-                
-                inputData.m_suggestions = base.SpellingSuggestions2(word);
+                Thread.BeginThreadAffinity();
 
-                #region Commentet Magic Generation
-                //List<string> respellingSuggetions = new List<string>();
-                //for (int i = 1; i < EditDistance; ++i)
-                //{
-                //    string[] tmpSugArray = base.SpellingSuggestions3(word, i);
-                //    foreach (string tmpSug in tmpSugArray)
-                //    {
-                //        if (this.ContainWord(tmpSug))
-                //        {
-                //            respellingSuggetions.Add(tmpSug);
-                //        }
-                //    }
+                ReSpellingData inputData = (ReSpellingData)data;
+                string word = inputData.m_word;
 
-                //    if (respellingSuggetions.Count > 0)
-                //    {
-                //        break;
-                //    }
-                //}
+                string[] wordParts = word.Split(new char[] { PseudoSpace.ZWNJ }, StringSplitOptions.RemoveEmptyEntries);
 
-                //inputData.m_suggestions = respellingSuggetions.Distinct().ToArray();
-                #endregion
-
-                return;
-            }
-            else
-            {
-                List<string> suggestions = new List<string>();
-                List<string> tmpNextPartSugs = new List<string>();
-                List<string> tmpPrePartSugs = new List<string>();
-                foreach (string str in wordParts)
+                if ((wordParts.Length == 1 || wordParts[0].Length <= 3) ||
+                    (wordParts[0].EndsWith("ه") && wordParts[1].StartsWith("گ")))
                 {
-                    suggestions.Clear();
-                    tmpNextPartSugs.Clear();
-                    tmpNextPartSugs.AddRange(base.SpellingSuggestions2(str));
-                    if (tmpPrePartSugs.Count == 0)
-                    {
-                        tmpPrePartSugs.AddRange(tmpNextPartSugs);
-                        continue;
-                    }
 
-                    foreach (string tmpNextPart in tmpNextPartSugs)
+                    inputData.m_suggestions = base.SpellingSuggestions2(word);
+
+                    #region Magic Generation
+                    //List<string> respellingSuggetions = new List<string>();
+                    //for (int i = 1; i < EditDistance; ++i)
+                    //{
+                    //    string[] tmpSugArray = base.SpellingSuggestions3(word, i);
+                    //    foreach (string tmpSug in tmpSugArray)
+                    //    {
+                    //        if (this.ContainWord(tmpSug))
+                    //        {
+                    //            respellingSuggetions.Add(tmpSug);
+                    //        }
+                    //    }
+
+                    //    if (respellingSuggetions.Count > 0)
+                    //    {
+                    //        break;
+                    //    }
+                    //}
+
+                    //inputData.m_suggestions = respellingSuggetions.Distinct().ToArray();
+                    #endregion
+
+                    return;
+                }
+                else
+                {
+                    List<string> suggestions = new List<string>();
+                    List<string> tmpNextPartSugs = new List<string>();
+                    List<string> tmpPrePartSugs = new List<string>();
+                    foreach (string str in wordParts)
                     {
-                        foreach (string tmpPrePart in tmpPrePartSugs)
+                        suggestions.Clear();
+                        tmpNextPartSugs.Clear();
+                        tmpNextPartSugs.AddRange(base.SpellingSuggestions2(str));
+                        if (tmpPrePartSugs.Count == 0)
                         {
-                            suggestions.Add(tmpPrePart + PseudoSpace.ZWNJ + tmpNextPart);
+                            tmpPrePartSugs.AddRange(tmpNextPartSugs);
+                            continue;
                         }
+
+                        foreach (string tmpNextPart in tmpNextPartSugs)
+                        {
+                            foreach (string tmpPrePart in tmpPrePartSugs)
+                            {
+                                suggestions.Add(tmpPrePart + PseudoSpace.ZWNJ + tmpNextPart);
+                            }
+                        }
+                        tmpPrePartSugs.Clear();
+                        tmpPrePartSugs.AddRange(suggestions);
                     }
-                    tmpPrePartSugs.Clear();
-                    tmpPrePartSugs.AddRange(suggestions);
-                }
 
-                List<string> finalSug = new List<string>(ExtractRealWords(suggestions.Distinct().ToArray()));
-                if (base.IsRealWord(wordParts[0]))
-                {
-                    finalSug.AddRange(CompleteWord(wordParts[0]));
-                }
+                    List<string> finalSug = new List<string>(ExtractRealWords(suggestions.Distinct().ToArray()));
+                    if (base.IsRealWord(wordParts[0]))
+                    {
+                        finalSug.AddRange(CompleteWord(wordParts[0]));
+                    }
 
-                inputData.m_suggestions = finalSug.Distinct().ToArray();
+                    inputData.m_suggestions = finalSug.Distinct().ToArray();
+                    Thread.EndThreadAffinity();
+                    return;
+                }
+            }
+            catch (Exception)
+            {
+                ((AffixCorrectionData)data).m_suggestions = new string[0];
+                
                 Thread.EndThreadAffinity();
                 return;
             }
@@ -2305,116 +2312,126 @@ private static string[] SortSpacingSugs(string[] words, int count)
         }
         private void CheckSpellingWithAffixConsiderationThreadSafe(Object data)
         {
-            Thread.BeginThreadAffinity();
-            
-            AffixCorrectionData inputData = (AffixCorrectionData)data;
-            
-            string word = inputData.m_word;
-            int suggestionCount = inputData.m_suggestionCount;
-
-            List<string> suggestion = new List<string>();
-
-            string tmpSug, stem, suffix;
-
-            //Dictionary<string, PersianPOSTag> posDic;
-            //Dictionary<string, int> freqDic;
-
-            PersianPOSTag posTag;
-            ReversePatternMatcherPatternInfo[] rpmpiSet = StripAffixs(word);
-            if (rpmpiSet.Length == 0)
+            try
             {
-                inputData.m_suggestions = new string[0];
-                inputData.m_havePhoneticSuffixProblem = false;
-                return;
-            }
+                Thread.BeginThreadAffinity();
 
-            #region If JUST Phonetic Correction is required
+                AffixCorrectionData inputData = (AffixCorrectionData)data;
+                string word = inputData.m_word;
+            
+                int suggestionCount = inputData.m_suggestionCount;
 
-            if (!base.IsRealWord(word))
-            {
-                foreach (ReversePatternMatcherPatternInfo suffixPatternInfo in rpmpiSet)
+                List<string> suggestion = new List<string>();
+
+                string tmpSug, stem, suffix;
+
+                //Dictionary<string, PersianPOSTag> posDic;
+                //Dictionary<string, int> freqDic;
+
+                PersianPOSTag posTag;
+                ReversePatternMatcherPatternInfo[] rpmpiSet = StripAffixs(word);
+                if (rpmpiSet.Length == 0)
                 {
-                    suffix = suffixPatternInfo.Suffix;
-                    stem = suffixPatternInfo.BaseWord;
+                    inputData.m_suggestions = new string[0];
+                    inputData.m_havePhoneticSuffixProblem = false;
+                    return;
+                }
 
+                #region If JUST Phonetic Correction is required
 
-                    suffix = InflectionAnalyser.EqualSuffixWithCorrectPhonetic(stem, suffix,
-                                                                               m_persianSuffixRecognizer.
-                                                                                   SuffixCategory(suffix));
-
-                    posTag = base.WordPOS(stem);
-                    tmpSug = CorrectSuffixSpacing(stem, suffix, posTag);
-
-                    if (tmpSug != word && tmpSug != stem)
+                if (!base.IsRealWord(word))
+                {
+                    foreach (ReversePatternMatcherPatternInfo suffixPatternInfo in rpmpiSet)
                     {
-                        if (base.IsRealWord(stem) && IsRealWordConsideringAffixes(tmpSug))
+                        suffix = suffixPatternInfo.Suffix;
+                        stem = suffixPatternInfo.BaseWord;
+
+
+                        suffix = InflectionAnalyser.EqualSuffixWithCorrectPhonetic(stem, suffix,
+                                                                                   m_persianSuffixRecognizer.
+                                                                                       SuffixCategory(suffix));
+
+                        posTag = base.WordPOS(stem);
+                        tmpSug = CorrectSuffixSpacing(stem, suffix, posTag);
+
+                        if (tmpSug != word && tmpSug != stem)
                         {
+                            if (base.IsRealWord(stem) && IsRealWordConsideringAffixes(tmpSug))
+                            {
+                                suggestion.Add(tmpSug);
+
+                                //add ranking detail
+                                if (!base.m_rankingDetail.ContainsKey(tmpSug))
+                                {
+                                    base.m_rankingDetail.Add(tmpSug, SuffixSuggestionMessage);
+                                }
+                            }
+                        }
+                    }
+
+                    if (suggestion.Count > 0)
+                    {
+                        inputData.m_suggestions = suggestion.Distinct().ToArray();
+                        inputData.m_havePhoneticSuffixProblem = true;
+                        return;
+                    }
+                }
+
+                #endregion
+
+                //for (int i = 0; i < Math.Min(2, rpmpiSet.Length); ++i)
+                for (int i = 0; i < rpmpiSet.Length; ++i)
+                {
+                    suffix = rpmpiSet[i].Suffix;
+                    stem = rpmpiSet[i].BaseWord;
+
+                    //string[] spellingSugs = AllSpellingSuggestions(stem, out freqDic, out posDic);
+                    //string[] spellingSugs = SortSuggestions(stem, AllSpellingSuggestions(stem, out freqDic, out posDic), suggestionCount);
+
+                    //string[] spellingSugs = SortSuggestions(stem, ReSpellingSuggestions(stem, 1), suggestionCount);
+                    //string[] spellingSugs = SortSuggestions(stem, base.SpellingSuggestion(stem), suggestionCount);
+                    string[] spellingSugs = SortSuggestions(stem, base.SpellingSuggestions2(stem), suggestionCount);
+
+                    foreach (string spellSug in spellingSugs)
+                    {
+                        //suffix = InflectionAnalyser.EqualSuffixWithCorrectPhonetic(spellSug, suffix,
+                        //                                                           m_persianSuffixRecognizer.SuffixCategory(suffix));
+
+                        posTag = base.WordPOS(spellSug);
+                        if (IsValidSuffixDeclension(spellSug, suffix, posTag))
+                        {
+                            tmpSug = CorrectSuffixSpacing(spellSug, suffix, posTag);
                             suggestion.Add(tmpSug);
 
-                            //add ranking detail
-                            if (!base.m_rankingDetail.ContainsKey(tmpSug))
-                            {
-                                base.m_rankingDetail.Add(tmpSug, SuffixSuggestionMessage);
-                            }
+                            //if (freqDic[spellSug] > 0)
+                            //{
+                            //    freqAffixDic.Add(tmpSug, freqDic[spellSug] / 3);
+                            //}
+                            //else
+                            //{
+                            //    freqAffixDic.Add(tmpSug, 1);
+                            //}
                         }
                     }
                 }
 
-                if (suggestion.Count > 0)
-                {
-                    inputData.m_suggestions = suggestion.Distinct().ToArray();
-                    inputData.m_havePhoneticSuffixProblem = true;
-                    return;
-                }
+
+                //return SortSuggestions(word, suggestion.ToArray(), freqAffixDic, suggestionCount);
+                inputData.m_suggestions = suggestion.Distinct().ToArray();
+                inputData.m_havePhoneticSuffixProblem = false;
+
+                Thread.EndThreadAffinity();
+
+                return;
             }
-
-            #endregion
-
-            //for (int i = 0; i < Math.Min(2, rpmpiSet.Length); ++i)
-            for (int i = 0; i < rpmpiSet.Length; ++i)
+            catch (Exception)
             {
-                suffix = rpmpiSet[i].Suffix;
-                stem = rpmpiSet[i].BaseWord;
-
-                //string[] spellingSugs = AllSpellingSuggestions(stem, out freqDic, out posDic);
-                //string[] spellingSugs = SortSuggestions(stem, AllSpellingSuggestions(stem, out freqDic, out posDic), suggestionCount);
-
-                //string[] spellingSugs = SortSuggestions(stem, ReSpellingSuggestions(stem, 1), suggestionCount);
-                //string[] spellingSugs = SortSuggestions(stem, base.SpellingSuggestion(stem), suggestionCount);
-                string[] spellingSugs = SortSuggestions(stem, base.SpellingSuggestions2(stem), suggestionCount);
-
-                foreach (string spellSug in spellingSugs)
-                {
-                    //suffix = InflectionAnalyser.EqualSuffixWithCorrectPhonetic(spellSug, suffix,
-                    //                                                           m_persianSuffixRecognizer.SuffixCategory(suffix));
-
-                    posTag = base.WordPOS(spellSug);
-                    if (IsValidSuffixDeclension(spellSug, suffix, posTag))
-                    {
-                        tmpSug = CorrectSuffixSpacing(spellSug, suffix, posTag);
-                        suggestion.Add(tmpSug);
-
-                        //if (freqDic[spellSug] > 0)
-                        //{
-                        //    freqAffixDic.Add(tmpSug, freqDic[spellSug] / 3);
-                        //}
-                        //else
-                        //{
-                        //    freqAffixDic.Add(tmpSug, 1);
-                        //}
-                    }
-                }
+                ((AffixCorrectionData)data).m_suggestions = new string[0];
+                ((AffixCorrectionData)data).m_havePhoneticSuffixProblem = false;
+                
+                Thread.EndThreadAffinity();
+                return;
             }
-
-
-
-            //return SortSuggestions(word, suggestion.ToArray(), freqAffixDic, suggestionCount);
-            inputData.m_suggestions = suggestion.Distinct().ToArray();
-            inputData.m_havePhoneticSuffixProblem = false;
-
-            Thread.EndThreadAffinity();
-
-            return;
         }
 
         private ReversePatternMatcherPatternInfo[] StripAffixs(string word)
@@ -2811,48 +2828,62 @@ private static string[] SortSpacingSugs(string[] words, int count)
             suffix = nxtWord;
             stem = word;
 
-            /*
-             * Some suffixes may also be real word like امید and مانند
-             * I want to make sure these suffixes do not process like other suffixes to correct spacing
-             * also some others like ای and ها is real word too, but the frequency of use them as suffix is far more than a rel word
-             * so I add check length part
-             */
             if (m_persianSuffixRecognizer.SuffixCategory(suffix) != 0)
             {
-                if (!(base.IsRealWord(suffix) && suffix.Length > 3) && !suffix.IsIn(m_realWordSuffixes))
+                /*
+                 * Here a real word mistakenly considered as suffix and must be ignored
+                 * Some suffixes may also be real word like امید and مانند
+                 * I want to make sure these suffixes do not process like other suffixes to correct spacing
+                 * also some others like ای and ها is real word too, but the frequency of use them as suffix is far more than a real word
+                 * so I add check length part
+                 */
+                if (base.IsRealWord(suffix))
                 {
-                    PersianPOSTag posTag = base.WordPOS(stem);
-                    tmpSug = CorrectSuffixSpacing(stem, suffix, posTag);
-
-                    if (tmpSug != word)
+                    if (suffix.Length > 3)
                     {
-                        if (IsRealWordConsideringAffixes(tmpSug))
-                        {
-                            spaceCorrectionState = SpaceCorrectionState.SpaceInsertationLeft;
-                            suggestions = new string[] { tmpSug };
-                            return false;
-                        }
+                        suggestions = new string[0];
+                        return true;
                     }
 
-                    suffix = InflectionAnalyser.EqualSuffixWithCorrectPhonetic(stem, suffix,
-                                                                               m_persianSuffixRecognizer.SuffixCategory(
-                                                                                       suffix));
-                    tmpSug = CorrectSuffixSpacing(stem, suffix, posTag);
-
-                    if (tmpSug != word)
+                    tmpSug = CorrectSuffixSpacing(stem, suffix, base.WordPOS(stem));
+                    if (tmpSug != (stem + PseudoSpace.ZWNJ + suffix))
                     {
-                        if (IsRealWordConsideringAffixes(tmpSug))
-                        {
-                            spaceCorrectionState = SpaceCorrectionState.SpaceInsertationLeft;
-                            suggestions = new string[]{tmpSug};
-                            return false;
-                        }
+                        suggestions = new string[0];
+                        return true;
+                    }
+                }
+
+                //suffix is not a real word
+                PersianPOSTag posTag = base.WordPOS(stem);
+                tmpSug = CorrectSuffixSpacing(stem, suffix, posTag);
+
+                if (tmpSug != word)
+                {
+                    if (IsRealWordConsideringAffixes(tmpSug))
+                    {
+                        spaceCorrectionState = SpaceCorrectionState.SpaceInsertationLeft;
+                        suggestions = new string[] { tmpSug };
+                        return false;
+                    }
+                }
+
+                suffix = InflectionAnalyser.EqualSuffixWithCorrectPhonetic(stem, suffix,
+                                                                           m_persianSuffixRecognizer.SuffixCategory(
+                                                                                   suffix));
+                tmpSug = CorrectSuffixSpacing(stem, suffix, posTag);
+
+                if (tmpSug != word)
+                {
+                    if (IsRealWordConsideringAffixes(tmpSug))
+                    {
+                        spaceCorrectionState = SpaceCorrectionState.SpaceInsertationLeft;
+                        suggestions = new string[] { tmpSug };
+                        return false;
                     }
                 }
             }
 
             #endregion
-
 
             suggestions = new string[0];
             return true;
@@ -2914,13 +2945,13 @@ private static string[] SortSpacingSugs(string[] words, int count)
 
                     if (tmpStem.EndsWith("ه") && tmpSuffix.StartsWith(PersianSuffixes.PluralSignAanPermutedForHaa))
                     {
-                        equalSuffixWithSpacingSymbols = equalSuffixWithSpacingSymbols.Remove(i - 1, 1);
+                        equalSuffixWithSpacingSymbols = equalSuffixWithSpacingSymbols.Remove(i - 1, 2);
                         
-                        if (equalSuffixWithSpacingSymbols[i - 1] == PseudoSpace.ZWNJ &&
-                            PersianAlphabets.NonStickerChars.Contains(equalSuffixWithSpacingSymbols[i - 2]))
-                        {
-                            equalSuffixWithSpacingSymbols = equalSuffixWithSpacingSymbols.Remove(i - 1, 1);
-                        }
+                        //if (equalSuffixWithSpacingSymbols[i - 1] == PseudoSpace.ZWNJ &&
+                        //    PersianAlphabets.NonStickerChars.Contains(equalSuffixWithSpacingSymbols[i - 2]))
+                        //{
+                        //    equalSuffixWithSpacingSymbols = equalSuffixWithSpacingSymbols.Remove(i - 1, 1);
+                        //}
                     }
                 }
             }
