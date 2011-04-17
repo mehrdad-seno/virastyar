@@ -1,25 +1,8 @@
-﻿// Virastyar
-// http://www.virastyar.ir
-// Copyright (C) 2011 Supreme Council for Information and Communication Technology (SCICT) of Iran
-// 
-// This file is part of Virastyar.
-// 
-// Virastyar is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-// 
-// Virastyar is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU General Public License for more details.
-// 
-// You should have received a copy of the GNU General Public License
-// along with Virastyar.  If not, see <http://www.gnu.org/licenses/>.
-// 
-// Additional permission under GNU GPL version 3 section 7
-// The sole exception to the license's terms and requierments might be the
-// integration of Virastyar with Microsoft Word (any version) as an add-in.
+﻿// Author: Omid Kashefi, Sina Iravanian, Mehrdad Senobari 
+// Created on: 2010-March-08
+// Last Modified: Omid Kashefi, Sina Iravanian, Mehrdad Senobari at 2010-March-08
+//
+
 
 using System;
 using System.Collections.Generic;
@@ -806,6 +789,52 @@ namespace SCICT.NLP.Persian.Constants
 
     #endregion
 
+    #region Persian POS Tags: Hedy
+
+    [Flags]
+    public enum PersianPartOfSpeech
+    {
+        Unknown = 0x00000000,
+
+        Noun = 0x00000001,
+        Adjective = 0x00000002,
+        Adverb = 0x00000004,
+        Verb = 0x00000008,
+        Preposition = 0x00000010,
+        Postposition = 0x00000020,
+        Pronoun = 0x00000040,
+        Determiner = 0x00000080,
+        Conjunction = 0x00000100,
+        Interjunction = 0x00000200,
+        Number = 0x00000400,
+        Classifier = 0x00000800,
+        Punctuation = 0x00001000,
+        // 0x00001FFF
+
+        Singular = 0x00002000,
+        Plural = 0x00004000,
+        // 0x00006000
+
+        FirstPerson = 0x00008000,
+        SecondPerson = 0x00010000,
+        ThirdPerson = 0x00020000,
+        // 0x00038000
+
+        Comparative = 0x00040000,
+        Superlative = 0x00080000
+        // 0x000C0000
+
+        //Gerund = 0x00008000,
+        //Infinitive = 0x00010000,
+
+        //Reflective = 0x00080000,
+        //Indefinite = 0x00100000,
+        //Personal = 0x00200000,
+        //Demonstrative = 0x00400000,
+        //Interrogative = 0x00800000,
+    }
+    #endregion
+
     #region Persian Suffixes
 
     public static class PersianSuffixes
@@ -920,9 +949,8 @@ namespace SCICT.NLP.Persian.Constants
 
     public static class PersianColloqualSuffixes
     {
-        public static string[] ObjectivePronounsColloqual = new string[] { "شون", "مون", "تون", "ش", "ت", "م" };
-        public static string[] ToBeVerbsColloqualSeperable = new string[] { "ایم", "ام", "ای", "اه", "این", "ان" };
-        public static string[] ToBeVerbsColloqualInseperable = new string[] { "یم", "م", "ی", "ه", "ین", "ن" };
+        public static string[] ObjectivePronouns = new string[] { "شون", "مون", "تون", "ش", "ت", "م" };
+        public static string[] ToBeVerbs = new string[] { "یم", "م", "ی", "ه", "ین", "ن" };
     }
 
     [Flags]

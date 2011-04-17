@@ -1,0 +1,772 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!--
+    This section defines project-level properties.
+
+    AssemblyName
+      Name of the output assembly.
+    Configuration
+      Specifies a default value for debug.
+    OutputType
+      Must be "Library" for VSTO.
+    Platform
+      Specifies what CPU the output of this project can run on.
+    NoStandardLibraries
+      Set to "false" for VSTO.
+    RootNamespace
+      In C#, this specifies the namespace given to new files. In VB, all objects are
+      wrapped in this namespace at runtime.
+  -->
+  <PropertyGroup>
+    <ProjectTypeGuids>{BAA0C2D2-18E2-41B9-852F-F413020CAA33};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{BC3B7D49-D0D8-4720-8F5E-7EC3B56EB8C8}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <NoStandardLibraries>false</NoStandardLibraries>
+    <RootNamespace>VirastyarWordAddin</RootNamespace>
+    <AssemblyName>VirastyarWordAddin</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <DefineConstants>VSTO40</DefineConstants>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <PublishUrl>publish\</PublishUrl>
+    <InstallUrl />
+    <TargetCulture>en</TargetCulture>
+    <ApplicationVersion>1.0.0.0</ApplicationVersion>
+    <AutoIncrementApplicationRevision>true</AutoIncrementApplicationRevision>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>days</UpdateIntervalUnits>
+    <IsWebBootstrapper>False</IsWebBootstrapper>
+    <ProductName>VirastyarWordAddin</ProductName>
+    <PublisherName />
+    <SupportUrl />
+    <FriendlyName>VirastyarWordAddin</FriendlyName>
+    <OfficeApplicationDescription />
+    <LoadBehavior>3</LoadBehavior>
+  </PropertyGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 Client Profile %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <PropertyGroup>
+    <!--
+      OfficeApplication
+        Add-in host application
+    -->
+    <OfficeApplication>Word</OfficeApplication>
+  </PropertyGroup>
+  <!--
+    This section defines properties that are set when the "Debug" configuration is selected.
+
+    DebugSymbols
+      If "true", create symbols (.pdb). If "false", do not create symbols.
+    DefineConstants
+      Constants defined for the preprocessor.
+    EnableUnmanagedDebugging
+      If "true", starting the debugger will attach both managed and unmanaged debuggers.
+    Optimize
+      If "true", optimize the build output. If "false", do not optimize.
+    OutputPath
+      Output path of project relative to the project file.
+    WarningLevel
+      Warning level for the compiler.
+  -->
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+    <DefineConstants>$(DefineConstants);DEBUG;TRACE</DefineConstants>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisIgnoreGeneratedCode>false</CodeAnalysisIgnoreGeneratedCode>
+  </PropertyGroup>
+  <!--
+    This section defines properties that are set when the "Release" configuration is selected.
+
+    DebugSymbols
+      If "true", create symbols (.pdb). If "false", do not create symbols.
+    DefineConstants
+      Constants defined for the preprocessor.
+    EnableUnmanagedDebugging
+      If "true", starting the debugger will attach both managed and unmanaged debuggers.
+    Optimize
+      If "true", optimize the build output. If "false", do not optimize.
+    OutputPath
+      Output path of project relative to the project file.
+    WarningLevel
+      Warning level for the compiler.
+  -->
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+    <DefineConstants>$(DefineConstants);TRACE</DefineConstants>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <!--
+    This section enables pre- and post-build steps. However, in VSTO use
+    MSBuild tasks instead of these properties.       
+  -->
+  <PropertyGroup>
+    <PreBuildEvent>copy /y "$(SolutionDir)VirastyarWordAddin\app.$(Configuration).config" "$(SolutionDir)VirastyarWordAddin\app.config"
+copy /y "$(SolutionDir)..\Punctuation\Punctuation.UI\patterns.txt" "$(SolutionDir)VirastyarWordAddin\Resources\Patterns.txt"
+copy /y "$(SolutionDir)..\SynonymSuggester\Common\Synonyms.mdb" "$(SolutionDir)VirastyarWordAddin\Resources\Synonyms.mdb"
+copy /y "$(SolutionDir)..\PinglishConverter\Pinglish.dat" "$(SolutionDir)VirastyarWordAddin\Resources\Pinglish.dat"
+copy /y "$(SolutionDir)..\PinglishConverter\PinglishPreprocesses.dat" "$(SolutionDir)VirastyarWordAddin\Resources\PinglishPreprocesses.dat"
+powershell.exe "$(SolutionDir)Compress.ps1" -filePath "$(SolutionDir)VirastyarWordAddin\Resources\dic.dat"
+powershell.exe "$(SolutionDir)Compress.ps1" -filePath "$(SolutionDir)VirastyarWordAddin\Resources\dic_informal.dat"
+powershell.exe "$(SolutionDir)Compress.ps1" -filePath "$(SolutionDir)VirastyarWordAddin\Resources\Patterns.txt"
+powershell.exe "$(SolutionDir)Compress.ps1" -filePath "$(SolutionDir)VirastyarWordAddin\Resources\Pinglish.dat"
+powershell.exe "$(SolutionDir)Compress.ps1" -filePath "$(SolutionDir)VirastyarWordAddin\Resources\PinglishPreprocesses.dat"
+powershell.exe "$(SolutionDir)Compress.ps1" -filePath "$(SolutionDir)VirastyarWordAddin\Resources\Stem.dat"
+powershell.exe "$(SolutionDir)Compress.ps1" -filePath "$(SolutionDir)VirastyarWordAddin\Resources\Virastyar2003.dot"
+powershell.exe "$(SolutionDir)Compress.ps1" -filePath "$(SolutionDir)VirastyarWordAddin\Resources\Virastyar2007.dotm"
+powershell.exe "$(SolutionDir)Compress.ps1" -filePath "$(SolutionDir)VirastyarWordAddin\Resources\Virastyar2010.dotm"</PreBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>true</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>NoorProduct2.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>3211E151317C1F6B2F080FF293929E0DFF31F749</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugWithSetup|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>VSTO40;DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisLogFile>bin\VirastyarWordAddin.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisIgnoreGeneratedCode>false</CodeAnalysisIgnoreGeneratedCode>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseWithSetup|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>VSTO40;TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisLogFile>bin\VirastyarWordAddin.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+  </PropertyGroup>
+  <!--
+    This section specifies references for the project.
+  -->
+  <ItemGroup>
+    <Reference Include="Accessibility" />
+    <Reference Include="AutomaticUpdater">
+      <HintPath>..\..\ExternalLib\AutomaticUpdater.dll</HintPath>
+    </Reference>
+    <Reference Include="ManagedWinapi">
+      <HintPath>..\..\Lib\ManagedWinapi.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\ExternalLib\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="SCICT.Microsoft.Office.Word.ContentReader">
+      <HintPath>..\..\Lib\SCICT.Microsoft.Office.Word.ContentReader.dll</HintPath>
+    </Reference>
+    <Reference Include="SCICT.NLP.Morphology.Inflection">
+      <HintPath>..\..\Lib\SCICT.NLP.Morphology.Inflection.dll</HintPath>
+    </Reference>
+    <Reference Include="SCICT.NLP.Morphology.Inflection.Conjugation">
+      <HintPath>..\..\Lib\SCICT.NLP.Morphology.Inflection.Conjugation.dll</HintPath>
+    </Reference>
+    <Reference Include="SCICT.NLP.Morphology.Lemmatization">
+      <HintPath>..\..\Lib\SCICT.NLP.Morphology.Lemmatization.dll</HintPath>
+    </Reference>
+    <Reference Include="SCICT.NLP.TextProofing.Punctuation">
+      <HintPath>..\..\Lib\SCICT.NLP.TextProofing.Punctuation.dll</HintPath>
+    </Reference>
+    <Reference Include="SCICT.NLP.TextProofing.SpellChecker">
+      <HintPath>..\..\Lib\SCICT.NLP.TextProofing.SpellChecker.dll</HintPath>
+    </Reference>
+    <Reference Include="SCICT.NLP.Utility.LanguageModel">
+      <HintPath>..\..\Lib\SCICT.NLP.Utility.LanguageModel.dll</HintPath>
+    </Reference>
+    <Reference Include="SCICT.NLP.Utility.PinglishConverter">
+      <HintPath>..\..\Lib\SCICT.NLP.Utility.PinglishConverter.dll</HintPath>
+    </Reference>
+    <Reference Include="SCICT.NLP.Utility.StringDistance">
+      <HintPath>..\..\Lib\SCICT.NLP.Utility.StringDistance.dll</HintPath>
+    </Reference>
+    <Reference Include="SCICT.NLP.Utility.WordContainer">
+      <HintPath>..\..\Lib\SCICT.NLP.Utility.WordContainer.dll</HintPath>
+    </Reference>
+    <Reference Include="SCICT.NLP.Utility.WordGenerator">
+      <HintPath>..\..\Lib\SCICT.NLP.Utility.WordGenerator.dll</HintPath>
+    </Reference>
+    <Reference Include="SCICT.PersianTools">
+      <HintPath>..\..\Lib\SCICT.PersianTools.dll</HintPath>
+    </Reference>
+    <Reference Include="SCICT.Utility">
+      <HintPath>..\..\Lib\SCICT.Utility.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="YAXLib">
+      <HintPath>..\..\ExternalLib\YAXLib.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Office.Tools.v4.0.Framework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.VisualStudio.Tools.Applications.Runtime, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Office.Tools, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Office.Tools.Common, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Office.Tools.Word, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Office.Tools.Common.v4.0.Utilities, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Office, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c">
+      <Private>False</Private>
+      <EmbedInteropTypes>true</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Word, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c">
+      <Private>False</Private>
+      <EmbedInteropTypes>true</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="stdole, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <!--
+    This section defines the user source files that are part of the project.
+     
+    A "Compile" element specifies a source file to compile.
+    An "EmbeddedResource" element specifies an .resx file for embedded resources.
+    A "None" element specifies a file that is not to be passed to the compiler (for instance, 
+    a text file or XML file).
+    The "AppDesigner" element specifies the directory where the application properties files
+    can be found.
+  -->
+  <ItemGroup>
+    <Compile Include="..\VirastyarWordAddin\AboutWindow.cs">
+      <Link>AboutWindow.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\AboutWindow.designer.cs">
+      <Link>AboutWindow.designer.cs</Link>
+      <DependentUpon>AboutWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\AllCharactersRefiner.cs">
+      <Link>AllCharactersRefiner.cs</Link>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\AxHost2.cs">
+      <Link>AxHost2.cs</Link>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\Configurations\AddinConfigurationDialog.cs">
+      <Link>Configurations\AddinConfigurationDialog.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\Configurations\AddinConfigurationDialog.designer.cs">
+      <Link>Configurations\AddinConfigurationDialog.designer.cs</Link>
+      <DependentUpon>AddinConfigurationDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\Configurations\AddinConfigurationEvents.cs">
+      <Link>Configurations\AddinConfigurationEvents.cs</Link>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\Configurations\AllCharactersRefinerSettings.cs">
+      <Link>Configurations\AllCharactersRefinerSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\Configurations\IAddinConfigurationDialog.cs">
+      <Link>Configurations\IAddinConfigurationDialog.cs</Link>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\Configurations\SpellCheckerSettings.cs">
+      <Link>Configurations\SpellCheckerSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\Constants.cs">
+      <Link>Constants.cs</Link>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\Controls\HotkeyBox.cs">
+      <Link>Controls\HotkeyBox.cs</Link>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\Controls\HotkeyControl2.cs">
+      <Link>Controls\HotkeyControl2.cs</Link>
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\Controls\HotkeyControl2.designer.cs">
+      <Link>Controls\HotkeyControl2.designer.cs</Link>
+      <DependentUpon>HotkeyControl2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\DateVerificationWindow.cs">
+      <Link>DateVerificationWindow.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\DateVerificationWindow.designer.cs">
+      <Link>DateVerificationWindow.designer.cs</Link>
+      <DependentUpon>DateVerificationWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\DateVerifier.cs">
+      <Link>DateVerifier.cs</Link>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\DictionaryManagement\DictionaryEditor.cs">
+      <Link>DictionaryManagement\DictionaryEditor.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\DictionaryManagement\DictionaryEditor.designer.cs">
+      <Link>DictionaryManagement\DictionaryEditor.designer.cs</Link>
+      <DependentUpon>DictionaryEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\ExceptionForm.cs">
+      <Link>ExceptionForm.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\ExceptionForm.designer.cs">
+      <Link>ExceptionForm.designer.cs</Link>
+      <DependentUpon>ExceptionForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\HelpConstants.cs">
+      <Link>HelpConstants.cs</Link>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\IVirastyarAddin.cs">
+      <Link>IVirastyarAddin.cs</Link>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\ListBoxForm.cs">
+      <Link>ListBoxForm.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\ListBoxForm.designer.cs">
+      <Link>ListBoxForm.designer.cs</Link>
+      <DependentUpon>ListBoxForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\ListBoxWithOptionForm.cs">
+      <Link>ListBoxWithOptionForm.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\ListBoxWithOptionForm.designer.cs">
+      <Link>ListBoxWithOptionForm.designer.cs</Link>
+      <DependentUpon>ListBoxWithOptionForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\Log\Logger.cs">
+      <Link>Log\Logger.cs</Link>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\Log\LogReporter.cs">
+      <Link>Log\LogReporter.cs</Link>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\Log\VirastyarLogEventInfo.cs">
+      <Link>Log\VirastyarLogEventInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\NumberVerifier.cs">
+      <Link>NumberVerifier.cs</Link>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\PinglishVerifier.cs">
+      <Link>PinglishVerifier.cs</Link>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\PreprocessSpellVerifier.cs">
+      <Link>PreprocessSpellVerifier.cs</Link>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\Properties\AssemblyInfo.cs">
+      <Link>Properties\AssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\Properties\Resources.Designer.cs">
+      <Link>Properties\Resources.Designer.cs</Link>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\Properties\Settings.Designer.cs">
+      <Link>Properties\Settings.Designer.cs</Link>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\PunctuationVerifier.cs">
+      <Link>PunctuationVerifier.cs</Link>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\Resources\ResourceManager.cs">
+      <Link>Resources\ResourceManager.cs</Link>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\RoundQueue.cs">
+      <Link>RoundQueue.cs</Link>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\SettingsHelper.cs">
+      <Link>SettingsHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\SimpleVerificationWindow.cs">
+      <Link>SimpleVerificationWindow.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\SimpleVerificationWindow.Designer.cs">
+      <Link>SimpleVerificationWindow.Designer.cs</Link>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\SpellCheckerVerificationWindow.cs">
+      <Link>SpellCheckerVerificationWindow.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\SpellCheckerVerificationWindow.designer.cs">
+      <Link>SpellCheckerVerificationWindow.designer.cs</Link>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\SpellCheckerVerifier.cs">
+      <Link>SpellCheckerVerifier.cs</Link>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\SpellCheckerWrapper.cs">
+      <Link>SpellCheckerWrapper.cs</Link>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\TemplateGenerator.cs">
+      <Link>TemplateGenerator.cs</Link>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\TipOfTheDayData.cs">
+      <Link>TipOfTheDayData.cs</Link>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\TipOfTheDayForm.cs">
+      <Link>TipOfTheDayForm.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\TipOfTheDayForm.Designer.cs">
+      <Link>TipOfTheDayForm.Designer.cs</Link>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\Update\MsiUpdateChecker.cs">
+      <Link>Update\MsiUpdateChecker.cs</Link>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\Update\UpdateChecker.cs">
+      <Link>Update\UpdateChecker.cs</Link>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\Update\UpdateNotificationWindow.cs">
+      <Link>Update\UpdateNotificationWindow.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\Update\UpdateNotificationWindow.designer.cs">
+      <Link>Update\UpdateNotificationWindow.designer.cs</Link>
+      <DependentUpon>UpdateNotificationWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\Update\WyUpdateChecker.cs">
+      <Link>Update\WyUpdateChecker.cs</Link>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\VerificationCanceledException.cs">
+      <Link>VerificationCanceledException.cs</Link>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\VerificationTypes.cs">
+      <Link>VerificationTypes.cs</Link>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\VerificationWinArgs.cs">
+      <Link>VerificationWinArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\VerificationWindowBase.cs">
+      <Link>VerificationWindowBase.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\VerificationWindowBase.Designer.cs">
+      <Link>VerificationWindowBase.Designer.cs</Link>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\VerificationWindowButtons.cs">
+      <Link>VerificationWindowButtons.cs</Link>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\VerifierBase.cs">
+      <Link>VerifierBase.cs</Link>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\VirastyarAddin.cs">
+      <Link>VirastyarAddin.cs</Link>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\WindowListener.cs">
+      <Link>WindowListener.cs</Link>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\WindowWrapper.cs">
+      <Link>WindowWrapper.cs</Link>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\WordCompletionDistractionForm.cs">
+      <Link>WordCompletionDistractionForm.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\WordCompletionDistractionForm.designer.cs">
+      <Link>WordCompletionDistractionForm.designer.cs</Link>
+      <DependentUpon>WordCompletionDistractionForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\WordCompletionForm.cs">
+      <Link>WordCompletionForm.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\WordCompletionForm.designer.cs">
+      <Link>WordCompletionForm.designer.cs</Link>
+      <DependentUpon>WordCompletionForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\WordHotKey.cs">
+      <Link>WordHotKey.cs</Link>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\WordUIHelper.cs">
+      <Link>WordUIHelper.cs</Link>
+    </Compile>
+    <EmbeddedResource Include="..\VirastyarWordAddin\AboutWindow.resx">
+      <Link>AboutWindow.resx</Link>
+      <DependentUpon>AboutWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\VirastyarWordAddin\Configurations\AddinConfigurationDialog.resx">
+      <Link>Configurations\AddinConfigurationDialog.resx</Link>
+      <DependentUpon>AddinConfigurationDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\VirastyarWordAddin\Controls\HotkeyControl2.resx">
+      <Link>Controls\HotkeyControl2.resx</Link>
+      <DependentUpon>HotkeyControl2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\VirastyarWordAddin\DateVerificationWindow.resx">
+      <Link>DateVerificationWindow.resx</Link>
+      <DependentUpon>DateVerificationWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\VirastyarWordAddin\DictionaryManagement\DictionaryEditor.resx">
+      <Link>DictionaryManagement\DictionaryEditor.resx</Link>
+      <DependentUpon>DictionaryEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\VirastyarWordAddin\ExceptionForm.resx">
+      <Link>ExceptionForm.resx</Link>
+      <DependentUpon>ExceptionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\VirastyarWordAddin\ListBoxForm.resx">
+      <Link>ListBoxForm.resx</Link>
+      <DependentUpon>ListBoxForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\VirastyarWordAddin\ListBoxWithOptionForm.resx">
+      <Link>ListBoxWithOptionForm.resx</Link>
+      <DependentUpon>ListBoxWithOptionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\VirastyarWordAddin\Properties\Resources.resx">
+      <Link>Properties\Resources.resx</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\VirastyarWordAddin\SimpleVerificationWindow.resx">
+      <Link>SimpleVerificationWindow.resx</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\VirastyarWordAddin\SpellCheckerVerificationWindow.resx">
+      <Link>SpellCheckerVerificationWindow.resx</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\VirastyarWordAddin\TipOfTheDayForm.resx">
+      <Link>TipOfTheDayForm.resx</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\VirastyarWordAddin\Update\UpdateNotificationWindow.resx">
+      <Link>Update\UpdateNotificationWindow.resx</Link>
+      <DependentUpon>UpdateNotificationWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\VirastyarWordAddin\VerificationWindowBase.resx">
+      <Link>VerificationWindowBase.resx</Link>
+    </EmbeddedResource>
+    <None Include="..\VirastyarWordAddin\app.config">
+      <Link>app.config</Link>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="..\VirastyarWordAddin\app.debug.config">
+      <Link>app.debug.config</Link>
+    </None>
+    <None Include="..\VirastyarWordAddin\app.release.config">
+      <Link>app.release.config</Link>
+    </None>
+    <None Include="..\VirastyarWordAddin\Properties\Settings.settings">
+      <Link>Properties\Settings.settings</Link>
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings1.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="..\VirastyarWordAddin\Resources\dic.dat">
+      <Link>Resources\dic.dat</Link>
+    </None>
+    <EmbeddedResource Include="..\VirastyarWordAddin\Resources\dic.dat.zip">
+      <Link>Resources\dic.dat.zip</Link>
+    </EmbeddedResource>
+    <None Include="..\VirastyarWordAddin\Resources\dic_informal.dat">
+      <Link>Resources\dic_informal.dat</Link>
+    </None>
+    <EmbeddedResource Include="..\VirastyarWordAddin\Resources\dic_informal.dat.zip">
+      <Link>Resources\dic_informal.dat.zip</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\VirastyarWordAddin\Resources\Patterns.txt.zip">
+      <Link>Resources\Patterns.txt.zip</Link>
+    </EmbeddedResource>
+    <None Include="..\VirastyarWordAddin\Resources\Pinglish.dat">
+      <Link>Resources\Pinglish.dat</Link>
+    </None>
+    <EmbeddedResource Include="..\VirastyarWordAddin\Resources\Pinglish.dat.zip">
+      <Link>Resources\Pinglish.dat.zip</Link>
+    </EmbeddedResource>
+    <None Include="..\VirastyarWordAddin\Resources\PinglishPreprocesses.dat">
+      <Link>Resources\PinglishPreprocesses.dat</Link>
+    </None>
+    <EmbeddedResource Include="..\VirastyarWordAddin\Resources\PinglishPreprocesses.dat.zip">
+      <Link>Resources\PinglishPreprocesses.dat.zip</Link>
+    </EmbeddedResource>
+    <None Include="..\VirastyarWordAddin\Resources\stem.dat">
+      <Link>Resources\stem.dat</Link>
+    </None>
+    <EmbeddedResource Include="..\VirastyarWordAddin\Resources\Tips.tod">
+      <Link>Resources\Tips.tod</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\VirastyarWordAddin\Resources\UserDictionary.dat">
+      <Link>Resources\UserDictionary.dat</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\VirastyarWordAddin\Resources\Stem.dat.zip">
+      <Link>Resources\Stem.dat.zip</Link>
+    </EmbeddedResource>
+    <None Include="..\VirastyarWordAddin\Resources\Virastyar.chm">
+      <Link>Resources\Virastyar.chm</Link>
+    </None>
+    <None Include="..\VirastyarWordAddin\Resources\Virastyar2003.dot">
+      <Link>Resources\Virastyar2003.dot</Link>
+    </None>
+    <EmbeddedResource Include="..\VirastyarWordAddin\Resources\Virastyar2003.dot.zip">
+      <Link>Resources\Virastyar2003.dot.zip</Link>
+    </EmbeddedResource>
+    <None Include="..\VirastyarWordAddin\Resources\Virastyar2007.dotm">
+      <Link>Resources\Virastyar2007.dotm</Link>
+    </None>
+    <EmbeddedResource Include="..\VirastyarWordAddin\Resources\Virastyar2007.dotm.zip">
+      <Link>Resources\Virastyar2007.dotm.zip</Link>
+    </EmbeddedResource>
+    <None Include="..\VirastyarWordAddin\Resources\Virastyar2010.dotm">
+      <Link>Resources\Virastyar2010.dotm</Link>
+    </None>
+    <EmbeddedResource Include="..\VirastyarWordAddin\Resources\Virastyar2010.dotm.zip">
+      <Link>Resources\Virastyar2010.dotm.zip</Link>
+    </EmbeddedResource>
+    <Compile Include="..\VirastyarWordAddin\ThisAddIn.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <EmbeddedResource Include="Resources\client.wyc" />
+    <None Include="ThisAddIn.Designer.xml">
+      <DependentUpon>ThisAddIn.cs</DependentUpon>
+    </None>
+    <Compile Include="ThisAddIn.Designer.cs">
+      <DependentUpon>ThisAddIn.Designer.xml</DependentUpon>
+    </Compile>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\VirastyarWordAddin\WordCompletionDistractionForm.resx">
+      <Link>WordCompletionDistractionForm.resx</Link>
+      <DependentUpon>WordCompletionDistractionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\VirastyarWordAddin\WordCompletionForm.resx">
+      <Link>WordCompletionForm.resx</Link>
+      <DependentUpon>WordCompletionForm.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\VirastyarWordAddin\Resources\DidYouKnow.png">
+      <Link>Resources\DidYouKnow.png</Link>
+    </Content>
+    <Content Include="..\VirastyarWordAddin\Resources\IconCharRefiner.png">
+      <Link>Resources\IconCharRefiner.png</Link>
+    </Content>
+    <Content Include="..\VirastyarWordAddin\Resources\IconDate.png">
+      <Link>Resources\IconDate.png</Link>
+    </Content>
+    <Content Include="..\VirastyarWordAddin\Resources\IconGhafie.png">
+      <Link>Resources\IconGhafie.png</Link>
+    </Content>
+    <Content Include="..\VirastyarWordAddin\Resources\IconHelp.png">
+      <Link>Resources\IconHelp.png</Link>
+    </Content>
+    <Content Include="..\VirastyarWordAddin\Resources\IconNumberConvertor.png">
+      <Link>Resources\IconNumberConvertor.png</Link>
+    </Content>
+    <Content Include="..\VirastyarWordAddin\Resources\IconPinglish.png">
+      <Link>Resources\IconPinglish.png</Link>
+    </Content>
+    <Content Include="..\VirastyarWordAddin\Resources\IconPinglishAll.png">
+      <Link>Resources\IconPinglishAll.png</Link>
+    </Content>
+    <Content Include="..\VirastyarWordAddin\Resources\IconPrespell.png">
+      <Link>Resources\IconPrespell.png</Link>
+    </Content>
+    <Content Include="..\VirastyarWordAddin\Resources\IconPunc.png">
+      <Link>Resources\IconPunc.png</Link>
+    </Content>
+    <Content Include="..\VirastyarWordAddin\Resources\IconPuncAll.png">
+      <Link>Resources\IconPuncAll.png</Link>
+    </Content>
+    <Content Include="..\VirastyarWordAddin\Resources\IconSettings.png">
+      <Link>Resources\IconSettings.png</Link>
+    </Content>
+    <Content Include="..\VirastyarWordAddin\Resources\IconSpell.png">
+      <Link>Resources\IconSpell.png</Link>
+    </Content>
+    <Content Include="..\VirastyarWordAddin\Resources\IconSynonyms.png">
+      <Link>Resources\IconSynonyms.png</Link>
+    </Content>
+    <Content Include="..\VirastyarWordAddin\Resources\IconTip.png">
+      <Link>Resources\IconTip.png</Link>
+    </Content>
+    <Content Include="..\VirastyarWordAddin\Resources\IconUpdate.png">
+      <Link>Resources\IconUpdate.png</Link>
+    </Content>
+    <Content Include="..\VirastyarWordAddin\Resources\IconVirastyar.png">
+      <Link>Resources\IconVirastyar.png</Link>
+    </Content>
+    <EmbeddedResource Include="..\VirastyarWordAddin\Resources\wyUpdate.exe">
+      <Link>Resources\wyUpdate.exe</Link>
+    </EmbeddedResource>
+    <None Include="..\VirastyarWordAddin\Resources\Patterns.txt">
+      <Link>Resources\Patterns.txt</Link>
+    </None>
+    <Content Include="..\VirastyarWordAddin\Resources\SetupBanner.jpg">
+      <Link>Resources\SetupBanner.jpg</Link>
+    </Content>
+    <Content Include="..\VirastyarWordAddin\Resources\Virastyar.ico">
+      <Link>Resources\Virastyar.ico</Link>
+    </Content>
+  </ItemGroup>
+  <ItemGroup />
+  <!-- Include the build rules for a C# project. -->
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- Include additional build rules for an Office application add-in. -->
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v10.0\OfficeTools\Microsoft.VisualStudio.Tools.Office.targets" />
+  <!-- This section defines VSTO properties that describe the host-changeable project properties. -->
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{BAA0C2D2-18E2-41B9-852F-F413020CAA33}">
+        <ProjectProperties HostName="Word" HostPackage="{20A848B8-E01F-4801-962E-25DB0FF57389}" OfficeVersion="14.0" VstxVersion="4.0" ApplicationType="Word" Language="cs" TemplatesPath="" DebugInfoExeName="#Software\Microsoft\Office\14.0\Word\InstallRoot\Path#WINWORD.EXE" DebugInfoCommandLine="/w" AddItemTemplatesGuid="{51063C3A-E220-4D12-8922-BDA915ACD783}" />
+        <Host Name="Word" GeneratedCodeNamespace="VirastyarWordAddin" IconIndex="0">
+          <HostItem Name="ThisAddIn" Code="ThisAddIn.cs" CanonicalName="AddIn" CanActivate="false" IconIndex="1" Blueprint="ThisAddIn.Designer.xml" GeneratedCode="ThisAddIn.Designer.cs" />
+        </Host>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

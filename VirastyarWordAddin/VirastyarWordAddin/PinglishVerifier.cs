@@ -1,26 +1,4 @@
-﻿// Virastyar
-// http://www.virastyar.ir
-// Copyright (C) 2011 Supreme Council for Information and Communication Technology (SCICT) of Iran
-// 
-// This file is part of Virastyar.
-// 
-// Virastyar is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-// 
-// Virastyar is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU General Public License for more details.
-// 
-// You should have received a copy of the GNU General Public License
-// along with Virastyar.  If not, see <http://www.gnu.org/licenses/>.
-// 
-// Additional permission under GNU GPL version 3 section 7
-// The sole exception to the license's terms and requierments might be the
-// integration of Virastyar with Microsoft Word (any version) as an add-in.
-
+﻿using System;
 using Microsoft.Office.Interop.Word;
 using SCICT.Microsoft.Office.Word.ContentReader;
 using SCICT.NLP.Utility;
@@ -28,6 +6,7 @@ using SCICT.NLP.Utility.PinglishConverter;
 using SCICT.Utility.SpellChecker;
 using SCICT.NLP.TextProofing.SpellChecker;
 using System.Collections.Generic;
+using VirastyarWordAddin.Log;
 
 namespace VirastyarWordAddin
 {
@@ -67,7 +46,7 @@ namespace VirastyarWordAddin
         protected override void InitVerifWin()
         {
             m_verificationWindow = new SimpleVerificationWindow();
-            m_verificationWindow.SetCaption("تبدیل از پینگلیش به پارسی");
+            m_verificationWindow.SetCaption("تبدیل پینگلیش");
             m_verificationWindow.SetContentCaption("موارد یافت شده:");
             ((SimpleVerificationWindow)m_verificationWindow).SetSuggestionCaption(Constants.UIMessages.Suggestions);
             m_verificationWindow.DisableButtionsPermanently(VerificationWindowButtons.AddToDictionary | VerificationWindowButtons.IgnoreAll);
@@ -108,8 +87,9 @@ namespace VirastyarWordAddin
                 {
                     sugs = m_pinglishConverter.SuggestFarsiWords(word, true);
                 }
-                catch 
+                catch(Exception ex)
                 {
+                    LogHelper.DebugException("Exception in SuggestFarsiWords", ex);
                     throw;
                 }
 

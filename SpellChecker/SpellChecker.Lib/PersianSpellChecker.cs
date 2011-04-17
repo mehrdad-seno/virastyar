@@ -29,7 +29,6 @@ using System.Threading;
 using SCICT.NLP.Morphology.Inflection;
 using SCICT.NLP.Persian.Constants;
 using SCICT.NLP.Utility.Parsers;
-using SCICT.NLP.Morphology.Lemmatization;
 using SCICT.NLP.Utility.WordGenerator;
 using SCICT.Utility;
 using System.Linq;
@@ -168,7 +167,7 @@ namespace SCICT.NLP.TextProofing.SpellChecker
     {
         #region Private Members
 
-        readonly PersianSuffixRecognizer m_persianSuffixRecognizer = new PersianSuffixRecognizer(false, true);
+        readonly PersianSuffixLemmatizer m_persianSuffixRecognizer = new PersianSuffixLemmatizer(false, true);
 
         private bool m_isAffixStripped = false;
         private bool m_isRefinedforHehYa = false;
@@ -347,22 +346,29 @@ namespace SCICT.NLP.TextProofing.SpellChecker
         /// <returns>List of plausible simple forms of word</returns>
         public string[] GetSimpleFormOfWord(string word)
         {
-            List<string> simpleWordList = new List<string>();
-
-            ReversePatternMatcherPatternInfo[] suffixeResults = this.m_persianSuffixRecognizer.MatchForSuffix(word);
-            if (suffixeResults.Length == 0)
+            try
             {
+                List<string> simpleWordList = new List<string>();
+
+                ReversePatternMatcherPatternInfo[] suffixeResults = this.m_persianSuffixRecognizer.MatchForSuffix(word);
+                if (suffixeResults.Length == 0)
+                {
+                    simpleWordList.Add(word);
+                    return simpleWordList.ToArray();
+                }
+
+                foreach (ReversePatternMatcherPatternInfo rpmpi in suffixeResults)
+                {
+                    simpleWordList.Add(rpmpi.BaseWord);
+                }
+
                 simpleWordList.Add(word);
                 return simpleWordList.ToArray();
             }
-
-            foreach (ReversePatternMatcherPatternInfo rpmpi in suffixeResults)
+            catch (Exception ex)
             {
-                simpleWordList.Add(rpmpi.BaseWord);
+                throw new Exception(string.Format("Data: {1}\n", word), ex);
             }
-
-            simpleWordList.Add(word);
-            return simpleWordList.ToArray();
         }
 
         ///<summary>
@@ -378,127 +384,129 @@ namespace SCICT.NLP.TextProofing.SpellChecker
         ///<returns>True if the current word is correct, Flase if current word is incorrect</returns>
         public bool OnePassCorrection(string word, string preWord, string nxtWord, int suggestionCount, out string[] suggestions, out SuggestionType suggestionType, out SpaceCorrectionState spaceCorrectionState)
         {
-            suggestionType = SuggestionType.Green;
-            spaceCorrectionState = SpaceCorrectionState.None;
-
-            List<string> localSug = new List<string>();
-            string tmpSug;
-
-            #region Convert HaaYaa
-
-            if (this.OnePassConvertingRuleExist(OnePassConvertingRules.ConvertHehYa))
+            try
             {
-                tmpSug = RefineforHehYa(word);
-                if (tmpSug != word)
+                suggestionType = SuggestionType.Green;
+                spaceCorrectionState = SpaceCorrectionState.None;
+
+                List<string> localSug = new List<string>();
+                string tmpSug;
+
+                #region Convert HaaYaa
+
+                if (this.OnePassConvertingRuleExist(OnePassConvertingRules.ConvertHehYa))
                 {
-                    localSug.Add(tmpSug);
-                    suggestions = localSug.ToArray();
-                    if (suggestions.Length > 0)
+                    tmpSug = RefineforHehYa(word);
+                    if (tmpSug != word)
                     {
-                        return false;
-                    }
-                }
-            }
-
-            #endregion
-
-            #region Convert Be
-
-            if (this.OnePassConvertingRuleExist(OnePassConvertingRules.ConvertBe))
-            {
-                if (ContainPrefix(word) && !this.ContainWord(word))
-                {
-                    string wordWithoutPrefix;
-                    string prefix = ExtractPrefix(word, out wordWithoutPrefix);
-                    if (wordWithoutPrefix != "")
-                    {
-                        if (prefix == "به" && this.ContainWord(wordWithoutPrefix))
+                        localSug.Add(tmpSug);
+                        suggestions = localSug.ToArray();
+                        if (suggestions.Length > 0)
                         {
-                            tmpSug = prefix + " " + wordWithoutPrefix;
-
-                            if (!localSug.Contains(tmpSug))
-                            {
-                                localSug.Add(tmpSug);
-                                suggestions = localSug.ToArray();
-                                if (suggestions.Length > 0)
-                                {
-                                    return false;
-                                }
-                            }
+                            return false;
                         }
                     }
                 }
-            }
-            #endregion
 
-            #region Convert Mee + Nemee
+                #endregion
 
-            if (this.OnePassConvertingRuleExist(OnePassConvertingRules.ConvertMee))
-            {
-                if (ContainPrefix(word))
+                #region Convert Be
+
+                if (this.OnePassConvertingRuleExist(OnePassConvertingRules.ConvertBe))
                 {
-                    if (IsStickerPrefix(word))
+                    if (ContainPrefix(word) && !this.ContainWord(word))
                     {
-                        if (IsValidPrefix(word, nxtWord))
+                        string wordWithoutPrefix;
+                        string prefix = ExtractPrefix(word, out wordWithoutPrefix);
+                        if (wordWithoutPrefix != "")
                         {
-                            tmpSug = CheckForSpaceInsertation(word, word, nxtWord, out spaceCorrectionState);
-                            if (tmpSug != "" && tmpSug != word)
+                            if (prefix == "به" && this.ContainWord(wordWithoutPrefix))
                             {
+                                tmpSug = prefix + " " + wordWithoutPrefix;
+
                                 if (!localSug.Contains(tmpSug))
                                 {
                                     localSug.Add(tmpSug);
-                                }
-                            }
-                        }
-                    }
-                    else
-                    {
-                        if (!this.ContainWord(word))
-                        {
-                            string wordWithoutPrefix;
-                            string prefix = ExtractPrefix(word, out wordWithoutPrefix);
-                            if (wordWithoutPrefix != "")
-                            {
-                                if ((prefix == "می" || prefix == "نمی") && this.ContainWord(wordWithoutPrefix))
-                                {
-                                    tmpSug = prefix + PseudoSpace.ZWNJ + wordWithoutPrefix;
-                                    if (this.ContainWord(tmpSug))
+                                    suggestions = localSug.ToArray();
+                                    if (suggestions.Length > 0)
                                     {
-                                        if (!localSug.Contains(tmpSug))
-                                        {
-                                            localSug.Add(tmpSug);
-                                        }
+                                        return false;
                                     }
                                 }
                             }
                         }
                     }
                 }
+                #endregion
 
-                suggestions = localSug.ToArray();
-                if (suggestions.Length > 0)
+                #region Convert Mee + Nemee
+
+                if (this.OnePassConvertingRuleExist(OnePassConvertingRules.ConvertMee))
                 {
-                    return false;
-                }
-            }
+                    if (ContainPrefix(word))
+                    {
+                        if (IsStickerPrefix(word))
+                        {
+                            if (IsValidPrefix(word, nxtWord))
+                            {
+                                tmpSug = CheckForSpaceInsertation(word, word, nxtWord, out spaceCorrectionState);
+                                if (tmpSug != "" && tmpSug != word)
+                                {
+                                    if (!localSug.Contains(tmpSug))
+                                    {
+                                        localSug.Add(tmpSug);
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (!this.ContainWord(word))
+                            {
+                                string wordWithoutPrefix;
+                                string prefix = ExtractPrefix(word, out wordWithoutPrefix);
+                                if (wordWithoutPrefix != "")
+                                {
+                                    if ((prefix == "می" || prefix == "نمی") && this.ContainWord(wordWithoutPrefix))
+                                    {
+                                        tmpSug = prefix + PseudoSpace.ZWNJ + wordWithoutPrefix;
+                                        if (this.ContainWord(tmpSug))
+                                        {
+                                            if (!localSug.Contains(tmpSug))
+                                            {
+                                                localSug.Add(tmpSug);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
 
-            #endregion
-
-            #region Convert All
-
-            if (this.OnePassConvertingRuleExist(OnePassConvertingRules.ConvertAll))
-            {
-                if (!IsPrefix(nxtWord))
-                {
-                    if (!CheckSuffixSpacing(word, nxtWord, out suggestions, out suggestionType, out spaceCorrectionState))
+                    suggestions = localSug.ToArray();
+                    if (suggestions.Length > 0)
                     {
                         return false;
                     }
                 }
-            }
 
-            #region OLD
-            /*
+                #endregion
+
+                #region Convert All
+
+                if (this.OnePassConvertingRuleExist(OnePassConvertingRules.ConvertAll))
+                {
+                    if (!IsPrefix(nxtWord))
+                    {
+                        if (!CheckSuffixSpacing(word, nxtWord, out suggestions, out suggestionType, out spaceCorrectionState))
+                        {
+                            return false;
+                        }
+                    }
+                }
+
+                #region OLD
+                /*
             if (this.OnePassConvertingRuleExist(OnePassConvertingRules.ConvertAll))
             {
                 if (this.ContainWord(word) && !base.IsRealWord(word))
@@ -560,42 +568,43 @@ namespace SCICT.NLP.TextProofing.SpellChecker
                 }
             }
             */
-            #endregion
+                #endregion
 
-            #endregion
+                #endregion
 
-            #region Covert Haa
+                #region Covert Haa
 
-            if (this.OnePassConvertingRuleExist(OnePassConvertingRules.ConvertHaa))
-            {
-                if (this.ContainWord(word) && !base.IsRealWord(word))
+                if (this.OnePassConvertingRuleExist(OnePassConvertingRules.ConvertHaa))
                 {
-                    if (!word.Contains(PseudoSpace.ZWNJ.ToString()))
+                    if (this.ContainWord(word) && !base.IsRealWord(word))
                     {
-                        SpaceCorrectionState scs;
-                        ReversePatternMatcherPatternInfo[] rpmp = this.StripAffixs(word);
-                        if (rpmp.Length > 0)
+                        if (!word.Contains(PseudoSpace.ZWNJ.ToString()))
                         {
-                            foreach (ReversePatternMatcherPatternInfo pair in rpmp)
+                            SpaceCorrectionState scs;
+                            ReversePatternMatcherPatternInfo[] rpmp = this.StripAffixs(word);
+                            if (rpmp.Length > 0)
                             {
-                                if (pair.Suffix.StartsWith("ها"))
+                                foreach (ReversePatternMatcherPatternInfo pair in rpmp)
                                 {
-                                    tmpSug = CheckForSpaceInsertation(pair.BaseWord, pair.BaseWord, pair.Suffix, out scs);
+                                    if (pair.Suffix.StartsWith("ها"))
+                                    {
+                                        tmpSug = CheckForSpaceInsertation(pair.BaseWord, pair.BaseWord, pair.Suffix, out scs);
 
-                                    if (tmpSug == word)
-                                    {
-                                        break;
-                                    }
-                                    else if (tmpSug != "")
-                                    {
-                                        if (!localSug.Contains(tmpSug))
+                                        if (tmpSug == word)
                                         {
-                                            localSug.Add(tmpSug);
-
-                                            suggestions = localSug.ToArray();
-                                            if (suggestions.Length > 0)
+                                            break;
+                                        }
+                                        else if (tmpSug != "")
+                                        {
+                                            if (!localSug.Contains(tmpSug))
                                             {
-                                                return false;
+                                                localSug.Add(tmpSug);
+
+                                                suggestions = localSug.ToArray();
+                                                if (suggestions.Length > 0)
+                                                {
+                                                    return false;
+                                                }
                                             }
                                         }
                                     }
@@ -603,29 +612,33 @@ namespace SCICT.NLP.TextProofing.SpellChecker
                             }
                         }
                     }
-                }
-                
-                //check Vocabulary Words Space Correction Rule
-                if (nxtWord.StartsWith("ها"))
-                {
-                    tmpSug = CheckForSpaceInsertation(word, word, nxtWord, out spaceCorrectionState);
-                    if (tmpSug != "" && tmpSug != word)
-                    {
-                        if (!localSug.Contains(tmpSug))
-                        {
-                            localSug.Add(tmpSug);
 
-                            suggestions = localSug.ToArray();
-                            if (suggestions.Length > 0)
+                    //check Vocabulary Words Space Correction Rule
+                    if (nxtWord.StartsWith("ها"))
+                    {
+                        tmpSug = CheckForSpaceInsertation(word, word, nxtWord, out spaceCorrectionState);
+                        if (tmpSug != "" && tmpSug != word)
+                        {
+                            if (!localSug.Contains(tmpSug))
                             {
-                                return false;
+                                localSug.Add(tmpSug);
+
+                                suggestions = localSug.ToArray();
+                                if (suggestions.Length > 0)
+                                {
+                                    return false;
+                                }
                             }
                         }
                     }
                 }
-            }
 
-            #endregion
+                #endregion
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(string.Format("Data: {1}, {2}, {3}\n", preWord, word, nxtWord), ex);
+            }
 
             suggestions = new string[0];
             return true;
@@ -644,80 +657,87 @@ namespace SCICT.NLP.TextProofing.SpellChecker
         ///<returns>True if the current word is correct, Flase if current word is incorrect</returns>
         public bool CheckSpelling(string word, string preWord, string nxtWord, int suggestionCount, out string[] suggestions, out SuggestionType suggestionType, out SpaceCorrectionState spaceCorrectionState)
         {
-            //Clear ranking detail
-            base.m_rankingDetail.Clear();
-
-            #region Ignore Spell Checking of Letters
-
-            if (SpellingRuleExist(SpellingRules.IgnoreLetters))
+            try
             {
-                if (word.Length == 1)
+                //Clear ranking detail
+                base.m_rankingDetail.Clear();
+
+                #region Ignore Spell Checking of Letters
+
+                if (SpellingRuleExist(SpellingRules.IgnoreLetters))
                 {
-                    suggestions = new string[0];
-                    suggestionType = SuggestionType.Green;
-                    spaceCorrectionState = SpaceCorrectionState.None;
-                    return true;
+                    if (word.Length == 1)
+                    {
+                        suggestions = new string[0];
+                        suggestionType = SuggestionType.Green;
+                        spaceCorrectionState = SpaceCorrectionState.None;
+                        return true;
+                    }
                 }
-            }
 
-            #endregion
+                #endregion
 
-            #region Refine Word for Heh + Ya
+                #region Refine Word for Heh + Ya
 
-            word = RefineforHehYa(word);
+                word = RefineforHehYa(word);
 
-            #endregion
+                #endregion
 
-            #region Check Iteration
+                #region Check Iteration
 
-            bool iterationRes = CheckForIteration(word, nxtWord, suggestionCount, out suggestions, out suggestionType, out spaceCorrectionState, true);
-            if (iterationRes == false)
-            {
-                return false;
-            }
-
-            #endregion
-            
-            #region Check for Affix Spacing
-
-            if (!CheckAffixSpacing(word, preWord, nxtWord, out suggestions, out suggestionType, out spaceCorrectionState))
-            {
-                return false;
-            }
-
-            #endregion
-
-            #region Check for Existance
-
-            if (this.ContainWord(word))
-            {
-                if (this.m_isRefinedforHehYa == false | this.SpellingRuleExist(SpellingRules.IgnoreHehYa))
+                bool iterationRes = CheckForIteration(word, nxtWord, suggestionCount, out suggestions, out suggestionType, out spaceCorrectionState, true);
+                if (iterationRes == false)
                 {
-                    return true;
-                }
-                else if (this.m_isRefinedforHehYa == true)
-                {
-                    suggestions = new string[] { word };
-                    suggestionType = SuggestionType.Red;
-                    spaceCorrectionState = SpaceCorrectionState.None;
-                    RankingDetail.Add(word, KasraRedundantSuggestionMessage);
-
                     return false;
                 }
+
+                #endregion
+
+                #region Check for Affix Spacing
+
+                if (!CheckAffixSpacing(word, preWord, nxtWord, out suggestions, out suggestionType, out spaceCorrectionState))
+                {
+                    return false;
+                }
+
+                #endregion
+
+                #region Check for Existance
+
+                if (this.ContainWord(word))
+                {
+                    if (this.m_isRefinedforHehYa == false | this.SpellingRuleExist(SpellingRules.IgnoreHehYa))
+                    {
+                        return true;
+                    }
+                    else if (this.m_isRefinedforHehYa == true)
+                    {
+                        suggestions = new string[] { word };
+                        suggestionType = SuggestionType.Red;
+                        spaceCorrectionState = SpaceCorrectionState.None;
+                        RankingDetail.Add(word, KasraRedundantSuggestionMessage);
+
+                        return false;
+                    }
+                }
+
+                #endregion
+
+                DoAdvancedSpellCheck(word, preWord, nxtWord, suggestionCount, out suggestions, out suggestionType, out spaceCorrectionState);
+
+                #region Revert HahYa
+
+                if (this.SpellingRuleExist(SpellingRules.IgnoreHehYa))
+                {
+                    suggestions = RevertHehYa(suggestions);
+                }
+
+                #endregion
             }
-            
-            #endregion
-
-            DoAdvancedSpellCheck(word, preWord, nxtWord, suggestionCount, out suggestions, out suggestionType, out spaceCorrectionState);
-
-            #region Revert HahYa
-
-            if (this.SpellingRuleExist(SpellingRules.IgnoreHehYa))
+            catch (Exception ex)
             {
-                suggestions = RevertHehYa(suggestions);
+                throw new Exception(string.Format("Data: {1}, {2}, {3}\n", preWord, word, nxtWord), ex);
             }
-
-            #endregion
 
             return false;
         }
@@ -730,24 +750,31 @@ namespace SCICT.NLP.TextProofing.SpellChecker
         ///<returns>True if word is successfully added, otherwise False</returns>
         public new bool AddToDictionary(string userSelectedWord, string originalWord)
         {
-            string suffix = originalWord.Remove(0, userSelectedWord.Length);
-
-            PersianSuffixesCategory suffixCategory = m_persianSuffixRecognizer.SuffixCategory(suffix);
-            PersianPOSTag extractedPOSTag = InflectionAnalyser.AcceptingPOS(suffixCategory);
-
-            extractedPOSTag.Set(InflectionAnalyser.ConsonantVowelState(originalWord, suffix, userSelectedWord, suffixCategory));
-
-            PersianPOSTag existingPOStag = WordPOS(userSelectedWord);
-            if (existingPOStag.Has(extractedPOSTag))
+            try
             {
-                return false;
-            }
-            else
-            {
-                extractedPOSTag = extractedPOSTag.Set(existingPOStag);
-            }
+                string suffix = originalWord.Remove(0, userSelectedWord.Length);
 
-            return AddToDictionary(userSelectedWord, 0, extractedPOSTag);
+                PersianSuffixesCategory suffixCategory = InflectionAnalyser.SuffixCategory(suffix);
+                PersianPOSTag extractedPOSTag = InflectionAnalyser.AcceptingPOS(suffixCategory);
+
+                extractedPOSTag.Set(InflectionAnalyser.ConsonantVowelState(originalWord, suffix, userSelectedWord, suffixCategory));
+
+                PersianPOSTag existingPOStag = WordPOS(userSelectedWord);
+                if (existingPOStag.Has(extractedPOSTag))
+                {
+                    return false;
+                }
+                else
+                {
+                    extractedPOSTag = extractedPOSTag.Set(existingPOStag);
+                }
+
+                return AddToDictionary(userSelectedWord, 0, extractedPOSTag);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(string.Format("Data: {1}, {2}\n", userSelectedWord, originalWord), ex);
+            }
         }
 
         /// <summary>
@@ -759,39 +786,46 @@ namespace SCICT.NLP.TextProofing.SpellChecker
         ///<returns>True if word is successfully added, otherwise False</returns>
         public bool AddToDictionary(string userSelectedWord, string originalWord, string fileName)
         {
-            string suffix;
-            if (originalWord.Contains("گان") && !originalWord.Contains("ه") && userSelectedWord.EndsWith("ه"))
+            try
             {
-                suffix = originalWord.Remove(0, userSelectedWord.Length-1);
-            }
-            else
-            {
-                suffix = originalWord.Remove(0, userSelectedWord.Length);
-                if (suffix.Length > 0)
+                string suffix;
+                if (originalWord.Contains("گان") && !originalWord.Contains("ه") && userSelectedWord.EndsWith("ه"))
                 {
-                    if (suffix[0] == PseudoSpace.ZWNJ)
+                    suffix = originalWord.Remove(0, userSelectedWord.Length - 1);
+                }
+                else
+                {
+                    suffix = originalWord.Remove(0, userSelectedWord.Length);
+                    if (suffix.Length > 0)
                     {
-                        suffix = suffix.Remove(0, 1);
+                        if (suffix[0] == PseudoSpace.ZWNJ)
+                        {
+                            suffix = suffix.Remove(0, 1);
+                        }
                     }
                 }
+
+                PersianSuffixesCategory suffixCategory = InflectionAnalyser.SuffixCategory(suffix);
+                PersianPOSTag extractedPOSTag = InflectionAnalyser.AcceptingPOS(suffixCategory);
+
+                extractedPOSTag = extractedPOSTag.Set(InflectionAnalyser.ConsonantVowelState(originalWord, suffix, userSelectedWord, suffixCategory));
+
+                PersianPOSTag existingPOStag = WordPOS(userSelectedWord);
+                if (existingPOStag.Has(extractedPOSTag))
+                {
+                    return false;
+                }
+                else
+                {
+                    extractedPOSTag = extractedPOSTag.Set(existingPOStag);
+                }
+
+                return AddToDictionary(userSelectedWord, 0, extractedPOSTag, fileName);
             }
-
-            PersianSuffixesCategory suffixCategory = m_persianSuffixRecognizer.SuffixCategory(suffix);
-            PersianPOSTag extractedPOSTag = InflectionAnalyser.AcceptingPOS(suffixCategory);
-
-            extractedPOSTag = extractedPOSTag.Set(InflectionAnalyser.ConsonantVowelState(originalWord, suffix, userSelectedWord, suffixCategory));
-
-            PersianPOSTag existingPOStag = WordPOS(userSelectedWord);
-            if (existingPOStag.Has(extractedPOSTag))
+            catch (Exception ex)
             {
-                return false;
+                throw new Exception(string.Format("Data: {1}, {2}, {3}\n", userSelectedWord, originalWord, fileName), ex);
             }
-            else
-            {
-                extractedPOSTag = extractedPOSTag.Set(existingPOStag);
-            }
-
-            return AddToDictionary(userSelectedWord, 0, extractedPOSTag, fileName);
         }
 
         ///<summary>
@@ -826,7 +860,7 @@ namespace SCICT.NLP.TextProofing.SpellChecker
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw new Exception(string.Format("Data: {1}\n", word), ex);
             }
         }
 
@@ -2191,11 +2225,10 @@ private static string[] SortSpacingSugs(string[] words, int count)
 
                 foreach (string str in base.SpellingSuggestions(word))
                 {
-                    suffix = InflectionAnalyser.EqualSuffixWithCorrectPhonetic(str, suffix,
-                                                                               m_persianSuffixRecognizer.SuffixCategory(
-                                                                                   suffix));
-
                     PersianPOSTag posTag = base.WordPOS(stem);
+                    suffix = InflectionAnalyser.EqualSuffixWithCorrectPhonetic(str, suffix,
+                                                                               InflectionAnalyser.SuffixCategory(suffix), posTag);
+
                     tmpSug = CorrectSuffixSpacing(str, suffix, posTag);
 
                     if (!suggestion.Contains(tmpSug))
@@ -2239,11 +2272,10 @@ private static string[] SortSpacingSugs(string[] words, int count)
                     stem = suffixPatternInfo.BaseWord;
 
 
-                    suffix = InflectionAnalyser.EqualSuffixWithCorrectPhonetic(stem, suffix,
-                                                                               m_persianSuffixRecognizer.
-                                                                                   SuffixCategory(suffix));
-
                     posTag = base.WordPOS(stem);
+                    suffix = InflectionAnalyser.EqualSuffixWithCorrectPhonetic(stem, suffix,
+                                                                               InflectionAnalyser.SuffixCategory(suffix), posTag);
+
                     tmpSug = CorrectSuffixSpacing(stem, suffix, posTag);
 
                     if (tmpSug != word && tmpSug != stem)
@@ -2285,7 +2317,7 @@ private static string[] SortSpacingSugs(string[] words, int count)
                 foreach (string spellSug in spellingSugs)
                 {
                     //suffix = InflectionAnalyser.EqualSuffixWithCorrectPhonetic(spellSug, suffix,
-                    //                                                           m_persianSuffixRecognizer.SuffixCategory(suffix));
+                    //                                                           InflectionAnalyser.SuffixCategory(suffix));
 
                     posTag = base.WordPOS(spellSug);
                     if (IsValidSuffixDeclension(spellSug, suffix, posTag))
@@ -2347,11 +2379,10 @@ private static string[] SortSpacingSugs(string[] words, int count)
                         stem = suffixPatternInfo.BaseWord;
 
 
-                        suffix = InflectionAnalyser.EqualSuffixWithCorrectPhonetic(stem, suffix,
-                                                                                   m_persianSuffixRecognizer.
-                                                                                       SuffixCategory(suffix));
-
                         posTag = base.WordPOS(stem);
+                        suffix = InflectionAnalyser.EqualSuffixWithCorrectPhonetic(stem, suffix,
+                                                                                   InflectionAnalyser.SuffixCategory(suffix), posTag);
+
                         tmpSug = CorrectSuffixSpacing(stem, suffix, posTag);
 
                         if (tmpSug != word && tmpSug != stem)
@@ -2395,7 +2426,7 @@ private static string[] SortSpacingSugs(string[] words, int count)
                     foreach (string spellSug in spellingSugs)
                     {
                         //suffix = InflectionAnalyser.EqualSuffixWithCorrectPhonetic(spellSug, suffix,
-                        //                                                           m_persianSuffixRecognizer.SuffixCategory(suffix));
+                        //                                                           InflectionAnalyser.SuffixCategory(suffix));
 
                         posTag = base.WordPOS(spellSug);
                         if (IsValidSuffixDeclension(spellSug, suffix, posTag))
@@ -2741,7 +2772,7 @@ private static string[] SortSpacingSugs(string[] words, int count)
             foreach (string lstStr in suggestions)
             {
                 tmpStr = lstStr;
-                if (tmpStr.EndsWith("ه‌ی"))
+                if (tmpStr.EndsWith("ه‌ی", StringComparison.Ordinal))
                 {
                     tmpStr = tmpStr.Remove(tmpStr.Length - 3, 3);
                     tmpStr = tmpStr + "ۀ";
@@ -2795,6 +2826,10 @@ private static string[] SortSpacingSugs(string[] words, int count)
                         //                                                               SuffixCategory(suffix));
 
                         PersianPOSTag posTag = base.WordPOS(stem);
+                        
+                        suffix = InflectionAnalyser.EqualSuffixWithCorrectPhonetic(stem, suffix,
+                                                           InflectionAnalyser.SuffixCategory(suffix), posTag);
+
                         tmpSug = CorrectSuffixSpacing(stem, suffix, posTag);
 
                         if (tmpSug != word && tmpSug != stem)
@@ -2828,7 +2863,7 @@ private static string[] SortSpacingSugs(string[] words, int count)
             suffix = nxtWord;
             stem = word;
 
-            if (m_persianSuffixRecognizer.SuffixCategory(suffix) != 0)
+            if (InflectionAnalyser.SuffixCategory(suffix) != 0)
             {
                 /*
                  * Here a real word mistakenly considered as suffix and must be ignored
@@ -2868,8 +2903,7 @@ private static string[] SortSpacingSugs(string[] words, int count)
                 }
 
                 suffix = InflectionAnalyser.EqualSuffixWithCorrectPhonetic(stem, suffix,
-                                                                           m_persianSuffixRecognizer.SuffixCategory(
-                                                                                   suffix));
+                                                                           InflectionAnalyser.SuffixCategory(suffix), posTag);
                 tmpSug = CorrectSuffixSpacing(stem, suffix, posTag);
 
                 if (tmpSug != word)
@@ -2891,12 +2925,12 @@ private static string[] SortSpacingSugs(string[] words, int count)
 
         private bool IsValidSuffixDeclension(string stem, string suffix, PersianPOSTag posTag)
         {
-            PersianSuffixesCategory suffixCategory;
-            if (InflectionAnalyser.IsValidPhoneticComposition(stem, suffix, posTag, out suffixCategory))
+            PersianSuffixesCategory suffixCategory = InflectionAnalyser.SuffixCategory(suffix);
+            if (InflectionAnalyser.IsValidDeclension(posTag, suffixCategory))
             {
-                //PersianSuffixesCategory suffixCategory = m_persianSuffixRecognizer.SuffixCategory(suffix);
-                if (InflectionAnalyser.IsValidDeclension(posTag, suffixCategory))
+                if (InflectionAnalyser.IsValidPhoneticComposition(stem, suffix, posTag))
                 {
+                    //PersianSuffixesCategory suffixCategory = InflectionAnalyser.SuffixCategory(suffix);
                     return true;
                 }
             }
@@ -2915,7 +2949,7 @@ private static string[] SortSpacingSugs(string[] words, int count)
         }
         private string CorrectSuffixSpacing(string stem, string suffix, PersianPOSTag pos)
         {
-            string equalSuffixWithSpacingSymbols = stem + m_persianSuffixRecognizer.EqualSuffixWithSpacingSymbols(suffix);
+            string equalSuffixWithSpacingSymbols = stem + InflectionAnalyser.EqualSuffixWithSpacingSymbols(suffix);
 
             for (int i = 0; i < equalSuffixWithSpacingSymbols.Length; ++i)
             {
@@ -3152,7 +3186,7 @@ private static string[] SortSpacingSugs(string[] words, int count)
             this.m_ruleAffixSpaceCorrection           = true;
             this.m_ruleCheckForCompletetion           = true;
             this.m_ruleAffixSpaceCorrectionForVocabularyWords = false;
-            this.m_ruleIgnoreHehYa = false;
+            this.m_ruleIgnoreHehYa = true;
             this.m_ruleIgnoreLetters = false;
         }
 

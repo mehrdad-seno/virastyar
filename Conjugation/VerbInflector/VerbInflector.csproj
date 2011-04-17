@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{55A183EA-6D8D-4B55-96CC-3DFE5A97948F}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -19,7 +19,7 @@
     <StartupObject>
     </StartupObject>
     <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>..\..\Product_StrongKey\Virastyar.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>NoorProduct.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -43,8 +43,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="SCICT.Utility, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff2cf56caa65669b, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
+		<SpecificVersion>False</SpecificVersion>
+	</Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -64,6 +64,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Verb.cs" />
     <Compile Include="VerbInflection.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="NoorProduct.pfx" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,25 +1,9 @@
-﻿// Virastyar
-// http://www.virastyar.ir
-// Copyright (C) 2011 Supreme Council for Information and Communication Technology (SCICT) of Iran
-// 
-// This file is part of Virastyar.
-// 
-// Virastyar is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-// 
-// Virastyar is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU General Public License for more details.
-// 
-// You should have received a copy of the GNU General Public License
-// along with Virastyar.  If not, see <http://www.gnu.org/licenses/>.
-// 
-// Additional permission under GNU GPL version 3 section 7
-// The sole exception to the license's terms and requierments might be the
-// integration of Virastyar with Microsoft Word (any version) as an add-in.
+﻿//
+// Author: Mehrdad Senobari 
+// Created on: 2010-March-08
+// Last Modified: Mehrdad Senobari at 2010-March-08
+//
+
 
 using System;
 using System;
@@ -77,11 +61,11 @@ namespace SCICT.NLP.Utility.PinglishConverter
         /// Gets the dataset.
         /// </summary>
         /// <value>The dataset.</value>
-        public List<PinglishString> Dataset
+        public IEnumerable<PinglishString> Dataset
         {
             get
             {
-                return null;
+                return m_converter.DataSet;
             }
         }
 
@@ -136,6 +120,7 @@ namespace SCICT.NLP.Utility.PinglishConverter
                                                             {
                                                                 new CharacterMappingInfo("ن", 0),
                                                                 new CharacterMappingInfo("", TokenPosition.EndOfWord, 2), 
+                                                                new CharacterMappingInfo("ً", TokenPosition.EndOfWord, 3),
                                                                 new CharacterMappingInfo("ن", 'n', TokenPosition.MiddleOfWord, 0),
                                                             });
 
@@ -268,11 +253,12 @@ namespace SCICT.NLP.Utility.PinglishConverter
                                                                 new CharacterMappingInfo("آ", TokenPosition.StartOfWord, 1)
                                                                 ,
                                                                 new CharacterMappingInfo("ا", 0),
+                                                                new CharacterMappingInfo("‌ا", 'l'),
                                                                 new CharacterMappingInfo("", 1),
                                                                 new CharacterMappingInfo("أ", TokenPosition.StartOfWord | TokenPosition.MiddleOfWord, 2),
                                                                 new CharacterMappingInfo("ع", TokenPosition.StartOfWord, 2)
                                                                 ,
-                                                                new CharacterMappingInfo("ع", '\'',TokenPosition.MiddleOfWord | TokenPosition.EndOfWord, 0),
+                                                                //new CharacterMappingInfo("ع", '\'',TokenPosition.MiddleOfWord | TokenPosition.EndOfWord, 0),
                                                                 new CharacterMappingInfo("ع",
                                                                                       TokenPosition.MiddleOfWord |
                                                                                       TokenPosition.EndOfWord, 0),
@@ -281,23 +267,22 @@ namespace SCICT.NLP.Utility.PinglishConverter
                                                                 new CharacterMappingInfo("آ", 'a',
                                                                                       TokenPosition.StartOfWord, 0),
                                                                 new CharacterMappingInfo("اع", TokenPosition.StartOfWord, 2),
-                                                                new CharacterMappingInfo(
-                                                                    "\u0647" + PseudoSpace.ZWNJ + "\u0633",
-                                                                    's', TokenPosition.MiddleOfWord, 0),
+                                                                //new CharacterMappingInfo("\u0647" + PseudoSpace.ZWNJ + "\u0633",'s', TokenPosition.MiddleOfWord, 0),
                                                                 new CharacterMappingInfo("عا", 5),
-                                                                new CharacterMappingInfo("عاً", 'n',
-                                                                                      TokenPosition.MiddleOfWord, 2),
-                                                                new CharacterMappingInfo("اً", 'n', TokenPosition.MiddleOfWord, 0),
+                                                                new CharacterMappingInfo("اع", 5),
+                                                                //new CharacterMappingInfo("عاً", 'n',
+                                                                //                      TokenPosition.MiddleOfWord, 2),
                                                                 new CharacterMappingInfo("ه", TokenPosition.EndOfWord, 2),
                                                                 new CharacterMappingInfo("ی", TokenPosition.EndOfWord, 2),
                                                                 new CharacterMappingInfo("وا", TokenPosition.MiddleOfWord, 2),
                                                                 new CharacterMappingInfo(PseudoSpace.ZWNJ + "ال", 'l', TokenPosition.MiddleOfWord, 3),
                                                                 new CharacterMappingInfo("ئ", TokenPosition.MiddleOfWord, 3),
-                                                                new CharacterMappingInfo("هم", 'm', TokenPosition.MiddleOfWord, 4),
-                                                                new CharacterMappingInfo("ه‌ت", 't', TokenPosition.MiddleOfWord, 4),
-                                                                new CharacterMappingInfo("ه‌ر", 'r', TokenPosition.MiddleOfWord, 4),
+                                                                //new CharacterMappingInfo("هم", 'm', TokenPosition.MiddleOfWord, 4),
+                                                                //new CharacterMappingInfo("ه‌ت", 't', TokenPosition.MiddleOfWord, 4),
+                                                                //new CharacterMappingInfo("ه‌ر", 'r', TokenPosition.MiddleOfWord, 4),
                                                                 // TODO:
-                                                                new CharacterMappingInfo("ه‌ش", 's', TokenPosition.MiddleOfWord, 4),
+                                                                //new CharacterMappingInfo("ه‌ش", 's', TokenPosition.MiddleOfWord, 4),
+                                                                new CharacterMappingInfo("ه‌", TokenPosition.MiddleOfWord, 4)
 
                                                             });
 
@@ -321,13 +306,13 @@ namespace SCICT.NLP.Utility.PinglishConverter
                                                                 new CharacterMappingInfo("ه‌ه", 'h', TokenPosition.MiddleOfWord, 5),
                                                                 new CharacterMappingInfo("ه‌", TokenPosition.MiddleOfWord, 5),
 
-                                                                new CharacterMappingInfo("عه‌ی", 'i', TokenPosition.MiddleOfWord, 5),
+                                                                new CharacterMappingInfo("عه‌", 'i', TokenPosition.MiddleOfWord, 5),
                                                                 //new CharacterMappingInfo("عه‌", 'i', TokenPosition.MiddleOfWord, 5),
-                                                                new CharacterMappingInfo("عه‌ی", 'y', TokenPosition.MiddleOfWord, 5),
-                                                                new CharacterMappingInfo("عه‌ه", 'h', TokenPosition.MiddleOfWord, 5),
+                                                                new CharacterMappingInfo("عه‌", 'y', TokenPosition.MiddleOfWord, 5),
+                                                                new CharacterMappingInfo("عه‌", 'h', TokenPosition.MiddleOfWord, 5),
 
-                                                                new CharacterMappingInfo("ه‌ای", 'i', TokenPosition.MiddleOfWord, 5),
-                                                                new CharacterMappingInfo("ه‌ای", 'e', TokenPosition.MiddleOfWord, 5),
+                                                                new CharacterMappingInfo("ه‌", 'i', TokenPosition.MiddleOfWord, 5),
+                                                                new CharacterMappingInfo("ه‌", 'e', TokenPosition.MiddleOfWord, 5),
 
                                                                 new CharacterMappingInfo(PseudoSpace.ZWNJ + "ال", 'l', TokenPosition.MiddleOfWord, 3),
 
@@ -341,10 +326,11 @@ namespace SCICT.NLP.Utility.PinglishConverter
                                                                 new CharacterMappingInfo("ی", 'e'),
                                                                 new CharacterMappingInfo("ی", 'y'),
                                                                 new CharacterMappingInfo("ای", TokenPosition.StartOfWord, 1),
-
+                                                                new CharacterMappingInfo("یی", TokenPosition.MiddleOfWord | TokenPosition.EndOfWord, 1),
                                                                 new CharacterMappingInfo("ی", 'i'),
                                                                 new CharacterMappingInfo("", TokenPosition.MiddleOfWord, 2),
-                                                            });
+                                                                new CharacterMappingInfo("عی",0),
+                                                           });
 
             var attr_k = new CharacterMapping('k', new CharacterMappingInfo[] 
                                                             { 
@@ -358,15 +344,17 @@ namespace SCICT.NLP.Utility.PinglishConverter
 
             var attr_o = new CharacterMapping('o', new CharacterMappingInfo[] 
                                                             { 
-                                                                new CharacterMappingInfo("ا", TokenPosition.StartOfWord, 2),
+                                                                new CharacterMappingInfo("ا", TokenPosition.StartOfWord|TokenPosition.MiddleOfWord, 2),
                                                                 new CharacterMappingInfo("او", TokenPosition.StartOfWord, 3),
                                                                 new CharacterMappingInfo("و", TokenPosition.MiddleOfWord | TokenPosition.EndOfWord, 0),
                                                                 new CharacterMappingInfo("\u064f", TokenPosition.MiddleOfWord | TokenPosition.EndOfWord, 1, "ضمه"),
                                                                 new CharacterMappingInfo("ع", 2),
+                                                                new CharacterMappingInfo("ئو",'o'),
                                                                 new CharacterMappingInfo("وع", TokenPosition.EndOfWord, 2),
 
                                                                 new CharacterMappingInfo("و", 'o'),
                                                                 new CharacterMappingInfo("و", 'u'),
+                                                                new CharacterMappingInfo("‌ا", 'l'),
                                                                 new CharacterMappingInfo(PseudoSpace.ZWNJ + "ال", 'l', TokenPosition.MiddleOfWord, 3),
                                                             });
 

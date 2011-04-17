@@ -1,31 +1,10 @@
-﻿// Virastyar
-// http://www.virastyar.ir
-// Copyright (C) 2011 Supreme Council for Information and Communication Technology (SCICT) of Iran
-// 
-// This file is part of Virastyar.
-// 
-// Virastyar is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-// 
-// Virastyar is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU General Public License for more details.
-// 
-// You should have received a copy of the GNU General Public License
-// along with Virastyar.  If not, see <http://www.gnu.org/licenses/>.
-// 
-// Additional permission under GNU GPL version 3 section 7
-// The sole exception to the license's terms and requierments might be the
-// integration of Virastyar with Microsoft Word (any version) as an add-in.
-
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using VirastyarWordAddin;
+using VirastyarWordAddin.Log;
+using System.IO.Compression;
 
 namespace SCICT.NLP.Utility.ResourceManagement
 {
@@ -52,31 +31,73 @@ namespace SCICT.NLP.Utility.ResourceManagement
 
         public static bool SaveResourceAs(string resourceName, string destPath)
         {
+            // TODO: If directory does not exist
+
             CheckInitialized();
             try
             {
                 Stream inputStream = GetResource(resourceName);
-                inputStream.Seek(0, SeekOrigin.Begin);
 
-                // TODO: If directory does not exist
-
-                Stream outputStream = File.Create(destPath);
-                byte[] data = new byte[1024 * 1024];
-                int readed;
-                do
+                if (inputStream != null)
                 {
-                    readed = inputStream.Read(data, 0, data.Length);
-                    outputStream.Write(data, 0, readed);
-                } while (readed == data.Length);
-                inputStream.Close();
-                outputStream.Close();
-                return true;
+                    using (inputStream)
+                    {
+                        inputStream.Seek(0, SeekOrigin.Begin);
+
+                        using (var outputStream = File.Create(destPath))
+                        {
+                            var data = new byte[1024];
+                            int readed;
+                            do
+                            {
+                                readed = inputStream.Read(data, 0, data.Length);
+                                outputStream.Write(data, 0, readed);
+                            } while (readed == data.Length);
+
+                            return true;
+                        }
+                    }
+                }
+                else // Try .zip files
+                {
+                    string zippedResourceName = resourceName + ".zip";
+                    inputStream = GetResource(zippedResourceName);
+
+                    if (inputStream != null)
+                    {
+                        using (inputStream)
+                        {
+                            inputStream.Seek(0, SeekOrigin.Begin);
+
+                            using (var outputStream = File.Create(destPath))
+                            {
+                                using (var gzipStream = new GZipStream(inputStream, CompressionMode.Decompress))
+                                {
+                                    var data = new byte[1024];
+                                    int readed;
+                                    do
+                                    {
+                                        readed = gzipStream.Read(data, 0, data.Length);
+                                        outputStream.Write(data, 0, readed);
+                                    } while (readed == data.Length);
+                                }
+
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+            catch(UnauthorizedAccessException ex)
+            {
+                LogHelper.DebugException("Unable to save the resource:" + resourceName, ex);
             }
             catch (Exception ex)
             {
-                ThisAddIn.DebugWriteLine(ex);
-                return false;
+                LogHelper.DebugException("Unable to save the resource:" + resourceName, ex);
             }
+
+            return false;
         }
 
         private static void CheckInitialized()

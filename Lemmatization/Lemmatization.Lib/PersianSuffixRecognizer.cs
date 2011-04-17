@@ -1,25 +1,7 @@
-﻿// Virastyar
-// http://www.virastyar.ir
-// Copyright (C) 2011 Supreme Council for Information and Communication Technology (SCICT) of Iran
-// 
-// This file is part of Virastyar.
-// 
-// Virastyar is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-// 
-// Virastyar is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU General Public License for more details.
-// 
-// You should have received a copy of the GNU General Public License
-// along with Virastyar.  If not, see <http://www.gnu.org/licenses/>.
-// 
-// Additional permission under GNU GPL version 3 section 7
-// The sole exception to the license's terms and requierments might be the
-// integration of Virastyar with Microsoft Word (any version) as an add-in.
+﻿// Author: Omid Kashefi, Sina Iravanian 
+// Created on: 2010-March-08
+// Last Modified: Omid Kashefi, Sina Iravanian at 2010-March-08
+//
 
 using System;
 using System.Collections.Generic;
@@ -73,7 +55,7 @@ namespace SCICT.NLP.Morphology.Lemmatization
         private List<string> m_lstPatterns = new List<string>();
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PersianSuffixRecognizer"/> class.
+        /// Initializes a new instance of the <see cref="PersianSuffixLemmatizer"/> class.
         /// </summary>
         /// <param name="useColloquals">if set to <c>true</c> it will recognize colloqual affixes as well.</param>
         public PersianSuffixRecognizer(bool useColloquals) : this(useColloquals, false)
@@ -81,7 +63,7 @@ namespace SCICT.NLP.Morphology.Lemmatization
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PersianSuffixRecognizer"/> class.
+        /// Initializes a new instance of the <see cref="PersianSuffixLemmatizer"/> class.
         /// </summary>
         /// <param name="useColloquals">if set to <c>true</c> it will recognize colloqual affixes as well.</param>
         /// <param name="uniqueResults">if set to <c>true</c> unique results will be returned.</param>
@@ -247,14 +229,14 @@ namespace SCICT.NLP.Morphology.Lemmatization
         private IEnumerable<string> CreateHaaXPatternColloqual(string wordPart)
         {
             return MultiplyStrings(wordPart + ReversePatternMatcher.SymbolSpaceOrHalfSpaceStar,
-                        MultiplyStrings("ها", PersianColloqualSuffixes.ObjectivePronounsColloqual)
+                        MultiplyStrings("ها", PersianColloqualSuffixes.ObjectivePronouns)
                 );
         }
 
         private IEnumerable<string> CreateAanXPatternColloqual(string wordPart)
         {
             return MultiplyStrings(wordPart,
-                        MultiplyStrings("ان", PersianColloqualSuffixes.ObjectivePronounsColloqual)
+                        MultiplyStrings("ان", PersianColloqualSuffixes.ObjectivePronouns)
                 );
         }
 
@@ -273,22 +255,22 @@ namespace SCICT.NLP.Morphology.Lemmatization
                         (new string[] { "ا", "ای", "ایی", "ائی" }).Concat(
                         MultiplyStrings("ای", PersianSuffixes.ObjectivePronouns)).Concat(
                         MultiplyStrings("ای" + ReversePatternMatcher.SymbolSpaceOrHalfSpaceStar, PersianSuffixes.ObjectivePronounsPermutedForHaaYaa)).Concat(
-                        MultiplyStrings("ا", PersianColloqualSuffixes.ObjectivePronounsColloqual))
+                        MultiplyStrings("ا", PersianColloqualSuffixes.ObjectivePronouns))
                    );
         }
 
         private IEnumerable<string> CreateObjPronounPatternColloqual(string wordPart)
         {
             return MultiplyStrings(wordPart + ReversePatternMatcher.SymbolSpaceOrHalfSpaceStar,
-                        PersianColloqualSuffixes.ObjectivePronounsColloqual);
+                        PersianColloqualSuffixes.ObjectivePronouns);
         }
 
         private IEnumerable<string> CreateToBePatternColloqual(string wordPart)
         {
             return MultiplyStrings(wordPart + ReversePatternMatcher.SymbolSpaceOrHalfSpaceStar,
-                        PersianColloqualSuffixes.ToBeVerbsColloqualSeperable).Concat(
+                        PersianColloqualSuffixes.ToBeVerbs).Concat(
                     MultiplyStrings(wordPart,
-                        PersianColloqualSuffixes.ToBeVerbsColloqualInseperable)
+                        PersianColloqualSuffixes.ToBeVerbs)
                         );
         }
         
@@ -456,10 +438,10 @@ namespace SCICT.NLP.Morphology.Lemmatization
                         //}
                         #endregion
 
-                        if (InflectionAnalyser.IsValidPhoneticComposition(PurifySymbols(str1), PurifySymbols(str2)))
-                        {
-                            result.Add(str1 + str2);
-                        }
+                        //if (InflectionAnalyser.IsValidPhoneticComposition(PurifySymbols(str1), PurifySymbols(str2)))
+                        //{
+                        //    result.Add(str1 + str2);
+                        //}
                     }
                 }
             }

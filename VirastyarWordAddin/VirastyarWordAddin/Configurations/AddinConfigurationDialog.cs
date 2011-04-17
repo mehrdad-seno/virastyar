@@ -1,27 +1,4 @@
-﻿// Virastyar
-// http://www.virastyar.ir
-// Copyright (C) 2011 Supreme Council for Information and Communication Technology (SCICT) of Iran
-// 
-// This file is part of Virastyar.
-// 
-// Virastyar is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-// 
-// Virastyar is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU General Public License for more details.
-// 
-// You should have received a copy of the GNU General Public License
-// along with Virastyar.  If not, see <http://www.gnu.org/licenses/>.
-// 
-// Additional permission under GNU GPL version 3 section 7
-// The sole exception to the license's terms and requierments might be the
-// integration of Virastyar with Microsoft Word (any version) as an add-in.
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -41,6 +18,9 @@ using SCICT.Utility;
 using System.Linq;
 using System.Linq.Expressions;
 using Microsoft.Office.Interop.Word;
+using VirastyarWordAddin.Update;
+using VirastyarWordAddin.Log;
+using System.Reflection;
 
 namespace VirastyarWordAddin.Configurations
 {
@@ -54,10 +34,8 @@ namespace VirastyarWordAddin.Configurations
 
         #region Private Members
 
-        //private bool isSettingChanged_SpellCheck = false;
-
         private readonly Settings settings = null;
-        //private readonly IHotkeyEngine hotkeyEngine = null;
+        
         private AllCharactersRefinerSettings allCharactersRefinerSettings = null;
 
         #endregion
@@ -66,7 +44,6 @@ namespace VirastyarWordAddin.Configurations
 
         public event EventHandler RepairMenubarsClicked;
         public event SpellCheckSettingsChangedEventHandler SpellCheckSettingsChanged;
-        //public event ShortcutChangedEventHandler ShortcutChanged;
         public event RefineAllSettingsChangedEventHandler RefineAllSettingsChanged;
 
         #endregion
@@ -83,7 +60,6 @@ namespace VirastyarWordAddin.Configurations
             : this()
         {
             this.settings = settings;
-            //this.hotkeyEngine = hotkeyEngine;
             this.allCharactersRefinerSettings = new AllCharactersRefinerSettings(settings);
             LoadConfigurations();
         }
@@ -103,6 +79,7 @@ namespace VirastyarWordAddin.Configurations
             UpdateAllCharsRefinerSettingsUI();
             UpdateSpellCheckRefinementUI();
             UpdateWordCompletionSettingsUI();
+            UpdateAutomaticReportSettingsUI();
         }
 
         private void SaveConfigurations()
@@ -180,6 +157,12 @@ namespace VirastyarWordAddin.Configurations
 
             #endregion
 
+            #region Automatic Update and Report
+
+            settings.LogReport_AutomaticReport = rdoSendReportAccept.Checked;
+
+            #endregion
+
             settings.Save();
 
             OnRefineAllCharactersSettingsChanged(allCharactersRefinerSettings);
@@ -224,9 +207,7 @@ namespace VirastyarWordAddin.Configurations
 
             bool error = false;
             error |= !string.IsNullOrEmpty(errorProvider.GetError(txtFileName));
-//            error |= !string.IsNullOrEmpty(errorProvider.GetError(gbWCHotkey));
             error |= !string.IsNullOrEmpty(errorProvider.GetError(linkLabelSpellCheckerCreateDictionary));
-            //error |= string.IsNullOrEmpty(errorProvider.GetError(lstShortcuts));
 
             if (!error)
                 Close();
@@ -328,7 +309,66 @@ namespace VirastyarWordAddin.Configurations
             }
         }
 
+        private void toolStripMenuItemDeleteDic_Click(object sender, EventArgs e)
+        {
+            DeleteSelectedDictionaries();
+        }
+
+        private void toolStripMenuItemEditDic_Click(object sender, EventArgs e)
+        {
+            EditSelectedDictionary();
+        }
+
+        private void lnkEditUserDic_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            try
+            {
+                var dicEditor = new DictionaryEditor(txtFileName.Text);
+                dicEditor.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                PersianMessageBox.Show("خطا در ویرایش واژه‌نامه");
+                LogHelper.ErrorException("خطا در ویرایش واژه‌نامه", ex);
+            }
+        }
+
+        private void EditSelectedDictionary()
+        {
+            foreach (int index in listViewUserDictionaries.SelectedIndices)
+            {
+                if (index == 0)
+                {
+                    PersianMessageBox.Show("فایل اصلی واژه‌نامه را نمی‌توانید ویرایش کنید");
+                }
+                else
+                {
+                    string dicPath = GetFileNameFromItem(listViewUserDictionaries.Items[index]);
+                    try
+                    {
+                        var dicEditor = new DictionaryEditor(dicPath);
+                        dicEditor.ShowDialog();
+                    }
+                    catch (Exception ex)
+                    {
+                        PersianMessageBox.Show("خطا در ویرایش واژه‌نامه");
+                        LogHelper.ErrorException("خطا در ویرایش واژه‌نامه", ex);
+                    }
+                }
+            }   
+        }
+
+        private void lnkEditDictionary_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            EditSelectedDictionary();
+        }
+
         private void linkLabelDeleteItem_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            DeleteSelectedDictionaries();
+        }
+
+        private void DeleteSelectedDictionaries()
         {
             foreach (int index in listViewUserDictionaries.SelectedIndices)
             {
@@ -405,13 +445,8 @@ namespace VirastyarWordAddin.Configurations
 
             this.Cursor = Cursors.WaitCursor;
 
-            //LanguageModel languageModel = new LanguageModel();
-            //languageModel.AddPlainText(doc.CurrentMSDocument.Content.Text);
-
-
             try
             {
-                //languageModel.SaveOnDisk(fileName, doAppend);
                 try
                 {
                     this.Enabled = false;
@@ -471,6 +506,10 @@ namespace VirastyarWordAddin.Configurations
                 PersianMessageBox.Show("فایل انتخاب شده قابل نوشتن نیست.");
                 return;
             }
+            catch(Exception ex)
+            {
+                LogHelper.DebugException("", ex);
+            }
             finally
             {
                 this.Cursor = Cursors.Arrow;
@@ -479,32 +518,11 @@ namespace VirastyarWordAddin.Configurations
 
         private void btnBrowse_Click(object sender, EventArgs e)
         {
-            OpenFileDialog d = new OpenFileDialog();
-            if (d.ShowDialog() != DialogResult.Cancel)
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            if (openFileDialog.ShowDialog() != DialogResult.Cancel)
             {
-                if (txtFileName.Text != d.FileName)
-                {
-                    //isSettingChanged_SpellCheck = true;
-                    txtFileName.Text = d.FileName;
-                }
+                txtFileName.Text = openFileDialog.FileName;
             }
-        }
-
-        private void chkShowAllSuggestions_CheckedChanged(object sender, EventArgs e)
-        {
-            // nmrMaxSuggestionsCount.Enabled = !chkShowAllSuggestions.Checked;
-        }
-
-        private void nmrMaxSuggestionsCount_ValueChanged(object sender, EventArgs e)
-        {
-            //if (settings.Config_MaxSuggestions != nmrMaxSuggestionsCount.Value)
-            //isSettingChanged_SpellCheck = true;
-        }
-
-        private void nmrEditDistance_ValueChanged(object sender, EventArgs e)
-        {
-            //if (settings.Config_EditDistance != nmrEditDistance.Value)
-            //isSettingChanged_SpellCheck = true;
         }
 
         private void listViewUserDictionaries_BeforeLabelEdit(object sender, LabelEditEventArgs e)
@@ -609,7 +627,7 @@ namespace VirastyarWordAddin.Configurations
 
         private void btnClearHotkey_Click(object sender, EventArgs e)
         {
-            var hotkey = hotkeyControl.Hotkey;
+            Hotkey hotkey = hotkeyControl.Hotkey;
             if (hotkey == Hotkey.None)
                 return;
 
@@ -769,14 +787,13 @@ namespace VirastyarWordAddin.Configurations
 
         #region Repair Addin
 
-        private void btnReloadAddinMenus_Click(object sender, EventArgs e)
+        private void btnRestoreDataFiles_Click(object sender, EventArgs e)
         {
-            OnRepairMenubarClicked();
-        }
-
-        private void btnReloadMenus_Click(object sender, EventArgs e)
-        {
-            OnRepairMenubarClicked();
+            if (Globals.ThisAddIn.CheckDataDependencies(true))
+            {
+                PersianMessageBox.Show("فایل‌های دادگان با موفقیت به حالت پیش‌فرض برگردانده شدند", "برگرداندن فایل‌های دادگان",
+                                       MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
         private void btnResetSettings_Click(object sender, EventArgs e)
@@ -1032,14 +1049,10 @@ namespace VirastyarWordAddin.Configurations
                 e.RefineBe = cbRefineBe.Checked;
                 e.RefineAllAffixes = cbRefineAllAffixes.Checked;
 
-                //e.CustomDictionaries = SpellCheckerWrapper.GetDictionariesArray(settings.SpellChecker_MainDictionaryPath, settings.SpellChecker_MainDictionarySelected,
-                //settings.SpellChecker_CustomDictionaries, settings.SpellChecker_CustomDictionariesSelectionFlag);
-
                 SpellCheckSettingsChanged(e);
                 if (e.CancelLoadingUserDictionary)
                 {
                     errorProvider.SetError(txtFileName, "فایل واژه‌نامه بدرستی انتخاب نشده است.");
-                    //txtFileName.Text = this.settings.Config_DictionaryPath;
                     return false;
                 }
 
@@ -1117,8 +1130,6 @@ namespace VirastyarWordAddin.Configurations
             WordCompletionForm.CompleteWithoutHotKey = cbWCCompleteWithoutHotkey.Checked;
             WordCompletionForm.CompleteWithoutHotKeyMinLength = (int)numUpDownWCMinWordLength.Value;
             WordCompletionForm.FontSize = (int)numUpDownWCFontSize.Value;
-
-            //UpdateWCHotkey(GetOldWCHotkey());
         }
 
         private void TrySetNumericUpDownValue(NumericUpDown numUpDown, int value)
@@ -1150,7 +1161,7 @@ namespace VirastyarWordAddin.Configurations
             {
                 topicFileName = HelpConstants.SettingsRefineAll;
             }
-            else if (tabCtrlSettings.SelectedTab == tbPageRepairAddin)
+            else if (tabCtrlSettings.SelectedTab == tbPageAddinSettings)
             {
                 topicFileName = HelpConstants.SettingsTroubleShooting;
             }
@@ -1172,5 +1183,51 @@ namespace VirastyarWordAddin.Configurations
         }
         #endregion
 
+        #region AutoUpdate and Report
+
+        private void UpdateAutomaticReportSettingsUI()
+        {
+            if (settings.LogReport_AutomaticReport == true)
+            {
+                rdoSendReportAccept.Checked = true;
+            }
+            else
+            {
+                rdoSendReportDecline.Checked = true;
+            }
+        }
+
+        private void btnCheckForUpdate_Click(object sender, EventArgs e)
+        {
+            var updateNotificationWindow = new UpdateNotificationWindow(CloseThisDialog, false);
+            updateNotificationWindow.ShowDialog(this);
+        }
+        
+        private void CloseThisDialog(object sender, EventArgs e)
+        {
+            Close();
+            //object missing = Missing.Value;
+            //Globals.ThisAddIn.Application.Quit(ref missing, ref missing, ref missing);
+        }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            string logPath = LogReporter.GetLogPath();
+            var pInfo = new ProcessStartInfo();
+            pInfo.FileName = logPath;
+            pInfo.Verb = "Open";
+            pInfo.UseShellExecute = true;
+
+            try
+            {
+                Process.Start(pInfo);
+            }
+            catch (Exception)
+            {
+                // Ignore
+            }
+        }
+
+        #endregion
     }
 }

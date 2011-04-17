@@ -1,27 +1,4 @@
-﻿// Virastyar
-// http://www.virastyar.ir
-// Copyright (C) 2011 Supreme Council for Information and Communication Technology (SCICT) of Iran
-// 
-// This file is part of Virastyar.
-// 
-// Virastyar is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-// 
-// Virastyar is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU General Public License for more details.
-// 
-// You should have received a copy of the GNU General Public License
-// along with Virastyar.  If not, see <http://www.gnu.org/licenses/>.
-// 
-// Additional permission under GNU GPL version 3 section 7
-// The sole exception to the license's terms and requierments might be the
-// integration of Virastyar with Microsoft Word (any version) as an add-in.
-
-namespace VirastyarWordAddin.Configurations
+﻿namespace VirastyarWordAddin.Configurations
 {
     partial class AddinConfigurationDialog
     {
@@ -62,14 +39,19 @@ namespace VirastyarWordAddin.Configurations
             this.tabCtrlSettings = new System.Windows.Forms.TabControl();
             this.tbPageSpellCheck = new System.Windows.Forms.TabPage();
             this.groupBoxUserDictionaries = new System.Windows.Forms.GroupBox();
+            this.lnkEditDictionary = new System.Windows.Forms.LinkLabel();
             this.progressBarBuildDictionary = new System.Windows.Forms.ProgressBar();
             this.linkLabelSpellCheckerCreateDictionary = new System.Windows.Forms.LinkLabel();
             this.linkLabelDeleteItem = new System.Windows.Forms.LinkLabel();
             this.linkLabelSpellCheckerAddExistingDic = new System.Windows.Forms.LinkLabel();
             this.listViewUserDictionaries = new System.Windows.Forms.ListView();
-            this.columnHeaderDesc = new System.Windows.Forms.ColumnHeader();
-            this.columnHeaderFile = new System.Windows.Forms.ColumnHeader();
+            this.columnHeaderDesc = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeaderFile = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.contextMenuStripDictionaries = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItemEditDic = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemDeleteDic = new System.Windows.Forms.ToolStripMenuItem();
             this.grpDicPath = new System.Windows.Forms.GroupBox();
+            this.lnkEditUserDic = new System.Windows.Forms.LinkLabel();
             this.txtFileName = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.btnBrowse = new System.Windows.Forms.Button();
@@ -94,9 +76,9 @@ namespace VirastyarWordAddin.Configurations
             this.tetLetterToIgnore = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.listViewIgnoreList = new System.Windows.Forms.ListView();
-            this.columnCharFace = new System.Windows.Forms.ColumnHeader();
-            this.columnHex = new System.Windows.Forms.ColumnHeader();
-            this.columnDecimal = new System.Windows.Forms.ColumnHeader();
+            this.columnCharFace = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHex = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnDecimal = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.label6 = new System.Windows.Forms.Label();
             this.grpItemsToRefine = new System.Windows.Forms.GroupBox();
             this.cbRemoveHalfSpaces = new System.Windows.Forms.CheckBox();
@@ -107,6 +89,7 @@ namespace VirastyarWordAddin.Configurations
             this.cbRefineKaaf = new System.Windows.Forms.CheckBox();
             this.tbPagePreprocessSpell = new System.Windows.Forms.TabPage();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.cbRefineAllAffixes = new System.Windows.Forms.CheckBox();
             this.cbRefineBe = new System.Windows.Forms.CheckBox();
             this.cbRefineHeYe = new System.Windows.Forms.CheckBox();
@@ -130,28 +113,37 @@ namespace VirastyarWordAddin.Configurations
             this.tbPageShortcut = new System.Windows.Forms.TabPage();
             this.panel2 = new System.Windows.Forms.Panel();
             this.lstShortcuts = new System.Windows.Forms.ListView();
-            this.clmnName = new System.Windows.Forms.ColumnHeader();
-            this.clmnShortcut = new System.Windows.Forms.ColumnHeader();
+            this.clmnName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.clmnShortcut = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panel1 = new System.Windows.Forms.Panel();
             this.lblCurrentHotkey = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.btnClearHotkey = new System.Windows.Forms.Button();
             this.btnAssignHotkey = new System.Windows.Forms.Button();
             this.lblShortcutDesc = new System.Windows.Forms.Label();
-            this.tbPageRepairAddin = new System.Windows.Forms.TabPage();
+            this.hotkeyControl = new VirastyarWordAddin.Controls.HotkeyBox();
+            this.tbPageAddinSettings = new System.Windows.Forms.TabPage();
+            this.grpVirastyarUpdate = new System.Windows.Forms.GroupBox();
+            this.btnCheckForUpdate = new System.Windows.Forms.Button();
+            this.label12 = new System.Windows.Forms.Label();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.label3 = new System.Windows.Forms.Label();
+            this.rdoSendReportDecline = new System.Windows.Forms.RadioButton();
+            this.rdoSendReportAccept = new System.Windows.Forms.RadioButton();
+            this.label2 = new System.Windows.Forms.Label();
             this.grpResetSettings = new System.Windows.Forms.GroupBox();
+            this.btnRestoreDataFiles = new System.Windows.Forms.Button();
             this.btnResetSettings = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
-            this.grpRepairMenus = new System.Windows.Forms.GroupBox();
-            this.btnReloadMenus = new System.Windows.Forms.Button();
-            this.lblRepairMenusDesc = new System.Windows.Forms.Label();
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
-            this.hotkeyControl = new VirastyarWordAddin.Controls.HotkeyBox();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.pnlButtonsContainer.SuspendLayout();
             this.pnlTabContainer.SuspendLayout();
             this.tabCtrlSettings.SuspendLayout();
             this.tbPageSpellCheck.SuspendLayout();
             this.groupBoxUserDictionaries.SuspendLayout();
+            this.contextMenuStripDictionaries.SuspendLayout();
             this.grpDicPath.SuspendLayout();
             this.grpSpellCheckSettings.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nmrMaxSuggestionsCount)).BeginInit();
@@ -173,9 +165,10 @@ namespace VirastyarWordAddin.Configurations
             this.tbPageShortcut.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel1.SuspendLayout();
-            this.tbPageRepairAddin.SuspendLayout();
+            this.tbPageAddinSettings.SuspendLayout();
+            this.grpVirastyarUpdate.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.grpResetSettings.SuspendLayout();
-            this.grpRepairMenus.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.SuspendLayout();
             // 
@@ -243,7 +236,7 @@ namespace VirastyarWordAddin.Configurations
             this.tabCtrlSettings.Controls.Add(this.tbPagePreprocessSpell);
             this.tabCtrlSettings.Controls.Add(this.tbPageWordCompletion);
             this.tabCtrlSettings.Controls.Add(this.tbPageShortcut);
-            this.tabCtrlSettings.Controls.Add(this.tbPageRepairAddin);
+            this.tabCtrlSettings.Controls.Add(this.tbPageAddinSettings);
             this.tabCtrlSettings.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabCtrlSettings.Location = new System.Drawing.Point(0, 0);
             this.tabCtrlSettings.Name = "tabCtrlSettings";
@@ -268,9 +261,10 @@ namespace VirastyarWordAddin.Configurations
             // 
             // groupBoxUserDictionaries
             // 
-            this.groupBoxUserDictionaries.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBoxUserDictionaries.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBoxUserDictionaries.Controls.Add(this.lnkEditDictionary);
             this.groupBoxUserDictionaries.Controls.Add(this.progressBarBuildDictionary);
             this.groupBoxUserDictionaries.Controls.Add(this.linkLabelSpellCheckerCreateDictionary);
             this.groupBoxUserDictionaries.Controls.Add(this.linkLabelDeleteItem);
@@ -283,10 +277,22 @@ namespace VirastyarWordAddin.Configurations
             this.groupBoxUserDictionaries.TabStop = false;
             this.groupBoxUserDictionaries.Text = "واژه‌نامه(ها)‌ی اختیاری کاربر";
             // 
+            // lnkEditDictionary
+            // 
+            this.lnkEditDictionary.AutoSize = true;
+            this.lnkEditDictionary.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
+            this.lnkEditDictionary.Location = new System.Drawing.Point(428, 34);
+            this.lnkEditDictionary.Name = "lnkEditDictionary";
+            this.lnkEditDictionary.Size = new System.Drawing.Size(78, 13);
+            this.lnkEditDictionary.TabIndex = 7;
+            this.lnkEditDictionary.TabStop = true;
+            this.lnkEditDictionary.Text = "ویرایش واژه‌نامه";
+            this.lnkEditDictionary.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkEditDictionary_LinkClicked);
+            // 
             // progressBarBuildDictionary
             // 
-            this.progressBarBuildDictionary.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.progressBarBuildDictionary.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.progressBarBuildDictionary.Location = new System.Drawing.Point(6, 259);
             this.progressBarBuildDictionary.Name = "progressBarBuildDictionary";
             this.progressBarBuildDictionary.RightToLeftLayout = true;
@@ -311,12 +317,12 @@ namespace VirastyarWordAddin.Configurations
             // 
             this.linkLabelDeleteItem.AutoSize = true;
             this.linkLabelDeleteItem.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.linkLabelDeleteItem.Location = new System.Drawing.Point(6, 29);
+            this.linkLabelDeleteItem.Location = new System.Drawing.Point(31, 39);
             this.linkLabelDeleteItem.Name = "linkLabelDeleteItem";
-            this.linkLabelDeleteItem.Size = new System.Drawing.Size(113, 13);
+            this.linkLabelDeleteItem.Size = new System.Drawing.Size(68, 13);
             this.linkLabelDeleteItem.TabIndex = 1;
             this.linkLabelDeleteItem.TabStop = true;
-            this.linkLabelDeleteItem.Text = "حذف واژه‌نامه از لیست ";
+            this.linkLabelDeleteItem.Text = "حذف واژه‌نامه";
             this.linkLabelDeleteItem.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelDeleteItem_LinkClicked);
             // 
             // linkLabelSpellCheckerAddExistingDic
@@ -324,7 +330,7 @@ namespace VirastyarWordAddin.Configurations
             this.linkLabelSpellCheckerAddExistingDic.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.linkLabelSpellCheckerAddExistingDic.AutoSize = true;
             this.linkLabelSpellCheckerAddExistingDic.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.linkLabelSpellCheckerAddExistingDic.Location = new System.Drawing.Point(428, 29);
+            this.linkLabelSpellCheckerAddExistingDic.Location = new System.Drawing.Point(21, 17);
             this.linkLabelSpellCheckerAddExistingDic.Name = "linkLabelSpellCheckerAddExistingDic";
             this.linkLabelSpellCheckerAddExistingDic.Size = new System.Drawing.Size(78, 13);
             this.linkLabelSpellCheckerAddExistingDic.TabIndex = 0;
@@ -334,21 +340,22 @@ namespace VirastyarWordAddin.Configurations
             // 
             // listViewUserDictionaries
             // 
-            this.listViewUserDictionaries.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.listViewUserDictionaries.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.listViewUserDictionaries.CheckBoxes = true;
             this.listViewUserDictionaries.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeaderDesc,
             this.columnHeaderFile});
+            this.listViewUserDictionaries.ContextMenuStrip = this.contextMenuStripDictionaries;
             this.listViewUserDictionaries.FullRowSelect = true;
             this.listViewUserDictionaries.HideSelection = false;
             this.listViewUserDictionaries.LabelEdit = true;
-            this.listViewUserDictionaries.Location = new System.Drawing.Point(6, 55);
+            this.listViewUserDictionaries.Location = new System.Drawing.Point(6, 61);
             this.listViewUserDictionaries.MultiSelect = false;
             this.listViewUserDictionaries.Name = "listViewUserDictionaries";
             this.listViewUserDictionaries.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.listViewUserDictionaries.Size = new System.Drawing.Size(499, 198);
+            this.listViewUserDictionaries.Size = new System.Drawing.Size(499, 192);
             this.listViewUserDictionaries.TabIndex = 2;
             this.listViewUserDictionaries.UseCompatibleStateImageBehavior = false;
             this.listViewUserDictionaries.View = System.Windows.Forms.View.Details;
@@ -364,10 +371,34 @@ namespace VirastyarWordAddin.Configurations
             this.columnHeaderFile.Text = "مسیر فایل واژه‌نامه";
             this.columnHeaderFile.Width = 345;
             // 
+            // contextMenuStripDictionaries
+            // 
+            this.contextMenuStripDictionaries.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItemEditDic,
+            this.toolStripMenuItemDeleteDic});
+            this.contextMenuStripDictionaries.Name = "contextMenuStripDictionaries";
+            this.contextMenuStripDictionaries.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.contextMenuStripDictionaries.Size = new System.Drawing.Size(147, 48);
+            // 
+            // toolStripMenuItemEditDic
+            // 
+            this.toolStripMenuItemEditDic.Name = "toolStripMenuItemEditDic";
+            this.toolStripMenuItemEditDic.Size = new System.Drawing.Size(146, 22);
+            this.toolStripMenuItemEditDic.Text = "ویرایش واژه‌نامه";
+            this.toolStripMenuItemEditDic.Click += new System.EventHandler(this.toolStripMenuItemEditDic_Click);
+            // 
+            // toolStripMenuItemDeleteDic
+            // 
+            this.toolStripMenuItemDeleteDic.Name = "toolStripMenuItemDeleteDic";
+            this.toolStripMenuItemDeleteDic.Size = new System.Drawing.Size(146, 22);
+            this.toolStripMenuItemDeleteDic.Text = "حذف واژه‌نامه";
+            this.toolStripMenuItemDeleteDic.Click += new System.EventHandler(this.toolStripMenuItemDeleteDic_Click);
+            // 
             // grpDicPath
             // 
-            this.grpDicPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.grpDicPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.grpDicPath.Controls.Add(this.lnkEditUserDic);
             this.grpDicPath.Controls.Add(this.txtFileName);
             this.grpDicPath.Controls.Add(this.label1);
             this.grpDicPath.Controls.Add(this.btnBrowse);
@@ -377,15 +408,27 @@ namespace VirastyarWordAddin.Configurations
             this.grpDicPath.TabIndex = 0;
             this.grpDicPath.TabStop = false;
             // 
+            // lnkEditUserDic
+            // 
+            this.lnkEditUserDic.AutoSize = true;
+            this.lnkEditUserDic.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
+            this.lnkEditUserDic.Location = new System.Drawing.Point(428, 45);
+            this.lnkEditUserDic.Name = "lnkEditUserDic";
+            this.lnkEditUserDic.Size = new System.Drawing.Size(78, 13);
+            this.lnkEditUserDic.TabIndex = 8;
+            this.lnkEditUserDic.TabStop = true;
+            this.lnkEditUserDic.Text = "ویرایش واژه‌نامه";
+            this.lnkEditUserDic.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkEditUserDic_LinkClicked);
+            // 
             // txtFileName
             // 
-            this.txtFileName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtFileName.Location = new System.Drawing.Point(40, 42);
+            this.txtFileName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtFileName.Location = new System.Drawing.Point(40, 41);
             this.txtFileName.Name = "txtFileName";
             this.txtFileName.ReadOnly = true;
             this.txtFileName.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.txtFileName.Size = new System.Drawing.Size(466, 21);
+            this.txtFileName.Size = new System.Drawing.Size(382, 21);
             this.txtFileName.TabIndex = 1;
             // 
             // label1
@@ -410,8 +453,8 @@ namespace VirastyarWordAddin.Configurations
             // 
             // grpSpellCheckSettings
             // 
-            this.grpSpellCheckSettings.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.grpSpellCheckSettings.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.grpSpellCheckSettings.Controls.Add(this.cbDontCheckSingleLetters);
             this.grpSpellCheckSettings.Controls.Add(this.cbHaaShisakiToHaaYaa);
             this.grpSpellCheckSettings.Controls.Add(this.cbVocabSpaceCorrection);
@@ -428,9 +471,9 @@ namespace VirastyarWordAddin.Configurations
             // 
             this.cbDontCheckSingleLetters.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.cbDontCheckSingleLetters.AutoSize = true;
-            this.cbDontCheckSingleLetters.Location = new System.Drawing.Point(320, 52);
+            this.cbDontCheckSingleLetters.Location = new System.Drawing.Point(324, 52);
             this.cbDontCheckSingleLetters.Name = "cbDontCheckSingleLetters";
-            this.cbDontCheckSingleLetters.Size = new System.Drawing.Size(189, 17);
+            this.cbDontCheckSingleLetters.Size = new System.Drawing.Size(185, 17);
             this.cbDontCheckSingleLetters.TabIndex = 1;
             this.cbDontCheckSingleLetters.Text = "عدم غلط‌یابی حروف به صورت منفرد";
             this.cbDontCheckSingleLetters.UseVisualStyleBackColor = true;
@@ -441,9 +484,9 @@ namespace VirastyarWordAddin.Configurations
             this.cbHaaShisakiToHaaYaa.AutoSize = true;
             this.cbHaaShisakiToHaaYaa.Checked = true;
             this.cbHaaShisakiToHaaYaa.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbHaaShisakiToHaaYaa.Location = new System.Drawing.Point(203, 20);
+            this.cbHaaShisakiToHaaYaa.Location = new System.Drawing.Point(202, 20);
             this.cbHaaShisakiToHaaYaa.Name = "cbHaaShisakiToHaaYaa";
-            this.cbHaaShisakiToHaaYaa.Size = new System.Drawing.Size(306, 17);
+            this.cbHaaShisakiToHaaYaa.Size = new System.Drawing.Size(307, 17);
             this.cbHaaShisakiToHaaYaa.TabIndex = 0;
             this.cbHaaShisakiToHaaYaa.Text = "در نظر گرفتن «ـۀ» به عنوان غلط املایی و تصحیح آن به «ـه‌ی»";
             this.cbHaaShisakiToHaaYaa.UseVisualStyleBackColor = true;
@@ -452,9 +495,9 @@ namespace VirastyarWordAddin.Configurations
             // 
             this.cbVocabSpaceCorrection.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.cbVocabSpaceCorrection.AutoSize = true;
-            this.cbVocabSpaceCorrection.Location = new System.Drawing.Point(145, 20);
+            this.cbVocabSpaceCorrection.Location = new System.Drawing.Point(147, 20);
             this.cbVocabSpaceCorrection.Name = "cbVocabSpaceCorrection";
-            this.cbVocabSpaceCorrection.Size = new System.Drawing.Size(42, 17);
+            this.cbVocabSpaceCorrection.Size = new System.Drawing.Size(40, 17);
             this.cbVocabSpaceCorrection.TabIndex = 15;
             this.cbVocabSpaceCorrection.Tag = "اصلاح فاصله‌گذاری کلمات صحیح";
             this.cbVocabSpaceCorrection.Text = "اص";
@@ -485,7 +528,6 @@ namespace VirastyarWordAddin.Configurations
             0,
             0});
             this.nmrMaxSuggestionsCount.Visible = false;
-            this.nmrMaxSuggestionsCount.ValueChanged += new System.EventHandler(this.nmrMaxSuggestionsCount_ValueChanged);
             // 
             // nmrEditDistance
             // 
@@ -506,7 +548,6 @@ namespace VirastyarWordAddin.Configurations
             0,
             0});
             this.nmrEditDistance.Visible = false;
-            this.nmrEditDistance.ValueChanged += new System.EventHandler(this.nmrEditDistance_ValueChanged);
             // 
             // tbPageWords
             // 
@@ -520,8 +561,8 @@ namespace VirastyarWordAddin.Configurations
             // 
             // grpSynRhyme
             // 
-            this.grpSynRhyme.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.grpSynRhyme.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.grpSynRhyme.Controls.Add(this.lnkRhyme);
             this.grpSynRhyme.Controls.Add(this.lnkPersian);
             this.grpSynRhyme.Controls.Add(this.lnkObsolete);
@@ -627,9 +668,9 @@ namespace VirastyarWordAddin.Configurations
             // 
             // grpRefineIgnoreList
             // 
-            this.grpRefineIgnoreList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.grpRefineIgnoreList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.grpRefineIgnoreList.Controls.Add(this.btnRemoveFromIgnoreList);
             this.grpRefineIgnoreList.Controls.Add(this.btnAddLetterToIgnoreList);
             this.grpRefineIgnoreList.Controls.Add(this.tetLetterToIgnore);
@@ -638,7 +679,7 @@ namespace VirastyarWordAddin.Configurations
             this.grpRefineIgnoreList.Controls.Add(this.label6);
             this.grpRefineIgnoreList.Location = new System.Drawing.Point(7, 169);
             this.grpRefineIgnoreList.Name = "grpRefineIgnoreList";
-            this.grpRefineIgnoreList.Size = new System.Drawing.Size(514, 237);
+            this.grpRefineIgnoreList.Size = new System.Drawing.Size(514, 294);
             this.grpRefineIgnoreList.TabIndex = 1;
             this.grpRefineIgnoreList.TabStop = false;
             this.grpRefineIgnoreList.Text = "حروف زیر را نادیده بگیر";
@@ -684,9 +725,9 @@ namespace VirastyarWordAddin.Configurations
             // 
             // listViewIgnoreList
             // 
-            this.listViewIgnoreList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.listViewIgnoreList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.listViewIgnoreList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnCharFace,
             this.columnHex,
@@ -696,7 +737,7 @@ namespace VirastyarWordAddin.Configurations
             this.listViewIgnoreList.MultiSelect = false;
             this.listViewIgnoreList.Name = "listViewIgnoreList";
             this.listViewIgnoreList.RightToLeftLayout = true;
-            this.listViewIgnoreList.Size = new System.Drawing.Size(499, 152);
+            this.listViewIgnoreList.Size = new System.Drawing.Size(499, 209);
             this.listViewIgnoreList.TabIndex = 1;
             this.listViewIgnoreList.UseCompatibleStateImageBehavior = false;
             this.listViewIgnoreList.View = System.Windows.Forms.View.Details;
@@ -718,8 +759,8 @@ namespace VirastyarWordAddin.Configurations
             // 
             // label6
             // 
-            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.label6.Location = new System.Drawing.Point(6, 26);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(502, 24);
@@ -728,8 +769,8 @@ namespace VirastyarWordAddin.Configurations
             // 
             // grpItemsToRefine
             // 
-            this.grpItemsToRefine.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.grpItemsToRefine.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.grpItemsToRefine.Controls.Add(this.cbRemoveHalfSpaces);
             this.grpItemsToRefine.Controls.Add(this.cbRefineErab);
             this.grpItemsToRefine.Controls.Add(this.cbRefineHalfSpaceChar);
@@ -749,11 +790,14 @@ namespace VirastyarWordAddin.Configurations
             this.cbRemoveHalfSpaces.AutoSize = true;
             this.cbRemoveHalfSpaces.Checked = true;
             this.cbRemoveHalfSpaces.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbRemoveHalfSpaces.Location = new System.Drawing.Point(312, 135);
+            this.cbRemoveHalfSpaces.Location = new System.Drawing.Point(311, 135);
             this.cbRemoveHalfSpaces.Name = "cbRemoveHalfSpaces";
-            this.cbRemoveHalfSpaces.Size = new System.Drawing.Size(197, 17);
+            this.cbRemoveHalfSpaces.Size = new System.Drawing.Size(198, 17);
             this.cbRemoveHalfSpaces.TabIndex = 5;
             this.cbRemoveHalfSpaces.Text = "حذف و جابجایی نیم‌فاصله‌های اضافی";
+            this.toolTip.SetToolTip(this.cbRemoveHalfSpaces, "چنانچه بیش از یک نیم‌فاصله پشت سر هم درج شود نیم‌فاصله‌های اضافی حذف می‌شوند.\r\nهم" +
+        "‌چنین اگر بعد از حرف‌های غیرچسبان (مثل د و ر) نیم‌فاصله درج شده باشد این نیم‌فاص" +
+        "له نیز اضافی بوده و حذف خواهد شد.");
             this.cbRemoveHalfSpaces.UseVisualStyleBackColor = true;
             // 
             // cbRefineErab
@@ -762,11 +806,13 @@ namespace VirastyarWordAddin.Configurations
             this.cbRefineErab.AutoSize = true;
             this.cbRefineErab.Checked = true;
             this.cbRefineErab.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbRefineErab.Location = new System.Drawing.Point(426, 112);
+            this.cbRefineErab.Location = new System.Drawing.Point(427, 112);
             this.cbRefineErab.Name = "cbRefineErab";
-            this.cbRefineErab.Size = new System.Drawing.Size(83, 17);
+            this.cbRefineErab.Size = new System.Drawing.Size(82, 17);
             this.cbRefineErab.TabIndex = 4;
             this.cbRefineErab.Text = "اصلاح اعراب";
+            this.toolTip.SetToolTip(this.cbRefineErab, "برخی فونت‌های فارسی، کاراکترهای غیر استانداردی برای اعراب اضافه کرده‌اند که با ای" +
+        "ن گزینه\r\n می‌توان آن‌ها را به معادل استانداردشان تبدیل کرد.");
             this.cbRefineErab.UseVisualStyleBackColor = true;
             // 
             // cbRefineHalfSpaceChar
@@ -775,11 +821,14 @@ namespace VirastyarWordAddin.Configurations
             this.cbRefineHalfSpaceChar.AutoSize = true;
             this.cbRefineHalfSpaceChar.Checked = true;
             this.cbRefineHalfSpaceChar.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbRefineHalfSpaceChar.Location = new System.Drawing.Point(366, 89);
+            this.cbRefineHalfSpaceChar.Location = new System.Drawing.Point(369, 89);
             this.cbRefineHalfSpaceChar.Name = "cbRefineHalfSpaceChar";
-            this.cbRefineHalfSpaceChar.Size = new System.Drawing.Size(143, 17);
+            this.cbRefineHalfSpaceChar.Size = new System.Drawing.Size(140, 17);
             this.cbRefineHalfSpaceChar.TabIndex = 3;
             this.cbRefineHalfSpaceChar.Text = "اصلاح نویسه‌ی نیم فاصله";
+            this.toolTip.SetToolTip(this.cbRefineHalfSpaceChar, "برخی کاراکترهای نیم‌فاصله که در برنامه‌های مختلف استفاده می‌شود با هم متفاوت هستن" +
+        "د.\r\nبا این گزینه می‌توان تمامی آن‌ها را به کاراکتر نیم‌فاصله‌ی استاندارد تغییر د" +
+        "اد.");
             this.cbRefineHalfSpaceChar.UseVisualStyleBackColor = true;
             // 
             // cbRefineDigits
@@ -788,11 +837,12 @@ namespace VirastyarWordAddin.Configurations
             this.cbRefineDigits.AutoSize = true;
             this.cbRefineDigits.Checked = true;
             this.cbRefineDigits.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbRefineDigits.Location = new System.Drawing.Point(323, 66);
+            this.cbRefineDigits.Location = new System.Drawing.Point(322, 66);
             this.cbRefineDigits.Name = "cbRefineDigits";
-            this.cbRefineDigits.Size = new System.Drawing.Size(186, 17);
+            this.cbRefineDigits.Size = new System.Drawing.Size(187, 17);
             this.cbRefineDigits.TabIndex = 2;
             this.cbRefineDigits.Text = "اصلاح ارقام عربی به معادل فارسی";
+            this.toolTip.SetToolTip(this.cbRefineDigits, "مثلا تبدیل «٤ به ۴»  یا  «٦ به ۶»");
             this.cbRefineDigits.UseVisualStyleBackColor = true;
             // 
             // cbRefineYaa
@@ -801,11 +851,11 @@ namespace VirastyarWordAddin.Configurations
             this.cbRefineYaa.AutoSize = true;
             this.cbRefineYaa.Checked = true;
             this.cbRefineYaa.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbRefineYaa.Location = new System.Drawing.Point(382, 43);
+            this.cbRefineYaa.Location = new System.Drawing.Point(205, 43);
             this.cbRefineYaa.Name = "cbRefineYaa";
-            this.cbRefineYaa.Size = new System.Drawing.Size(127, 17);
+            this.cbRefineYaa.Size = new System.Drawing.Size(304, 17);
             this.cbRefineYaa.TabIndex = 1;
-            this.cbRefineYaa.Text = "اصلاح انواع حرف «ی»";
+            this.cbRefineYaa.Text = "اصلاح انواع حرف «ی»: تبدیل «ى ي ﻱ ﻲ ...» به ی استاندارد\r\n";
             this.cbRefineYaa.UseVisualStyleBackColor = true;
             // 
             // cbRefineKaaf
@@ -814,11 +864,11 @@ namespace VirastyarWordAddin.Configurations
             this.cbRefineKaaf.AutoSize = true;
             this.cbRefineKaaf.Checked = true;
             this.cbRefineKaaf.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbRefineKaaf.Location = new System.Drawing.Point(382, 20);
+            this.cbRefineKaaf.Location = new System.Drawing.Point(226, 20);
             this.cbRefineKaaf.Name = "cbRefineKaaf";
-            this.cbRefineKaaf.Size = new System.Drawing.Size(127, 17);
+            this.cbRefineKaaf.Size = new System.Drawing.Size(283, 17);
             this.cbRefineKaaf.TabIndex = 0;
-            this.cbRefineKaaf.Text = "اصلاح انواع حرف «ک»";
+            this.cbRefineKaaf.Text = "اصلاح انواع حرف «ک»: تبدیل «ڪ ك ﻚ ...» به ک استاندارد\r\n";
             this.cbRefineKaaf.UseVisualStyleBackColor = true;
             // 
             // tbPagePreprocessSpell
@@ -834,6 +884,7 @@ namespace VirastyarWordAddin.Configurations
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.groupBox3);
             this.groupBox1.Controls.Add(this.cbRefineAllAffixes);
             this.groupBox1.Controls.Add(this.cbRefineBe);
             this.groupBox1.Controls.Add(this.cbRefineHeYe);
@@ -841,10 +892,18 @@ namespace VirastyarWordAddin.Configurations
             this.groupBox1.Controls.Add(this.cbRefineHaa);
             this.groupBox1.Location = new System.Drawing.Point(11, 18);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(510, 157);
+            this.groupBox1.Size = new System.Drawing.Size(510, 163);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "مواردی که هنگام پیش‌پردازش املایی اصلاح می‌شوند";
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Location = new System.Drawing.Point(195, 115);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(305, 10);
+            this.groupBox3.TabIndex = 2;
+            this.groupBox3.TabStop = false;
             // 
             // cbRefineAllAffixes
             // 
@@ -852,11 +911,11 @@ namespace VirastyarWordAddin.Configurations
             this.cbRefineAllAffixes.AutoSize = true;
             this.cbRefineAllAffixes.Checked = true;
             this.cbRefineAllAffixes.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbRefineAllAffixes.Location = new System.Drawing.Point(371, 117);
+            this.cbRefineAllAffixes.Location = new System.Drawing.Point(382, 131);
             this.cbRefineAllAffixes.Name = "cbRefineAllAffixes";
-            this.cbRefineAllAffixes.Size = new System.Drawing.Size(129, 17);
+            this.cbRefineAllAffixes.Size = new System.Drawing.Size(118, 17);
             this.cbRefineAllAffixes.TabIndex = 4;
-            this.cbRefineAllAffixes.Text = "اصلاح تمامی پسوندها";
+            this.cbRefineAllAffixes.Text = "اصلاح تمام موارد بالا";
             this.cbRefineAllAffixes.ThreeState = true;
             this.cbRefineAllAffixes.UseVisualStyleBackColor = true;
             this.cbRefineAllAffixes.CheckStateChanged += new System.EventHandler(this.cbRefineAllAffixes_CheckStateChanged);
@@ -867,11 +926,11 @@ namespace VirastyarWordAddin.Configurations
             this.cbRefineBe.AutoSize = true;
             this.cbRefineBe.Checked = true;
             this.cbRefineBe.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbRefineBe.Location = new System.Drawing.Point(426, 94);
+            this.cbRefineBe.Location = new System.Drawing.Point(230, 94);
             this.cbRefineBe.Name = "cbRefineBe";
-            this.cbRefineBe.Size = new System.Drawing.Size(74, 17);
+            this.cbRefineBe.Size = new System.Drawing.Size(270, 17);
             this.cbRefineBe.TabIndex = 3;
-            this.cbRefineBe.Text = "اصلاح «بـ»";
+            this.cbRefineBe.Text = "اصلاح «بـ»: تبدیل «ب» متصل به ابتدای واژه‌ها به «به»\r\n";
             this.cbRefineBe.UseVisualStyleBackColor = true;
             this.cbRefineBe.CheckedChanged += new System.EventHandler(this.cbSpellCheckRefiners_CheckedChanged);
             // 
@@ -881,11 +940,11 @@ namespace VirastyarWordAddin.Configurations
             this.cbRefineHeYe.AutoSize = true;
             this.cbRefineHeYe.Checked = true;
             this.cbRefineHeYe.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbRefineHeYe.Location = new System.Drawing.Point(423, 71);
+            this.cbRefineHeYe.Location = new System.Drawing.Point(329, 71);
             this.cbRefineHeYe.Name = "cbRefineHeYe";
-            this.cbRefineHeYe.Size = new System.Drawing.Size(77, 17);
+            this.cbRefineHeYe.Size = new System.Drawing.Size(171, 17);
             this.cbRefineHeYe.TabIndex = 2;
-            this.cbRefineHeYe.Text = "اصلاح «ـۀ»";
+            this.cbRefineHeYe.Text = "اصلاح «ـۀ»: تبدیل «‍ـۀ» به «‍ه‌ی»";
             this.cbRefineHeYe.UseVisualStyleBackColor = true;
             this.cbRefineHeYe.CheckedChanged += new System.EventHandler(this.cbSpellCheckRefiners_CheckedChanged);
             // 
@@ -895,11 +954,11 @@ namespace VirastyarWordAddin.Configurations
             this.cbRefineMee.AutoSize = true;
             this.cbRefineMee.Checked = true;
             this.cbRefineMee.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbRefineMee.Location = new System.Drawing.Point(415, 48);
+            this.cbRefineMee.Location = new System.Drawing.Point(215, 48);
             this.cbRefineMee.Name = "cbRefineMee";
-            this.cbRefineMee.Size = new System.Drawing.Size(85, 17);
+            this.cbRefineMee.Size = new System.Drawing.Size(285, 17);
             this.cbRefineMee.TabIndex = 1;
-            this.cbRefineMee.Text = "اصلاح «می»";
+            this.cbRefineMee.Text = "اصلاح «می»: اصلاح فاصله‌گذاری «می» در ابتدای واژه‌ها";
             this.cbRefineMee.UseVisualStyleBackColor = true;
             this.cbRefineMee.CheckedChanged += new System.EventHandler(this.cbSpellCheckRefiners_CheckedChanged);
             // 
@@ -909,11 +968,11 @@ namespace VirastyarWordAddin.Configurations
             this.cbRefineHaa.AutoSize = true;
             this.cbRefineHaa.Checked = true;
             this.cbRefineHaa.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbRefineHaa.Location = new System.Drawing.Point(421, 25);
+            this.cbRefineHaa.Location = new System.Drawing.Point(221, 25);
             this.cbRefineHaa.Name = "cbRefineHaa";
-            this.cbRefineHaa.Size = new System.Drawing.Size(79, 17);
+            this.cbRefineHaa.Size = new System.Drawing.Size(279, 17);
             this.cbRefineHaa.TabIndex = 0;
-            this.cbRefineHaa.Text = "اصلاح «ها»";
+            this.cbRefineHaa.Text = "اصلاح «ها»: اصلاح فاصله‌گذاری «ها» در انتهای واژه‌ها";
             this.cbRefineHaa.UseVisualStyleBackColor = true;
             this.cbRefineHaa.CheckedChanged += new System.EventHandler(this.cbSpellCheckRefiners_CheckedChanged);
             // 
@@ -932,8 +991,8 @@ namespace VirastyarWordAddin.Configurations
             // 
             // gpWCFont
             // 
-            this.gpWCFont.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.gpWCFont.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.gpWCFont.Controls.Add(this.numUpDownWCFontSize);
             this.gpWCFont.Controls.Add(this.label11);
             this.gpWCFont.Location = new System.Drawing.Point(8, 226);
@@ -978,8 +1037,8 @@ namespace VirastyarWordAddin.Configurations
             // 
             // gbWCMisc
             // 
-            this.gbWCMisc.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbWCMisc.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.gbWCMisc.Controls.Add(this.label9);
             this.gbWCMisc.Controls.Add(this.numUpDownWCMinWordLength);
             this.gbWCMisc.Controls.Add(this.label8);
@@ -1005,7 +1064,7 @@ namespace VirastyarWordAddin.Configurations
             // numUpDownWCMinWordLength
             // 
             this.numUpDownWCMinWordLength.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.numUpDownWCMinWordLength.Location = new System.Drawing.Point(174, 72);
+            this.numUpDownWCMinWordLength.Location = new System.Drawing.Point(174, 70);
             this.numUpDownWCMinWordLength.Maximum = new decimal(new int[] {
             5,
             0,
@@ -1041,9 +1100,9 @@ namespace VirastyarWordAddin.Configurations
             this.cbWCCompleteWithoutHotkey.AutoSize = true;
             this.cbWCCompleteWithoutHotkey.Checked = true;
             this.cbWCCompleteWithoutHotkey.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbWCCompleteWithoutHotkey.Location = new System.Drawing.Point(253, 43);
+            this.cbWCCompleteWithoutHotkey.Location = new System.Drawing.Point(249, 43);
             this.cbWCCompleteWithoutHotkey.Name = "cbWCCompleteWithoutHotkey";
-            this.cbWCCompleteWithoutHotkey.Size = new System.Drawing.Size(254, 17);
+            this.cbWCCompleteWithoutHotkey.Size = new System.Drawing.Size(258, 17);
             this.cbWCCompleteWithoutHotkey.TabIndex = 1;
             this.cbWCCompleteWithoutHotkey.Text = "بدون فشردن میانبر تکمیل خودکار کلمات فعال شود";
             this.cbWCCompleteWithoutHotkey.UseVisualStyleBackColor = true;
@@ -1055,17 +1114,17 @@ namespace VirastyarWordAddin.Configurations
             this.cbWCInsertSpace.AutoSize = true;
             this.cbWCInsertSpace.Checked = true;
             this.cbWCInsertSpace.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbWCInsertSpace.Location = new System.Drawing.Point(325, 20);
+            this.cbWCInsertSpace.Location = new System.Drawing.Point(330, 20);
             this.cbWCInsertSpace.Name = "cbWCInsertSpace";
-            this.cbWCInsertSpace.Size = new System.Drawing.Size(182, 17);
+            this.cbWCInsertSpace.Size = new System.Drawing.Size(177, 17);
             this.cbWCInsertSpace.TabIndex = 0;
             this.cbWCInsertSpace.Text = "پس از تکمیل کلمه فاصله درج شود";
             this.cbWCInsertSpace.UseVisualStyleBackColor = true;
             // 
             // gbWCWordCount
             // 
-            this.gbWCWordCount.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbWCWordCount.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.gbWCWordCount.Controls.Add(this.label4);
             this.gbWCWordCount.Controls.Add(this.numUpDownWCWordCount);
             this.gbWCWordCount.Controls.Add(this.rbWCShowMaxWords);
@@ -1081,7 +1140,7 @@ namespace VirastyarWordAddin.Configurations
             // 
             this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(303, 60);
+            this.label4.Location = new System.Drawing.Point(295, 62);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(29, 13);
             this.label4.TabIndex = 3;
@@ -1090,7 +1149,7 @@ namespace VirastyarWordAddin.Configurations
             // numUpDownWCWordCount
             // 
             this.numUpDownWCWordCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.numUpDownWCWordCount.Location = new System.Drawing.Point(338, 58);
+            this.numUpDownWCWordCount.Location = new System.Drawing.Point(326, 58);
             this.numUpDownWCWordCount.Maximum = new decimal(new int[] {
             2000,
             0,
@@ -1105,7 +1164,7 @@ namespace VirastyarWordAddin.Configurations
             this.numUpDownWCWordCount.Size = new System.Drawing.Size(76, 21);
             this.numUpDownWCWordCount.TabIndex = 2;
             this.numUpDownWCWordCount.Value = new decimal(new int[] {
-            700,
+            15,
             0,
             0,
             0});
@@ -1113,11 +1172,10 @@ namespace VirastyarWordAddin.Configurations
             // rbWCShowMaxWords
             // 
             this.rbWCShowMaxWords.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.rbWCShowMaxWords.AutoSize = true;
             this.rbWCShowMaxWords.Checked = true;
-            this.rbWCShowMaxWords.Location = new System.Drawing.Point(419, 58);
+            this.rbWCShowMaxWords.Location = new System.Drawing.Point(406, 60);
             this.rbWCShowMaxWords.Name = "rbWCShowMaxWords";
-            this.rbWCShowMaxWords.Size = new System.Drawing.Size(88, 17);
+            this.rbWCShowMaxWords.Size = new System.Drawing.Size(101, 17);
             this.rbWCShowMaxWords.TabIndex = 1;
             this.rbWCShowMaxWords.TabStop = true;
             this.rbWCShowMaxWords.Text = "نمایش حداکثر";
@@ -1157,9 +1215,9 @@ namespace VirastyarWordAddin.Configurations
             // 
             // lstShortcuts
             // 
-            this.lstShortcuts.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.lstShortcuts.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lstShortcuts.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.clmnName,
             this.clmnShortcut});
@@ -1240,8 +1298,8 @@ namespace VirastyarWordAddin.Configurations
             // 
             // lblShortcutDesc
             // 
-            this.lblShortcutDesc.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblShortcutDesc.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lblShortcutDesc.BackColor = System.Drawing.Color.AntiqueWhite;
             this.lblShortcutDesc.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblShortcutDesc.Location = new System.Drawing.Point(8, 1);
@@ -1249,33 +1307,161 @@ namespace VirastyarWordAddin.Configurations
             this.lblShortcutDesc.Size = new System.Drawing.Size(513, 62);
             this.lblShortcutDesc.TabIndex = 1;
             // 
-            // tbPageRepairAddin
+            // hotkeyControl
             // 
-            this.tbPageRepairAddin.Controls.Add(this.grpResetSettings);
-            this.tbPageRepairAddin.Controls.Add(this.grpRepairMenus);
-            this.tbPageRepairAddin.Location = new System.Drawing.Point(4, 22);
-            this.tbPageRepairAddin.Name = "tbPageRepairAddin";
-            this.tbPageRepairAddin.Size = new System.Drawing.Size(529, 469);
-            this.tbPageRepairAddin.TabIndex = 4;
-            this.tbPageRepairAddin.Text = "اصلاح اشکالات افزونه";
-            this.tbPageRepairAddin.UseVisualStyleBackColor = true;
+            this.hotkeyControl.Hotkey = hotkey1;
+            this.hotkeyControl.Location = new System.Drawing.Point(338, 96);
+            this.hotkeyControl.Name = "hotkeyControl";
+            this.hotkeyControl.Size = new System.Drawing.Size(180, 21);
+            this.hotkeyControl.TabIndex = 8;
+            this.hotkeyControl.HotkeyChanged += new System.EventHandler(this.hotkeyControl_HotkeyChanged);
+            // 
+            // tbPageAddinSettings
+            // 
+            this.tbPageAddinSettings.Controls.Add(this.grpVirastyarUpdate);
+            this.tbPageAddinSettings.Controls.Add(this.groupBox2);
+            this.tbPageAddinSettings.Controls.Add(this.grpResetSettings);
+            this.tbPageAddinSettings.Location = new System.Drawing.Point(4, 22);
+            this.tbPageAddinSettings.Name = "tbPageAddinSettings";
+            this.tbPageAddinSettings.Size = new System.Drawing.Size(529, 469);
+            this.tbPageAddinSettings.TabIndex = 4;
+            this.tbPageAddinSettings.Text = "افزونه";
+            this.tbPageAddinSettings.UseVisualStyleBackColor = true;
+            // 
+            // grpVirastyarUpdate
+            // 
+            this.grpVirastyarUpdate.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.grpVirastyarUpdate.Controls.Add(this.btnCheckForUpdate);
+            this.grpVirastyarUpdate.Controls.Add(this.label12);
+            this.grpVirastyarUpdate.Location = new System.Drawing.Point(8, 256);
+            this.grpVirastyarUpdate.Name = "grpVirastyarUpdate";
+            this.grpVirastyarUpdate.Size = new System.Drawing.Size(513, 80);
+            this.grpVirastyarUpdate.TabIndex = 5;
+            this.grpVirastyarUpdate.TabStop = false;
+            // 
+            // btnCheckForUpdate
+            // 
+            this.btnCheckForUpdate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCheckForUpdate.Location = new System.Drawing.Point(347, 43);
+            this.btnCheckForUpdate.Name = "btnCheckForUpdate";
+            this.btnCheckForUpdate.Size = new System.Drawing.Size(160, 23);
+            this.btnCheckForUpdate.TabIndex = 4;
+            this.btnCheckForUpdate.Text = "بررسی نسخه‌ی جدید";
+            this.btnCheckForUpdate.UseVisualStyleBackColor = true;
+            this.btnCheckForUpdate.Click += new System.EventHandler(this.btnCheckForUpdate_Click);
+            // 
+            // label12
+            // 
+            this.label12.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label12.Location = new System.Drawing.Point(6, 17);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(501, 23);
+            this.label12.TabIndex = 1;
+            this.label12.Text = "از وجود نسخه‌های جدیدتر ویراستیار مطلع شوید:";
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.Controls.Add(this.linkLabel1);
+            this.groupBox2.Controls.Add(this.label3);
+            this.groupBox2.Controls.Add(this.rdoSendReportDecline);
+            this.groupBox2.Controls.Add(this.rdoSendReportAccept);
+            this.groupBox2.Controls.Add(this.label2);
+            this.groupBox2.Location = new System.Drawing.Point(8, 15);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(513, 233);
+            this.groupBox2.TabIndex = 4;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "کمک به بهبود ویراستیار";
+            // 
+            // linkLabel1
+            // 
+            this.linkLabel1.AutoSize = true;
+            this.linkLabel1.Location = new System.Drawing.Point(337, 155);
+            this.linkLabel1.Name = "linkLabel1";
+            this.linkLabel1.Size = new System.Drawing.Size(166, 13);
+            this.linkLabel1.TabIndex = 6;
+            this.linkLabel1.TabStop = true;
+            this.linkLabel1.Text = "» مشاهده اطلاعات جمع‌آوری شده";
+            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
+            // 
+            // label3
+            // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label3.Location = new System.Drawing.Point(6, 67);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(498, 88);
+            this.label3.TabIndex = 5;
+            this.label3.Text = resources.GetString("label3.Text");
+            // 
+            // rdoSendReportDecline
+            // 
+            this.rdoSendReportDecline.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.rdoSendReportDecline.AutoSize = true;
+            this.rdoSendReportDecline.Location = new System.Drawing.Point(413, 208);
+            this.rdoSendReportDecline.Name = "rdoSendReportDecline";
+            this.rdoSendReportDecline.Size = new System.Drawing.Size(82, 17);
+            this.rdoSendReportDecline.TabIndex = 4;
+            this.rdoSendReportDecline.Text = "موافق نیستم";
+            this.rdoSendReportDecline.UseVisualStyleBackColor = true;
+            // 
+            // rdoSendReportAccept
+            // 
+            this.rdoSendReportAccept.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.rdoSendReportAccept.AutoSize = true;
+            this.rdoSendReportAccept.Checked = true;
+            this.rdoSendReportAccept.Location = new System.Drawing.Point(440, 185);
+            this.rdoSendReportAccept.Name = "rdoSendReportAccept";
+            this.rdoSendReportAccept.Size = new System.Drawing.Size(55, 17);
+            this.rdoSendReportAccept.TabIndex = 3;
+            this.rdoSendReportAccept.TabStop = true;
+            this.rdoSendReportAccept.Text = "موافقم";
+            this.rdoSendReportAccept.UseVisualStyleBackColor = true;
+            // 
+            // label2
+            // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label2.Location = new System.Drawing.Point(3, 29);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(501, 33);
+            this.label2.TabIndex = 2;
+            this.label2.Text = "ویراستیار می‌تواند بصورت خودکار گزارشی از عملکرد و خطاهای رخ‌داده در برنامه را جم" +
+    "ع‌آوری و ارسال کند.\r\nبا فعال‌سازی این قابلیت می‌توانید به بهبود ویراستیار کمک کن" +
+    "ید.";
             // 
             // grpResetSettings
             // 
-            this.grpResetSettings.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.grpResetSettings.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.grpResetSettings.Controls.Add(this.btnRestoreDataFiles);
             this.grpResetSettings.Controls.Add(this.btnResetSettings);
             this.grpResetSettings.Controls.Add(this.label5);
-            this.grpResetSettings.Location = new System.Drawing.Point(8, 3);
+            this.grpResetSettings.Location = new System.Drawing.Point(8, 342);
             this.grpResetSettings.Name = "grpResetSettings";
-            this.grpResetSettings.Size = new System.Drawing.Size(513, 102);
+            this.grpResetSettings.Size = new System.Drawing.Size(513, 90);
             this.grpResetSettings.TabIndex = 3;
             this.grpResetSettings.TabStop = false;
+            // 
+            // btnRestoreDataFiles
+            // 
+            this.btnRestoreDataFiles.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnRestoreDataFiles.Location = new System.Drawing.Point(168, 58);
+            this.btnRestoreDataFiles.Name = "btnRestoreDataFiles";
+            this.btnRestoreDataFiles.Size = new System.Drawing.Size(160, 23);
+            this.btnRestoreDataFiles.TabIndex = 5;
+            this.btnRestoreDataFiles.Text = "بازگرداندن فایل‌های دادگان";
+            this.btnRestoreDataFiles.UseVisualStyleBackColor = true;
+            this.btnRestoreDataFiles.Click += new System.EventHandler(this.btnRestoreDataFiles_Click);
             // 
             // btnResetSettings
             // 
             this.btnResetSettings.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnResetSettings.Location = new System.Drawing.Point(347, 63);
+            this.btnResetSettings.Location = new System.Drawing.Point(347, 58);
             this.btnResetSettings.Name = "btnResetSettings";
             this.btnResetSettings.Size = new System.Drawing.Size(160, 23);
             this.btnResetSettings.TabIndex = 4;
@@ -1285,63 +1471,19 @@ namespace VirastyarWordAddin.Configurations
             // 
             // label5
             // 
-            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.label5.Location = new System.Drawing.Point(6, 17);
+            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label5.Location = new System.Drawing.Point(6, 20);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(501, 31);
             this.label5.TabIndex = 1;
-            this.label5.Text = "اگر مشکلی در اجرای قابلیت‌های افزونه مشاهده می‌کنید، می‌توانید با این گزینه افزون" +
-                "ه را به حالت پیش‌فرض برگردانید:";
-            // 
-            // grpRepairMenus
-            // 
-            this.grpRepairMenus.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.grpRepairMenus.Controls.Add(this.btnReloadMenus);
-            this.grpRepairMenus.Controls.Add(this.lblRepairMenusDesc);
-            this.grpRepairMenus.Location = new System.Drawing.Point(8, 189);
-            this.grpRepairMenus.Name = "grpRepairMenus";
-            this.grpRepairMenus.Size = new System.Drawing.Size(513, 91);
-            this.grpRepairMenus.TabIndex = 2;
-            this.grpRepairMenus.TabStop = false;
-            this.grpRepairMenus.Visible = false;
-            // 
-            // btnReloadMenus
-            // 
-            this.btnReloadMenus.Location = new System.Drawing.Point(347, 59);
-            this.btnReloadMenus.Name = "btnReloadMenus";
-            this.btnReloadMenus.Size = new System.Drawing.Size(160, 23);
-            this.btnReloadMenus.TabIndex = 3;
-            this.btnReloadMenus.Text = "اصلاح نوار ابزار ";
-            this.btnReloadMenus.UseVisualStyleBackColor = true;
-            this.btnReloadMenus.Click += new System.EventHandler(this.btnReloadMenus_Click);
-            // 
-            // lblRepairMenusDesc
-            // 
-            this.lblRepairMenusDesc.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblRepairMenusDesc.Location = new System.Drawing.Point(6, 17);
-            this.lblRepairMenusDesc.Name = "lblRepairMenusDesc";
-            this.lblRepairMenusDesc.Size = new System.Drawing.Size(501, 39);
-            this.lblRepairMenusDesc.TabIndex = 0;
-            this.lblRepairMenusDesc.Text = "در صورتی که اشکالی در منوهای افزونه مشاهده می‌کنید، می‌توانید از گزینه‌ی زیر برای" +
-                " اصلاح آن استفاده کنید:";
+            this.label5.Text = "اگر مشکلی در اجرای قابلیت‌های افزونه مشاهده می‌کنید، می‌توانید تنظیمات یا فایل‌ها" +
+    "ی دادگان ویراستیار را به حالت پیش‌فرض برگردانید:";
             // 
             // errorProvider
             // 
             this.errorProvider.ContainerControl = this;
             this.errorProvider.RightToLeft = true;
-            // 
-            // hotkeyControl
-            // 
-            this.hotkeyControl.Hotkey = hotkey1;
-            this.hotkeyControl.Location = new System.Drawing.Point(349, 96);
-            this.hotkeyControl.Name = "hotkeyControl";
-            this.hotkeyControl.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.hotkeyControl.Size = new System.Drawing.Size(172, 21);
-            this.hotkeyControl.TabIndex = 5;
-            this.hotkeyControl.HotkeyChanged += new System.EventHandler(this.hotkeyControl_HotkeyChanged);
             // 
             // AddinConfigurationDialog
             // 
@@ -1370,6 +1512,7 @@ namespace VirastyarWordAddin.Configurations
             this.tbPageSpellCheck.ResumeLayout(false);
             this.groupBoxUserDictionaries.ResumeLayout(false);
             this.groupBoxUserDictionaries.PerformLayout();
+            this.contextMenuStripDictionaries.ResumeLayout(false);
             this.grpDicPath.ResumeLayout(false);
             this.grpDicPath.PerformLayout();
             this.grpSpellCheckSettings.ResumeLayout(false);
@@ -1400,9 +1543,11 @@ namespace VirastyarWordAddin.Configurations
             this.panel2.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            this.tbPageRepairAddin.ResumeLayout(false);
+            this.tbPageAddinSettings.ResumeLayout(false);
+            this.grpVirastyarUpdate.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.grpResetSettings.ResumeLayout(false);
-            this.grpRepairMenus.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
             this.ResumeLayout(false);
 
@@ -1425,9 +1570,7 @@ namespace VirastyarWordAddin.Configurations
         private System.Windows.Forms.GroupBox grpSpellCheckSettings;
         private System.Windows.Forms.GroupBox grpDicPath;
         private System.Windows.Forms.NumericUpDown nmrMaxSuggestionsCount;
-        private System.Windows.Forms.TabPage tbPageRepairAddin;
-        private System.Windows.Forms.Label lblRepairMenusDesc;
-        private System.Windows.Forms.GroupBox grpRepairMenus;
+        private System.Windows.Forms.TabPage tbPageAddinSettings;
         private System.Windows.Forms.GroupBox grpResetSettings;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TabPage tbPageRefineAll;
@@ -1498,10 +1641,26 @@ namespace VirastyarWordAddin.Configurations
         private System.Windows.Forms.Button btnClearHotkey;
         private System.Windows.Forms.Label label10;
         private VirastyarWordAddin.Controls.HotkeyBox hotkeyControl;
-        private System.Windows.Forms.Button btnReloadMenus;
         private System.Windows.Forms.Button btnResetSettings;
         private System.Windows.Forms.ProgressBar progressBarBuildDictionary;
         private System.Windows.Forms.CheckBox cbDontCheckSingleLetters;
         private System.Windows.Forms.Label lblCurrentHotkey;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.RadioButton rdoSendReportDecline;
+        private System.Windows.Forms.RadioButton rdoSendReportAccept;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.LinkLabel lnkEditDictionary;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStripDictionaries;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemEditDic;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemDeleteDic;
+        private System.Windows.Forms.LinkLabel lnkEditUserDic;
+        private System.Windows.Forms.GroupBox grpVirastyarUpdate;
+        private System.Windows.Forms.Button btnCheckForUpdate;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Button btnRestoreDataFiles;
+        private System.Windows.Forms.LinkLabel linkLabel1;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.ToolTip toolTip;
     }
 }

@@ -1,27 +1,4 @@
-﻿// Virastyar
-// http://www.virastyar.ir
-// Copyright (C) 2011 Supreme Council for Information and Communication Technology (SCICT) of Iran
-// 
-// This file is part of Virastyar.
-// 
-// Virastyar is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-// 
-// Virastyar is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU General Public License for more details.
-// 
-// You should have received a copy of the GNU General Public License
-// along with Virastyar.  If not, see <http://www.gnu.org/licenses/>.
-// 
-// Additional permission under GNU GPL version 3 section 7
-// The sole exception to the license's terms and requierments might be the
-// integration of Virastyar with Microsoft Word (any version) as an add-in.
-
-using System;
+﻿using System;
 using Microsoft.Win32;
 
 namespace VirastyarWordAddin
@@ -64,7 +41,10 @@ namespace VirastyarWordAddin
 
         public const string PerUserFolderName = Virastyar;
 
-        public const string StemFileName = "stem.dat";
+        public const string StemFileName = "Stem.dat";
+
+        public const string WyUpdateFileName = "wyUpdate.exe";
+        public const string WyUpdateClientFileName = "client.wyc";
 
         public const string OfficeRegKey = "Software\\Microsoft\\Office";
 
@@ -72,7 +52,9 @@ namespace VirastyarWordAddin
 
         public const string TipsOfTheDayFileName = "Tips.tod";
 
-        #region Addin Toolbar
+        public const string InstallationGuid = "InstallationGuid";
+
+        #region Word 2003 Addin Toolbar
 
         public const string ToolbarPrefix = "Virastyar";
         public const string OldToolbarPrefix = "Noor";
@@ -80,6 +62,7 @@ namespace VirastyarWordAddin
         public const string SettingsToolbarName = ToolbarPrefix + "-Settings";
         public const string RefinementToolbarName = ToolbarPrefix + "-Refinement";
         public const string ConversionToolbarName = ToolbarPrefix + "-Conversion";
+        public const string UpdateToolbarName = ToolbarPrefix + "-Updater";
 
         #endregion
 
@@ -104,6 +87,13 @@ namespace VirastyarWordAddin
         {
             public const string SuccessRefinementTitle = "عملیات اصلاح با موفقیت به پایان رسید";
             public const string Suggestions = "پیشنهادها";
+        }
+
+        public class LogKeywords
+        {
+            public const string EntryAddedToDictionary = "EntryAddedToDictionary";
+            public const string EntryAddedToIgnoredList = "EntryAddedToIgnoredList";
+            public const string ExceptionOccured = "ExceptionOccured";
         }
     }
 }

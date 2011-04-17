@@ -1,32 +1,10 @@
-﻿// Virastyar
-// http://www.virastyar.ir
-// Copyright (C) 2011 Supreme Council for Information and Communication Technology (SCICT) of Iran
-// 
-// This file is part of Virastyar.
-// 
-// Virastyar is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-// 
-// Virastyar is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU General Public License for more details.
-// 
-// You should have received a copy of the GNU General Public License
-// along with Virastyar.  If not, see <http://www.gnu.org/licenses/>.
-// 
-// Additional permission under GNU GPL version 3 section 7
-// The sole exception to the license's terms and requierments might be the
-// integration of Virastyar with Microsoft Word (any version) as an add-in.
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Office.Interop.Word;
 using Microsoft.Office.Core;
+using VirastyarWordAddin.Log;
 using VirastyarWordAddin.Properties;
 using System.Diagnostics;
 
@@ -34,7 +12,7 @@ namespace VirastyarWordAddin
 {
     public abstract class TemplateGenerator
     {
-        public abstract Template Generate(ThisAddIn thisAddin, Application wordApp, string templatePath);
+        public abstract Template Generate(ThisAddIn thisAddin, string templatePath);
 
         public static TemplateGenerator GetGenerator(OfficeVersion version)
         {
@@ -49,31 +27,31 @@ namespace VirastyarWordAddin
     {
         #region Buttons
 
-        private CommandBarButton m_btnAddinSettings;
-        private CommandBarButton m_btnCheckSpell;
-        private CommandBarButton m_btnPreCheckSpell;
-        private CommandBarButton m_btnPinglishConvert;
-        private CommandBarButton m_btnPinglishConvertAll;
-        private CommandBarButton m_btnCheckDates;
-        private CommandBarButton m_btnCheckNumbers;
-        private CommandBarButton m_btnCheckPunctuation;
-        private CommandBarButton m_btnCheckAllPunctuation;
-        private CommandBarButton m_btnRefineAllCharacters;
-        private CommandBarButton m_btnAbout;
+        //private CommandBarButton m_btnAddinSettings;
+        //private CommandBarButton m_btnCheckSpell;
+        //private CommandBarButton m_btnPreCheckSpell;
+        //private CommandBarButton m_btnPinglishConvert;
+        //private CommandBarButton m_btnPinglishConvertAll;
+        //private CommandBarButton m_btnCheckDates;
+        //private CommandBarButton m_btnCheckNumbers;
+        //private CommandBarButton m_btnCheckPunctuation;
+        //private CommandBarButton m_btnCheckAllPunctuation;
+        //private CommandBarButton m_btnRefineAllCharacters;
+        //private CommandBarButton m_btnAbout;
 
-        private CommandBarButton m_btnHelp;
-        private CommandBarButton m_btnTip;
+        //private CommandBarButton m_btnHelp;
+        //private CommandBarButton m_btnTip;
 
         //private CommandBarButton m_btnSuggestSynonym;
         //private CommandBarButton m_btnSuggestRhyme;
 
         #endregion
 
-        public override Template Generate(ThisAddIn thisAddin, Application wordApp, string templatePath)
+        public override Template Generate(ThisAddIn thisAddin, string templatePath)
         {
-            Template template = SettingsHelper.LoadTemplate(wordApp, templatePath);
+            Template template = SettingsHelper.LoadTemplate(thisAddin.Application, templatePath);
 
-            CreateMenuAndToolbars(thisAddin, wordApp, template);
+            CreateMenuAndToolbars(thisAddin, thisAddin.Application, template);
 
             template.Save();
 
@@ -83,7 +61,7 @@ namespace VirastyarWordAddin
         /// <summary>
         /// Creates the menu and toolbars.
         /// </summary>
-        private void CreateMenuAndToolbars(ThisAddIn thisAddin, Application wordApp, Template template)
+        private static void CreateMenuAndToolbars(ThisAddIn thisAddin, Application wordApp, Template template)
         {
             thisAddin.PushOldTemplateAndSetCustom(template);
 
@@ -148,10 +126,10 @@ namespace VirastyarWordAddin
 
                 #region Pinglish
                 // Also: 
-                m_btnPinglishConvert = WordUIHelper.MakeANewButton(conversionToolbar, "تبدیل پینگلیش", Resources.IconPinglish, true,
+                CommandBarButton m_btnPinglishConvert = WordUIHelper.MakeANewButton(conversionToolbar, "تبدیل پینگلیش", Resources.IconPinglish, true,
                     "VirastyarPinglishConvert_Action");
 
-                m_btnPinglishConvertAll = WordUIHelper.MakeANewButton(conversionToolbar, "تبدیل یکباره: پینگلیش", Resources.IconPinglishAll, false,
+                CommandBarButton m_btnPinglishConvertAll = WordUIHelper.MakeANewButton(conversionToolbar, "تبدیل یکباره: پینگلیش", Resources.IconPinglishAll, false,
                     "VirastyarPinglishConvertAll_Action");
 
                 #endregion
@@ -159,7 +137,7 @@ namespace VirastyarWordAddin
                 #region Date
 
                 // Aslo: 1992, 1095
-                m_btnCheckDates = WordUIHelper.MakeANewButton(conversionToolbar, "تبدیل تاریخ", Resources.IconDate, true,
+                CommandBarButton m_btnCheckDates = WordUIHelper.MakeANewButton(conversionToolbar, "تبدیل تاریخ", Resources.IconDate, true,
                     "VirastyarCheckDates_Action");
 
 
@@ -168,7 +146,7 @@ namespace VirastyarWordAddin
                 #region Number
 
                 // Also: 0070 -- 0079
-                m_btnCheckNumbers = WordUIHelper.MakeANewButton(conversionToolbar, "تبدیل اعداد", Resources.IconNumberConvertor, false,
+                CommandBarButton m_btnCheckNumbers = WordUIHelper.MakeANewButton(conversionToolbar, "تبدیل اعداد", Resources.IconNumberConvertor, false,
                     "VirastyarCheckNumbers_Action");
 
                 #endregion
@@ -186,31 +164,31 @@ namespace VirastyarWordAddin
 
                 // Create a button to style selected text.
                 // Also: 0161
-                m_btnCheckSpell = WordUIHelper.MakeANewButton(refinementToolbar, "غلط‌یابی", Resources.IconSpell, false,
+                CommandBarButton m_btnCheckSpell = WordUIHelper.MakeANewButton(refinementToolbar, "غلط‌یابی", Resources.IconSpell, false,
                     "VirastyarCheckSpell_Action");
 
                 #endregion
 
                 #region PreSpell
-                m_btnPreCheckSpell = WordUIHelper.MakeANewButton(refinementToolbar, "پیش‌پردازش املایی متن", Resources.IconPrespell, false,
+                CommandBarButton m_btnPreCheckSpell = WordUIHelper.MakeANewButton(refinementToolbar, "پیش‌پردازش املایی متن", Resources.IconPrespell, false,
                     "VirastyarPreCheckSpell_Action");
                 #endregion
 
                 #region Punctuation
 
                 // Also: 0163
-                m_btnCheckPunctuation = WordUIHelper.MakeANewButton(refinementToolbar, "تصحیح نشانه‌گذاری", Resources.IconPunc, true,
+                CommandBarButton m_btnCheckPunctuation = WordUIHelper.MakeANewButton(refinementToolbar, "تصحیح نشانه‌گذاری", Resources.IconPunc, true,
                     "VirastyarCheckPunctuation_Action");
 
                 // Also: 0386
-                m_btnCheckAllPunctuation = WordUIHelper.MakeANewButton(refinementToolbar, "تصحیح یکباره نشانه‌گذاری", Resources.IconPuncAll, false,
+                CommandBarButton m_btnCheckAllPunctuation = WordUIHelper.MakeANewButton(refinementToolbar, "تصحیح یکباره نشانه‌گذاری", Resources.IconPuncAll, false,
                     "VirastyarCheckAllPunctuation_Action");
 
                 #endregion
 
                 #region Refine All Chars
 
-                m_btnRefineAllCharacters = WordUIHelper.MakeANewButton(refinementToolbar, "اصلاح تمامی نویسه‌های متن", Resources.IconCharRefiner, true,
+                CommandBarButton m_btnRefineAllCharacters = WordUIHelper.MakeANewButton(refinementToolbar, "اصلاح تمامی نویسه‌های متن", Resources.IconCharRefiner, true,
                     "VirastyarRefineAllCharacters_Action");
 
                 #endregion
@@ -228,17 +206,29 @@ namespace VirastyarWordAddin
                 WordUIHelper.CopyToolbarSettings(settingsToolBar, oldSettingsToolBar);
                 WordUIHelper.DeleteOldToolbar(oldSettingsToolBar);
 
-                m_btnAddinSettings = WordUIHelper.MakeANewButton(settingsToolBar, "تنظیمات افزونه", Resources.IconSettings, false,
+                CommandBarButton m_btnAddinSettings = WordUIHelper.MakeANewButton(settingsToolBar, "تنظیمات افزونه", Resources.IconSettings, false,
                     "VirastyarAddinSettings_Action");
 
-                m_btnTip = WordUIHelper.MakeANewButton(settingsToolBar, "نکته روز", Resources.IconTip, true,
+                CommandBarButton m_btnTip = WordUIHelper.MakeANewButton(settingsToolBar, "نکته روز", Resources.IconTip, true,
                     "VirastyarTip_Action");
-                
-                m_btnHelp = WordUIHelper.MakeANewButton(settingsToolBar, "راهنما", Resources.IconHelp, false,
+
+                CommandBarButton m_btnHelp = WordUIHelper.MakeANewButton(settingsToolBar, "راهنما", Resources.IconHelp, false,
                     "VirastyarHelp_Action");
 
-                m_btnAbout = WordUIHelper.MakeANewButton(settingsToolBar, "درباره", Resources.IconVirastyar, false,
+                CommandBarButton m_btnAbout = WordUIHelper.MakeANewButton(settingsToolBar, "درباره", Resources.IconVirastyar, false,
                     "VirastyarAbout_Action");
+
+                #endregion
+
+                #region Update Toolbar
+
+                CommandBar oldUpdateToolbar = WordUIHelper.FindOldToolbar(wordApp, Constants.UpdateToolbarName);
+                CommandBar updateToolbar = WordUIHelper.AddWordToolbar(wordApp, Constants.UpdateToolbarName);
+                WordUIHelper.CopyToolbarSettings(updateToolbar, oldUpdateToolbar);
+                WordUIHelper.DeleteOldToolbar(oldUpdateToolbar);
+
+                CommandBarButton m_btnUpdate = WordUIHelper.MakeANewButton(updateToolbar, "به‌روز رسانی",
+                    Resources.IconUpdate, false, "VirastyarUpdate_Action");
 
                 #endregion
 
@@ -246,7 +236,7 @@ namespace VirastyarWordAddin
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex);
+                LogHelper.DebugException("", ex);
             }
 
             thisAddin.PopOldTemplate(template);
@@ -255,7 +245,7 @@ namespace VirastyarWordAddin
 
     public class Template2007Generator : TemplateGenerator
     {
-        public override Template Generate(ThisAddIn thisAddin, Application wordApp, string templatePath)
+        public override Template Generate(ThisAddIn thisAddin, string templatePath)
         {
             throw new NotImplementedException();
         }
