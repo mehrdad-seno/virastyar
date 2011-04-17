@@ -50,9 +50,6 @@
     <Setting Name="SynDBBaseFileName" Type="System.String" Scope="User">
       <Value Profile="(Default)">Synonyms.mdb</Value>
     </Setting>
-    <Setting Name="WordCompletionSugCount" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">700</Value>
-    </Setting>
     <Setting Name="WordCompletionCompleteWithoutHotKey" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
@@ -128,6 +125,39 @@
     <Setting Name="Updater_LastCheckedVersion" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="LogReport_LastSentLog" Type="System.DateTime" Scope="User">
+      <Value Profile="(Default)">2011-01-01</Value>
+    </Setting>
+    <Setting Name="LogReport_AutomaticReport" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="LogReport_AutomaticReportInterval" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">7</Value>
+    </Setting>
+    <Setting Name="Config_Shortcut_SpellCheck" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Shift + F7</Value>
+    </Setting>
+    <Setting Name="Config_Shortcut_DateCheck" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Shift + F8</Value>
+    </Setting>
+    <Setting Name="Config_Shortcut_NumberCheck" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Alt + Shift + F8</Value>
+    </Setting>
+    <Setting Name="Config_Shortcut_PunctuationCheck" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Alt + Shift + F7</Value>
+    </Setting>
+    <Setting Name="Config_Shortcut_PinglishCheck" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Control + Alt + F2</Value>
+    </Setting>
+    <Setting Name="Config_Shortcut_RefineCharachters" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Shift + F9</Value>
+    </Setting>
+    <Setting Name="Config_Shortcut_WordCompletion" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Control +Shift + Space</Value>
+    </Setting>
+    <Setting Name="WordCompletionSugCount" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">15</Value>
+    </Setting>
     <Setting Name="Updater_LatestVersionUrl" Type="System.String" Scope="Application">
       <Value Profile="(Default)">http://www.virastyar.ir/LatestVersion.txt</Value>
     </Setting>
@@ -139,6 +169,12 @@
     </Setting>
     <Setting Name="Updater_ReleaseNotesUrl" Type="System.String" Scope="Application">
       <Value Profile="(Default)">http://www.virastyar.ir/ReleaseNotes.txt</Value>
+    </Setting>
+    <Setting Name="LogReport_Url" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://www.virastyar.ir/log.php</Value>
+    </Setting>
+    <Setting Name="InstallationGuid" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
     </Setting>
   </Settings>
 </SettingsFile>

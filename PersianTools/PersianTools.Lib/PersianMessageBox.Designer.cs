@@ -1,27 +1,4 @@
-﻿// Virastyar
-// http://www.virastyar.ir
-// Copyright (C) 2011 Supreme Council for Information and Communication Technology (SCICT) of Iran
-// 
-// This file is part of Virastyar.
-// 
-// Virastyar is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-// 
-// Virastyar is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU General Public License for more details.
-// 
-// You should have received a copy of the GNU General Public License
-// along with Virastyar.  If not, see <http://www.gnu.org/licenses/>.
-// 
-// Additional permission under GNU GPL version 3 section 7
-// The sole exception to the license's terms and requierments might be the
-// integration of Virastyar with Microsoft Word (any version) as an add-in.
-
-namespace SCICT.Utility.GUI
+﻿namespace SCICT.Utility.GUI
 {
     partial class PersianMessageBox
     {
@@ -75,10 +52,10 @@ namespace SCICT.Utility.GUI
             this.labelMessage.AutoSize = true;
             this.labelMessage.BackColor = System.Drawing.Color.White;
             this.labelMessage.Dock = System.Windows.Forms.DockStyle.Right;
-            this.labelMessage.Location = new System.Drawing.Point(7, 0);
+            this.labelMessage.Location = new System.Drawing.Point(11, 0);
             this.labelMessage.Name = "labelMessage";
-            this.labelMessage.Padding = new System.Windows.Forms.Padding(7);
-            this.labelMessage.Size = new System.Drawing.Size(56, 30);
+            this.labelMessage.Padding = new System.Windows.Forms.Padding(7, 6, 7, 6);
+            this.labelMessage.Size = new System.Drawing.Size(52, 26);
             this.labelMessage.TabIndex = 0;
             this.labelMessage.Text = "label1";
             // 
@@ -90,15 +67,16 @@ namespace SCICT.Utility.GUI
             this.panelMessage.Location = new System.Drawing.Point(0, 0);
             this.panelMessage.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panelMessage.Name = "panelMessage";
-            this.panelMessage.Size = new System.Drawing.Size(63, 31);
+            this.panelMessage.Size = new System.Drawing.Size(63, 27);
             this.panelMessage.TabIndex = 1;
             // 
             // btn3
             // 
             this.btn3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn3.Location = new System.Drawing.Point(-146, 7);
+            this.btn3.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.btn3.Location = new System.Drawing.Point(-146, 6);
             this.btn3.Name = "btn3";
-            this.btn3.Size = new System.Drawing.Size(85, 26);
+            this.btn3.Size = new System.Drawing.Size(85, 23);
             this.btn3.TabIndex = 2;
             this.btn3.Text = "button3";
             this.btn3.UseVisualStyleBackColor = true;
@@ -107,9 +85,10 @@ namespace SCICT.Utility.GUI
             // btn2
             // 
             this.btn2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn2.Location = new System.Drawing.Point(-55, 7);
+            this.btn2.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.btn2.Location = new System.Drawing.Point(-55, 6);
             this.btn2.Name = "btn2";
-            this.btn2.Size = new System.Drawing.Size(85, 26);
+            this.btn2.Size = new System.Drawing.Size(85, 23);
             this.btn2.TabIndex = 1;
             this.btn2.Text = "button2";
             this.btn2.UseVisualStyleBackColor = true;
@@ -121,17 +100,18 @@ namespace SCICT.Utility.GUI
             this.panelButtons.Controls.Add(this.btn3);
             this.panelButtons.Controls.Add(this.btn2);
             this.panelButtons.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panelButtons.Location = new System.Drawing.Point(0, 31);
+            this.panelButtons.Location = new System.Drawing.Point(0, 27);
             this.panelButtons.Name = "panelButtons";
-            this.panelButtons.Size = new System.Drawing.Size(127, 43);
+            this.panelButtons.Size = new System.Drawing.Size(127, 38);
             this.panelButtons.TabIndex = 4;
             // 
             // btn1
             // 
             this.btn1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn1.Location = new System.Drawing.Point(36, 7);
+            this.btn1.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.btn1.Location = new System.Drawing.Point(36, 6);
             this.btn1.Name = "btn1";
-            this.btn1.Size = new System.Drawing.Size(85, 26);
+            this.btn1.Size = new System.Drawing.Size(85, 23);
             this.btn1.TabIndex = 0;
             this.btn1.Text = "button1";
             this.btn1.UseVisualStyleBackColor = true;
@@ -144,7 +124,7 @@ namespace SCICT.Utility.GUI
             this.panelMessageAndImage.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelMessageAndImage.Location = new System.Drawing.Point(0, 0);
             this.panelMessageAndImage.Name = "panelMessageAndImage";
-            this.panelMessageAndImage.Size = new System.Drawing.Size(127, 31);
+            this.panelMessageAndImage.Size = new System.Drawing.Size(127, 27);
             this.panelMessageAndImage.TabIndex = 5;
             // 
             // panelImage
@@ -154,14 +134,14 @@ namespace SCICT.Utility.GUI
             this.panelImage.Dock = System.Windows.Forms.DockStyle.Right;
             this.panelImage.Location = new System.Drawing.Point(63, 0);
             this.panelImage.Name = "panelImage";
-            this.panelImage.Size = new System.Drawing.Size(64, 31);
+            this.panelImage.Size = new System.Drawing.Size(64, 27);
             this.panelImage.TabIndex = 6;
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(6, 12);
+            this.pictureBox1.Location = new System.Drawing.Point(6, 10);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(55, 55);
+            this.pictureBox1.Size = new System.Drawing.Size(55, 48);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
@@ -176,13 +156,13 @@ namespace SCICT.Utility.GUI
             // 
             // PersianMessageBox
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(127, 74);
+            this.ClientSize = new System.Drawing.Size(127, 65);
             this.ControlBox = false;
             this.Controls.Add(this.panelMessageAndImage);
             this.Controls.Add(this.panelButtons);
-            this.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.MaximizeBox = false;

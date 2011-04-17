@@ -1,29 +1,5 @@
-﻿// Virastyar
-// http://www.virastyar.ir
-// Copyright (C) 2011 Supreme Council for Information and Communication Technology (SCICT) of Iran
-// 
-// This file is part of Virastyar.
-// 
-// Virastyar is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-// 
-// Virastyar is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU General Public License for more details.
-// 
-// You should have received a copy of the GNU General Public License
-// along with Virastyar.  If not, see <http://www.gnu.org/licenses/>.
-// 
-// Additional permission under GNU GPL version 3 section 7
-// The sole exception to the license's terms and requierments might be the
-// integration of Virastyar with Microsoft Word (any version) as an add-in.
-
-using System;
+﻿using System;
 using System.Diagnostics;
-using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Microsoft.Office.Interop.Word;
@@ -33,6 +9,8 @@ using SCICT.NLP.Persian.Constants;
 using SCICT.NLP.TextProofing.SpellChecker;
 using SCICT.NLP.Utility;
 using SCICT.Utility.SpellChecker;
+using VirastyarWordAddin.Log;
+using Point = System.Drawing.Point;
 
 namespace VirastyarWordAddin
 {
@@ -124,7 +102,7 @@ namespace VirastyarWordAddin
             SetItems(preText, GetWordCompletionSuggestion(refinedString));
         }
 
-        public void ShowAtPoint(Point point)
+        public void ShowAtPoint(System.Drawing.Point point)
         {
             if (this.Enabled)
             {
@@ -274,7 +252,7 @@ namespace VirastyarWordAddin
             //s_distractionForm.Visible = false;
             //s_windowListenerInstance.Focus();
 
-            ThisAddIn.DebugWriteLine("KeyDown not vis : Range is Empty, Trying timer");
+            LogHelper.Debug("KeyDown not vis : Range is Empty, Trying timer");
             SetTimerParams("", RangeRecognitionState.PopupInit);
             s_wordCompletionTimer.Enabled = true;
         }
@@ -332,7 +310,7 @@ namespace VirastyarWordAddin
             SelectCurrentWord();
         }
 
-        private Point RefineLocationPoint(Point point)
+        private System.Drawing.Point RefineLocationPoint(System.Drawing.Point point)
         {
             int x = point.X - this.Size.Width + 10; // 10 estimates the window border
             
@@ -501,12 +479,12 @@ namespace VirastyarWordAddin
                 }
                 else // if range is empty
                 {
-                    ThisAddIn.DebugWriteLine("Range is empty");
+                    LogHelper.Debug("Range is empty");
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString());
+                LogHelper.ErrorException("Error in word completion event handler", ex);
             }
         }
 
@@ -525,7 +503,7 @@ namespace VirastyarWordAddin
             //User32.GetCaretPos(ref caretPos);
             //IntPtr internalDocHandle = User32.GetFocus();
             //Point realCaretPos = MapClientPointToScreenPoint(internalDocHandle, caretPos);
-            //ThisAddIn.DebugWriteLine("caret pos: " + realCaretPos.ToString());
+            //LogHelper.DebugException("caret pos: " + realCaretPos.ToString());
             //return realCaretPos;
         }
 
@@ -600,7 +578,7 @@ namespace VirastyarWordAddin
             s_nTimerTickCount++;
             if (s_nTimerTickCount > 3)
             {
-                ThisAddIn.DebugWriteLine("Failed to change the word content in 10 tries");
+                LogHelper.Debug("Failed to change the word content in 10 tries");
                 return;
             }
 
@@ -616,7 +594,7 @@ namespace VirastyarWordAddin
 
             if (RangeUtils.IsRangeEmpty(r))
             {
-                ThisAddIn.DebugWriteLine(String.Format("wordCompletionTimer_Tick : Range is Empty at ({0})th try.", s_nTimerTickCount));
+                LogHelper.Debug(String.Format("wordCompletionTimer_Tick : Range is Empty at ({0})th try.", s_nTimerTickCount));
                 s_wordCompletionTimer.Enabled = true;
             }
             else
@@ -658,7 +636,7 @@ namespace VirastyarWordAddin
                     }
                     else // if range is empty
                     {
-                        ThisAddIn.DebugWriteLine("Range is empty again");
+                        LogHelper.Debug("Range is empty again");
                     }
                 }
             }

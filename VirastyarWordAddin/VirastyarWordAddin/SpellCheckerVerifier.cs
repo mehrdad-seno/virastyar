@@ -1,27 +1,4 @@
-﻿// Virastyar
-// http://www.virastyar.ir
-// Copyright (C) 2011 Supreme Council for Information and Communication Technology (SCICT) of Iran
-// 
-// This file is part of Virastyar.
-// 
-// Virastyar is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-// 
-// Virastyar is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU General Public License for more details.
-// 
-// You should have received a copy of the GNU General Public License
-// along with Virastyar.  If not, see <http://www.gnu.org/licenses/>.
-// 
-// Additional permission under GNU GPL version 3 section 7
-// The sole exception to the license's terms and requierments might be the
-// integration of Virastyar with Microsoft Word (any version) as an add-in.
-
-using System;
+﻿using System;
 using System.Text;
 using System.Windows.Forms;
 using Microsoft.Office.Interop.Word;
@@ -31,6 +8,7 @@ using SCICT.NLP.Utility;
 using SCICT.Utility.GUI;
 using SCICT.Utility.SpellChecker;
 using System.Collections.Generic;
+using VirastyarWordAddin.Log;
 
 namespace VirastyarWordAddin
 {
@@ -38,9 +16,8 @@ namespace VirastyarWordAddin
     {
         #region Private Fields
 
-        private PersianSpellChecker engine;
-        private SessionLogger sessionLogger;
-        // private SpellCheckerConfig curSettings;
+        private readonly PersianSpellChecker m_engine;
+        private readonly SessionLogger m_sessionLogger;
 
         #endregion
 
@@ -48,23 +25,21 @@ namespace VirastyarWordAddin
 
         public SpellCheckerVerifier(PersianSpellChecker engine) : base()
         {
-            this.engine = engine;
-            this.sessionLogger = new SessionLogger();
-            //ChangeConfig(ss);
+            this.m_engine = engine;
+            this.m_sessionLogger = new SessionLogger();
         }
 
         public SpellCheckerVerifier(PersianSpellChecker engine, SessionLogger sessionLogger)
             : base()
         {
-            this.engine = engine;
-            this.sessionLogger = sessionLogger;
-            //ChangeConfig(ss);
+            this.m_engine = engine;
+            this.m_sessionLogger = sessionLogger;
         }
 
         protected override void InitVerifWin()
         {
             m_verificationWindow = new SpellCheckerVerificationWindow();
-            m_verificationWindow.SetCaption("اصلاح خطاهای املایی");
+            m_verificationWindow.SetCaption("غلط‌یاب املایی");
             ((SpellCheckerVerificationWindow)m_verificationWindow).SetSuggestionCaption(Constants.UIMessages.Suggestions);
             m_verificationWindow.Verifier = this;
             this.m_verificationWindow.SetHelp(HelpConstants.SpellChecker);
@@ -482,7 +457,7 @@ namespace VirastyarWordAddin
         {
             get
             {
-                return engine.RankingDetail;
+                return m_engine.RankingDetail;
             }
         }
 
@@ -526,17 +501,17 @@ namespace VirastyarWordAddin
 
             try
             {
-                if (engine.CheckSpelling(strCurWord, strPrevWord, strNextWord, engine.SuggestionCount, out sugs, out st, out scs))
+                if (m_engine.CheckSpelling(strCurWord, strPrevWord, strNextWord, m_engine.SuggestionCount, out sugs, out st, out scs))
                 {
                     return true;
                 }
 
                 //Added by Omid
-                sugs = this.sessionLogger.Sort(sugs);
+                sugs = this.m_sessionLogger.Sort(sugs);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString());
+                LogHelper.ErrorException("Exception in CheckSpelling", ex);
                 return true;
             }
 
@@ -617,7 +592,7 @@ namespace VirastyarWordAddin
                         }
                     }
                     //Added by Omid
-                    this.sessionLogger.AddUsage(selectedSug);
+                    this.m_sessionLogger.AddUsage(selectedSug);
                     break;
                 case VerificationWindowButtons.ChangeAll:
                     if (scs == SpaceCorrectionState.SpaceInsertationLeft || scs == SpaceCorrectionState.SpaceInsertationLeftSerrially)
@@ -652,7 +627,7 @@ namespace VirastyarWordAddin
                     }
 
                     //Added by Omid
-                    this.sessionLogger.AddUsage(selectedSug);
+                    this.m_sessionLogger.AddUsage(selectedSug);
                     break;
                 case VerificationWindowButtons.Ignore:
                     break;
@@ -667,6 +642,7 @@ namespace VirastyarWordAddin
                     {
                         wordToIgnore = strPrevWord + ' ' + strCurWord;
                     }
+                    LogHelper.Info(Constants.LogKeywords.EntryAddedToIgnoredList, wordToIgnore);
                     Globals.ThisAddIn.SpellCheckerWrapper.IgnoreList.AddToIgnoreList(wordToIgnore);
                     break;
                 case VerificationWindowButtons.AddToDictionary:
@@ -748,7 +724,7 @@ namespace VirastyarWordAddin
 
         public bool AddToDictionary(string wordToAdd)
         {
-            string[] dicSuggestions = engine.GetSimpleFormOfWord(wordToAdd);
+            string[] dicSuggestions = m_engine.GetSimpleFormOfWord(wordToAdd);
             string selectedDicSuggestion = null;
             //bool acceptAffix = true;
 
@@ -769,9 +745,10 @@ namespace VirastyarWordAddin
 
             if (selectedDicSuggestion != null)
             {
-                if (engine.AddToDictionary(selectedDicSuggestion, wordToAdd, Globals.ThisAddIn.SpellCheckerWrapper.UserDictionary))
+                if (m_engine.AddToDictionary(selectedDicSuggestion, wordToAdd, Globals.ThisAddIn.SpellCheckerWrapper.UserDictionary))
                 {
                     //PersianMessageBox.Show("کلمه با موفقیت به واژه‌نامه افزوده شد");
+                    LogHelper.Info(Constants.LogKeywords.EntryAddedToDictionary, selectedDicSuggestion);
                     return true;
                 }
                 else

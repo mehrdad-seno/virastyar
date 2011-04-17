@@ -1,27 +1,4 @@
-﻿// Virastyar
-// http://www.virastyar.ir
-// Copyright (C) 2011 Supreme Council for Information and Communication Technology (SCICT) of Iran
-// 
-// This file is part of Virastyar.
-// 
-// Virastyar is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-// 
-// Virastyar is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU General Public License for more details.
-// 
-// You should have received a copy of the GNU General Public License
-// along with Virastyar.  If not, see <http://www.gnu.org/licenses/>.
-// 
-// Additional permission under GNU GPL version 3 section 7
-// The sole exception to the license's terms and requierments might be the
-// integration of Virastyar with Microsoft Word (any version) as an add-in.
-
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Reflection;
@@ -30,6 +7,8 @@ using System.Windows.Forms;
 using Microsoft.Office.Interop.Word;
 using SCICT.NLP.Persian.Constants;
 using System.Diagnostics;
+using VirastyarWordAddin.Log;
+using Point = System.Drawing.Point;
 
 namespace VirastyarWordAddin
 {
@@ -44,7 +23,7 @@ namespace VirastyarWordAddin
         protected Range bParagraph;
         protected Range bContent;
 
-        private Point lastLocation = Point.Empty;
+        private System.Drawing.Point lastLocation = System.Drawing.Point.Empty;
 
         private Size formDefaultSize = Size.Empty;
         private Size lastVerifSize = Size.Empty;
@@ -271,54 +250,70 @@ namespace VirastyarWordAddin
 
         public VerificationTypes VerificationType { get; set; }
 
+		/// <summary>
+        /// Fixes the location of the window based on the position of the highlighted range,
+        /// so that the range will be perfectly visible.
+        /// </summary>
+        /// <param name="r">The range that is highlighted and wished to be visible</param>
         private void FixWindowLocation(Range r)
         {
-            int rangeLeft, rangeTop, rangeWidth, rangeHeight;
-            Globals.ThisAddIn.Application.ActiveWindow.GetPoint(out rangeLeft, out rangeTop, out rangeWidth, out rangeHeight, r);
-
-            int x = rangeLeft;
-            if (rangeWidth < 0)
+            try
             {
-                x += rangeWidth;
-                rangeWidth = Math.Abs(rangeWidth);
-            }
+                int rangeLeft, rangeTop, rangeWidth, rangeHeight;
+                Globals.ThisAddIn.Application.ActiveWindow.GetPoint(out rangeLeft, out rangeTop, out rangeWidth,
+                                                                    out rangeHeight, r);
 
-            int scrWidth = Screen.PrimaryScreen.WorkingArea.Width;
-            int scrHeight = Screen.PrimaryScreen.WorkingArea.Height;
-
-            // if it is masked
-            if ((this.Left <= x && x <= this.Left + this.Width || this.Left <= x + rangeWidth && x + rangeWidth <= this.Left + this.Width) &&
-                (this.Top <= rangeTop && rangeTop <= this.Top + this.Height || this.Top <= rangeTop + rangeHeight && rangeTop + rangeHeight <= this.Top + this.Height))
-            {
-                // if it is masked vertically
-                if (this.Top <= rangeTop && rangeTop <= this.Top + this.Height || this.Top <= rangeTop + rangeHeight && rangeTop + rangeHeight <= this.Top + this.Height)
+                int x = rangeLeft;
+                if (rangeWidth < 0)
                 {
-                    // if there's enough space below it
-                    if (scrHeight - rangeTop - rangeHeight > this.Height)
+                    x += rangeWidth;
+                    rangeWidth = Math.Abs(rangeWidth);
+                }
+
+                //int scrWidth = Screen.PrimaryScreen.WorkingArea.Width;
+                int scrHeight = Screen.PrimaryScreen.WorkingArea.Height;
+
+                // if it is masked
+                if ((this.Left <= x && x <= this.Left + this.Width ||
+                     this.Left <= x + rangeWidth && x + rangeWidth <= this.Left + this.Width) &&
+                    (this.Top <= rangeTop && rangeTop <= this.Top + this.Height ||
+                     this.Top <= rangeTop + rangeHeight && rangeTop + rangeHeight <= this.Top + this.Height))
+                {
+                    // if it is masked vertically
+                    if (this.Top <= rangeTop && rangeTop <= this.Top + this.Height ||
+                        this.Top <= rangeTop + rangeHeight && rangeTop + rangeHeight <= this.Top + this.Height)
                     {
-                        this.Top = rangeTop + rangeHeight;
-                    }
-                    // else if there's enough space above it
-                    else if (rangeTop > this.Height)
-                    {
-                        this.Top = rangeTop - this.Height;
-                    }
-                    // if there's not enough space neither below nor above it try to move it horizontally
-                    else
-                    {
-                        // TODO
-                        //    // if it can be shown on both sides
-                        //    if (x > this.Width && scrWidth - x > this.Width)
-                        //    {
-                        //    }
-                        //    else // if it can be shown on either side or none
-                        //    {
-                        //    }
+                        // if there's enough space below it
+                        if (scrHeight - rangeTop - rangeHeight > this.Height)
+                        {
+                            this.Top = rangeTop + rangeHeight;
+                        }
+                            // else if there's enough space above it
+                        else if (rangeTop > this.Height)
+                        {
+                            this.Top = rangeTop - this.Height;
+                        }
+                        //// if there's not enough space neither below nor above it try to move it horizontally
+                        //else
+                        //{
+                        //    //    // if it can be shown on both sides
+                        //    //    if (x > this.Width && scrWidth - x > this.Width)
+                        //    //    {
+                        //    //    }
+                        //    //    else // if it can be shown on either side or none
+                        //    //    {
+                        //    //    }
+                        //}
                     }
                 }
             }
+            catch
+            {
+                // simply do nothing in case of exception
+                return;
+            }
         }
-
+		
         private int m_highlightBorder = 0;
         protected bool SetContent(Range rParagraph, Range rContent)
         {
@@ -379,8 +374,6 @@ namespace VirastyarWordAddin
 
         public VerificationWindowButtons ShowDialog(BaseVerificationWinArgs args, out string selectedSugs)
         {
-            Globals.ThisAddIn.UsageLogger.SetContent(args.bContent.Text);
-
             selectedSugs = "";
             
             buttonPressed = VerificationWindowButtons.None;
@@ -395,8 +388,6 @@ namespace VirastyarWordAddin
             while (buttonPressed == VerificationWindowButtons.None)
             {
                 ThisAddIn.ApplicationDoEvents();
-                //Thread.Sleep(10);
-                ThisAddIn.DebugWriteLine("ShowDialog: " + Environment.TickCount);
             }
 
             if (buttonPressed == VerificationWindowButtons.Stop)
@@ -405,9 +396,6 @@ namespace VirastyarWordAddin
             }
 
             selectedSugs = this.SelectedSuggestion;
-
-            Globals.ThisAddIn.UsageLogger.SetAction(buttonPressed.ToString());
-            Globals.ThisAddIn.UsageLogger.LogLastAction();
 
             SwitchToProgressMode();
             return buttonPressed;
@@ -539,8 +527,6 @@ namespace VirastyarWordAddin
             while (!confirmButtonPressed)
             {
                 ThisAddIn.ApplicationDoEvents();
-                //Thread.Sleep(10);
-                ThisAddIn.DebugWriteLine("ConfirmContinue: " + Environment.TickCount);
             }
 
             return confirmationResult;

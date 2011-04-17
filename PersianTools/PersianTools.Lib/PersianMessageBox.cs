@@ -1,28 +1,6 @@
-﻿// Virastyar
-// http://www.virastyar.ir
-// Copyright (C) 2011 Supreme Council for Information and Communication Technology (SCICT) of Iran
-// 
-// This file is part of Virastyar.
-// 
-// Virastyar is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-// 
-// Virastyar is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU General Public License for more details.
-// 
-// You should have received a copy of the GNU General Public License
-// along with Virastyar.  If not, see <http://www.gnu.org/licenses/>.
-// 
-// Additional permission under GNU GPL version 3 section 7
-// The sole exception to the license's terms and requierments might be the
-// integration of Virastyar with Microsoft Word (any version) as an add-in.
-
-using System;
+﻿using System;
 using System.Drawing;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 namespace SCICT.Utility.GUI
@@ -48,9 +26,9 @@ namespace SCICT.Utility.GUI
         private const string CaptionYes = "بله";
         private const string CaptionNo = "خیر";
 
-        private Button btnCancelButton = null;
-        private Button buttonPressed = null;
-        private int minButtonWidth = 0;
+        private Button m_btnCancelButton = null;
+        private Button m_buttonPressed = null;
+        private int m_minButtonWidth = 0;
 
         /// <summary>
         /// Opens a persian message box.
@@ -70,7 +48,7 @@ namespace SCICT.Utility.GUI
         /// <returns>The button pressed</returns>
         public static DialogResult Show(string text, MessageBoxIcon icon)
         {
-            return Show(text, "", MessageBoxButtons.OK, icon);
+            return Show(text, " ", MessageBoxButtons.OK, icon);
         }
 
         /// <summary>
@@ -109,6 +87,11 @@ namespace SCICT.Utility.GUI
             return Show(text, caption, buttons, icon, MessageBoxDefaultButton.Button1);
         }
 
+        public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxDefaultButton shieldedButton, MessageBoxIcon icon)
+        {
+            return Show(text, caption, buttons, shieldedButton, icon, MessageBoxDefaultButton.Button1);
+        }
+
         /// <summary>
         /// Opens a persian message box.
         /// </summary>
@@ -118,17 +101,49 @@ namespace SCICT.Utility.GUI
         /// <param name="icon">The icon to be shown.</param>
         /// <param name="defaultButton">The default button.</param>
         /// <returns>The button pressed</returns>
-        public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defaultButton)
+        public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, 
+            MessageBoxIcon icon, MessageBoxDefaultButton defaultButton)
         {
             DialogResult dr = DialogResult.None;
             using (PersianMessageBox frm = new PersianMessageBox())
             {
-                frm.Text = caption;
-                frm.labelMessage.Text = text;
+                frm.Text = (caption != "") ? caption : " ";
+                frm.labelMessage.Text = (text != "") ? text : " ";
 
                 frm.SetIcon(icon);
 
                 frm.SetButtons(buttons, defaultButton);
+
+                frm.SetSize();
+                frm.ShowDialog();
+                dr = frm.GetDialogResult();
+            }
+
+            return dr;
+        }
+
+        /// <summary>
+        /// Opens a persian message box.
+        /// </summary>
+        /// <param name="text">The message to be shown.</param>
+        /// <param name="caption">The caption of the message box.</param>
+        /// <param name="buttons">The buttons of the message box.</param>
+        /// <param name="icon">The icon to be shown.</param>
+        /// <param name="defaultButton">The default button.</param>
+        /// <returns>The button pressed</returns>
+        public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxDefaultButton shieldedButton, 
+            MessageBoxIcon icon, MessageBoxDefaultButton defaultButton)
+        {
+            DialogResult dr = DialogResult.None;
+            using (PersianMessageBox frm = new PersianMessageBox())
+            {
+                frm.Text = (caption != "") ? caption : " ";
+                frm.labelMessage.Text = (text != "") ? text : " ";
+
+                frm.SetIcon(icon);
+
+                frm.SetButtons(buttons, defaultButton);
+                frm.SetShieldedButton(shieldedButton);
                 frm.SetSize();
                 frm.ShowDialog();
                 dr = frm.GetDialogResult();
@@ -139,14 +154,14 @@ namespace SCICT.Utility.GUI
 
         private DialogResult GetDialogResult()
         {
-            if (buttonPressed == null)
+            if (m_buttonPressed == null)
             {
                 return DialogResult.None;
             }
             else
             {
                 DialogResult dr = DialogResult.None;
-                string caption = buttonPressed.Text;
+                string caption = m_buttonPressed.Text;
                 switch (caption)
                 {
                     case CaptionAbort:
@@ -260,7 +275,7 @@ namespace SCICT.Utility.GUI
                     break;
             }
 
-            btnCancelButton = cancelButton;
+            m_btnCancelButton = cancelButton;
             if (cancelButton != null)
                 this.CancelButton = cancelButton;
 
@@ -287,23 +302,45 @@ namespace SCICT.Utility.GUI
                 case 1:
                     btn2.Visible = false;
                     btn3.Visible = false;
-                    minButtonWidth = btn1.Width + 2 * paddingButtons + paddingPanel;
+                    m_minButtonWidth = btn1.Width + 2 * paddingButtons + paddingPanel;
                     break;
                 case 2:
                     btn3.Visible = false;
-                    minButtonWidth = 2 * btn1.Width + 3 * paddingButtons + paddingPanel;
+                    m_minButtonWidth = 2 * btn1.Width + 3 * paddingButtons + paddingPanel;
                     break;
                 default:
-                    minButtonWidth = 3 * btn1.Width + 4 * paddingButtons + paddingPanel;
+                    m_minButtonWidth = 3 * btn1.Width + 4 * paddingButtons + paddingPanel;
                     break;
             }
+        }
+
+        private void SetShieldedButton(MessageBoxDefaultButton shieldedButton)
+        {
+            if (!AtLeastVista())
+                return;
+
+            Button shielded = null;
+            switch (shieldedButton)
+            {
+                case MessageBoxDefaultButton.Button1:
+                    shielded = btn1;
+                    break;
+                case MessageBoxDefaultButton.Button2:
+                    shielded = btn2;
+                    break;
+                case MessageBoxDefaultButton.Button3:
+                    shielded = btn3;
+                    break;
+            }
+
+            SetButtonShield(shielded, true);
         }
 
         private bool HasImage { get; set; }
 
         private void SetSize()
         {
-            int width = Math.Max(minButtonWidth, this.Width);
+            int width = Math.Max(m_minButtonWidth, this.Width);
             width = Math.Max(width, labelMessage.Width + 2*(panelMessage.Margin.Left + panelMessage.Margin.Right) + (HasImage? panelImage.Width : 0));
 
             if (HasImage)
@@ -317,26 +354,45 @@ namespace SCICT.Utility.GUI
 
         private void btn1_Click(object sender, EventArgs e)
         {
-            buttonPressed = btn1;
+            m_buttonPressed = btn1;
             this.Close();
         }
 
         private void btn2_Click(object sender, EventArgs e)
         {
-            buttonPressed = btn2;
+            m_buttonPressed = btn2;
             this.Close();
         }
 
         private void btn3_Click(object sender, EventArgs e)
         {
-            buttonPressed = btn3;
+            m_buttonPressed = btn3;
             this.Close();
         }
 
         private void PersianMessageBox_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (buttonPressed == null)
+            if (m_buttonPressed == null)
                 e.Cancel = true;
         }
+
+        #region Helper Methods
+
+        public static bool AtLeastVista()
+        {
+            return (Environment.OSVersion.Platform == PlatformID.Win32NT && Environment.OSVersion.Version.Major >= 6);
+        }
+
+        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
+        public static extern IntPtr SendMessage(HandleRef hWnd, UInt32 Msg, IntPtr wParam, IntPtr lParam);
+
+        public static void SetButtonShield(Button btn, bool showShield)
+        {
+            //Note: make sure the button FlatStyle = FlatStyle.System
+            // BCM_SETSHIELD = 0x0000160C
+            SendMessage(new HandleRef(btn, btn.Handle), 0x160C, IntPtr.Zero, showShield ? new IntPtr(1) : IntPtr.Zero);
+        }
+
+        #endregion
     }
 }

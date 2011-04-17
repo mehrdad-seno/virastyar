@@ -1,4 +1,4 @@
-Virastyar 1.1.41 
+Virastyar 1.2.0 
 Copyright © 2010 SCICT 
 
 ==========================
@@ -38,12 +38,22 @@ You need the following to successfully build and run Virastyar from sources:
 	- Microsoft® Visual Studio 2008 
 	- Microsoft® Visual Studio Tools for Office
 	- Microsoft® Office 2003 or Later
+	- PowerShell
 	
 There is an automated build script provided. To use it, run "buildenv.bat" and 
 execute "msrebuild.bat".
 
 If you wish to run Virastyar from source files, change the directory to 
-"VirastyarWordAddin" and open the "VirastyarWordAddin.sln" solution file.
+"VirastyarWordAddin" and open the "VirastyarWordAddin.sln" solution file 
+(VirastyarWordAddin2010.sln in case of 64-bit Office).
+
+Also, you may need to change the ExecutionPolicy of the Powershell to build the Add-in successfully. 
+To do this, start a PowerShell console as administrator, and run this command:
+ >>Set-ExecutionPolicy Unrestricted
+ 
+Warning: This command changes the default script execution policy on your machine.
+For more information, see this link:
+http://technet.microsoft.com/en-us/library/dd347628.aspx
 
 REPORT BUGS & ISSUES
 ==========================

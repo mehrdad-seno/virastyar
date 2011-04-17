@@ -1,25 +1,9 @@
-﻿// Virastyar
-// http://www.virastyar.ir
-// Copyright (C) 2011 Supreme Council for Information and Communication Technology (SCICT) of Iran
-// 
-// This file is part of Virastyar.
-// 
-// Virastyar is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-// 
-// Virastyar is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU General Public License for more details.
-// 
-// You should have received a copy of the GNU General Public License
-// along with Virastyar.  If not, see <http://www.gnu.org/licenses/>.
-// 
-// Additional permission under GNU GPL version 3 section 7
-// The sole exception to the license's terms and requierments might be the
-// integration of Virastyar with Microsoft Word (any version) as an add-in.
+﻿//
+// Author: Mehrdad Senobari 
+// Created on: 2010-March-08
+// Last Modified: Mehrdad Senobari at 2010-March-08
+//
+
 
 using System;
 using System.Collections.Generic;
@@ -69,7 +53,7 @@ namespace SCICT.NLP.Utility.PinglishConverter
         }
         #endregion
 
-        #region Public Methods
+        #region Public Members
 
         public void Learn(List<PinglishString> listOfWords, bool appendToInternalDataset)
         {
@@ -87,10 +71,11 @@ namespace SCICT.NLP.Utility.PinglishConverter
 
         public void Learn(PinglishString word, bool appendToInternalDataset)
         {
-            for (int prefixGram = 2; prefixGram >= 0; prefixGram--)
+            for (int prefixGram = 3; prefixGram >= 0; prefixGram--)
             {
-                for (int postfixGram = 5; postfixGram >= 0; postfixGram--)
+                for (int postfixGram = 5 - prefixGram; postfixGram >= 0; postfixGram--)
                 {
+
                     m_mappingSequences.LearnWordMapping(word, prefixGram, postfixGram);
                 }
             }
@@ -115,81 +100,121 @@ namespace SCICT.NLP.Utility.PinglishConverter
 
             words.Add(new PinglishString());
 
-            var charSuggs = new List<string>();
+            //var charSuggs = new List<string>();
+            var charSuggsWithCount = new Dictionary<string, int>();
 
             for (int index = 0; index < len; ++index)
             {
-                charSuggs.Clear();
+                charSuggsWithCount.Clear();
+                //#region old_approach
 
-                #region Dist-5
+                //#region Dist-5
 
-                charSuggs = GetCharSuggs(m_mappingSequences, pinglishWord, index, charSuggs, 0, 5);
-                charSuggs = GetCharSuggs(m_mappingSequences, pinglishWord, index, charSuggs, 1, 4);
-                charSuggs = GetCharSuggs(m_mappingSequences, pinglishWord, index, charSuggs, 2, 3);
-                charSuggs = GetCharSuggs(m_mappingSequences, pinglishWord, index, charSuggs, 3, 2);
-                //charSuggs = GetCharSuggs(m_mappingSequences, pinglishWord, index, charSuggs, 4, 1);
+                //charSuggsWithCount = GetCharSuggs(m_mappingSequences, pinglishWord, index, charSuggsWithCount, 0, 5);
+                //charSuggsWithCount = GetCharSuggs(m_mappingSequences, pinglishWord, index, charSuggsWithCount, 1, 4);
+                //charSuggsWithCount = GetCharSuggs(m_mappingSequences, pinglishWord, index, charSuggsWithCount, 2, 3);
+                //charSuggsWithCount = GetCharSuggs(m_mappingSequences, pinglishWord, index, charSuggsWithCount, 3, 2);
+                ////charSuggs = GetCharSuggs(m_mappingSequences, pinglishWord, index, charSuggs, 4, 1);
 
-                #endregion
+                //#endregion
 
-                #region Dist-4
+                //#region Dist-4
 
-                //if (charSuggs.Count == 0)
+                ////if (charSuggs.Count == 0)
+                //{
+                //    charSuggsWithCount = GetCharSuggs(m_mappingSequences, pinglishWord, index, charSuggsWithCount, 0, 4);
+                //    charSuggsWithCount = GetCharSuggs(m_mappingSequences, pinglishWord, index, charSuggsWithCount, 1, 3);
+                //    //charSuggs = GetCharSuggs(m_mappingSequences, pinglishWord, index, charSuggs, 2, 2);
+                //    //charSuggs = GetCharSuggs(m_mappingSequences, pinglishWord, index, charSuggs, 3, 1);
+                //}
+
+                //#endregion
+
+                //#region Dist-3
+
+                //if (charSuggsWithCount.Count == 0)
+                //{
+                //    //if (charSuggs.Count == 0)
+                //    {
+                //        charSuggsWithCount = GetCharSuggs(m_mappingSequences, pinglishWord, index, charSuggsWithCount, 0,
+                //                                          3);
+                //    }
+                //    //if (charSuggs.Count == 0)
+                //    {
+                //        charSuggsWithCount = GetCharSuggs(m_mappingSequences, pinglishWord, index, charSuggsWithCount, 1,
+                //                                          2);
+                //    }
+                //    //if (charSuggs.Count == 0)
+                //    {
+                //        charSuggsWithCount = GetCharSuggs(m_mappingSequences, pinglishWord, index, charSuggsWithCount, 2,
+                //                                          1);
+                //        //charSuggs = GetCharSuggs(m_mappingSequences, pinglishWord, index, charSuggs, 3, 0);
+                //    }
+                //}
+
+                //#endregion
+
+                //#region Dist-2
+
+                //if (charSuggsWithCount.Count == 0)
+                //{
+                //    //if (charSuggs.Count == 0)
+                //    {
+                //        charSuggsWithCount = GetCharSuggs(m_mappingSequences, pinglishWord, index, charSuggsWithCount, 0,
+                //                                          2);
+                //    }
+                //    //if (charSuggs.Count == 0)
+                //    {
+                //        charSuggsWithCount = GetCharSuggs(m_mappingSequences, pinglishWord, index, charSuggsWithCount, 1,
+                //                                          1);
+                //        //charSuggs = GetCharSuggs(m_mappingSequences, pinglishWord, index, charSuggs, 2, 0);
+                //    }
+                //}
+
+                //#endregion
+
+                //#region Dist-1
+
+                //if (charSuggsWithCount.Count == 0)
+                //{
+                //    charSuggsWithCount = GetCharSuggs(m_mappingSequences, pinglishWord, index, charSuggsWithCount, 0, 1);
+                //    charSuggsWithCount = GetCharSuggs(m_mappingSequences, pinglishWord, index, charSuggsWithCount, 1, 0);
+                //}
+
+                //#endregion
+
+                //#region Dist-0
+
+                //if (charSuggsWithCount.Count == 0)
+                //{
+                //    charSuggsWithCount = GetCharSuggs(m_mappingSequences, pinglishWord, index, charSuggsWithCount, 0, 0);
+                //}
+                //#endregion
+                //#endregion
+
+                #region new_approach
+
+                int[] pre = {2, 3, 2, 1, 1, 3, 1, 2, 1, 0, 0, 0, 3, 0, 2, 0, 1, 0};
+                int[] pst = {3, 2, 2, 4, 3, 1, 2, 1, 1, 5, 4, 3, 0, 2, 0, 1, 0, 0};
+
+                
+                int downCounter = 3;
+
+                
+                
+                for (int i=0;i<pre.Length;i++)
                 {
-                    charSuggs = GetCharSuggs(m_mappingSequences, pinglishWord, index, charSuggs, 0, 4);
-                    charSuggs = GetCharSuggs(m_mappingSequences, pinglishWord, index, charSuggs, 1, 3);
-                    //charSuggs = GetCharSuggs(m_mappingSequences, pinglishWord, index, charSuggs, 2, 2);
-                    //charSuggs = GetCharSuggs(m_mappingSequences, pinglishWord, index, charSuggs, 3, 1);
-                }
-
-                #endregion
-
-                #region Dist-3
-
-                if (charSuggs.Count == 0)
-                {
-                    charSuggs = GetCharSuggs(m_mappingSequences, pinglishWord, index, charSuggs, 0, 3);
-                }
-                if (charSuggs.Count == 0)
-                {
-                    charSuggs = GetCharSuggs(m_mappingSequences, pinglishWord, index, charSuggs, 1, 2);
-                }
-                if (charSuggs.Count == 0)
-                {
-                    charSuggs = GetCharSuggs(m_mappingSequences, pinglishWord, index, charSuggs, 2, 1);
-                    //charSuggs = GetCharSuggs(m_mappingSequences, pinglishWord, index, charSuggs, 3, 0);
-                }
-
-                #endregion
-
-                #region Dist-2
-
-                if (charSuggs.Count == 0)
-                {
-                    charSuggs = GetCharSuggs(m_mappingSequences, pinglishWord, index, charSuggs, 0, 2);
-                }
-                if (charSuggs.Count == 0)
-                {
-                    charSuggs = GetCharSuggs(m_mappingSequences, pinglishWord, index, charSuggs, 1, 1);
-                    //charSuggs = GetCharSuggs(m_mappingSequences, pinglishWord, index, charSuggs, 2, 0);
-                }
-
-                #endregion
-
-                #region Dist-1
-
-                if (charSuggs.Count == 0)
-                {
-                    charSuggs = GetCharSuggs(m_mappingSequences, pinglishWord, index, charSuggs, 0, 1);
-                    charSuggs = GetCharSuggs(m_mappingSequences, pinglishWord, index, charSuggs, 1, 0);
-                }
-
-                #endregion
-
-                #region Dist-0
-
-                if (charSuggs.Count == 0)
-                {
-                    charSuggs = GetCharSuggs(m_mappingSequences, pinglishWord, index, charSuggs, 0, 0);
+                    if (charSuggsWithCount.Count==0)
+                    {
+                        charSuggsWithCount = GetCharSuggs(m_mappingSequences, pinglishWord, index, charSuggsWithCount, pre[i], pst[i]);
+                    }
+                    else if (charSuggsWithCount.Count!=0 && downCounter>0)
+                    {
+                        downCounter--;
+                        charSuggsWithCount = GetCharSuggs(m_mappingSequences, pinglishWord, index, charSuggsWithCount, pre[i], pst[i]);
+                    }
+                    else 
+                        break;
                 }
 
                 #endregion
@@ -199,35 +224,31 @@ namespace SCICT.NLP.Utility.PinglishConverter
                 // No Erabs at the begining of the word
                 if (index == 0)
                 {
-                    for (int i = charSuggs.Count - 1; i >= 0; i--)
-                    {
-                        if (PersianAlphabets.Erabs.Contains(charSuggs[i]))
-                        {
-                            charSuggs.RemoveAt(i);
-                        }
-                    }
+                    charSuggsWithCount = charSuggsWithCount.Where(item => !PersianAlphabets.Erabs.Contains(item.Key))
+                        .ToDictionary(x => x.Key, x => x.Value);
                 }
 
                 // No Pseudo-space at the end of the word
                 if (index == len - 1)
                 {
-                    for (int i = charSuggs.Count - 1; i >= 0; i--)
-                    {
-                        int endIndex = charSuggs[i].Length - 1;
-                        if (endIndex >= 0 && charSuggs[i][endIndex] == PseudoSpace.ZWNJ)
-                            charSuggs.RemoveAt(i);
-                    }
+                    charSuggsWithCount = charSuggsWithCount.Where(item =>
+                                                                      {
+                                                                          int endIndex = item.Key.Length - 1;
+                                                                          return !(endIndex >= 0 &&
+                                                                                   item.Key[endIndex] ==
+                                                                                   PseudoSpace.ZWNJ);
+                                                                      }).ToDictionary(x => x.Key, x => x.Value);
                 }
 
                 #endregion
 
-                if (charSuggs.Count == 0)
+                if (charSuggsWithCount.Count == 0)
                 {
                     // TODO: Generate every possible mapping
                     var map = SingleValueCharMappings.TryGetValue(pinglishWord[index]);
                     if (map != null)
                     {
-                        charSuggs.Add(map.Value.ToString());
+                        charSuggsWithCount.Add(map.Value.ToString(), 1);
                     }
                     else
                     {
@@ -236,13 +257,18 @@ namespace SCICT.NLP.Utility.PinglishConverter
                     }
                 }
 
-                words.Update(pinglishWord[index], charSuggs);
+                words.Update(pinglishWord[index], charSuggsWithCount);
             }
 
             if (removeDuplicates)
                 return words.Distinct(new PinglishStringEqualityComparer()).ToList();
             else
                 return words;
+        }
+
+        public IEnumerable<PinglishString> DataSet
+        {
+            get { return m_pinglishDataSet; }
         }
 
         private List<PinglishString> SuggestByExactSearchInDataset(string pinglishWord)
@@ -287,26 +313,26 @@ namespace SCICT.NLP.Utility.PinglishConverter
 
         #region Private Methods
 
-        private static List<string> GetCharSuggs(MappingSequence mappingSequences, string pinglishWord, int index, List<string> charSuggs, int prefixGram, int postfixGram)
+        private static Dictionary<string, int> GetCharSuggs(MappingSequence mappingSequences, string pinglishWord, int index, Dictionary<string, int> charSuggs, int prefixGram, int postfixGram)
         {
             var tmpSuggs = GetSuggsForKey(mappingSequences, pinglishWord, index, prefixGram, postfixGram);
             charSuggs = Union(charSuggs, tmpSuggs);
             return charSuggs;
         }
 
-        private static List<string> GetSuggsForKey(MappingSequence mappingSequences, string pinglishWord, int index, int prefixGram, int postfixGram)
+        private static Dictionary<string, int> GetSuggsForKey(MappingSequence mappingSequences, string pinglishWord, int index, int prefixGram, int postfixGram)
         {
             var prefix = MappingSequence.GetPrefixForIndex(pinglishWord, index, prefixGram);
             if (prefix.Length != prefixGram)
-                return new List<string>();
+                return new Dictionary<string, int>();
             
             var postfix = MappingSequence.GetPostfixForIndex(pinglishWord, index, postfixGram);
             if (postfix.Length != postfixGram)
-                return new List<string>();
+                return new Dictionary<string, int>();
 
             var ch = pinglishWord[index];
 
-            List<string> charSuggs = null;
+            Dictionary<string, int> charSuggs = null;
             try
             {
                 // TODO: If Key does not exist ?!
@@ -314,15 +340,11 @@ namespace SCICT.NLP.Utility.PinglishConverter
 
                 if (listOfAllSuggs != null)
                 {
-                    var query = from KeyValuePair<string, int> pair in listOfAllSuggs
-                                orderby pair.Value descending
-                                select pair.Key;
-
-                    charSuggs = query.ToList();
+                    charSuggs = listOfAllSuggs.ToDictionary(sug => sug.Key, sug => sug.Value);
                 }
                 else
                 {
-                    charSuggs = new List<string>();
+                    charSuggs = new Dictionary<string, int>();
                 }
             }
             catch (KeyNotFoundException ex)
@@ -348,6 +370,31 @@ namespace SCICT.NLP.Utility.PinglishConverter
             {
                 firstList.Add(str);
             }
+            return firstList;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <remarks>Affects the first parameter</remarks>
+        /// <returns></returns>
+        private static Dictionary<string, int> Union(Dictionary<string, int> firstList, Dictionary<string, int> secondList)
+        {
+            if (secondList == null)
+                return firstList;
+
+            foreach (var keyValuePair in secondList)
+            {
+                if (firstList.ContainsKey(keyValuePair.Key))
+                {
+                    firstList[keyValuePair.Key] += keyValuePair.Value;
+                }
+                else
+                {
+                    firstList.Add(keyValuePair.Key, keyValuePair.Value);
+                }
+            }
+
             return firstList;
         }
 

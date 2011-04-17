@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirastyarWordAddin", "VirastyarWordAddin2010\VirastyarWordAddin.csproj", "{BC3B7D49-D0D8-4720-8F5E-7EC3B56EB8C8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		DebugWithSetup|Any CPU = DebugWithSetup|Any CPU
+		Release|Any CPU = Release|Any CPU
+		ReleaseWithSetup|Any CPU = ReleaseWithSetup|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BC3B7D49-D0D8-4720-8F5E-7EC3B56EB8C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC3B7D49-D0D8-4720-8F5E-7EC3B56EB8C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC3B7D49-D0D8-4720-8F5E-7EC3B56EB8C8}.DebugWithSetup|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC3B7D49-D0D8-4720-8F5E-7EC3B56EB8C8}.DebugWithSetup|Any CPU.Build.0 = Debug|Any CPU
+		{BC3B7D49-D0D8-4720-8F5E-7EC3B56EB8C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC3B7D49-D0D8-4720-8F5E-7EC3B56EB8C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC3B7D49-D0D8-4720-8F5E-7EC3B56EB8C8}.ReleaseWithSetup|Any CPU.ActiveCfg = Release|Any CPU
+		{BC3B7D49-D0D8-4720-8F5E-7EC3B56EB8C8}.ReleaseWithSetup|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

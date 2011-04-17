@@ -1,27 +1,4 @@
-﻿// Virastyar
-// http://www.virastyar.ir
-// Copyright (C) 2011 Supreme Council for Information and Communication Technology (SCICT) of Iran
-// 
-// This file is part of Virastyar.
-// 
-// Virastyar is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-// 
-// Virastyar is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU General Public License for more details.
-// 
-// You should have received a copy of the GNU General Public License
-// along with Virastyar.  If not, see <http://www.gnu.org/licenses/>.
-// 
-// Additional permission under GNU GPL version 3 section 7
-// The sole exception to the license's terms and requierments might be the
-// integration of Virastyar with Microsoft Word (any version) as an add-in.
-
-namespace VirastyarWordAddin
+﻿namespace VirastyarWordAddin
 {
     partial class ExceptionForm
     {
@@ -57,6 +34,7 @@ namespace VirastyarWordAddin
             this.btnOK = new System.Windows.Forms.Button();
             this.btnShowDetails = new System.Windows.Forms.Button();
             this.tbDetails = new System.Windows.Forms.TextBox();
+            this.btnSendError = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lblMessage
@@ -77,7 +55,6 @@ namespace VirastyarWordAddin
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(368, 19);
             this.label1.TabIndex = 1;
-            this.label1.Text = "لطفاً با واحد فنّی تماس حاصل بگیرید.";
             // 
             // btnOK
             // 
@@ -94,7 +71,7 @@ namespace VirastyarWordAddin
             // 
             this.btnShowDetails.Location = new System.Drawing.Point(12, 50);
             this.btnShowDetails.Name = "btnShowDetails";
-            this.btnShowDetails.Size = new System.Drawing.Size(148, 23);
+            this.btnShowDetails.Size = new System.Drawing.Size(103, 23);
             this.btnShowDetails.TabIndex = 3;
             this.btnShowDetails.Text = "نمایش جزئیات";
             this.btnShowDetails.UseVisualStyleBackColor = true;
@@ -114,11 +91,22 @@ namespace VirastyarWordAddin
             this.tbDetails.TabIndex = 4;
             this.tbDetails.Visible = false;
             // 
+            // btnSendError
+            // 
+            this.btnSendError.Location = new System.Drawing.Point(224, 50);
+            this.btnSendError.Name = "btnSendError";
+            this.btnSendError.Size = new System.Drawing.Size(75, 23);
+            this.btnSendError.TabIndex = 5;
+            this.btnSendError.Text = "ارسال خطا";
+            this.btnSendError.UseVisualStyleBackColor = true;
+            this.btnSendError.Click += new System.EventHandler(this.btnSendError_Click);
+            // 
             // ExceptionForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(392, 80);
+            this.Controls.Add(this.btnSendError);
             this.Controls.Add(this.tbDetails);
             this.Controls.Add(this.btnShowDetails);
             this.Controls.Add(this.btnOK);
@@ -147,5 +135,6 @@ namespace VirastyarWordAddin
         private System.Windows.Forms.Button btnOK;
         private System.Windows.Forms.Button btnShowDetails;
         private System.Windows.Forms.TextBox tbDetails;
+        private System.Windows.Forms.Button btnSendError;
     }
 }

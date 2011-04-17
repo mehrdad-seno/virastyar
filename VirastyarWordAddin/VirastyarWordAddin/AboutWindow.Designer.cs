@@ -1,27 +1,4 @@
-﻿// Virastyar
-// http://www.virastyar.ir
-// Copyright (C) 2011 Supreme Council for Information and Communication Technology (SCICT) of Iran
-// 
-// This file is part of Virastyar.
-// 
-// Virastyar is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-// 
-// Virastyar is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU General Public License for more details.
-// 
-// You should have received a copy of the GNU General Public License
-// along with Virastyar.  If not, see <http://www.gnu.org/licenses/>.
-// 
-// Additional permission under GNU GPL version 3 section 7
-// The sole exception to the license's terms and requierments might be the
-// integration of Virastyar with Microsoft Word (any version) as an add-in.
-
-namespace VirastyarWordAddin.Configurations
+﻿namespace VirastyarWordAddin.Configurations
 {
     partial class AboutWindow
     {
@@ -53,91 +30,156 @@ namespace VirastyarWordAddin.Configurations
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AboutWindow));
             this.btnOK = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
+            this.lblVersion = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.picLogo = new System.Windows.Forms.PictureBox();
-            ((System.ComponentModel.ISupportInitialize)(this.picLogo)).BeginInit();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.linkLabel2 = new System.Windows.Forms.LinkLabel();
+            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.linkLabel3 = new System.Windows.Forms.LinkLabel();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnOK
             // 
             this.btnOK.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOK.Location = new System.Drawing.Point(217, 242);
+            this.btnOK.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.btnOK.Location = new System.Drawing.Point(203, 196);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
             this.btnOK.TabIndex = 0;
             this.btnOK.Text = "تأیید";
             this.btnOK.UseVisualStyleBackColor = true;
             // 
-            // label1
+            // lblVersion
             // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label1.AutoSize = true;
-            this.label1.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label1.Location = new System.Drawing.Point(462, 28);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(54, 13);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "نگارش اول";
-            // 
-            // label2
-            // 
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.label2.Location = new System.Drawing.Point(12, 199);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(505, 38);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "تمام حقوق مادّی و معنوی این نرم‌افزار برای دبیرخانه‌ی شورای عالی اطلاع‌رسانی محفو" +
-                "ظ است.";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label3
-            // 
-            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.label3.Location = new System.Drawing.Point(12, 169);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(505, 38);
-            this.label3.TabIndex = 4;
-            this.label3.Text = "این نرم‌افزار را دبیرخانه‌ی شورای عالی اطلاع‌رسانی تهیه کرده است.";
-            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblVersion.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblVersion.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lblVersion.Location = new System.Drawing.Point(12, 39);
+            this.lblVersion.Name = "lblVersion";
+            this.lblVersion.Size = new System.Drawing.Size(457, 14);
+            this.lblVersion.TabIndex = 2;
+            this.lblVersion.Text = "نگارش {0}";
             // 
             // label4
             // 
             this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label4.AutoSize = true;
             this.label4.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label4.Location = new System.Drawing.Point(461, 60);
+            this.label4.Location = new System.Drawing.Point(414, 65);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(55, 13);
             this.label4.TabIndex = 5;
-            this.label4.Text = "سال ۱۳۸۹";
+            this.label4.Text = "سال ۱۳۹٠";
             // 
-            // picLogo
+            // pictureBox1
             // 
-            this.picLogo.Image = global::VirastyarWordAddin.Properties.Resources.ShoraLogo;
-            this.picLogo.Location = new System.Drawing.Point(12, 28);
-            this.picLogo.Name = "picLogo";
-            this.picLogo.Size = new System.Drawing.Size(418, 138);
-            this.picLogo.TabIndex = 1;
-            this.picLogo.TabStop = false;
+            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(502, 39);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(128, 128);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 6;
+            this.pictureBox1.TabStop = false;
+            // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.Color.White;
+            this.panel1.Controls.Add(this.groupBox1);
+            this.panel1.Controls.Add(this.linkLabel2);
+            this.panel1.Controls.Add(this.linkLabel1);
+            this.panel1.Controls.Add(this.label1);
+            this.panel1.Controls.Add(this.btnOK);
+            this.panel1.Controls.Add(this.label4);
+            this.panel1.Controls.Add(this.lblVersion);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
+            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(481, 226);
+            this.panel1.TabIndex = 7;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Location = new System.Drawing.Point(140, 125);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(200, 10);
+            this.groupBox1.TabIndex = 10;
+            this.groupBox1.TabStop = false;
+            // 
+            // linkLabel2
+            // 
+            this.linkLabel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.linkLabel2.LinkArea = new System.Windows.Forms.LinkArea(17, 33);
+            this.linkLabel2.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
+            this.linkLabel2.Location = new System.Drawing.Point(3, 141);
+            this.linkLabel2.Name = "linkLabel2";
+            this.linkLabel2.Size = new System.Drawing.Size(463, 49);
+            this.linkLabel2.TabIndex = 9;
+            this.linkLabel2.TabStop = true;
+            this.linkLabel2.Text = "این نرم‌افزار را دبیرخانه‌ی شورای عالی اطلاع‌رسانی تهیه کرده است.\r\nتمام حقوق مادّ" +
+    "ی و معنوی این نرم‌افزار برای دبیرخانه‌ی شورای عالی اطلاع‌رسانی محفوظ است.\r\n";
+            this.linkLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.linkLabel2.UseCompatibleTextRendering = true;
+            this.linkLabel2.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel2_LinkClicked);
+            // 
+            // linkLabel1
+            // 
+            this.linkLabel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.linkLabel1.LinkArea = new System.Windows.Forms.LinkArea(37, 18);
+            this.linkLabel1.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
+            this.linkLabel1.Location = new System.Drawing.Point(12, 87);
+            this.linkLabel1.Name = "linkLabel1";
+            this.linkLabel1.Size = new System.Drawing.Size(454, 27);
+            this.linkLabel1.TabIndex = 8;
+            this.linkLabel1.TabStop = true;
+            this.linkLabel1.Text = "ویراستیار به‌صورت رایگان و کدباز تحت مجوز نشر عمومی گنو (نسخه ٣) عرضه می‌شود.";
+            this.linkLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.linkLabel1.UseCompatibleTextRendering = true;
+            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
+            // 
+            // label1
+            // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.Black;
+            this.label1.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label1.Location = new System.Drawing.Point(336, 9);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(137, 19);
+            this.label1.TabIndex = 6;
+            this.label1.Text = "افزونه فارسی ویراستیار";
+            // 
+            // linkLabel3
+            // 
+            this.linkLabel3.AutoSize = true;
+            this.linkLabel3.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
+            this.linkLabel3.Location = new System.Drawing.Point(506, 175);
+            this.linkLabel3.Name = "linkLabel3";
+            this.linkLabel3.Size = new System.Drawing.Size(120, 13);
+            this.linkLabel3.TabIndex = 8;
+            this.linkLabel3.TabStop = true;
+            this.linkLabel3.Text = "http://www.virastyar.ir";
+            this.linkLabel3.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel3_LinkClicked);
             // 
             // AboutWindow
             // 
             this.AcceptButton = this.btnOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(528, 276);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.picLogo);
-            this.Controls.Add(this.btnOK);
+            this.CancelButton = this.btnOK;
+            this.ClientSize = new System.Drawing.Size(645, 226);
+            this.Controls.Add(this.linkLabel3);
+            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.pictureBox1);
             this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.HelpButton = true;
@@ -147,9 +189,12 @@ namespace VirastyarWordAddin.Configurations
             this.Name = "AboutWindow";
             this.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "درباره افزونه فارسی ویراستیار";
+            this.Text = "درباره ویراستیار";
             this.HelpButtonClicked += new System.ComponentModel.CancelEventHandler(this.AboutWindow_HelpButtonClicked);
-            ((System.ComponentModel.ISupportInitialize)(this.picLogo)).EndInit();
+            this.Load += new System.EventHandler(this.AboutWindow_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -158,10 +203,14 @@ namespace VirastyarWordAddin.Configurations
         #endregion
 
         private System.Windows.Forms.Button btnOK;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.PictureBox picLogo;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label lblVersion;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.LinkLabel linkLabel1;
+        private System.Windows.Forms.LinkLabel linkLabel2;
+        private System.Windows.Forms.LinkLabel linkLabel3;
+        private System.Windows.Forms.GroupBox groupBox1;
     }
 }

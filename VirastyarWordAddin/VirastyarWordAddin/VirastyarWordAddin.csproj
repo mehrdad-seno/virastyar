@@ -138,9 +138,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
+    <Reference Include="AutomaticUpdater, Version=2.6.11.2, Culture=neutral, PublicKeyToken=d2050be9b2e72e40, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\log4net\log4net.dll</HintPath>
+      <HintPath>..\..\ExternalLib\AutomaticUpdater.dll</HintPath>
     </Reference>
     <Reference Include="ManagedWinapi, Version=0.3.0.1, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -157,6 +157,10 @@
     </Reference>
     <Reference Include="Microsoft.VisualStudio.Tools.Applications.Runtime, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="NLog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\ExternalLib\NLog.dll</HintPath>
     </Reference>
     <Reference Include="Office, Version=11.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c">
       <SpecificVersion>False</SpecificVersion>
@@ -214,6 +218,10 @@
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="YAXLib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=73e8dd665ba77547, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\ExternalLib\YAXLib.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <!--
     This section defines the user source files that are part of the project.
@@ -252,6 +260,16 @@
     <Compile Include="Controls\HotkeyControl2.Designer.cs">
       <DependentUpon>HotkeyControl2.cs</DependentUpon>
     </Compile>
+    <Compile Include="DictionaryManagement\DictionaryEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DictionaryManagement\DictionaryEditor.Designer.cs">
+      <DependentUpon>DictionaryEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Log\Logger.cs" />
+    <Compile Include="Log\LogReporter.cs" />
+    <Compile Include="Log\VirastyarLogEventInfo.cs" />
+    <Compile Include="Settings.cs" />
     <Compile Include="TemplateGenerator.cs" />
     <Compile Include="IVirastyarAddin.cs" />
     <Compile Include="PreprocessSpellVerifier.cs" />
@@ -347,8 +365,8 @@
     <Compile Include="ThisAddIn.cs">
       <SubType>Code</SubType>
     </Compile>
-    <EmbeddedResource Include="Resources\Pinglish.dat" />
-    <EmbeddedResource Include="Resources\dic_informal.dat" />
+    <None Include="Resources\Pinglish.dat" />
+    <None Include="Resources\dic_informal.dat" />
     <None Include="ThisAddIn.Designer.xml">
       <DependentUpon>ThisAddIn.cs</DependentUpon>
     </None>
@@ -362,13 +380,15 @@
     <Compile Include="TipOfTheDayForm.Designer.cs">
       <DependentUpon>TipOfTheDayForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Updater\UpdateNotificationWindow.cs">
+    <Compile Include="Update\MsiUpdateChecker.cs" />
+    <Compile Include="Update\UpdateChecker.cs" />
+    <Compile Include="Update\UpdateNotificationWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Updater\UpdateNotificationWindow.Designer.cs">
+    <Compile Include="Update\UpdateNotificationWindow.Designer.cs">
       <DependentUpon>UpdateNotificationWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="UsageLogger.cs" />
+    <Compile Include="Update\WyUpdateChecker.cs" />
     <Compile Include="VerificationCanceledException.cs" />
     <Compile Include="VerificationTypes.cs">
       <SubType>Code</SubType>
@@ -386,6 +406,7 @@
     <Compile Include="VerifierBase.cs" />
     <Compile Include="VirastyarAddin.cs" />
     <Compile Include="WindowListener.cs" />
+    <Compile Include="WindowWrapper.cs" />
     <Compile Include="WordCompletionDistractionForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -405,8 +426,18 @@
   <ItemGroup>
     <Content Include="Resources\DidYouKnow.png" />
     <Content Include="Resources\IconTip.png" />
+    <Content Include="Resources\IconUpdate.png" />
     <Content Include="Resources\IconVirastyar.png" />
+    <EmbeddedResource Include="Resources\client.wyc">
+    </EmbeddedResource>
     <Content Include="Resources\Virastyar.ico" />
+    <None Include="Resources\Virastyar.png" />
+    <EmbeddedResource Include="Resources\wyUpdate.exe">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\dic.dat.zip" />
+    <EmbeddedResource Include="Resources\dic_informal.dat.zip" />
+    <None Include="app.debug.config" />
+    <None Include="app.release.config" />
     <None Include="Resources\IconHelp.png" />
     <None Include="Resources\IconGhafie.png" />
     <None Include="Resources\IconDate.png" />
@@ -420,20 +451,30 @@
     <None Include="Resources\IconPinglishAll.png" />
     <None Include="Resources\IconPinglish.png" />
     <None Include="Resources\IconNumberConvertor.png" />
+    <EmbeddedResource Include="DictionaryManagement\DictionaryEditor.resx">
+      <DependentUpon>DictionaryEditor.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\Tips.tod" />
-    <EmbeddedResource Include="Resources\Virastyar2003.dot" />
-    <EmbeddedResource Include="Resources\Virastyar2007.dotm" />
-    <EmbeddedResource Include="Resources\Virastyar2010.dotm" />
-    <EmbeddedResource Include="Resources\stem.dat" />
+    <None Include="Resources\Virastyar2003.dot" />
+    <None Include="Resources\Virastyar2007.dotm" />
+    <None Include="Resources\Virastyar2010.dotm" />
+    <None Include="Resources\stem.dat" />
     <EmbeddedResource Include="Controls\HotkeyControl2.resx">
       <DependentUpon>HotkeyControl2.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\dic.dat" />
-    <EmbeddedResource Include="Resources\PinglishPreprocesses.dat" />
-    <EmbeddedResource Include="Resources\ShoraLogo.bmp" />
+    <None Include="Resources\dic.dat" />
+    <None Include="Resources\PinglishPreprocesses.dat" />
     <EmbeddedResource Include="Resources\UserDictionary.dat" />
-    <EmbeddedResource Include="Resources\Virastyar.chm" />
+    <EmbeddedResource Include="Resources\Stem.dat.zip" />
+    <EmbeddedResource Include="Resources\Patterns.txt.zip" />
+    <EmbeddedResource Include="Resources\Pinglish.dat.zip" />
+    <EmbeddedResource Include="Resources\PinglishPreprocesses.dat.zip" />
+    <None Include="Resources\Virastyar.chm" />
+    <EmbeddedResource Include="Resources\Virastyar2003.dot.zip" />
+    <EmbeddedResource Include="Resources\Virastyar2007.dotm.zip" />
+    <EmbeddedResource Include="Resources\Virastyar2010.dotm.zip" />
     <EmbeddedResource Include="ExceptionForm.resx">
       <DependentUpon>ExceptionForm.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -450,7 +491,7 @@
       <DependentUpon>AboutWindow.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Patterns.txt" />
+    <None Include="Resources\Patterns.txt" />
     <EmbeddedResource Include="SpellCheckerVerificationWindow.resx">
       <DependentUpon>SpellCheckerVerificationWindow.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -458,7 +499,7 @@
     <EmbeddedResource Include="TipOfTheDayForm.resx">
       <DependentUpon>TipOfTheDayForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Updater\UpdateNotificationWindow.resx">
+    <EmbeddedResource Include="Update\UpdateNotificationWindow.resx">
       <DependentUpon>UpdateNotificationWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WordCompletionDistractionForm.resx">
@@ -468,6 +509,9 @@
       <DependentUpon>WordCompletionForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\Templates\" />
   </ItemGroup>
   <!-- Include the build rules for a C# project. -->
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
@@ -492,7 +536,15 @@
   <PropertyGroup>
     <PostBuildEvent>
     </PostBuildEvent>
-    <PreBuildEvent>
-    </PreBuildEvent>
+    <PreBuildEvent>copy /y "$(ProjectDir)app.$(ConfigurationName).config" "$(ProjectDir)app.config"
+powershell.exe "$(SolutionDir)Compress.ps1" -filePath "$(SolutionDir)VirastyarWordAddin\Resources\dic.dat"
+powershell.exe "$(SolutionDir)Compress.ps1" -filePath "$(SolutionDir)VirastyarWordAddin\Resources\dic_informal.dat"
+powershell.exe "$(SolutionDir)Compress.ps1" -filePath "$(SolutionDir)VirastyarWordAddin\Resources\Patterns.txt"
+powershell.exe "$(SolutionDir)Compress.ps1" -filePath "$(SolutionDir)VirastyarWordAddin\Resources\Pinglish.dat"
+powershell.exe "$(SolutionDir)Compress.ps1" -filePath "$(SolutionDir)VirastyarWordAddin\Resources\PinglishPreprocesses.dat"
+powershell.exe "$(SolutionDir)Compress.ps1" -filePath "$(SolutionDir)VirastyarWordAddin\Resources\Stem.dat"
+powershell.exe "$(SolutionDir)Compress.ps1" -filePath "$(SolutionDir)VirastyarWordAddin\Resources\Virastyar2003.dot"
+powershell.exe "$(SolutionDir)Compress.ps1" -filePath "$(SolutionDir)VirastyarWordAddin\Resources\Virastyar2007.dotm"
+powershell.exe "$(SolutionDir)Compress.ps1" -filePath "$(SolutionDir)VirastyarWordAddin\Resources\Virastyar2010.dotm"</PreBuildEvent>
   </PropertyGroup>
 </Project>

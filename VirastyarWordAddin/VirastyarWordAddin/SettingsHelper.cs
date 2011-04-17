@@ -1,27 +1,4 @@
-﻿// Virastyar
-// http://www.virastyar.ir
-// Copyright (C) 2011 Supreme Council for Information and Communication Technology (SCICT) of Iran
-// 
-// This file is part of Virastyar.
-// 
-// Virastyar is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-// 
-// Virastyar is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU General Public License for more details.
-// 
-// You should have received a copy of the GNU General Public License
-// along with Virastyar.  If not, see <http://www.gnu.org/licenses/>.
-// 
-// Additional permission under GNU GPL version 3 section 7
-// The sole exception to the license's terms and requierments might be the
-// integration of Virastyar with Microsoft Word (any version) as an add-in.
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -29,6 +6,7 @@ using System.IO;
 using Microsoft.Win32;
 using System.Diagnostics;
 using Microsoft.Office.Interop.Word;
+using VirastyarWordAddin.Log;
 
 namespace VirastyarWordAddin
 {
@@ -99,50 +77,50 @@ namespace VirastyarWordAddin
         {
             string ver = Globals.ThisAddIn.Application.Version;
             string templatesLocation = "";
+            
             if (ver.CompareTo(Constants.Office2003Version) == 0)
             {
                 string regKeyStr = Registry.CurrentUser.Name + "\\" + Constants.OfficeRegKey + "\\" + ver + "\\Common\\General";
-                templatesLocation = Registry.GetValue(regKeyStr, Constants.OfficeUserTemplatesName, null) as string;
+                templatesLocation = (string)Registry.GetValue(regKeyStr, Constants.OfficeUserTemplatesName, "");
+                
                 if (string.IsNullOrEmpty(templatesLocation))
                 {
                     string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
                     templatesLocation = Path.Combine(appDataPath, @"Microsoft\Templates\");
                 }
+                return templatesLocation;
             }
             else
             {
                 var trustedLocationsKey = Registry.CurrentUser.OpenSubKey(
-                    Constants.OfficeRegKey + "\\" + ver.ToString() + "\\Word\\Security\\Trusted Locations");
+                    Constants.OfficeRegKey + "\\" + ver + "\\Word\\Security\\Trusted Locations");
                 if (trustedLocationsKey == null)
                 {
                     // TODO: Is it possible ?!
                     throw new InvalidOperationException("No trusted location is defined in the Word");
                 }
+
                 string[] subKeys = trustedLocationsKey.GetSubKeyNames();
+
                 foreach (var subKeyName in subKeys)
                 {
                     var subKeyReg = trustedLocationsKey.OpenSubKey(subKeyName);
-                    string describtion = subKeyReg.GetValue("Description") as string;
-                    if (!string.IsNullOrEmpty(describtion) && describtion.Contains("User Templates"))
+                    string path = ((string)subKeyReg.GetValue("Path")).TrimEnd('\\');
+
+                    if (!string.IsNullOrEmpty(path))
                     {
-                        templatesLocation = subKeyReg.GetValue("Path") as string;
-                        break;
+                        if (string.IsNullOrEmpty(templatesLocation))
+                            templatesLocation = path;
+                        else if (path.EndsWith(@"Microsoft\Templates"))
+                            templatesLocation = path;
                     }
                 }
-                if (string.IsNullOrEmpty(templatesLocation))
-                {
-                    if (subKeys.Length > 0)
-                    {
-                        var subKeyReg = trustedLocationsKey.OpenSubKey(subKeys[0]);
-                        templatesLocation = subKeyReg.GetValue("Path") as string;
-                    }
-                    else
-                    {
-                        throw new InvalidOperationException("No trusted location is defined in the Word");
-                    }
-                }
+
+                if (!string.IsNullOrEmpty(templatesLocation))
+                    return templatesLocation;
             }
-            return templatesLocation;
+
+            throw new InvalidOperationException("No trusted location is defined in the Word");
         }
 
         /// <summary>
@@ -173,8 +151,16 @@ namespace VirastyarWordAddin
                 AddIn addIn = Globals.ThisAddIn.Application.AddIns.get_Item(ref index);
                 if (addIn.Name.CompareTo(addInName) == 0)
                 {
-                    addIn.Delete();
-                    return true;
+                    try
+                    {
+                        addIn.Installed = false;
+                        //addIn.Delete();
+                        return true;
+                    }
+                    catch(Exception ex)
+                    {
+                        LogHelper.ErrorException("Unable to remove the specified template from word Addins", ex);
+                    }
                 }
             }
             return false;
