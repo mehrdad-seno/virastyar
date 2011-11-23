@@ -595,7 +595,6 @@ powershell.exe -Command "&amp; '$(SolutionDir)Compress.ps1' -filePath '$(Solutio
     <Compile Include="..\VirastyarWordAddin\WordUIHelper.cs">
       <Link>WordUIHelper.cs</Link>
     </Compile>
-    <Compile Include="VirastyarRibbon.cs" />
     <EmbeddedResource Include="..\VirastyarWordAddin\AboutWindow.resx">
       <Link>AboutWindow.resx</Link>
       <DependentUpon>AboutWindow.cs</DependentUpon>
@@ -763,7 +762,6 @@ powershell.exe -Command "&amp; '$(SolutionDir)Compress.ps1' -filePath '$(Solutio
       <Link>WordCompletionForm.resx</Link>
       <DependentUpon>WordCompletionForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="VirastyarRibbon.xml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\VirastyarWordAddin\Resources\DidYouKnow.png">
