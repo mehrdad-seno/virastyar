@@ -7,20 +7,15 @@ using System.Text;
 using System.Windows.Forms;
 using SCICT.NLP.Utility.LanguageModel;
 using VirastyarWordAddin.Properties;
-using SCICT.Microsoft.Office.Word.ContentReader;
 using SCICT.NLP.Persian;
 using SCICT.NLP.TextProofing.SpellChecker;
 using SCICT.Utility.GUI;
 using SCICT.Utility.Keyboard;
 using System.Threading;
 using SCICT.Microsoft.Word;
-using SCICT.Utility;
 using System.Linq;
-using System.Linq.Expressions;
-using Microsoft.Office.Interop.Word;
 using VirastyarWordAddin.Update;
 using VirastyarWordAddin.Log;
-using System.Reflection;
 
 namespace VirastyarWordAddin.Configurations
 {
@@ -29,14 +24,15 @@ namespace VirastyarWordAddin.Configurations
     /// </summary>
     public partial class AddinConfigurationDialog : Form, IAddinConfigurationDialog
     {
-        const string MainDicDescription = "واژه‌نامه‌ی ویراستیار";
-        const string CustomDicDescription = "(واژه‌نامه‌ی کاربر)";
+        const string MainDicDescription = "واژه‌نامهٔ ویراستیار";
+        const string CustomDicDescription = "(واژه‌نامهٔ کاربر)";
 
         #region Private Members
 
-        private readonly Settings settings = null;
-        
-        private AllCharactersRefinerSettings allCharactersRefinerSettings = null;
+        private readonly Settings m_appSettings = null;
+        private AllCharactersRefinerSettings m_allCharactersRefinerSettings = null;
+
+        private bool m_reloadSpellCheckerEngine = false;
 
         #endregion
 
@@ -53,14 +49,13 @@ namespace VirastyarWordAddin.Configurations
         internal AddinConfigurationDialog()
         {
             InitializeComponent();
-            tabCtrlSettings.TabPages.Remove(tbPageWords);
         }
 
         internal AddinConfigurationDialog(Settings settings)
             : this()
         {
-            this.settings = settings;
-            this.allCharactersRefinerSettings = new AllCharactersRefinerSettings(settings);
+            m_appSettings = settings;
+            m_allCharactersRefinerSettings = new AllCharactersRefinerSettings(settings);
             LoadConfigurations();
         }
 
@@ -73,11 +68,11 @@ namespace VirastyarWordAddin.Configurations
         /// </summary>
         public void LoadConfigurations()
         {
-            // TODO: Load Configuration and update UI elements
+            // Load Configuration and update UI elements
             UpdateSpellCheckSettingsUI();
             UpdateShortcutsSettingsUI();
             UpdateAllCharsRefinerSettingsUI();
-            UpdateSpellCheckRefinementUI();
+            UpdatePrespellCheckUI();
             UpdateWordCompletionSettingsUI();
             UpdateAutomaticReportSettingsUI();
         }
@@ -86,34 +81,27 @@ namespace VirastyarWordAddin.Configurations
         {
             #region Spell-Check Settings
 
-            SpellCheckerConfig spellCheckerSettings = GetSpellCheckSettings();
+            SpellCheckerConfig spellCheckerInternalConfig = GetSpellCheckSettings();
 
-            if (OnSpellCheckSettingsChanged(spellCheckerSettings))
+            if (OnSpellCheckSettingsChanged(spellCheckerInternalConfig))
             {
-                settings.Config_UserDictionaryPath = spellCheckerSettings.DicPath;
-                settings.Config_EditDistance = (uint)spellCheckerSettings.EditDistance;
-                settings.Config_MaxSuggestions = (uint)spellCheckerSettings.SuggestionCount;
+                m_appSettings.SpellChecker_UserDictionaryPath = spellCheckerInternalConfig.DicPath;
+                m_appSettings.SpellChecker_EditDistance = spellCheckerInternalConfig.EditDistance;
+                m_appSettings.SpellChecker_MaxSuggestions = spellCheckerInternalConfig.SuggestionCount;
 
-                settings.SpellChecker_VocabSpaceCorrection = cbVocabSpaceCorrection.Checked;
-                settings.SpellChecker_DontCheckSingleLetters = cbDontCheckSingleLetters.Checked;
-                settings.SpellChecker_HeYeConvertion = cbHaaShisakiToHaaYaa.Checked;
-
-                settings.PreprocessSpell_RefineHaa = cbRefineHaa.Checked;
-                settings.PreprocessSpell_RefineMee = cbRefineMee.Checked;
-                settings.PreprocessSpell_RefineHeYe = cbRefineHeYe.Checked;
-                settings.PreprocessSpell_RefineBe = cbRefineBe.Checked;
-                settings.PreprocessSpell_RefineAllAffixes = 
-                    (cbRefineAllAffixes.CheckState == CheckState.Checked) ? true : false;
+                m_appSettings.PreprocessSpell_CorrectBe = cbPrespellCorrectBe.Checked;
+                m_appSettings.PreprocessSpell_CorrectPrefix = cbPrespellCorrectPrefixes.Checked;
+                m_appSettings.PreprocessSpell_CorrectPostfix = cbPrespellCorrectSuffixes.Checked;
 
                 Debug.Assert(listViewUserDictionaries.Items.Count > 0);
 
                 if (listViewUserDictionaries.Items.Count > 0)
                 {
-                    settings.SpellChecker_MainDictionaryPath = GetFileNameFromItem(listViewUserDictionaries.Items[0]);
-                    settings.SpellChecker_MainDictionarySelected = listViewUserDictionaries.Items[0].Checked;
+                    m_appSettings.SpellChecker_MainDictionaryPath = GetFileNameFromItem(listViewUserDictionaries.Items[0]);
+                    m_appSettings.SpellChecker_MainDictionarySelected = listViewUserDictionaries.Items[0].Checked;
 
-                    StringBuilder sbPaths = new StringBuilder();
-                    StringBuilder sbDescs = new StringBuilder();
+                    var sbPaths = new StringBuilder();
+                    var sbDescs = new StringBuilder();
                     int selectionFlags = 0;
                     for (int i = 1; i < listViewUserDictionaries.Items.Count; ++i)
                     {
@@ -124,55 +112,61 @@ namespace VirastyarWordAddin.Configurations
                             selectionFlags = selectionFlags | (1 << (i - 1));
                     }
 
-                    settings.SpellChecker_CustomDictionaries = sbPaths.ToString();
-                    settings.SpellChecker_CustomDictionariesDescription = sbDescs.ToString();
-                    settings.SpellChecker_CustomDictionariesSelectionFlag = selectionFlags;
+                    m_appSettings.SpellChecker_CustomDictionaries = sbPaths.ToString();
+                    m_appSettings.SpellChecker_CustomDictionariesDescription = sbDescs.ToString();
+                    m_appSettings.SpellChecker_CustomDictionariesSelectionFlag = selectionFlags;
                 }
             }
-            //}
 
             #endregion
 
             #region Storing All-Chars-Refiner settings
 
-            allCharactersRefinerSettings = GetAllCharsRefinerSettings();
-            settings.RefineCategoriesFlag = (int)allCharactersRefinerSettings.NotIgnoredCategories;
-            settings.RefineIgnoreListConcated = allCharactersRefinerSettings.GetIgnoreListAsString();
-            settings.RefineHalfSpacePositioning = allCharactersRefinerSettings.RefineHalfSpacePositioning;
+            m_allCharactersRefinerSettings = GetAllCharsRefinerSettings();
+            m_appSettings.RefineCategoriesFlag = (int)m_allCharactersRefinerSettings.NotIgnoredCategories;
+            m_appSettings.RefineIgnoreListConcated = m_allCharactersRefinerSettings.GetIgnoreListAsString();
+            m_appSettings.RefineHalfSpacePositioning = m_allCharactersRefinerSettings.RefineHalfSpacePositioning;
+            m_appSettings.RefineNormalizeHeYe = m_allCharactersRefinerSettings.NormalizeHeYe;
+            m_appSettings.RefineLongHeYeToShort = m_allCharactersRefinerSettings.ConvertLongHeYeToShort;
+            m_appSettings.RefineShortHeYeToLong = m_allCharactersRefinerSettings.ConvertShortHeYeToLong;
 
             #endregion
 
             #region Storing Word-Completion Settings
 
             UpdateWordCompletionSettings();
-            settings.WordCompletionCompleteWithoutHotKey = cbWCCompleteWithoutHotkey.Checked;
-            settings.WordCompletionInsertSpace = cbWCInsertSpace.Checked;
+            m_appSettings.WordCompletionCompleteWithoutHotKey = cbWCCompleteWithoutHotkey.Checked;
+            m_appSettings.WordCompletionInsertSpace = cbWCInsertSpace.Checked;
             if (rbWCShowAllWords.Checked)
-                settings.WordCompletionSugCount = -1;
+                m_appSettings.WordCompletionSugCount = -1;
             else
-                settings.WordCompletionSugCount = (int)numUpDownWCWordCount.Value;
+                m_appSettings.WordCompletionSugCount = (int)numUpDownWCWordCount.Value;
 
-            settings.WordCompletionMinWordLength = (int)numUpDownWCMinWordLength.Value;
-            settings.WordCompletionFontSize = (int)numUpDownWCFontSize.Value;
+            m_appSettings.WordCompletionMinWordLength = (int)numUpDownWCMinWordLength.Value;
+            m_appSettings.WordCompletionFontSize = (int)numUpDownWCFontSize.Value;
 
             #endregion
 
             #region Automatic Update and Report
 
-            settings.LogReport_AutomaticReport = rdoSendReportAccept.Checked;
+            m_appSettings.LogReport_AutomaticReport = rdoSendReportAccept.Checked;
 
             #endregion
 
-            settings.Save();
+            m_appSettings.Save();
 
-            OnRefineAllCharactersSettingsChanged(allCharactersRefinerSettings);
+            OnRefineAllCharactersSettingsChanged(m_allCharactersRefinerSettings);
         }
 
         private SpellCheckerConfig GetSpellCheckSettings()
         {
-            SpellCheckerConfig spellCheckSettings = new SpellCheckerConfig(txtFileName.Text,
-                (int)nmrEditDistance.Value, (int)nmrMaxSuggestionsCount.Value);
-            spellCheckSettings.StemPath = SettingsHelper.GetFullPath(Constants.StemFileName, VirastyarFilePathTypes.AllUsersFiles);
+            var spellCheckSettings = new SpellCheckerConfig(txtFileName.Text,
+                m_appSettings.SpellChecker_EditDistance, m_appSettings.SpellChecker_MaxSuggestions)
+             {
+                 StemPath = SettingsHelper.GetFullPath(Constants.StemFileName,
+                                                VirastyarFilePathTypes.AllUsersFiles)
+             };
+
             return spellCheckSettings;
         }
 
@@ -180,8 +174,7 @@ namespace VirastyarWordAddin.Configurations
         {
             if (RefineAllSettingsChanged != null)
             {
-                RefineAllSettingsChangedEventArgs e = new RefineAllSettingsChangedEventArgs();
-                e.Settings = refineAllCharSettings;
+                var e = new RefineAllSettingsChangedEventArgs {Settings = refineAllCharSettings};
                 RefineAllSettingsChanged(e);
             }
         }
@@ -190,7 +183,7 @@ namespace VirastyarWordAddin.Configurations
 
         #region Ok, Apply, Cancel
 
-        private void btnOK_Click(object sender, EventArgs e)
+        private void BtnOkClick(object sender, EventArgs e)
         {
             this.Cursor = Cursors.WaitCursor;
 
@@ -215,16 +208,9 @@ namespace VirastyarWordAddin.Configurations
             this.Cursor = Cursors.Default;
         }
 
-        private void btnCancel_Click(object sender, EventArgs e)
+        private void BtnCancelClick(object sender, EventArgs e)
         {
-            //errorProvider.Clear();
             Close();
-        }
-
-        private void btnApply_Click(object sender, EventArgs e)
-        {
-            // Test
-            // settings.Config_Shortcut_PinglishCheck = "";
         }
 
         #endregion
@@ -233,35 +219,28 @@ namespace VirastyarWordAddin.Configurations
 
         private void UpdateSpellCheckSettingsUI()
         {
-            txtFileName.Text = settings.Config_UserDictionaryPath;
-            nmrEditDistance.Value = settings.Config_EditDistance;
-            if (settings.Config_MaxSuggestions <= 0)
-                settings.Config_MaxSuggestions = 1;
-
-            cbVocabSpaceCorrection.Checked = settings.SpellChecker_VocabSpaceCorrection;
-            cbDontCheckSingleLetters.Checked = settings.SpellChecker_DontCheckSingleLetters;
-            cbHaaShisakiToHaaYaa.Checked = settings.SpellChecker_HeYeConvertion;
-
-            nmrMaxSuggestionsCount.Value = settings.Config_MaxSuggestions;
+            txtFileName.Text = m_appSettings.SpellChecker_UserDictionaryPath;
+            if (m_appSettings.SpellChecker_MaxSuggestions <= 0)
+                m_appSettings.SpellChecker_MaxSuggestions = 1;
 
             listViewUserDictionaries.Items.Clear();
 
-            var item = new ListViewItem(new string[] 
+            var item = new ListViewItem(new [] 
             { 
                 MainDicDescription, 
-                settings.SpellChecker_MainDictionaryPath.Trim() 
+                m_appSettings.SpellChecker_MainDictionaryPath.Trim() 
             });
             listViewUserDictionaries.Items.Add(item);
-            item.Checked = settings.SpellChecker_MainDictionarySelected;
-            AddCustomDictionaryFiles(settings.SpellChecker_CustomDictionaries, settings.SpellChecker_CustomDictionariesDescription, settings.SpellChecker_CustomDictionariesSelectionFlag);
+            item.Checked = m_appSettings.SpellChecker_MainDictionarySelected;
+            AddCustomDictionaryFiles(m_appSettings.SpellChecker_CustomDictionaries, m_appSettings.SpellChecker_CustomDictionariesDescription, m_appSettings.SpellChecker_CustomDictionariesSelectionFlag);
         }
 
         private void AddCustomDictionaryFiles(string dictionaryPaths, string dictionaryDescs, long selectionFlags)
         {
-            string[] paths = dictionaryPaths.Split(';');
-            string[] descs = new string[paths.Length];
+            var paths = dictionaryPaths.Split(';');
+            var descs = new string[paths.Length];
+            var readDescs = dictionaryDescs.Split(';');
 
-            string[] readDescs = dictionaryDescs.Split(';');
             for (int i = 0; i < paths.Length; ++i)
             {
                 if (i < readDescs.Length)
@@ -279,18 +258,15 @@ namespace VirastyarWordAddin.Configurations
             {
                 string path = paths[i].Trim();
                 if (path.Length <= 0) continue;
-                ListViewItem item = new ListViewItem(new string[] { descs[i], path });
+                var item = new ListViewItem(new [] { descs[i], path });
                 listViewUserDictionaries.Items.Add(item);
-                if (((1 << i) & selectionFlags) > 0)
-                    item.Checked = true;
-                else
-                    item.Checked = false;
+                item.Checked = ((1 << i) & selectionFlags) > 0;
             }
         }
 
-        private void linkLabelSpellCheckerAddExistingDic_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void LinkLabelSpellCheckerAddExistingDicLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            OpenFileDialog dlg = new OpenFileDialog();
+            var dlg = new OpenFileDialog();
             if (DialogResult.OK == dlg.ShowDialog())
             {
                 string fileName = dlg.FileName;
@@ -304,22 +280,23 @@ namespace VirastyarWordAddin.Configurations
                     }
                 }
 
-                var lvitem = listViewUserDictionaries.Items.Add(new ListViewItem(new string[] { CustomDicDescription, dlg.FileName }));
+                var lvitem = listViewUserDictionaries.Items.Add(new ListViewItem(new [] { CustomDicDescription, dlg.FileName }));
                 lvitem.Checked = true;
+                m_reloadSpellCheckerEngine = true;
             }
         }
 
-        private void toolStripMenuItemDeleteDic_Click(object sender, EventArgs e)
+        private void ToolStripMenuItemDeleteDicClick(object sender, EventArgs e)
         {
             DeleteSelectedDictionaries();
         }
 
-        private void toolStripMenuItemEditDic_Click(object sender, EventArgs e)
+        private void ToolStripMenuItemEditDicClick(object sender, EventArgs e)
         {
             EditSelectedDictionary();
         }
 
-        private void lnkEditUserDic_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void LnkEditUserDicLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             try
             {
@@ -354,16 +331,20 @@ namespace VirastyarWordAddin.Configurations
                         PersianMessageBox.Show("خطا در ویرایش واژه‌نامه");
                         LogHelper.ErrorException("خطا در ویرایش واژه‌نامه", ex);
                     }
+                    finally
+                    {
+                        m_reloadSpellCheckerEngine = true;
+                    }
                 }
             }   
         }
 
-        private void lnkEditDictionary_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void LnkEditDictionaryLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             EditSelectedDictionary();
         }
 
-        private void linkLabelDeleteItem_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void LinkLabelDeleteItemLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             DeleteSelectedDictionaries();
         }
@@ -379,23 +360,24 @@ namespace VirastyarWordAddin.Configurations
                 else
                 {
                     listViewUserDictionaries.Items.RemoveAt(index);
+                    m_reloadSpellCheckerEngine = true;
                 }
             }
         }
 
-        private string GetFileNameFromItem(ListViewItem item)
+        private static string GetFileNameFromItem(ListViewItem item)
         {
             return item.SubItems[1].Text;
         }
 
-        private string GetDescriptionFromItem(ListViewItem item)
+        private static string GetDescriptionFromItem(ListViewItem item)
         {
             return item.SubItems[0].Text.Replace(';', ',').Trim();
         }
 
-        private void linkLabelSpellCheckerCreateDictionary_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void LinkLabelSpellCheckerCreateDictionaryLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            MSWordDocument doc = Globals.ThisAddIn.ActiveMSWordDocument;
+            var doc = Globals.ThisAddIn.Application.ActiveDocument;
             if (doc == null)
             {
                 PersianMessageBox.Show("در حال حاضر سندی باز نیست.");
@@ -422,8 +404,7 @@ namespace VirastyarWordAddin.Configurations
 
             if (!doAppend)
             {
-                SaveFileDialog dlg = new SaveFileDialog();
-                dlg.Filter = "Dictionary|*.dat";
+                var dlg = new SaveFileDialog {Filter = "Dictionary|*.dat"};
 
                 if (DialogResult.OK != dlg.ShowDialog())
                 {
@@ -433,7 +414,7 @@ namespace VirastyarWordAddin.Configurations
                 fileName = dlg.FileName;
                 try
                 {
-                    StreamWriter sw = File.CreateText(fileName);
+                    var sw = File.CreateText(fileName);
                     sw.Close();
                 }
                 catch
@@ -455,11 +436,11 @@ namespace VirastyarWordAddin.Configurations
                     // it is forced and should not be ignored
                     System.Windows.Forms.Application.DoEvents();
 
-                    POSTaggedDictionaryExtractor dictionaryExtractor = new POSTaggedDictionaryExtractor();
-                    string content = doc.CurrentMSDocument.Content.Text;
+                    var dictionaryExtractor = new POSTaggedDictionaryExtractor();
+                    string content = doc.Content.Text;
                     string mainDictionary = Globals.ThisAddIn.SpellCheckerWrapper.MainDictionary;
 
-                    Thread thread = new Thread(new ThreadStart(delegate
+                    var thread = new Thread(new ThreadStart(delegate
                     {
 
                         dictionaryExtractor.AddPlainText(content);
@@ -497,7 +478,7 @@ namespace VirastyarWordAddin.Configurations
                             return;
                         }
                     }
-                    var lstViewItem = listViewUserDictionaries.Items.Add(new ListViewItem(new string[] { CustomDicDescription, fileName }));
+                    var lstViewItem = listViewUserDictionaries.Items.Add(new ListViewItem(new [] { CustomDicDescription, fileName }));
                     lstViewItem.Selected = true;
                 }
             }
@@ -513,19 +494,21 @@ namespace VirastyarWordAddin.Configurations
             finally
             {
                 this.Cursor = Cursors.Arrow;
+                m_reloadSpellCheckerEngine = true;
             }
         }
 
-        private void btnBrowse_Click(object sender, EventArgs e)
+        private void BtnBrowseClick(object sender, EventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
+            var openFileDialog = new OpenFileDialog();
             if (openFileDialog.ShowDialog() != DialogResult.Cancel)
             {
                 txtFileName.Text = openFileDialog.FileName;
             }
+            m_reloadSpellCheckerEngine = true;
         }
 
-        private void listViewUserDictionaries_BeforeLabelEdit(object sender, LabelEditEventArgs e)
+        private void ListViewUserDictionariesBeforeLabelEdit(object sender, LabelEditEventArgs e)
         {
             if (e.Item == 0)
                 e.CancelEdit = true;
@@ -533,56 +516,9 @@ namespace VirastyarWordAddin.Configurations
 
         #endregion
 
-        #region Words Tab
-
-        // TODO: This tab and all its functionalities were removed.
-
-        private void lnkImpolite_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            /*WordEntryWindow win = new WordEntryWindow();
-            win.LoadType(Common.WordType.Impolite);
-            win.ShowDialog();*/
-        }
-
-        private void lnkOral_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            /*WordEntryWindow win = new WordEntryWindow();
-            win.LoadType(Common.WordType.Oral);
-            win.ShowDialog();*/
-        }
-
-        private void lnkVulgar_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            /*WordEntryWindow win = new WordEntryWindow();
-            win.LoadType(Common.WordType.Vulgar);
-            win.ShowDialog();*/
-        }
-
-        private void lnkObsolete_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            /*WordEntryWindow win = new WordEntryWindow();
-            win.LoadType(Common.WordType.Obsolete);
-            win.ShowDialog();*/
-        }
-
-        private void lnkPersian_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            /*WordEntryWindow win = new WordEntryWindow();
-            win.LoadType(Common.WordType.Persian);
-            win.ShowDialog();*/
-        }
-
-        private void lnkRhyme_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            /*RimeEntryWindow win = new RimeEntryWindow();
-            win.ShowDialog();*/
-        }
-
-        #endregion
-
         #region Shortcut Tab
 
-        private void lstShortcuts_SelectedIndexChanged(object sender, EventArgs e)
+        private void LstShortcutsSelectedIndexChanged(object sender, EventArgs e)
         {
             if (lstShortcuts.SelectedItems.Count <= 0)
                 return;
@@ -592,7 +528,7 @@ namespace VirastyarWordAddin.Configurations
 
             // TODO: Check for null values
 
-            string strKey = settings.PropertyValues["Config_Shortcut_" + selectedItem.SubItems[2].Text].PropertyValue as string;
+            string strKey = m_appSettings.PropertyValues["Config_Shortcut_" + selectedItem.SubItems[2].Text].PropertyValue as string;
             Hotkey.TryParse(strKey, out hotkey);
             hotkeyControl.Hotkey = hotkey;
 
@@ -601,7 +537,7 @@ namespace VirastyarWordAddin.Configurations
                             "میانبر فعلی", hotkey);
         }
 
-        private void btnAssignShortcut_Click(object sender, EventArgs e)
+        private void BtnAssignShortcutClick(object sender, EventArgs e)
         {
             Hotkey newHotkey = GetNewShortcutForSelectedItem();
             Hotkey oldHotkey = GetOldShortcutForSelectedItem();
@@ -625,7 +561,7 @@ namespace VirastyarWordAddin.Configurations
             }
         }
 
-        private void btnClearHotkey_Click(object sender, EventArgs e)
+        private void BtnClearHotkeyClick(object sender, EventArgs e)
         {
             Hotkey hotkey = hotkeyControl.Hotkey;
             if (hotkey == Hotkey.None)
@@ -635,13 +571,13 @@ namespace VirastyarWordAddin.Configurations
             string configKey = selectedItem.SubItems[2].Text;
 
             WordHotKey.RemoveAssignedKey(Globals.ThisAddIn.VirastyarTemplate, hotkey, configKey);
-            settings["Config_Shortcut_" + configKey] = "";
+            m_appSettings["Config_Shortcut_" + configKey] = "";
             selectedItem.SubItems[1].Text = "";
             hotkeyControl.Text = "";
         }
 
 
-        private void hotkeyControl_HotkeyChanged(object sender, EventArgs e)
+        private void HotkeyControlHotkeyChanged(object sender, EventArgs e)
         {
             string prevCommand;
             var newHotkey = hotkeyControl.Hotkey;
@@ -663,9 +599,9 @@ namespace VirastyarWordAddin.Configurations
         private void UpdateShortcutsSettingsUI()
         {
             hotkeyControl.Hotkey = Hotkey.None;
-            Template template = Globals.ThisAddIn.VirastyarTemplate;
 
             #region Check MS-Word shortcuts and updates settings
+            //var template = Globals.ThisAddIn.VirastyarTemplate;
 
             //settings.Config_Shortcut_VirastyarCheckDates_Action = WordHotKey.RetreiveCurrentKey(template, Constants.MacroNames.VirastyarCheckDates_Action);
             //settings.Config_Shortcut_VirastyarCheckNumbers_Action = WordHotKey.RetreiveCurrentKey(template, Constants.MacroNames.VirastyarCheckNumbers_Action);
@@ -682,86 +618,86 @@ namespace VirastyarWordAddin.Configurations
             lstShortcuts.Items.Clear();
 
             lstShortcuts.Items.Add(new ListViewItem(
-                new string[]
+                new []
                             {
                                 "غلط‌یابی",
-                                settings.Config_Shortcut_VirastyarCheckSpell_Action,
+                                m_appSettings.Config_Shortcut_VirastyarCheckSpell_Action,
                                 Constants.MacroNames.VirastyarCheckSpell_Action,
                             }
                 ));
 
             lstShortcuts.Items.Add(new ListViewItem(
-                new string[]
+                new []
                 {
                     "پیش‌پردازش املایی",
-                    settings.Config_Shortcut_VirastyarPreCheckSpell_Action,
+                    m_appSettings.Config_Shortcut_VirastyarPreCheckSpell_Action,
                     Constants.MacroNames.VirastyarPreCheckSpell_Action,
                 }
                 ));
 
 
             lstShortcuts.Items.Add(new ListViewItem(
-                new string[]
+                new []
                 {
                     "اصلاح تمام نویسه‌های متن",
-                    settings.Config_Shortcut_VirastyarRefineAllCharacters_Action,
+                    m_appSettings.Config_Shortcut_VirastyarRefineAllCharacters_Action,
                     Constants.MacroNames.VirastyarRefineAllCharacters_Action,
                 }
                 ));
 
             lstShortcuts.Items.Add(new ListViewItem(
-                new string[]
+                new []
                 {
                     "تبدیل تاریخ",
-                    settings.Config_Shortcut_VirastyarCheckDates_Action,
+                    m_appSettings.Config_Shortcut_VirastyarCheckDates_Action,
                     Constants.MacroNames.VirastyarCheckDates_Action,
                 }
                 ));
 
 
             lstShortcuts.Items.Add(new ListViewItem(
-                new string[]
+                new []
                 {
                     "تبدیل اعداد",
-                    settings.Config_Shortcut_VirastyarCheckNumbers_Action,
+                    m_appSettings.Config_Shortcut_VirastyarCheckNumbers_Action,
                     Constants.MacroNames.VirastyarCheckNumbers_Action,
                 }
                 ));
 
             lstShortcuts.Items.Add(new ListViewItem(
-                new string[]
+                new []
                 {
                     "تبدیل پینگلیش",
-                    settings.Config_Shortcut_VirastyarPinglishConvert_Action,
+                    m_appSettings.Config_Shortcut_VirastyarPinglishConvert_Action,
                     Constants.MacroNames.VirastyarPinglishConvert_Action,
                 }
                 ));
 
 
             lstShortcuts.Items.Add(new ListViewItem(
-                            new string[]
+                            new []
                 {
                     "تبدیل یکباره پینگلیش",
-                    settings.Config_Shortcut_VirastyarPinglishConvertAll_Action,
+                    m_appSettings.Config_Shortcut_VirastyarPinglishConvertAll_Action,
                     Constants.MacroNames.VirastyarPinglishConvertAll_Action,
                 }
                             ));
 
             lstShortcuts.Items.Add(new ListViewItem(
-                new string[]
+                new []
                 {
                     "تصحیح نشانه‌گذاری",
-                    settings.Config_Shortcut_VirastyarCheckPunctuation_Action,
+                    m_appSettings.Config_Shortcut_VirastyarCheckPunctuation_Action,
                     Constants.MacroNames.VirastyarCheckPunctuation_Action,
                 }
                 ));
 
 
             lstShortcuts.Items.Add(new ListViewItem(
-                new string[]
+                new []
                 {
                     "تکمیل خودکار کلمات",
-                    settings.Config_Shortcut_VirastyarAutoComplete_Action,
+                    m_appSettings.Config_Shortcut_VirastyarAutoComplete_Action,
                     Constants.MacroNames.VirastyarAutoComplete_Action,
                 }
                 ));
@@ -787,7 +723,7 @@ namespace VirastyarWordAddin.Configurations
 
         #region Repair Addin
 
-        private void btnRestoreDataFiles_Click(object sender, EventArgs e)
+        private void BtnRestoreDataFilesClick(object sender, EventArgs e)
         {
             if (Globals.ThisAddIn.CheckDataDependencies(true))
             {
@@ -796,7 +732,7 @@ namespace VirastyarWordAddin.Configurations
             }
         }
 
-        private void btnResetSettings_Click(object sender, EventArgs e)
+        private void BtnResetSettingsClick(object sender, EventArgs e)
         {
             this.Cursor = Cursors.WaitCursor;
 
@@ -806,32 +742,32 @@ namespace VirastyarWordAddin.Configurations
                 MessageBoxButtons.YesNoCancel);
             if (result == DialogResult.No)
             {
-                string mainDicPath = settings.SpellChecker_MainDictionaryPath;
-                string userDicPath = settings.Config_UserDictionaryPath;
-                string customDicsPaths = settings.SpellChecker_CustomDictionaries;
-                string customDicsDescs = settings.SpellChecker_CustomDictionariesDescription;
-                int customDicsFlags = settings.SpellChecker_CustomDictionariesSelectionFlag;
-                bool mainDicSelectedFlag = settings.SpellChecker_MainDictionarySelected;
+                string mainDicPath = m_appSettings.SpellChecker_MainDictionaryPath;
+                string userDicPath = m_appSettings.SpellChecker_UserDictionaryPath;
+                string customDicsPaths = m_appSettings.SpellChecker_CustomDictionaries;
+                string customDicsDescs = m_appSettings.SpellChecker_CustomDictionariesDescription;
+                int customDicsFlags = m_appSettings.SpellChecker_CustomDictionariesSelectionFlag;
+                bool mainDicSelectedFlag = m_appSettings.SpellChecker_MainDictionarySelected;
 
-                settings.Reset();
-                allCharactersRefinerSettings.Reload(settings);
+                m_appSettings.Reset();
+                m_allCharactersRefinerSettings.Reload(m_appSettings);
 
-                settings.SpellChecker_MainDictionaryPath = mainDicPath;
-                settings.Config_UserDictionaryPath = userDicPath;
-                settings.SpellChecker_CustomDictionaries = customDicsPaths;
-                settings.SpellChecker_CustomDictionariesDescription = customDicsDescs;
-                settings.SpellChecker_CustomDictionariesSelectionFlag = customDicsFlags;
-                settings.SpellChecker_MainDictionarySelected = mainDicSelectedFlag;
+                m_appSettings.SpellChecker_MainDictionaryPath = mainDicPath;
+                m_appSettings.SpellChecker_UserDictionaryPath = userDicPath;
+                m_appSettings.SpellChecker_CustomDictionaries = customDicsPaths;
+                m_appSettings.SpellChecker_CustomDictionariesDescription = customDicsDescs;
+                m_appSettings.SpellChecker_CustomDictionariesSelectionFlag = customDicsFlags;
+                m_appSettings.SpellChecker_MainDictionarySelected = mainDicSelectedFlag;
 
                 LoadConfigurations();
             }
             else if (result == DialogResult.Yes)
             {
-                settings.Reset();
-                allCharactersRefinerSettings.Reload(settings);
+                m_appSettings.Reset();
+                m_allCharactersRefinerSettings.Reload(m_appSettings);
 
-                settings.Config_UserDictionaryPath = Globals.ThisAddIn.FindUserDictionaryLocation();
-                settings.SpellChecker_MainDictionaryPath = Globals.ThisAddIn.FindMainDictionaryLocation();
+                m_appSettings.SpellChecker_UserDictionaryPath = Globals.ThisAddIn.FindUserDictionaryLocation();
+                m_appSettings.SpellChecker_MainDictionaryPath = Globals.ThisAddIn.FindMainDictionaryLocation();
 
                 LoadConfigurations();
             }
@@ -850,7 +786,7 @@ namespace VirastyarWordAddin.Configurations
 
         private void UpdateAllCharsRefinerSettingsUI()
         {
-            FilteringCharacterCategory cats = allCharactersRefinerSettings.NotIgnoredCategories;
+            FilteringCharacterCategory cats = m_allCharactersRefinerSettings.NotIgnoredCategories;
 
             cbRefineDigits.Checked = ((FilteringCharacterCategory.ArabicDigit & cats) == FilteringCharacterCategory.ArabicDigit);
             cbRefineErab.Checked = ((FilteringCharacterCategory.Erab & cats) == FilteringCharacterCategory.Erab);
@@ -858,20 +794,25 @@ namespace VirastyarWordAddin.Configurations
             cbRefineKaaf.Checked = ((FilteringCharacterCategory.Kaaf & cats) == FilteringCharacterCategory.Kaaf);
             cbRefineYaa.Checked = ((FilteringCharacterCategory.Yaa & cats) == FilteringCharacterCategory.Yaa);
 
-            cbRemoveHalfSpaces.Checked = allCharactersRefinerSettings.RefineHalfSpacePositioning;
+            cbRemoveHalfSpaces.Checked = m_allCharactersRefinerSettings.RefineHalfSpacePositioning;
+
+            cbRefineAndNormalizeHeYe.Checked = m_allCharactersRefinerSettings.NormalizeHeYe;
+            cbConvertLongHeYeToShort.Checked = m_allCharactersRefinerSettings.ConvertLongHeYeToShort;
+            cbConvertShortHeYeToLong.Checked = m_allCharactersRefinerSettings.ConvertShortHeYeToLong;
+
             tetLetterToIgnore.Text = "";
             listViewIgnoreList.Items.Clear();
 
             if (listViewIgnoreList.Items.Count <= 0) // if the form has been ewnewed with an empty list only
             {
-                foreach (char c in allCharactersRefinerSettings.GetIgnoreListAsString())
+                foreach (char c in m_allCharactersRefinerSettings.GetIgnoreListAsString())
                 {
                     AddLetterToIgnoreList(c, true);
                 }
             }
         }
 
-        private void btnAddLetterToIgnoreList_Click(object sender, EventArgs e)
+        private void BtnAddLetterToIgnoreListClick(object sender, EventArgs e)
         {
             string input = tetLetterToIgnore.Text.Trim();
             if (input.Length > 1)
@@ -896,9 +837,9 @@ namespace VirastyarWordAddin.Configurations
             }
         }
 
-        private bool AddLetterToIgnoreList(char ch, bool onlyGUI)
+        private bool AddLetterToIgnoreList(char ch, bool onlyGui)
         {
-            listViewIgnoreList.Items.Add(new ListViewItem(new string[] 
+            listViewIgnoreList.Items.Add(new ListViewItem(new [] 
                 {
                     ch.ToString(), 
                     Convert.ToInt32(ch).ToString("X"),
@@ -906,7 +847,7 @@ namespace VirastyarWordAddin.Configurations
                 }
             ));
 
-            if (!onlyGUI)
+            if (!onlyGui)
             {
                 return GetAllCharsRefinerSettings().AddCharToIgnoreList(ch);
             }
@@ -914,7 +855,7 @@ namespace VirastyarWordAddin.Configurations
             return true;
         }
 
-        private void btnRemoveFromIgnoreList_Click(object sender, EventArgs e)
+        private void BtnRemoveFromIgnoreListClick(object sender, EventArgs e)
         {
             foreach (ListViewItem item in this.listViewIgnoreList.SelectedItems)
             {
@@ -925,7 +866,7 @@ namespace VirastyarWordAddin.Configurations
 
         private AllCharactersRefinerSettings GetAllCharsRefinerSettings()
         {
-            FilteringCharacterCategory cats = (FilteringCharacterCategory)0;
+            var cats = (FilteringCharacterCategory) 0;
             if (cbRefineDigits.Checked)
                 cats = cats | FilteringCharacterCategory.ArabicDigit;
             if (cbRefineErab.Checked)
@@ -937,34 +878,37 @@ namespace VirastyarWordAddin.Configurations
             if (cbRefineHalfSpaceChar.Checked)
                 cats = cats | FilteringCharacterCategory.HalfSpace;
 
-            allCharactersRefinerSettings.NotIgnoredCategories = cats;
-            allCharactersRefinerSettings.RefineHalfSpacePositioning = cbRemoveHalfSpaces.Checked;
-            return allCharactersRefinerSettings;
+            m_allCharactersRefinerSettings.NotIgnoredCategories = cats;
+            m_allCharactersRefinerSettings.RefineHalfSpacePositioning = cbRemoveHalfSpaces.Checked;
+
+            m_allCharactersRefinerSettings.NormalizeHeYe = cbRefineAndNormalizeHeYe.Checked;
+            m_allCharactersRefinerSettings.ConvertLongHeYeToShort = cbConvertLongHeYeToShort.Checked;
+            m_allCharactersRefinerSettings.ConvertShortHeYeToLong = cbConvertShortHeYeToLong.Checked;
+
+            return m_allCharactersRefinerSettings;
         }
 
         #region Refine Haa, Mee, HeYe, Be
 
-        private void UpdateSpellCheckRefinementUI()
+        private void UpdatePrespellCheckUI()
         {
-            cbRefineHeYe.Checked = settings.PreprocessSpell_RefineHeYe;
-            cbRefineHaa.Checked = settings.PreprocessSpell_RefineHaa;
-            cbRefineMee.Checked = settings.PreprocessSpell_RefineMee;
-            cbRefineBe.Checked = settings.PreprocessSpell_RefineBe;
+            cbPrespellCorrectBe.Checked = m_appSettings.PreprocessSpell_CorrectBe;
+            cbPrespellCorrectPrefixes.Checked = m_appSettings.PreprocessSpell_CorrectPrefix;
+            cbPrespellCorrectSuffixes.Checked = m_appSettings.PreprocessSpell_CorrectPostfix;
 
             UpdateAllAffixesRefinementUI();
         }
 
-        private void cbSpellCheckRefiners_CheckedChanged(object sender, EventArgs e)
+        private void CbSpellCheckRefinersClicked(object sender, EventArgs e)
         {
             UpdateAllAffixesRefinementUI();
         }
 
-        private void cbRefineAllAffixes_CheckStateChanged(object sender, EventArgs e)
+        private void CbRefineAllAffixesCheckStateChanged(object sender, EventArgs e)
         {
             var checkBoxes = new[]
              {
-                 cbRefineHaa, cbRefineMee,
-                 cbRefineHeYe, cbRefineBe,
+                 cbPrespellCorrectBe, cbPrespellCorrectPrefixes, cbPrespellCorrectSuffixes
              };
 
             switch (cbRefineAllAffixes.CheckState)
@@ -987,12 +931,8 @@ namespace VirastyarWordAddin.Configurations
         {
             var checkBoxes = new[] 
             { 
-                cbRefineHaa, cbRefineMee, 
-                cbRefineHeYe,cbRefineBe,
+                cbPrespellCorrectBe, cbPrespellCorrectPrefixes, cbPrespellCorrectSuffixes
             };
-
-            foreach (var checkBox in checkBoxes)
-                checkBox.CheckedChanged -= cbSpellCheckRefiners_CheckedChanged;
 
             if (checkBoxes.All(chk => chk.Checked))
             {
@@ -1004,22 +944,13 @@ namespace VirastyarWordAddin.Configurations
             }
             else
             {
-                cbRefineAllAffixes.CheckStateChanged -= cbRefineAllAffixes_CheckStateChanged;
+                cbRefineAllAffixes.CheckStateChanged -= CbRefineAllAffixesCheckStateChanged;
                 cbRefineAllAffixes.CheckState = CheckState.Indeterminate;
-                cbRefineAllAffixes.CheckStateChanged += cbRefineAllAffixes_CheckStateChanged;
+                cbRefineAllAffixes.CheckStateChanged += CbRefineAllAffixesCheckStateChanged;
             }
-
-            foreach (var checkBox in checkBoxes)
-                checkBox.CheckedChanged += cbSpellCheckRefiners_CheckedChanged;
         }
         
         #endregion
-
-        #endregion
-
-        #region General Settings
-
-
 
         #endregion
 
@@ -1039,15 +970,10 @@ namespace VirastyarWordAddin.Configurations
                 e.Settings = spellerConfig;
                 e.CustomDictionaries = GetSelectedCustomDictionaries();
 
-                e.RuleDontCheckSingleLetters = cbDontCheckSingleLetters.Checked;
-                e.RuleVocabWordSpacingCorrection = cbVocabSpaceCorrection.Checked;
-                e.RuleHeYeConvertion = cbHaaShisakiToHaaYaa.Checked;
-
-                e.RefineHaa = cbRefineHaa.Checked;
-                e.RefineHeYe = cbRefineHeYe.Checked;
-                e.RefineMee = cbRefineMee.Checked;
-                e.RefineBe = cbRefineBe.Checked;
-                e.RefineAllAffixes = cbRefineAllAffixes.Checked;
+                e.PrespellCorrectBe = cbPrespellCorrectBe.Checked;
+                e.PrespellCorrectPrefixes = cbPrespellCorrectPrefixes.Checked;
+                e.PrespellCorrectSuffixes = cbPrespellCorrectSuffixes.Checked;
+                e.ReloadSpellCheckerEngine = m_reloadSpellCheckerEngine;
 
                 SpellCheckSettingsChanged(e);
                 if (e.CancelLoadingUserDictionary)
@@ -1064,7 +990,7 @@ namespace VirastyarWordAddin.Configurations
                         sb.AppendLine(file);
                     }
 
-                    errorProvider.SetError(linkLabelSpellCheckerCreateDictionary, "فایل‌های زیر به درستی بارگذاری نشده‌اند:" + Environment.NewLine + sb.ToString());
+                    errorProvider.SetError(linkLabelSpellCheckerCreateDictionary, "فایل‌های زیر به درستی بارگذاری نشده‌اند:" + Environment.NewLine + sb);
                     return false;
                 }
             }
@@ -1088,33 +1014,33 @@ namespace VirastyarWordAddin.Configurations
 
         #region Word-Completion Settings
 
-        private void rbWCShowMaxWords_CheckedChanged(object sender, EventArgs e)
+        private void RbWcShowMaxWordsCheckedChanged(object sender, EventArgs e)
         {
             numUpDownWCWordCount.Enabled = rbWCShowMaxWords.Checked;
         }
 
-        private void cbWCCompleteWithoutHotkey_CheckedChanged(object sender, EventArgs e)
+        private void CbWcCompleteWithoutHotkeyCheckedChanged(object sender, EventArgs e)
         {
             numUpDownWCMinWordLength.Enabled = cbWCCompleteWithoutHotkey.Checked;
         }
 
         private void UpdateWordCompletionSettingsUI()
         {
-            if (settings.WordCompletionSugCount <= 0)
+            if (m_appSettings.WordCompletionSugCount <= 0)
             {
                 this.rbWCShowAllWords.Checked = true;
             }
             else
             {
                 this.rbWCShowMaxWords.Checked = true;
-                TrySetNumericUpDownValue(this.numUpDownWCWordCount, settings.WordCompletionSugCount);
+                TrySetNumericUpDownValue(this.numUpDownWCWordCount, m_appSettings.WordCompletionSugCount);
             }
 
-            cbWCCompleteWithoutHotkey.Checked = settings.WordCompletionCompleteWithoutHotKey;
-            cbWCInsertSpace.Checked = settings.WordCompletionInsertSpace;
+            cbWCCompleteWithoutHotkey.Checked = m_appSettings.WordCompletionCompleteWithoutHotKey;
+            cbWCInsertSpace.Checked = m_appSettings.WordCompletionInsertSpace;
 
-            TrySetNumericUpDownValue(numUpDownWCMinWordLength, settings.WordCompletionMinWordLength);
-            TrySetNumericUpDownValue(numUpDownWCFontSize, settings.WordCompletionFontSize);
+            TrySetNumericUpDownValue(numUpDownWCMinWordLength, m_appSettings.WordCompletionMinWordLength);
+            TrySetNumericUpDownValue(numUpDownWCFontSize, m_appSettings.WordCompletionFontSize);
 
             UpdateWordCompletionSettings();
         }
@@ -1132,7 +1058,7 @@ namespace VirastyarWordAddin.Configurations
             WordCompletionForm.FontSize = (int)numUpDownWCFontSize.Value;
         }
 
-        private void TrySetNumericUpDownValue(NumericUpDown numUpDown, int value)
+        private static void TrySetNumericUpDownValue(NumericUpDown numUpDown, int value)
         {
             if (value < numUpDown.Minimum)
                 value = (int)numUpDown.Minimum;
@@ -1146,7 +1072,8 @@ namespace VirastyarWordAddin.Configurations
         #endregion
 
         #region Help Button
-        private void AddinConfigurationDialog_HelpButtonClicked(object sender, CancelEventArgs e)
+
+        private void AddinConfigurationDialogHelpButtonClicked(object sender, CancelEventArgs e)
         {
             string topicFileName = "";
             if (tabCtrlSettings.SelectedTab == tbPageSpellCheck)
@@ -1169,15 +1096,10 @@ namespace VirastyarWordAddin.Configurations
             {
                 topicFileName = HelpConstants.SettingsWordCompletion;
             }
-            else if (tabCtrlSettings.SelectedTab == tbPageWords)
-            {
-                //topicFileName = HelpConstants.SettingsWords;
-            }
             else if (tabCtrlSettings.SelectedTab == tbPagePreprocessSpell)
             {
                 topicFileName = HelpConstants.SettingsSpellPreprocessing;
             }
-
 
             Globals.ThisAddIn.ShowHelp(topicFileName);
         }
@@ -1187,7 +1109,7 @@ namespace VirastyarWordAddin.Configurations
 
         private void UpdateAutomaticReportSettingsUI()
         {
-            if (settings.LogReport_AutomaticReport == true)
+            if (m_appSettings.LogReport_AutomaticReport)
             {
                 rdoSendReportAccept.Checked = true;
             }
@@ -1197,35 +1119,62 @@ namespace VirastyarWordAddin.Configurations
             }
         }
 
-        private void btnCheckForUpdate_Click(object sender, EventArgs e)
+        private void BtnCheckForUpdateClick(object sender, EventArgs e)
         {
-            var updateNotificationWindow = new UpdateNotificationWindow(CloseThisDialog, false);
+            var updateNotificationWindow = new UpdateNotificationWindow(CloseThisDialog, true);
             updateNotificationWindow.ShowDialog(this);
         }
         
         private void CloseThisDialog(object sender, EventArgs e)
         {
             Close();
-            //object missing = Missing.Value;
-            //Globals.ThisAddIn.Application.Quit(ref missing, ref missing, ref missing);
         }
 
-        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void LinkLabelViewGatheredInfoLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             string logPath = LogReporter.GetLogPath();
-            var pInfo = new ProcessStartInfo();
-            pInfo.FileName = logPath;
-            pInfo.Verb = "Open";
-            pInfo.UseShellExecute = true;
+            var pInfo = new ProcessStartInfo {FileName = logPath, Verb = "Open", UseShellExecute = true};
 
             try
             {
                 Process.Start(pInfo);
             }
-            catch (Exception)
+            catch 
             {
                 // Ignore
             }
+        }
+
+        private void ConvertHeYeToCheckBoxesClick(object sender, EventArgs e)
+        {
+            var cbMain = sender as System.Windows.Forms.CheckBox;
+            if(cbMain == null) return;
+
+            //cbMain.Checked = !cbMain.Checked;
+
+            if(!cbMain.Checked) // if it's been disabled then thre's no need to disable any other thing
+                return;
+            
+            var cbsToChange = new[] {cbConvertLongHeYeToShort, cbConvertShortHeYeToLong};
+
+            for (int i = 0; i < cbsToChange.Length; i++)
+            {
+                if (cbsToChange[i] != cbMain && cbsToChange[i].Checked)
+                    cbsToChange[i].Checked = false;
+            }
+
+        }
+
+        private void listViewUserDictionaries_ItemChecked(object sender, ItemCheckedEventArgs e)
+        {
+            m_reloadSpellCheckerEngine = true;
+        }
+
+        private void AddinConfigurationDialog_Shown(object sender, EventArgs e)
+        {
+            // this call is cruicial. After this call the state of this flag becomes Off,
+            // after any call to the dictionary modification events turn this flag On.
+            m_reloadSpellCheckerEngine = false;
         }
 
         #endregion

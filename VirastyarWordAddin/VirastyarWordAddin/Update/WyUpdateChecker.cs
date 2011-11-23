@@ -186,7 +186,7 @@ namespace VirastyarWordAddin.Update
 
         public void CheckForUpdate()
         {
-            m_automaticUpdater.ForceCheckForUpdate();
+            m_automaticUpdater.ForceCheckForUpdate(false);
         }
 
         public void CheckForUpdate(bool recheck)

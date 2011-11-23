@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
-using SCICT.Microsoft.Win32;
+using SCICT.Microsoft.Windows;
+using SCICT.Utility.Windows;
 
 namespace SCICT.Utility.Keyboard
 {
@@ -14,6 +15,10 @@ namespace SCICT.Utility.Keyboard
         protected Hotkey m_hotKey = Hotkey.None;
         protected bool m_isRegistered = false;
         public event EventHandler Pressed;
+        
+        /// <summary>
+        /// 
+        /// </summary>
         public event EventHandler Error;
 
         private bool m_isEnabled = true;

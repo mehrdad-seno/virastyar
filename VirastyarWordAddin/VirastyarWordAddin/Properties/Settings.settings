@@ -2,13 +2,94 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="VirastyarWordAddin.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="Config_UserDictionaryPath" Type="System.String" Scope="User">
+    <Setting Name="Updater_LatestVersionUrl" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://www.virastyar.ir/LatestVersion.txt</Value>
+    </Setting>
+    <Setting Name="Updater_ChangeLogUrl" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://www.virastyar.ir/ChangeLog.txt</Value>
+    </Setting>
+    <Setting Name="Updater_ReleaseNotesUrl" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://www.virastyar.ir/ReleaseNotes.txt</Value>
+    </Setting>
+    <Setting Name="LogReport_Url" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://www.virastyar.ir/log.php</Value>
+    </Setting>
+    <Setting Name="SpellChecker_UserDictionaryPath" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="Config_EditDistance" Type="System.UInt32" Scope="User">
+    <Setting Name="SpellChecker_EditDistance" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">2</Value>
     </Setting>
-    <Setting Name="Config_MaxSuggestions" Type="System.UInt32" Scope="User">
+    <Setting Name="SpellChecker_MaxSuggestions" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">7</Value>
+    </Setting>
+    <Setting Name="SpellChecker_CustomDictionaries" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="SpellChecker_CustomDictionariesSelectionFlag" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="SpellChecker_CustomDictionariesDescription" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="SpellChecker_MainDictionaryPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="SpellChecker_MainDictionarySelected" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="PreprocessSpell_CorrectPostfix" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="PreprocessSpell_CorrectPrefix" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="RefineCategoriesFlag" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">31</Value>
+    </Setting>
+    <Setting Name="RefineHalfSpacePositioning" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="RefineNormalizeHeYe" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="RefineLongHeYeToShort" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="RefineShortHeYeToLong" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="RefineIgnoreListConcated" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="WordCompletionSugCount" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">15</Value>
+    </Setting>
+    <Setting Name="WordCompletionCompleteWithoutHotKey" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="WordCompletionMinWordLength" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">2</Value>
+    </Setting>
+    <Setting Name="WordCompletionInsertSpace" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="WordCompletionFontSize" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">10</Value>
+    </Setting>
+    <Setting Name="TipOfTheDayShowOnStartup" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="Updater_LastCheckedVersion" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="LogReport_LastSentLog" Type="System.DateTime" Scope="User">
+      <Value Profile="(Default)">2011-01-01</Value>
+    </Setting>
+    <Setting Name="LogReport_AutomaticReport" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="LogReport_AutomaticReportInterval" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">7</Value>
     </Setting>
     <Setting Name="Config_Shortcut_VirastyarCheckSpell_Action" Type="System.String" Scope="User">
@@ -29,85 +110,13 @@
     <Setting Name="Config_Shortcut_VirastyarRefineAllCharacters_Action" Type="System.String" Scope="User">
       <Value Profile="(Default)">Control + Alt + F7</Value>
     </Setting>
-    <Setting Name="RefineCategoriesFlag" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">31</Value>
-    </Setting>
-    <Setting Name="RefineHalfSpacePositioning" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
-    <Setting Name="RefineIgnoreListConcated" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="Config_Shortcut_SynonymSuggestion" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="Config_Shortcut_RhymeSuggestion" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="SynConnectionStringFormat" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0}</Value>
-    </Setting>
-    <Setting Name="SynDBBaseFileName" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Synonyms.mdb</Value>
-    </Setting>
-    <Setting Name="WordCompletionCompleteWithoutHotKey" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
-    <Setting Name="WordCompletionMinWordLength" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">2</Value>
-    </Setting>
-    <Setting Name="WordCompletionInsertSpace" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
-    <Setting Name="WordCompletionFontSize" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">10</Value>
-    </Setting>
-    <Setting Name="SpellChecker_CustomDictionaries" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="SpellChecker_CustomDictionariesSelectionFlag" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">0</Value>
-    </Setting>
-    <Setting Name="SpellChecker_MainDictionaryPath" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="SpellChecker_MainDictionarySelected" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
-    <Setting Name="SpellChecker_CustomDictionariesDescription" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="SpellChecker_VocabSpaceCorrection" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="SpellChecker_HeYeConvertion" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="PreprocessSpell_RefineHaa" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
-    <Setting Name="PreprocessSpell_RefineMee" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
-    <Setting Name="PreprocessSpell_RefineHeYe" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
-    <Setting Name="PreprocessSpell_RefineBe" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
-    <Setting Name="PreprocessSpell_RefineAllAffixes" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
-    <Setting Name="SpellChecker_DontCheckSingleLetters" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
     <Setting Name="Config_Shortcut_VirastyarPinglishConvertAll_Action" Type="System.String" Scope="User">
       <Value Profile="(Default)">Shift + Control + F6</Value>
     </Setting>
     <Setting Name="Config_Shortcut_VirastyarPreCheckSpell_Action" Type="System.String" Scope="User">
       <Value Profile="(Default)">Shift + Control + F7</Value>
     </Setting>
-    <Setting Name="Config_Shortcur_VirastyarCheckAllPunctuation_Action" Type="System.String" Scope="User">
+    <Setting Name="Config_Shortcut_VirastyarCheckAllPunctuation_Action" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="Config_Shortcut_VirastyarAddinSettings_Action" Type="System.String" Scope="User">
@@ -119,62 +128,23 @@
     <Setting Name="Config_Shortcut_VirastyarAutoComplete_Action" Type="System.String" Scope="User">
       <Value Profile="(Default)">Shift + Control + Space</Value>
     </Setting>
-    <Setting Name="TipOfTheDayShowOnStartup" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
-    <Setting Name="Updater_LastCheckedVersion" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="LogReport_LastSentLog" Type="System.DateTime" Scope="User">
-      <Value Profile="(Default)">2011-01-01</Value>
-    </Setting>
-    <Setting Name="LogReport_AutomaticReport" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
-    <Setting Name="LogReport_AutomaticReportInterval" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">7</Value>
-    </Setting>
-    <Setting Name="Config_Shortcut_SpellCheck" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Shift + F7</Value>
-    </Setting>
-    <Setting Name="Config_Shortcut_DateCheck" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Shift + F8</Value>
-    </Setting>
-    <Setting Name="Config_Shortcut_NumberCheck" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Alt + Shift + F8</Value>
-    </Setting>
-    <Setting Name="Config_Shortcut_PunctuationCheck" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Alt + Shift + F7</Value>
-    </Setting>
-    <Setting Name="Config_Shortcut_PinglishCheck" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Control + Alt + F2</Value>
-    </Setting>
-    <Setting Name="Config_Shortcut_RefineCharachters" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Shift + F9</Value>
-    </Setting>
-    <Setting Name="Config_Shortcut_WordCompletion" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Control +Shift + Space</Value>
-    </Setting>
-    <Setting Name="WordCompletionSugCount" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">15</Value>
-    </Setting>
-    <Setting Name="Updater_LatestVersionUrl" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">http://www.virastyar.ir/LatestVersion.txt</Value>
-    </Setting>
-    <Setting Name="Updater_DownloadUrl" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">http://www.virastyar.ir/Download.html</Value>
-    </Setting>
-    <Setting Name="Updater_ChangeLogUrl" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">http://www.virastyar.ir/ChangeLog.txt</Value>
-    </Setting>
-    <Setting Name="Updater_ReleaseNotesUrl" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">http://www.virastyar.ir/ReleaseNotes.txt</Value>
-    </Setting>
-    <Setting Name="LogReport_Url" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">http://www.virastyar.ir/log.php</Value>
-    </Setting>
     <Setting Name="InstallationGuid" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="PreprocessSpell_CorrectBe" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="Updater_LastShownVersion" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="Updater_DownloadUrl" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://www.virastyar.ir/min-download</Value>
+    </Setting>
+    <Setting Name="Updater_WhatsNewUrl" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://www.virastyar.ir/WhatsNew.txt</Value>
+    </Setting>
+    <Setting Name="LogReport_ConfirmationDone" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
     </Setting>
   </Settings>
 </SettingsFile>

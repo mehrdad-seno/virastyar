@@ -737,9 +737,9 @@ namespace SCICT.NLP.Utility.StringDistance
                 distance[i, 0] = i;
             }
 
-            for (int i = 0; i < len2 + 1; i++)
+            for (int j = 0; j < len2 + 1; j++)
             {
-                distance[0, i] = i;
+                distance[0, j] = j;
             }
 
             double substitutionCost = 0;
@@ -751,18 +751,23 @@ namespace SCICT.NLP.Utility.StringDistance
             {
                 for (int j = 0; j < len2; j++)
                 {
-                    substitutionCost = 0;
+                    //substitutionCost = 0;
 
-                    if (i == j)
-                    {
-                        substitutionCost = ComputeKashefiSubstitutionCost(word1[i], word2[j], kashefiConfig);
-                    }
+                    //if (i == j)
+                    //{
+                    //    substitutionCost = ComputeKashefiSubstitutionCost(word1[i], word2[j], kashefiConfig);
+                    //}
+
+                    substitutionCost = ComputeKashefiSubstitutionCost(word1[i], word2[j], kashefiConfig);
+
 
                     if ((j > 0 && i > 0))
                     {
                         transposeCost = ComputeKashefiTranspositionCost(word1, i, word2, j, kashefiConfig);
                         
                         insertGapCost = ComputeKashefiInsertionCost(word1, i, word2, j, kashefiConfig);
+
+                        deleteGapCost = ComputeKashefiDeletionCost(word1, i, word2, j, kashefiConfig);
 
                         distance[i + 1, j + 1] = Minimum(
                                 distance[i, j + 1] + deleteGapCost,       // deletion
@@ -788,6 +793,18 @@ namespace SCICT.NLP.Utility.StringDistance
             return result;
         }
 
+        private static double ComputeKashefiDeletionCost(string word1, int i, string word2, int j, KashefiConfig kashefiConfig)
+        {
+            double deletionCost = kashefiConfig.DeleteGapCost;
+
+            if (Array.IndexOf(PersianHomophoneLetters.HamzaFamily1, word2[j]) > -1)
+            {
+                    deletionCost = .1;
+            }
+
+            return deletionCost;
+
+        }
         private static double ComputeKashefiTranspositionCost(string word1, int i, string word2, int j, KashefiConfig kashefiConfig)
         {
             double transpositionCost = 1;
@@ -801,14 +818,23 @@ namespace SCICT.NLP.Utility.StringDistance
         private static double ComputeKashefiInsertionCost(string word1, int i, string word2, int j, KashefiConfig kashefiConfig)
         {
             double insertionCost = kashefiConfig.InsertGapCost;
-            if (word1[i] == word2[j-1])
-            {
-                if (word2.Substring(j, 1).IsIn(PersianAlphabets.PseudoPersianAlphabet.ToStringArray()))
-                {
-                    insertionCost = .1;
-                }
-            }
+            //if (word1[i] == word2[j-1])
+            //{
+            //    if (word2.Substring(j, 1).IsIn(PersianAlphabets.Diacritics.ToStringArray()))
+            //    {
+            //        insertionCost = .1;
+            //    }
+            //}
 
+            if (word2.Substring(j, 1).IsIn(PersianAlphabets.Diacritics.ToStringArray()))
+            {
+                insertionCost = .1;
+            }
+            if (Array.IndexOf(PersianHomophoneLetters.HamzaFamily1, word2[j]) > -1)
+            {
+                insertionCost = .1;
+            }
+         
             return insertionCost;
         }
         private static double ComputeKashefiSubstitutionCost(char p1, char p2, KashefiConfig kashefiConfig)

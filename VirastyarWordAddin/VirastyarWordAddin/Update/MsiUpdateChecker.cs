@@ -40,17 +40,14 @@ namespace VirastyarWordAddin.Update
 
                 Version latestVersion = ThisAddIn.CheckVersionNumbers(new Version(LatestVersion));
 
-                if (recheck || latestVersion.CompareTo(lastCheckedVersion) > 0)
+                if (latestVersion.CompareTo(installedVersion) > 0)
                 {
-                    if (latestVersion.CompareTo(installedVersion) > 0)
-                    {
-                        LastCheckedVersion = latestVersion;
-                        ChangeLog = GetChangeLog();
+                    LastCheckedVersion = latestVersion;
+                    ChangeLog = GetWhatsNew();
 
-                        if (UpdateAvailable != null)
-                            UpdateAvailable(this, EventArgs.Empty);
-                        return;
-                    }
+                    if (UpdateAvailable != null)
+                        UpdateAvailable(this, EventArgs.Empty);
+                    return;
                 }
             });
 
@@ -99,7 +96,8 @@ namespace VirastyarWordAddin.Update
 
                 #region Headers
 
-                request.Headers.Add("OfficeVersion", Globals.ThisAddIn.Application.Version);
+                request.Headers.Add("VirastyarVersion", ThisAddIn.InstalledVersion.ToString(3));
+                request.Headers.Add("OfficeVersion", ThisAddIn.OfficeVersion);
                 request.Headers.Add("WindowsVersion", Environment.OSVersion.VersionString);
                 request.Headers.Add("Guid", ThisAddIn.InstallationGuid);
 
@@ -126,8 +124,9 @@ namespace VirastyarWordAddin.Update
         }
 
         /// <summary>
-        /// Uses the http-based method for acquiring the information of change-log
+        /// Uses the http-based method for acquiring the information of change-log file
         /// </summary>
+        [Obsolete("Use WhatsNew instead", true)]
         public string GetChangeLog()
         {
             string changeLogUrl = Settings.Default.Updater_ChangeLogUrl;
@@ -142,7 +141,30 @@ namespace VirastyarWordAddin.Update
             }
             catch (Exception ex)
             {
-                LogHelper.DebugException("Unable to get the change-log", ex);
+                LogHelper.DebugException("Unable to get the changelog from server", ex);
+            }
+
+            return "";
+        }
+
+        /// <summary>
+        /// Uses the http-based method for acquiring the information of whats-new file
+        /// </summary>
+        public string GetWhatsNew()
+        {
+            string whatsNewUrl = Settings.Default.Updater_WhatsNewUrl;
+
+            try
+            {
+                using (var reader = new StreamReader(WebRequest.Create(whatsNewUrl)
+                                                         .GetResponse().GetResponseStream()))
+                {
+                    return reader.ReadToEnd();
+                }
+            }
+            catch (Exception ex)
+            {
+                LogHelper.DebugException("Unable to get the whatsnew from server", ex);
             }
 
             return "";

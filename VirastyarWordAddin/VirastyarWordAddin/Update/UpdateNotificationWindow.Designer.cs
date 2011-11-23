@@ -85,7 +85,7 @@
             this.lblGetUpdate.Name = "lblGetUpdate";
             this.lblGetUpdate.Size = new System.Drawing.Size(400, 29);
             this.lblGetUpdate.TabIndex = 8;
-            this.lblGetUpdate.Text = "آیا مایلید برنامه‌ی به‌روز رسان ویراستیار را اجرا کنید؟";
+            this.lblGetUpdate.Text = "آیا مایلید برنامهٔ به‌روز رسان ویراستیار را اجرا کنید؟";
             this.lblGetUpdate.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             // 
             // btnYes

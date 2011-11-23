@@ -7,9 +7,13 @@ namespace VirastyarWordAddin.Configurations
 {
     public class AllCharactersRefinerSettings
     {
-        private HashSet<char> ignoreList = new HashSet<char>();
+        private readonly HashSet<char> m_ignoreList = new HashSet<char>();
+
         public FilteringCharacterCategory NotIgnoredCategories { get; set; }
         public bool RefineHalfSpacePositioning { get; set; }
+        public bool NormalizeHeYe { get; set; }
+        public bool ConvertLongHeYeToShort { get; set; }
+        public bool ConvertShortHeYeToLong { get; set; }
 
         internal AllCharactersRefinerSettings(Settings settings)
         {
@@ -24,6 +28,9 @@ namespace VirastyarWordAddin.Configurations
                 FilteringCharacterCategory.Yaa;
 
             RefineHalfSpacePositioning = true;
+            NormalizeHeYe = true;
+            ConvertLongHeYeToShort = false;
+            ConvertShortHeYeToLong = true;
         }
 
         internal void Reload(Settings settings)
@@ -31,11 +38,14 @@ namespace VirastyarWordAddin.Configurations
             NotIgnoredCategories = (FilteringCharacterCategory)settings.RefineCategoriesFlag;
             LoadIgnoreListFromString(settings.RefineIgnoreListConcated);
             RefineHalfSpacePositioning = settings.RefineHalfSpacePositioning;
+            NormalizeHeYe = settings.RefineNormalizeHeYe;
+            ConvertLongHeYeToShort = settings.RefineLongHeYeToShort;
+            ConvertShortHeYeToLong = settings.RefineShortHeYeToLong;
         }
 
         public HashSet<char> GetIgnoreList()
         {
-            return ignoreList;
+            return m_ignoreList;
         }
 
         public void SetFilteringCategory(FilteringCharacterCategory cat)
@@ -66,28 +76,28 @@ namespace VirastyarWordAddin.Configurations
 
         public bool IsEmptyIgnoreList()
         {
-            return ignoreList == null || ignoreList.Count <= 0;
+            return m_ignoreList == null || m_ignoreList.Count <= 0;
         }
 
         public bool ContainsCharInIgnoreList(char ch)
         {
-            return ignoreList.Contains(ch);
+            return m_ignoreList.Contains(ch);
         }
 
         public bool AddCharToIgnoreList(char ch)
         {
-            return ignoreList.Add(ch);
+            return m_ignoreList.Add(ch);
         }
 
         public bool RemoveCharFromIgnoreList(char ch)
         {
-            return ignoreList.Remove(ch);
+            return m_ignoreList.Remove(ch);
         }
 
         public string GetIgnoreListAsString()
         {
-            StringBuilder sb = new StringBuilder();
-            foreach (char c in ignoreList)
+            var sb = new StringBuilder();
+            foreach (char c in m_ignoreList)
             {
                 sb.Append(c);
             }
@@ -96,7 +106,7 @@ namespace VirastyarWordAddin.Configurations
 
         public void LoadIgnoreListFromString(string str)
         {
-            ignoreList.Clear();
+            m_ignoreList.Clear();
             foreach (char c in str)
             {
                 AddCharToIgnoreList(c);

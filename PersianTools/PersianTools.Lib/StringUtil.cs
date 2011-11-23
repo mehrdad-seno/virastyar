@@ -16,6 +16,7 @@ namespace SCICT.NLP.Utility
         /// A static reference to an instance of <see cref="PersianCharFilter"/> class.
         /// </summary>
         private static readonly PersianCharFilter s_persianCharFilter;
+        private static readonly HashSet<char> s_nonStickingChars;
 
         /// <summary>
         /// Initializes the <see cref="StringUtil"/> class.
@@ -23,6 +24,7 @@ namespace SCICT.NLP.Utility
         static StringUtil()
         {
             s_persianCharFilter = new PersianCharFilter();
+            s_nonStickingChars = new HashSet<char>(PersianAlphabets.NonStickerChars);
         }
 
         /// <summary>
@@ -81,15 +83,26 @@ namespace SCICT.NLP.Utility
             if (ignoreCase)
                 regexOpts = RegexOptions.IgnoreCase;
 
-            string result = str;
             var match = Regex.Match(str, regex, regexOpts);
             if (match != null && match.Success)
             {
-                result = str.Remove(match.Index, match.Length);
-                result = result.Insert(match.Index, with);
-            }
+                var sbReplResult = new StringBuilder();
+                if(match.Index > 0)
+                    sbReplResult.Append(str.Substring(0, match.Index));
 
-            return result;
+                // we have to call Regex.Replace becuase the "with" string may contain patterns such as $2,$1
+                string repl = Regex.Replace(match.Value, regex, with, regexOpts);
+                sbReplResult.Append(repl);
+                if(match.Index + match.Length < str.Length)
+                {
+                    sbReplResult.Append(str.Substring(match.Index + match.Length));
+                }
+                return sbReplResult.ToString();
+            }
+            else
+            {
+                return str;
+            }
         }
 
         /// <summary>
@@ -102,7 +115,7 @@ namespace SCICT.NLP.Utility
         /// <returns></returns>
         public static string ReplaceLastRegex(string str, string regex, string with)
         {
-            Regex r = new Regex(regex);
+            var r = new Regex(regex);
             var matches = r.Matches(str);
             if (matches.Count > 0)
             {
@@ -148,7 +161,7 @@ namespace SCICT.NLP.Utility
         /// <param name="word">The word</param>
         public static string ExtractNonArabicContent(string word)
         {
-            StringBuilder sb = new StringBuilder(word.Length);
+            var sb = new StringBuilder(word.Length);
 
             for (int i = 0; i < word.Length; ++i)
             {
@@ -157,6 +170,44 @@ namespace SCICT.NLP.Utility
                 sb.Append(word[i]);
             }
             return sb.ToString();
+        }
+
+        /// <summary>
+        /// Returns the index of the first word-character in the given string.
+        /// It skips the white-space and pseudo-spaces ocurring at the begginning of the string
+        /// and returns the index of the first instance of the non-space character.
+        /// </summary>
+        /// <param name="word">The word.</param>
+        /// <returns></returns>
+        public static int FirstWordCharIndex(string word)
+        {
+            int i = 0;
+            for (; i < word.Length; i++)
+            {
+                if(!IsWhiteSpace(word[i]) && !IsHalfSpace(word[i]))
+                    break;
+            }
+
+            return i;
+        }
+
+        /// <summary>
+        /// Returns the index of the last word-character in the given string.
+        /// It skips the white-space and pseudo-spaces ocurring at the end of the string
+        /// and returns the index of the last instance of the non-space character.
+        /// </summary>
+        /// <param name="word">The word.</param>
+        /// <returns></returns>
+        public static int LastWordCharIndex(string word)
+        {
+            int i = word.Length - 1;
+            for (; i >= 0; i--)
+            {
+                if (!IsWhiteSpace(word[i]) && !IsHalfSpace(word[i]))
+                    break;
+            }
+
+            return i;
         }
 
         /// <summary>
@@ -172,6 +223,66 @@ namespace SCICT.NLP.Utility
             // Code 1 is a Control character but is used by MS-Word for formulas
             if ((ch == '\u0002') || (ch == '\u0001')) return false;
             else return Char.IsWhiteSpace(ch) || Char.IsControl(ch);
+        }
+
+        /// <summary>
+        /// Returns a visible version of the string, by making
+        /// its whitespace and control characters visible
+        /// using well known escape sequences, or the equivalant 
+        /// hexa decimal value.
+        /// </summary>
+        /// <param name="str">The string to be made visible.</param>
+        /// <returns></returns>
+        public static string MakeStringVisible(string str)
+        {
+            if (str == null)
+                return "{null}";
+
+            var sb = new StringBuilder();
+
+            foreach (char ch in str)
+            {
+                if (Char.IsControl(ch) || Char.IsWhiteSpace(ch))
+                {
+                    switch (ch)
+                    {
+                        case '\a':
+                            sb.Append("\\a");
+                            break;
+                        case ' ':
+                            sb.Append("\\s");
+                            break;
+                        case '\n':
+                            sb.Append("\\n");
+                            break;
+                        case '\r':
+                            sb.Append("\\r");
+                            break;
+                        case '\t':
+                            sb.Append("\\t");
+                            break;
+                        case '\v':
+                            sb.Append("\\v");
+                            break;
+                        case '\f':
+                            sb.Append("\\f");
+                            break;
+                        default:
+                            sb.AppendFormat("\\u{0:X};", (int)ch);
+                            break;
+                    }
+                }
+                else if(IsHalfSpace(ch))
+                {
+                    sb.Append("\\z");
+                }
+                else
+                {
+                    sb.Append(ch);
+                }
+            }
+
+            return sb.ToString();
         }
 
         /// <summary>
@@ -330,6 +441,20 @@ namespace SCICT.NLP.Utility
         /// <returns></returns>
         public static string TrimEndArabicWord(string word)
         {
+            int dummy;
+            return TrimEndArabicWord(word, out dummy);
+        }
+
+        /// <summary>
+        /// Trims the end of an Arabic word. It trims and removes trailing white-spaces,
+        /// together with the half spaces.
+        /// TrimEnd means trim-right in English (i.e. Left to Right) context.
+        /// </summary>
+        /// <param name="word">The word.</param>
+        /// <param name="numChanges">The number of changes.</param>
+        /// <returns></returns>
+        public static string TrimEndArabicWord(string word, out int numChanges)
+        {
             int len = word.Length;
             int i;
             for (i = len - 1; i >= 0; --i)
@@ -339,14 +464,20 @@ namespace SCICT.NLP.Utility
             }
 
             if (i >= 0) // i.e. breaked
+            {
+                numChanges = word.Length - i - 1;
                 return word.Substring(0, i + 1);
+            }
             else
+            {
+                numChanges = word.Length;
                 return ""; // i.e. It was all made of white-spaces
-
+            }
         }
 
+
         /// <summary>
-        /// Normalizes the spaces and half spaces in word. 
+        /// Normalizes the spaces and half spaces in word.
         /// It trims the word, removes trailing and leading spaces and half-spaces,
         /// and replaces multiple occurrences of half-spaces with only one half-space.
         /// Also half-spaces right after Persian/Arabic separate characters are removed.
@@ -356,56 +487,87 @@ namespace SCICT.NLP.Utility
         /// <returns>The normalized copy of the input string.</returns>
         public static string NormalizeSpacesAndHalfSpacesInWord(string word)
         {
+            int dummy;
+            return NormalizeSpacesAndHalfSpacesInWord(word, out dummy);
+        }
+
+
+        /// <summary>
+        /// Normalizes the spaces and half spaces in word.
+        /// It trims the word, removes trailing and leading spaces and half-spaces,
+        /// and replaces multiple occurrences of half-spaces with only one half-space.
+        /// Also half-spaces right after Persian/Arabic separate characters are removed.
+        /// For example, half spaces after "Daal" are completely removed.
+        /// </summary>
+        /// <param name="word">The word</param>
+        /// <param name="numChanges">The number of changes made.</param>
+        /// <returns>The normalized copy of the input string.</returns>
+        public static string NormalizeSpacesAndHalfSpacesInWord(string word, out int numChanges)
+        {
             // IMPORTANT NOTE: Any change in this function should be reflected also in 
-            //   Utility.PersianContentReader.RangeUtils.GetRangeIndex
+            //   Utility.PersianContentReader.RangeUtils.GetStrIndexInRange
             // Any change here must be reflected there, and 
             //  any change there must be reflected here.
 
+            numChanges = 0;
             int len = word.Length;
             if (len <= 0) return String.Empty;
             else if (len == 1) return word;
 
-            bool isContentMet = false;
-            StringBuilder sb = new StringBuilder();
+            //bool isContentMet = false;
+            var sb = new StringBuilder();
 
-            char ch0, ch1;
-            ch0 = word[0];
-
-            int i;
-            for (i = 1; i < len; ch0 = ch1, ++i)
+            bool isPrevNonStick = true;
+            for (int i = 0; i < len; ++i)
             {
-                ch1 = word[i];
-                if (isContentMet)
+                bool appended = false;
+                char ch0 = word[i];
+                //ch1 = word[i];
+                if (sb.Length > 0)
                 {
                     if (IsHalfSpace(ch0))
                     {
-                        string contentSoFar = sb.ToString();
-                        if (!((contentSoFar.Length > 0) &&
-                            (Array.FindIndex(PersianAlphabets.NonStickerChars, charInArray => charInArray == contentSoFar[contentSoFar.Length - 1]) >= 0)))
+                        if (!isPrevNonStick)
                         {
-                            if (!(IsWhiteSpace(ch1) || IsHalfSpace(ch1)))
-                                sb.Append(ch0);
+                            // there is next char, and it is white space then continue otherwise insert
+                            // and do nothing to insert
+
+                            if (i < len - 1)
+                            {
+                                char ch1 = word[i + 1];
+                                if (!IsWhiteSpace(ch1) && !IsHalfSpace(ch1))
+                                {
+                                    sb.Append(ch0);
+                                    appended = true;
+                                }
+                            }
                         }
                     }
                     else
                     {
                         sb.Append(ch0);
+                        appended = true;
                     }
                 }
                 else // i.e. we are still in leading spaces area
                 {
-                    if (!(IsWhiteSpace(ch0) || IsHalfSpace(ch0)))
+                    if (!IsWhiteSpace(ch0) && !IsHalfSpace(ch0))
                     {
-                        isContentMet = true;
                         sb.Append(ch0);
+                        appended = true;
                     }
                 }
+
+                isPrevNonStick = IsNonStickingPersianChar(ch0);
+
+                if (!appended)
+                    numChanges++;
             }
 
-            if (!(IsWhiteSpace(ch0) || IsHalfSpace(ch0)))
-                sb.Append(ch0);
-
-            return TrimEndArabicWord(sb.ToString());
+            int endChanges;
+            string result = TrimEndArabicWord(sb.ToString(), out endChanges);
+            numChanges += endChanges;
+            return result;
         }
 
         /// <summary>
@@ -481,6 +643,7 @@ namespace SCICT.NLP.Utility
         /// <summary>
         /// Returns the number of word in the expression in which or before which the index occurs
         /// Since it is a count it can be regarded as a 1-based index.
+        /// [Seemingly this method is not used]
         /// </summary>
         public static int WordCountTillIndex(string exp, int index)
         {
@@ -648,7 +811,7 @@ namespace SCICT.NLP.Utility
         /// <returns>A copy of the input string with its mid-word-spaces removed.</returns>
         public static string RemoveMidWordSpace(string word)
         {
-            StringBuilder sb = new StringBuilder(word.Length);
+            var sb = new StringBuilder(word.Length);
 
             for (int i = 0; i < word.Length; ++i)
             {
@@ -686,7 +849,7 @@ namespace SCICT.NLP.Utility
         /// <returns>The copy of the input string with its erab removed</returns>
         public static string RemoveErab(string word)
         {
-            StringBuilder sb = new StringBuilder(word.Length);
+            var sb = new StringBuilder(word.Length);
 
             for (int i = 0; i < word.Length; ++i)
             {
@@ -704,7 +867,7 @@ namespace SCICT.NLP.Utility
         /// <returns>The copy of the input string with its erab removed</returns>
         public static string RemoveErabIncludingFathatan(string word)
         {
-            StringBuilder sb = new StringBuilder(word.Length);
+            var sb = new StringBuilder(word.Length);
 
             for (int i = 0; i < word.Length; ++i)
             {
@@ -741,10 +904,192 @@ namespace SCICT.NLP.Utility
         }
 
         /// <summary>
+        /// Determines whether the specified character is a non-sticking persian character, 
+        /// such as "و", "ر" and so on.
+        /// </summary>
+        /// <param name="ch">The character to inspect.</param>
+        /// <returns>
+        /// 	<c>true</c> if the specified character is a non-sticking persian character; otherwise, <c>false</c>.
+        /// </returns>
+        public static bool IsNonStickingPersianChar(char ch)
+        {
+            return s_nonStickingChars.Contains(ch);
+        }
+
+        /// <summary>
+        /// What would be the char index in the refined version of the string
+        /// </summary>
+        /// <param name="str">The not refined string; string should be trimmed beforehand.</param>
+        /// <param name="index">index in the not refined string</param>
+        /// <returns>corresponding index in the refined string</returns>
+        [Obsolete]
+        public static int OldIndexInRefinedString(string str, int index)
+        {
+            int rindex = -1;
+            for (int i = 0; i <= Math.Min(index, str.Length - 1); ++i)
+            {
+                if (IsErabSign(str[i]) || IsMidWordSpace(str[i]))
+                    continue;
+                rindex++;
+            }
+            return rindex;
+        }
+
+        /// <summary>
+        /// Gets the char index in the original not-refined version of the refined string
+        /// </summary>
+        /// <param name="strNotRefined">The NOT refined string; string should be trimmed beforehand.</param>
+        /// <param name="indexInRefined">index in the refined string</param>
+        /// <returns>corresponding index in the not refined string</returns>
+        [Obsolete]
+        public static int OldIndexInNotRefinedStringOld(string strNotRefined, int indexInRefined)
+        {
+            int rindex = -1;
+            int i;
+            for (i = 0; i < strNotRefined.Length; ++i)
+            {
+                if (IsErabSign(strNotRefined[i]) || IsMidWordSpace(strNotRefined[i]))
+                    continue;
+
+                rindex++;
+                if (rindex >= indexInRefined) break;
+            }
+            return i;
+        }
+
+        /// <summary>
+        /// Gets the char index in the original not-refined version of the refined string
+        /// </summary>
+        /// <param name="strNotRefined">The NOT refined string; string should be trimmed beforehand.</param>
+        /// <param name="indexInRefined">index in the refined string</param>
+        /// <returns>corresponding index in the not refined string</returns>
+        public static int IndexInNotFilterAndRefinedString(string strNotRefined, int indexInRefined)
+        {
+            int len = strNotRefined.Length;
+
+            if (len <= 1) return 0;
+
+            var sb = new StringBuilder(len);
+
+            bool isPrevNonStick = true;
+
+            for (int i = 0; i < len; i++)
+            {
+                char ch0 = strNotRefined[i];
+                if (IsErabSignExceptFathatan(ch0)
+                    || IsMidWordSpace(ch0))
+                    continue;
+
+                if (sb.Length > 0)
+                {
+                    if (IsHalfSpace(ch0))
+                    {
+                        if (!isPrevNonStick)
+                        {
+                            // there is next char, and it is white space then continue otherwise insert
+                            // and do nothing to insert
+                            if (i < len - 1 && (IsWhiteSpace(strNotRefined[i + 1]) || IsHalfSpace(strNotRefined[i + 1])))
+                                continue;
+                        }
+                        else
+                        {
+                            // if the prev char is non-sticking do not insert
+                            continue;
+                        }
+                    }
+                    else
+                    {
+                        // do nothing to insert
+                    }
+                }
+                else
+                {
+                    // do not insert leading whitespace chars
+                    if (IsWhiteSpace(ch0) || IsHalfSpace(ch0))
+                        continue;
+                }
+
+                isPrevNonStick = IsNonStickingPersianChar(ch0);
+                sb.Append(s_persianCharFilter.FilterChar(ch0));
+                // This is exactly adapted from the FilterAndRefinePersianWord method 
+                // in which the following two liens are added
+                if (sb.Length > indexInRefined)
+                    return i;
+            }
+            return len - 1;
+        }
+
+        /// <summary>
         /// Trims and normalizes spaces and half-spaces and removes both Erab and Mid-Spaces
         /// and applies Persian Char Filters.
         /// </summary>
-        public static string RefineAndFilterPersianWord(string word)
+        public static string RefineAndFilterPersianWord(string str)
+        {
+            int len = str.Length;
+
+            if (len <= 0) return String.Empty;
+            else if (len == 1)
+            {
+                if (IsErabSignExceptFathatan(str[0])
+                    || IsMidWordSpace(str[0]))
+                    return String.Empty;
+
+                return s_persianCharFilter.FilterChar(str[0]);
+                    
+            }
+
+            var sb = new StringBuilder(len);
+
+            bool isPrevNonStick = true;
+
+            for(int i = 0; i< len; i++)
+            {
+                char ch0 = str[i];
+                if(IsErabSignExceptFathatan(ch0)
+                    || IsMidWordSpace(ch0))
+                    continue;
+
+                if(sb.Length > 0)
+                {
+                    if(IsHalfSpace(ch0))
+                    {
+                        if(!isPrevNonStick)
+                        {
+                            // there is next char, and it is white space then continue otherwise insert
+                            // and do nothing to insert
+                            if(i < len - 1 && (IsWhiteSpace(str[i + 1]) || IsHalfSpace(str[i+1])))
+                                continue;
+                        }
+                        else 
+                        {
+                            // if the prev char is non-sticking do not insert
+                            continue;
+                        }
+                    }
+                    else
+                    {
+                        // do nothing to insert
+                    }
+                }
+                else
+                {
+                    // do not insert leading whitespace chars
+                    if(IsWhiteSpace(ch0) || IsHalfSpace(ch0))
+                        continue;
+                }
+                
+                isPrevNonStick = IsNonStickingPersianChar(ch0);
+                sb.Append(s_persianCharFilter.FilterChar(ch0));
+            }
+            return TrimEndArabicWord(sb.ToString());
+        }
+
+        /// <summary>
+        /// Trims and normalizes spaces and half-spaces and removes both Erab and Mid-Spaces
+        /// and applies Persian Char Filters.
+        /// </summary>
+        [Obsolete("Use \"RefineAndFilterPersianWord\" instead!")]
+        public static string OldRefineAndFilterPersianWord(string word)
         {
             return RemoveErab(RemoveMidWordSpace(NormalizeSpacesAndHalfSpacesInWord(
                 s_persianCharFilter.FilterString(word)
@@ -793,42 +1138,208 @@ namespace SCICT.NLP.Utility
         }
 
         /// <summary>
-        /// What would be the char index in the refined version of the string
+        /// Filters the given string with the given options while returning the filtered string as well as filtering statistics.
         /// </summary>
-        /// <param name="str">The not refined string; string should be trimmed beforehand.</param>
-        /// <param name="index">index in the not refined string</param>
-        /// <returns>corresponding index in the refined string</returns>
-        public static int IndexInRefinedString(string str, int index)
+        /// <param name="str">The string to filter.</param>
+        /// <param name="ignoreList">list of characters to ignore.</param>
+        /// <param name="ignoreCats">The character-categories to ignore.</param>
+        /// <returns></returns>
+        public static FilterResultsWithStats FilterPersianWordWithStats(string str, HashSet<char> ignoreList, FilteringCharacterCategory ignoreCats)
         {
-            int rindex = -1;
-            for (int i = 0; i <= Math.Min(index, str.Length - 1); ++i)
+            return s_persianCharFilter.FilterStringWithStats(str, ignoreList, ignoreCats);
+        }
+
+
+        /// <summary>
+        /// Converts the instanecs of short HeYe to long.
+        /// </summary>
+        /// <param name="word">The word to change.</param>
+        /// <returns></returns>
+        public static string ConvertShortHeYeToLong(string word)
+        {
+            if(String.IsNullOrEmpty(word))
+                return word;
+
+            // skip final space and pseudo-spaces
+            int i = LastWordCharIndex(word);
+            if(i < 0)
+                return word;
+
+            if(word[i] == HeYe.ArabicHeWithYeAbove || word[i] == HeYe.ArabicHeGoalWithYeAbove)
             {
-                if (IsErabSign(str[i]) || IsMidWordSpace(str[i]))
-                    continue;
-                rindex++;
+                var sb = new StringBuilder(word);
+                sb.Remove(i, 1);
+                sb.Insert(i, HeYe.StandardLongHeYe);
+                return sb.ToString();
             }
-            return rindex;
+
+            if (i >= 1 && (word[i] == HeYe.ArabicHamzaAbove || word[i] == HeYe.ArabicHamzah))
+            {
+                int hehIndex = -1;
+                for(int j = i - 1; j >= 0; j--)
+                {
+                    if(IsHalfSpace(word[j]))
+                        continue;
+
+                    if(word[j] == HeYe.He)
+                        hehIndex = j;
+                    break;
+                }
+
+                if(hehIndex >= 0)
+                {
+                    var sb = new StringBuilder(word);
+                    sb.Remove(hehIndex, i - hehIndex + 1);
+                    sb.Insert(hehIndex, HeYe.StandardLongHeYe);
+                    return sb.ToString();
+                }
+            }
+
+            return word;
+        }
+
+
+        /// <summary>
+        /// Normalizes instances of short-heye. It does not convert short HeYe's to long.
+        /// It only normalizes instances of short-HeYe writings to the standard form.
+        /// </summary>
+        /// <param name="word">The word to change.</param>
+        /// <returns></returns>
+        public static string NormalizeShortHeYe(string word)
+        {
+            if (String.IsNullOrEmpty(word))
+                return word;
+
+            // skip final space and pseudo-spaces
+            int i = LastWordCharIndex(word);
+            if (i < 0)
+                return word;
+
+            if (word[i] == HeYe.ArabicHeWithYeAbove || word[i] == HeYe.ArabicHeGoalWithYeAbove)
+            {
+                var sb = new StringBuilder(word);
+                sb.Remove(i, 1);
+                sb.Insert(i, HeYe.StandardShortHeYe);
+                return sb.ToString();
+            }
+
+            if (i >= 1 && (word[i] == HeYe.ArabicHamzaAbove || word[i] == HeYe.ArabicHamzah))
+            {
+                int hehIndex = -1;
+                for (int j = i - 1; j >= 0; j--)
+                {
+                    if (IsHalfSpace(word[j]))
+                        continue;
+
+                    if (word[j] == HeYe.He)
+                        hehIndex = j;
+                    break;
+                }
+
+                if (hehIndex >= 0)
+                {
+                    var sb = new StringBuilder(word);
+                    sb.Remove(hehIndex, i - hehIndex + 1);
+                    sb.Insert(hehIndex, HeYe.StandardShortHeYe);
+                    return sb.ToString();
+                }
+            }
+
+            return word;
         }
 
         /// <summary>
-        /// Gets the char index in the original not-refined version of the refined string
+        /// Returns a new string whose textual value is the same as input string, but whose binary representation is in Unicode normalization form C.
         /// </summary>
-        /// <param name="strNotRefined">The NOT refined string; string should be trimmed beforehand.</param>
-        /// <param name="indexInRefined">index in the refined string</param>
-        /// <returns>corresponding index in the not refined string</returns>
-        public static int IndexInNotRefinedString(string strNotRefined, int indexInRefined)
+        /// <param name="word">A string instance to be normalized</param>
+        /// <remarks>It's just a wrapper over the Normalize method of .NET</remarks>
+        /// <returns>
+        /// A new, normalized string whose textual value is the same as input string, but whose binary representation is in normalization form C.
+        /// </returns>
+        public static string UnicodeNormalize(string word)
         {
-            int rindex = -1;
-            int i;
-            for (i = 0; i < strNotRefined.Length; ++i)
-            {
-                if (IsErabSign(strNotRefined[i]) || IsMidWordSpace(strNotRefined[i]))
-                    continue;
+            return word.Normalize();
+        }
 
-                rindex++;
-                if (rindex >= indexInRefined) break;
+        /// <summary>
+        /// Returns a new string whose textual value is the same as input string, but whose binary representation is in the specified Unicode normalization form.
+        /// </summary>
+        /// <param name="word">A string instance to be normalized</param>
+        /// <param name="normalizationForm">A Unicode normalization form. </param>
+        /// <returns>A new string whose textual value is the same as input string, but whose binary representation is in the normalization form specified by the <paramref name="normalizationForm"/> parameter. 
+        ///</returns>
+        public static string UnicodeNormalize(string word, NormalizationForm normalizationForm)
+        {
+            return word.Normalize(normalizationForm);
+        }
+
+        /// <summary>
+        /// Converts instance of long HeYe to short.
+        /// </summary>
+        /// <param name="word">The word to change.</param>
+        /// <returns></returns>
+        public static string ConvertLongHeYeToShort(string word)
+        {
+            if (String.IsNullOrEmpty(word))
+                return word;
+
+            // skip final space and pseudo-spaces
+            int i = LastWordCharIndex(word);
+            if(i < 0) // i.e. the loop was not breaked
+                return word;
+
+            if (i >= 2 && IsYe(word[i]) && IsHalfSpace(word[i-1]))
+            {
+                int heInd = i - 2;
+                for(; heInd >= 0; heInd--)
+                    if(!IsHalfSpace(word[heInd]))
+                        break;
+
+                if(heInd >= 0 && word[heInd] == HeYe.He)
+                {
+                    var sb = new StringBuilder(word);
+                    sb.Remove(heInd, i - heInd + 1);
+                    sb.Insert(heInd, HeYe.StandardShortHeYe);
+                    return sb.ToString();
+                }
             }
-            return i;
+
+            return word;
+        }
+
+        /// <summary>
+        /// Normalizes instances of long-heye. It does not convert long HeYe's to short.
+        /// It only normalizes instances of long-HeYe writings to the standard form.
+        /// </summary>
+        /// <param name="word">The word to change.</param>
+        /// <returns></returns>
+        public static string NormalizeLongHeYe(string word)
+        {
+            if (String.IsNullOrEmpty(word))
+                return word;
+
+            // skip final space and pseudo-spaces
+            int i = LastWordCharIndex(word);
+            if (i < 0) // i.e. the loop was not breaked
+                return word;
+
+            if (i >= 2 && IsYe(word[i]) && IsHalfSpace(word[i - 1]))
+            {
+                int heInd = i - 2;
+                for (; heInd >= 0; heInd--)
+                    if (!IsHalfSpace(word[heInd]))
+                        break;
+
+                if (heInd >= 0 && word[heInd] == HeYe.He)
+                {
+                    var sb = new StringBuilder(word);
+                    sb.Remove(heInd, i - heInd + 1);
+                    sb.Insert(heInd, HeYe.StandardLongHeYe);
+                    return sb.ToString();
+                }
+            }
+
+            return word;
         }
 
         /// <summary>
@@ -854,6 +1365,29 @@ namespace SCICT.NLP.Utility
         }
 
         /// <summary>
+        /// Determines whether the specified character is a form of Ye character, either standard, or non-standard.
+        /// </summary>
+        /// <param name="ch">The character to check.</param>
+        /// <returns>
+        /// 	<c>true</c> if the specified character is Ye; otherwise, <c>false</c>.
+        /// </returns>
+        public static bool IsYe(char ch)
+        {
+            switch (ch)
+            {
+                case '\u06CC':
+                case '\u0649':
+                case '\u064A':
+                case '\uFEF1':
+                case '\uFEF2':
+                    return true;
+            }
+
+            return false;
+        }
+
+
+        /// <summary>
         /// Determines whether the specified character is a half-space character.
         /// </summary>
         /// <param name="ch">The character</param>
@@ -862,9 +1396,18 @@ namespace SCICT.NLP.Utility
         /// </returns>
         public static bool IsHalfSpace(char ch)
         {
-            if ((ch == '\u200B') || (ch == '\u200C') || (ch == '\u00AC') || (ch == '\u001F') ||
-                (ch == '\u200D') || (ch == '\u200E') || (ch == '\u200F'))
-                return true;
+            switch (ch)
+            {
+                case '\u200B':
+                case '\u200C':
+                case '\u00AC':
+                case '\u00AD':
+                case '\u001F':
+                case '\u200D':
+                case '\u200E':
+                case '\u200F':
+                    return true;
+            }
             return false;
         }
 
@@ -908,13 +1451,74 @@ namespace SCICT.NLP.Utility
         /// <returns>
         /// 	<c>true</c> if the specified character is an Arabic or Persian digit; otherwise, <c>false</c>.
         /// </returns>
-        public static bool IsArabicDigit(char ch)
+        public static bool IsArabicScriptDigit(char ch)
         {
-            if (('\u0660' <= ch && ch <= '\u0669') ||
-                ('\u06F0' <= ch && ch <= '\u06F9'))
+            if (IsPersianDigit(ch) || IsArabicDigit(ch))
                 return true;
 
             return false;
+        }
+
+        /// <summary>
+        /// Determines whether the specified character is a Persian digit.
+        /// </summary>
+        /// <param name="ch">The character</param>
+        /// <returns>
+        ///     <c>true</c> if the specified character is a Persian digit; otherwise, <c>false</c>.
+        /// </returns>
+        public static bool IsPersianDigit(char ch)
+        {
+            return ('\u06F0' <= ch && ch <= '\u06F9');
+        }
+
+        /// <summary>
+        /// Determines whether the specified character is an English digit.
+        /// </summary>
+        /// <param name="ch">The character</param>
+        /// <returns>
+        ///     <c>true</c> if the specified character is an English digit; otherwise, <c>false</c>.
+        /// </returns>
+        public static bool IsEnglishDigit(char ch)
+        {
+            return ('0' <= ch && ch <= '9');
+        }
+
+        /// <summary>
+        /// Determines whether the specified character is an Arabic digit.
+        /// </summary>
+        /// <param name="ch">The character</param>
+        /// <returns>
+        ///     <c>true</c> if the specified character is an Arabic digit; otherwise, <c>false</c>.
+        /// </returns>
+        public static bool IsArabicDigit(char ch)
+        {
+            return ('\u0660' <= ch && ch <= '\u0669');
+        }
+
+        /// <summary>
+        /// Determines whether the specified string containing a number in digits is completely 
+        /// written in Persian digits.
+        /// </summary>
+        /// <param name="str">The string containing number</param>
+        /// <returns>
+        ///     <c>true</c> if the specified string containing a number in digits is completely 
+        /// written in Persian digits, <c>false</c>.
+        /// </returns>
+        public static bool IsNumberInPersianDigits(string str)
+        {
+            bool isDigitFound = false;
+            int len = str.Length;
+            for(int i = 0; i < len; i++)
+            {
+                if(Char.IsDigit(str[i]))
+                {
+                    isDigitFound = true;
+                    if(!IsPersianDigit(str[i]))
+                        return false;
+                }
+            }
+
+            return isDigitFound;
         }
 
         /// <summary>
@@ -984,9 +1588,17 @@ namespace SCICT.NLP.Utility
             return false;
         }
 
+        /// <summary>
+        /// Determines whether the specified character is an erab sign except fathatan.
+        /// </summary>
+        /// <param name="ch">The character to check.</param>
+        /// <returns>
+        /// 	<c>true</c> if the specified character is an erab sign except fathatan; otherwise, <c>false</c>.
+        /// </returns>
         public static bool IsErabSignExceptFathatan(char ch)
         {
-            if (/* ch == StandardCharacters.StandardTashdid || */ ch == StandardCharacters.StandardFathatan)
+            if (/* ch == StandardCharacters.StandardTashdid || */ ch == StandardCharacters.StandardFathatan ||
+                ch == '\u0654' || ch == '\u0655')
                 return false;
 
             return IsErabSign(ch);
@@ -1045,7 +1657,7 @@ namespace SCICT.NLP.Utility
         /// </returns>
         public static bool IsWordDelimiter(char ch)
         {
-            return IsArabicDigit(ch) || IsArabicPunctuation(ch) ||
+            return IsArabicScriptDigit(ch) || IsArabicPunctuation(ch) ||
                 IsMidNumberChar(ch) || IsWhiteSpace(ch) || Char.IsControl(ch) ||
                 Char.IsDigit(ch) || Char.IsPunctuation(ch) || Char.IsSymbol(ch);
         }
@@ -1058,8 +1670,8 @@ namespace SCICT.NLP.Utility
         /// filter to refine the extracted words.</param>
         private static string[] ExtractPersianWordsBase(string line, bool useCharFilter)
         {
-            List<string> listWords = new List<string>();
-            StringBuilder curWord = new StringBuilder();
+            var listWords = new List<string>();
+            var curWord = new StringBuilder();
             string wordToBeAdded;
             foreach (char c in line)
             {
@@ -1153,7 +1765,7 @@ namespace SCICT.NLP.Utility
         /// <param name="charCodes">The integer char codes</param>
         public static string StringFromCodes(params int[] charCodes)
         {
-            StringBuilder sb = new StringBuilder(charCodes.Length);
+            var sb = new StringBuilder(charCodes.Length);
             foreach (int n in charCodes)
             {
                 sb.Append(Convert.ToChar(n));
@@ -1162,20 +1774,20 @@ namespace SCICT.NLP.Utility
         }
 
         /// <summary>
-        /// Checks whether the specified string contains any of the characters within the 
+        /// Checks whether the specified string contains any of the characters within the
         /// specified character array.
         /// </summary>
         /// <param name="str">The string to check.</param>
+        /// <param name="startIndex">The start index.</param>
         /// <param name="chars">The character array to look for.</param>
         /// <param name="index">The index of the found character or -1 if no such character is found.</param>
         /// <returns></returns>
-        public static bool StringContainsAny(string str, char[] chars, out int index)
+        public static bool StringContainsAny(string str, int startIndex, char[] chars, out int index)
         {
             index = -1;
-            int tmpIndex = -1;
             foreach (char ch in chars)
             {
-                tmpIndex = str.IndexOf(ch);
+                int tmpIndex = str.IndexOf(ch, startIndex);
                 if (tmpIndex >= 0)
                 {
                     index = tmpIndex;
@@ -1192,11 +1804,25 @@ namespace SCICT.NLP.Utility
         /// </summary>
         /// <param name="str">The string to check.</param>
         /// <param name="chars">The character array to look for.</param>
+        /// <param name="index">The index of the found character or -1 if no such character is found.</param>
+        /// <returns></returns>
+        public static bool StringContainsAny(string str, char[] chars, out int index)
+        {
+            return StringContainsAny(str, 0, chars, out index);
+        }
+
+
+        /// <summary>
+        /// Checks whether the specified string contains any of the characters within the 
+        /// specified character array.
+        /// </summary>
+        /// <param name="str">The string to check.</param>
+        /// <param name="chars">The character array to look for.</param>
         /// <returns></returns>
         public static bool StringContainsAny(string str, char[] chars)
         {
             int dummy;
-            return StringContainsAny(str, chars, out dummy);
+            return StringContainsAny(str, 0, chars, out dummy);
         }
 
         //TODO: Do we need to "IsEnglishBlah" methods?
@@ -1210,13 +1836,7 @@ namespace SCICT.NLP.Utility
         /// </returns>
         public static bool IsAnEnglishLetter(char ch)
         {
-            int nCh = Convert.ToInt32(ch);
-
-            if ((Convert.ToInt32('a') <= nCh && nCh <= Convert.ToInt32('z')) ||
-                (Convert.ToInt32('A') <= nCh && nCh <= Convert.ToInt32('Z')))
-                return true;
-            else
-                return false;
+            return (('a' <= ch && ch <= 'z') || ('A' <= ch && ch <= 'Z'));
         }
 
 
@@ -1224,7 +1844,7 @@ namespace SCICT.NLP.Utility
         /// The characters who (may) represent a whole word in pinglish.
         /// </summary>
         /// <remarks>All characters are in lowercase.</remarks>
-        public static List<char> OneLetterPinglishWords = new List<char>() {
+        public static HashSet<char> OneLetterPinglishWords = new HashSet<char>() {
             /*'1', */'2', /*'3', */'4', /*'5', '6', '7', '8', '9', '0', */
             'b', 'c', 'd', 'e', 'i', 'k', 'o', 'r' , 'u', 'y',
             'B', 'C', 'D', 'E', 'I', 'K', 'O', 'R' , 'U', 'Y'
@@ -1253,14 +1873,14 @@ namespace SCICT.NLP.Utility
             }
             else
             {
-                int result = 0;
-                if (int.TryParse(word, out result))
+                double result = 0;
+                if (Double.TryParse(word, out result))
                     return false;
             }
 
             foreach (char ch in word)
             {
-                if (!(IsAnEnglishLetter(ch) || Char.IsDigit(ch) || IsSingleQuote(ch)))
+                if (!(IsAnEnglishLetter(ch) || Char.IsDigit(ch) || IsSingleQuote(ch) || ch == '@'))
                     return false;
             }
 
@@ -1270,7 +1890,7 @@ namespace SCICT.NLP.Utility
         /// <summary>
         /// Determines whether the given character represents Single Quotation marks (or similar characters like 'Prime')
         /// </summary>
-        /// <param name="ch"></param>
+        /// <param name="ch">the character to check</param>
         /// <returns></returns>
         public static bool IsSingleQuote(char ch)
         {
@@ -1284,6 +1904,165 @@ namespace SCICT.NLP.Utility
         }
 
         /// <summary>
+        /// Determines whether the specified character is a decimal separator character.
+        /// </summary>
+        /// <param name="ch">The ch.</param>
+        /// <returns>
+        /// 	<c>true</c> if the specified character is a decimal separator character; otherwise, <c>false</c>.
+        /// </returns>
+        public static bool IsDecimalSeparator(char ch)
+        {
+            switch (ch)
+            {
+                case '.':
+                case '٫':
+                    return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Determines whether the specified character is thousand-separator.
+        /// </summary>
+        /// <param name="ch">The ch.</param>
+        /// <returns>
+        /// 	<c>true</c> if the specified character is thousand-separator; otherwise, <c>false</c>.
+        /// </returns>
+        public static bool IsThousandSeparator(char ch)
+        {
+            switch (ch)
+            {
+                case ',':
+                case '٬':
+                    return true;
+            }
+            return false;
+        }
+
+
+        /// <summary>
+        /// Determines whether the specified character is an end-of-sentence punctuation.
+        /// </summary>
+        /// <param name="ch">The character.</param>
+        /// <returns>
+        ///   <c>true</c> if the specified character is an end-of-sentence punctuation; otherwise, <c>false</c>.
+        /// </returns>
+        public static bool IsEndOfSentencePunctuation(char ch)
+        {
+            switch (ch)
+            {
+                case '.':
+                case '?':
+                case '؟':
+                case '!':
+                case '…':
+                    return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Determines whether the specified character is a new-line indicator.
+        /// </summary>
+        /// <param name="ch">The character.</param>
+        /// <returns>
+        ///   <c>true</c> if the specified character is a new-line indicator; otherwise, <c>false</c>.
+        /// </returns>
+        public static bool IsNewLine(char ch)
+        {
+            switch (ch)
+            {
+                case '\r':
+                case '\n':
+                    return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Determines whether the specified character is white-space except new line.
+        /// </summary>
+        /// <param name="ch">The character.</param>
+        /// <returns>
+        ///   <c>true</c> if the specified character is white-space except new line; otherwise, <c>false</c>.
+        /// </returns>
+        public static bool IsWhiteSpaceExceptNewLine(char ch)
+        {
+            switch (ch)
+            {
+                case '\r':
+                case '\n':
+                    return false;
+            }
+
+            return IsWhiteSpace(ch);
+        }
+
+        /// <summary>
+        /// Determines whether the specified character is an openning punctuation.
+        /// </summary>
+        /// <param name="ch">The character to check.</param>
+        /// <returns>
+        ///   <c>true</c> if the specified character is an openning punctuation; otherwise, <c>false</c>.
+        /// </returns>
+        public static bool IsOpenningPunctuation(char ch)
+        {
+            switch (ch)
+            {
+                case '(':
+                case '[':
+                case '{':
+                case '«':
+                case '‘':
+                case '“':
+                    return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Determines whether the specified character is a closing punctuation.
+        /// </summary>
+        /// <param name="ch">The character.</param>
+        /// <returns>
+        ///   <c>true</c> if the specified character is a closing punctuation; otherwise, <c>false</c>.
+        /// </returns>
+        public static bool IsClosingPunctuation(char ch)
+        {
+            switch (ch)
+            {
+                case ')':
+                case ']':
+                case '}':
+                case '»':
+                case '’':
+                case '”':
+                    return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Determines whether the specified character is a symmetric punctuation.
+        /// </summary>
+        /// <param name="ch">The character.</param>
+        /// <returns>
+        ///   <c>true</c> if the specified character is a symmetric punctuation; otherwise, <c>false</c>.
+        /// </returns>
+        public static bool IsSymmetricPunctuation(char ch)
+        {
+            switch (ch)
+            {
+                case '\'':
+                case '"':
+                    return true;
+            }
+            return false;
+        }
+
+
+        
+        /// <summary>
         /// Extracts words from the specified string of words. This is a general word extraction method.
         /// To extract words from Persian sentences specificaly call 
         /// <c>ExtractPersianWords</c> and <c>ExtractPersianWordsStandardized</c>.
@@ -1292,66 +2071,374 @@ namespace SCICT.NLP.Utility
         /// <returns></returns>
         public static string[] ExtractWords(string line)
         {
-            List<string> listWords = new List<string>();
-            StringBuilder curWord = new StringBuilder();
-            string wordToBeAdded;
-            foreach (char c in line)
+            var wordTokenizer = new WordTokenizer(WordTokenizerOptions.None);
+            var lstWords = new List<string>();
+
+            foreach (var pat in wordTokenizer.Tokenize(line))
             {
-                if (IsHappeningInWord(c))
+                lstWords.Add(pat.Value);  
+            }
+
+            return lstWords.ToArray();
+        }
+
+        /// <summary>
+        /// Extracts paragraphs from a given text. "\n" and "\r" characters or both are paragraph delimiters. 
+        /// The delimiters themselves are not returned.
+        /// </summary>
+        /// <param name="text">The text to extract Paragraphs from.</param>
+        /// <returns></returns>
+        public static List<TokenInfo> ExtractParagraphs(string text)
+        {
+            return ExtractParagraphs(text, false);
+        }
+
+        /// <summary>
+        /// Extracts paragraphs from a given text. "\n" and "\r" characters or both are paragraph delimiters. 
+        /// </summary>
+        /// <param name="text">The text to extract Paragraphs from.</param>
+        /// <param name="returnDelimiters">if <c>true</c> the paragraph delimiters are returned as a separate paragraph, 
+        /// otherwise the delimiters are not returned.</param>
+        /// <returns></returns>
+        public static List<TokenInfo> ExtractParagraphs(string text, bool returnDelimiters)
+        {
+            var lstPatternInfos = new List<TokenInfo>();
+
+            int startPar = 0;
+            for (int i = 0; i < text.Length; i++)
+            {
+                char ch0 = text[i];
+                if (ch0 == '\r' || ch0 == '\n')
                 {
-                    curWord.Append(c);
-                }
-                else
-                {
-                    if (curWord.ToString().Length > 0)
+                    string curPar = text.Substring(startPar, i - startPar);
+                    if (curPar.Length > 0)
+                        lstPatternInfos.Add(new TokenInfo(curPar, startPar));
+                    startPar = i;
+
+                    string curNewLine = ch0.ToString();
+                    char ch1;
+                    if ((i + 1 < text.Length) && (((ch1 = text[i + 1]) == '\r') || ch1 == '\n') && (ch1 != ch0))
                     {
-                        wordToBeAdded = curWord.ToString();
-
-                        listWords.Add(ApplyWordBuildignRules(wordToBeAdded));
-                        curWord = new StringBuilder();
+                        curNewLine += ch1;
+                        if(returnDelimiters)
+                            lstPatternInfos.Add(new TokenInfo(curNewLine, i));
+                        startPar += 2;
+                        i++; // skip processing next char
                     }
-                    continue;
+                    else
+                    {
+                        if (returnDelimiters)
+                            lstPatternInfos.Add(new TokenInfo(curNewLine, i));
+                        startPar++;
+                    }
                 }
-
             }
 
-            if (curWord.ToString().Length > 0)
+            string lastPar = text.Substring(startPar);
+            if (lastPar.Length > 0)
+                lstPatternInfos.Add(new TokenInfo(lastPar, startPar));
+
+            return lstPatternInfos;
+        }
+
+        /// <summary>
+        /// Finds all instances of the "value" within the given string "str",
+        /// and outputs the corresponding indices of start and end characters.
+        /// The original value of the strings are used for search, not the
+        /// standardized versions. The search does not respect word boundaries.
+        /// </summary>
+        /// <param name="str">the string to search inside</param>
+        /// <param name="value">the string to be searched against str</param>
+        /// <param name="inds">array of the found patterns start indices</param>
+        /// <param name="ends">array of the found patterns end indices</param>
+        public static void FindAll(string str, string value, out int[]inds, out int[] ends)
+        {
+            var lstInds = new List<int>();
+            var lstEnds = new List<int>();
+
+            int pati;
+            int stri = 0;
+            do
             {
-                wordToBeAdded = curWord.ToString();
-                listWords.Add(ApplyWordBuildignRules(wordToBeAdded));
+                pati = str.IndexOf(value, stri, StringComparison.Ordinal);
+                if (pati >= 0)
+                {
+                    lstInds.Add(pati);
+                    lstEnds.Add(pati + value.Length - 1);
+                    stri = pati + value.Length;
+                }
+            } while (pati >= 0);
+
+            inds = lstInds.ToArray();
+            ends = lstEnds.ToArray();
+        }
+
+        /// <summary>
+        /// Finds all instances of the "value" within the given string "str",
+        /// and outputs the corresponding indices of start and end characters.
+        /// The original value of the strings are used for search, not the
+        /// standardized versions. The search does respects word boundaries.
+        /// </summary>
+        /// <param name="str">the string to search inside</param>
+        /// <param name="value">the string to be searched against str</param>
+        /// <param name="inds">array of the found patterns start indices</param>
+        /// <param name="ends">array of the found patterns end indices</param>
+        public static void FindAllWords(string str, string value, out int[] inds, out int[] ends)
+        {
+            var lstInds = new List<int>();
+            var lstEnds = new List<int>();
+
+            int pati;
+            int stri = 0;
+            do
+            {
+                pati = str.IndexOf(value, stri, StringComparison.Ordinal);
+                if (pati >= 0)
+                {
+                    int wordEnd = pati + value.Length - 1;
+                    // check for the start word boundaries
+                    if (IsStartWordBoundary(str, pati) && IsEndWordBoundary(str, wordEnd))
+                    {
+                        lstInds.Add(pati);
+                        lstEnds.Add(wordEnd);
+                    }
+                    stri = wordEnd + 1;
+                }
+            } while (pati >= 0);
+
+            inds = lstInds.ToArray();
+            ends = lstEnds.ToArray();
+        }
+
+        private static bool IsStartWordBoundary(string str, int i)
+        {
+            if(i == 0) 
+                return true;
+
+            char prevChar = str[i - 1];
+            
+            if(Char.IsWhiteSpace(prevChar) || Char.IsControl(prevChar) || Char.IsPunctuation(prevChar) || Char.IsSymbol(prevChar))
+                return true;
+
+            if(Char.IsLetter(str[i]) && Char.IsDigit(prevChar))
+                return true;
+            if(Char.IsDigit(str[i]) && Char.IsLetter(prevChar))
+                return true;
+
+            return false;
+        }
+
+        private static bool IsEndWordBoundary(string str, int i)
+        {
+            if(i == str.Length - 1)
+                return true;
+
+            char nextChar = str[i + 1];
+
+            if (Char.IsWhiteSpace(nextChar) || Char.IsControl(nextChar) || Char.IsPunctuation(nextChar) || Char.IsSymbol(nextChar))
+                return true;
+
+            if (Char.IsLetter(str[i]) && Char.IsDigit(nextChar))
+                return true;
+            if (Char.IsDigit(str[i]) && Char.IsLetter(nextChar))
+                return true;
+
+            return false;
+        }
+
+
+        /// <summary>
+        /// Finds all instances of the "value" within the given string "str",
+        /// ignoring the character case, and outputs the corresponding indices 
+        /// of start and end characters.
+        /// The original value of the strings are used for search, not the
+        /// standardized versions. The search does not respect word boundaries.
+        /// </summary>
+        /// <param name="str">the string to search inside</param>
+        /// <param name="value">the string to be searched against str</param>
+        /// <param name="inds">array of the found patterns start indices</param>
+        /// <param name="ends">array of the found patterns end indices</param>
+        public static void FindAllCaseInsensitive(string str, string value, out int[] inds, out int[] ends)
+        {
+            var lstInds = new List<int>();
+            var lstEnds = new List<int>();
+
+            int pati;
+            int stri = 0;
+            do
+            {
+                pati = str.IndexOf(value, stri, StringComparison.OrdinalIgnoreCase);
+                if (pati >= 0)
+                {
+                    lstInds.Add(pati);
+                    lstEnds.Add(pati + value.Length - 1);
+                    stri = pati + value.Length;
+                }
+            } while (pati >= 0);
+
+            inds = lstInds.ToArray();
+            ends = lstEnds.ToArray();
+        }
+
+        /// <summary>
+        /// Finds all instances of the "value" within the given string "str",
+        /// ignoring the character case, and outputs the corresponding indices 
+        /// of start and end characters.
+        /// The original value of the strings are used for search, not the
+        /// standardized versions. The search respects word boundaries.
+        /// </summary>
+        /// <param name="str">the string to search inside</param>
+        /// <param name="value">the string to be searched against str</param>
+        /// <param name="inds">array of the found patterns start indices</param>
+        /// <param name="ends">array of the found patterns end indices</param>
+        public static void FindAllWordsCaseInsensitive(string str, string value, out int[] inds, out int[] ends)
+        {
+            var lstInds = new List<int>();
+            var lstEnds = new List<int>();
+
+            int pati;
+            int stri = 0;
+            do
+            {
+                pati = str.IndexOf(value, stri, StringComparison.OrdinalIgnoreCase);
+                if (pati >= 0)
+                {
+                    int endWordIndex = pati + value.Length - 1;
+                    if (IsStartWordBoundary(str, pati) && IsEndWordBoundary(str, endWordIndex))
+                    {
+                        lstInds.Add(pati);
+                        lstEnds.Add(endWordIndex);
+                    }
+                    stri = endWordIndex + 1;
+                }
+            } while (pati >= 0);
+
+            inds = lstInds.ToArray();
+            ends = lstEnds.ToArray();
+        }
+
+        /// <summary>
+        /// Finds all instances of the "value" within the given string "str",
+        /// and outputs the corresponding indices of start and end characters.
+        /// The standardized value of the strings are used for search. 
+        /// The search does not respect word boundaries.
+        /// </summary>
+        /// <param name="str">the string to search inside</param>
+        /// <param name="value">the string to be searched against str</param>
+        /// <param name="inds">array of the found patterns start indices</param>
+        /// <param name="ends">array of the found patterns end indices</param>
+        public static void FindAllStandardized(string str, string value, out int[] inds, out int[] ends)
+        {
+            string stdText = RefineAndFilterPersianWord(str);
+            string stdPat = RefineAndFilterPersianWord(value);
+
+            int[] stdInds, stdEnds;
+            FindAll(stdText, stdPat, out stdInds, out stdEnds);
+
+            var lstInds = new List<int>();
+            var lstEnds = new List<int>();
+
+            for (int i = 0; i < stdInds.Length; i++)
+            {
+                int mainInd = IndexInNotFilterAndRefinedString(str, stdInds[i]);
+                int mainEnd = IndexInNotFilterAndRefinedString(str, stdEnds[i]);
+                lstInds.Add(mainInd);
+                lstEnds.Add(mainEnd);
             }
 
-            return listWords.ToArray();
+            inds = lstInds.ToArray();
+            ends = lstEnds.ToArray();
         }
 
         /// <summary>
-        /// applies word building rules to words recognized by the ExtractWords algorithm, 
-        /// e.g. it removes dashes from the beginning of the words
+        /// Finds all word instances with the content of "value" within the given 
+        /// string "str", and outputs the corresponding indices of start and end characters.
+        /// The standardized value of the strings are used for search. 
+        /// The search does respects word boundaries.
         /// </summary>
-        /// <param name="word">the word to apply the rules to</param>
-        /// <returns></returns>
-        private static string ApplyWordBuildignRules(string word)
+        /// <param name="str">the string to search inside</param>
+        /// <param name="value">the word content to be searched against str</param>
+        /// <param name="inds">array of the found patterns start indices</param>
+        /// <param name="ends">array of the found patterns end indices</param>
+        public static void FindAllWordsStandardized(string str, string value, out int[] inds, out int[] ends)
         {
-            string result = word.Trim(' ', '\t', '\r', '\n', '-', QuotationMark.SingleQuotationMark, 
-                QuotationMark.Prime, QuotationMark.RightSingleQuotationMark, QuotationMark.SingleHighReveresed9QuotationMark);
+            string stdText = RefineAndFilterPersianWord(str);
+            string stdPat = RefineAndFilterPersianWord(value);
 
-            return result;
+            int[] stdInds, stdEnds;
+            FindAllWords(stdText, stdPat, out stdInds, out stdEnds);
+
+            var lstInds = new List<int>();
+            var lstEnds = new List<int>();
+
+            for (int i = 0; i < stdInds.Length; i++)
+            {
+                int mainInd = IndexInNotFilterAndRefinedString(str, stdInds[i]);
+                int mainEnd = IndexInNotFilterAndRefinedString(str, stdEnds[i]);
+                lstInds.Add(mainInd);
+                lstEnds.Add(mainEnd);
+            }
+
+            inds = lstInds.ToArray();
+            ends = lstEnds.ToArray();
         }
 
         /// <summary>
-        /// Determines whehter the specified character is allowed to occur inside a word
+        /// Finds all instances of the regular expression pattern within the given string "str",
+        /// and outputs the corresponding indices of start and end characters.
+        /// The original value of the strings are used for search, not the standardized version. 
+        /// The search does not respect word boundaries.
         /// </summary>
-        /// <param name="c"></param>
-        /// <returns></returns>
-        private static bool IsHappeningInWord(char c)
+        /// <param name="str">the string to search inside</param>
+        /// <param name="regexp">the regexp pattern to be searched against str</param>
+        /// <param name="inds">array of the found patterns start indices</param>
+        /// <param name="ends">array of the found patterns end indices</param>
+        public static void FindAllRegexp(string str, string regexp, out int[] inds, out int[] ends)
         {
-            return (Char.IsLetterOrDigit(c) || IsSingleQuote(c) || c == '-');
+            var lstInds = new List<int>();
+            var lstEnds = new List<int>();
+
+            foreach (Match match in Regex.Matches(str, regexp))
+            {
+                lstInds.Add(match.Index);
+                lstEnds.Add(match.Index + match.Length - 1);
+            }
+
+            inds = lstInds.ToArray();
+            ends = lstEnds.ToArray();
         }
 
+        /// <summary>
+        /// Finds all instances of the regular expression pattern within the given string "str",
+        /// and outputs the corresponding indices of start and end characters.
+        /// The standardized value of the strings are used for search. 
+        /// The search does not respect word boundaries.
+        /// </summary>
+        /// <param name="str">the string to search inside</param>
+        /// <param name="regexp">the regexp pattern to be searched against str</param>
+        /// <param name="inds">array of the found patterns start indices</param>
+        /// <param name="ends">array of the found patterns end indices</param>
+        public static void FindAllRegexpStandardized(string str, string regexp, out int[] inds, out int[] ends)
+        {
+            string stdText = RefineAndFilterPersianWord(str);
 
+            var lstInds = new List<int>();
+            var lstEnds = new List<int>();
+
+            foreach (Match match in Regex.Matches(stdText, regexp))
+            {
+                int mainInd = IndexInNotFilterAndRefinedString(str, match.Index);
+                int mainEnd = IndexInNotFilterAndRefinedString(str, match.Index + match.Length - 1);
+                lstInds.Add(mainInd);
+                lstEnds.Add(mainEnd);
+            }
+
+            inds = lstInds.ToArray();
+            ends = lstEnds.ToArray();
+        }
 
         //To DO
-         internal void StandardiseApostrophesAndStripLeading(ref string E)
+        internal void StandardiseApostrophesAndStripLeading(ref string E)
         {
             E= E.Replace('’', '\'').Replace('`', '\'').Replace('"', '\'');
         }

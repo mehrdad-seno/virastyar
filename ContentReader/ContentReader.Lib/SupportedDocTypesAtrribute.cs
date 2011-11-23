@@ -7,6 +7,7 @@ namespace SCICT.Microsoft.Office.Word.ContentReader
     /// Atrribute class that specifies which IDocument derivatives support which file extensions.
     /// For a usage example see: MSWordDocument class.
     /// </summary>
+    [Obsolete("", true)]
     [AttributeUsage(AttributeTargets.Class)]
     public class SupportedDocTypesAtrribute : Attribute
     {

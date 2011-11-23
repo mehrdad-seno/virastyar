@@ -3,9 +3,12 @@ using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 using SCICT.NLP.Persian.Constants;
+using SCICT.NLP.Utility;
 using SCICT.Utility.GUI;
+using VirastyarWordAddin.Log;
 
 namespace VirastyarWordAddin
 {
@@ -81,11 +84,14 @@ namespace VirastyarWordAddin
                                            (((EndingType)EndingComboBox.SelectedValue == EndingType.Vowel) ? PersianPOSTag.VowelEnding : 0) |
                                            (((EndingType)EndingComboBox.SelectedValue == EndingType.Consonantal) ? PersianPOSTag.ConsonantalEnding : 0)
                                  };
+            newElement.Word = StringUtil.RefineAndFilterPersianWord(newElement.Word).Normalize(NormalizationForm.FormC);
             _dic.Add(newElement);
             IsChanged = true;
             NewWordText.Text = "";
             IsNounCheckBox.Checked = IsVerbCheckBox.Checked = IsAdjectiveCheckBox.Checked = IsVerbCheckBox.Checked = false;
             EndingComboBox.SelectedValue = EndingType.Unknown;
+
+            LogHelper.Info(Constants.LogKeywords.EntryAddedToDictionary, newElement.Word);
         }
 
         private void SaveButton_Click(object sender, EventArgs e)
@@ -211,7 +217,7 @@ namespace VirastyarWordAddin
 
         public override string ToString()
         {
-            return string.Format("{0}\t0\t{1}", Word, (Tag == PersianPOSTag.UserPOS || Tag == 0) ? PersianPOSTag.UserPOS : (Tag & ~PersianPOSTag.UserPOS));
+            return string.Format("{0}\t0\t{1}", StringUtil.RefineAndFilterPersianWord(Word).Normalize(NormalizationForm.FormC), (Tag == PersianPOSTag.UserPOS || Tag == 0) ? PersianPOSTag.UserPOS : (Tag & ~PersianPOSTag.UserPOS));
         }
 
         public string Word { get; set; }

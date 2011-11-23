@@ -1,0 +1,2109 @@
+﻿kastan	کاستن	#exact
+katalogue	کاتالوگ	#exact
+kavi	کاوي	#exact
+kavir	کوير	#exact
+kazaai	کذايي	#exact
+kazaay	کزاي	#exact
+ke	که	#exact
+keh	که	#exact
+keie	که‌ي	کيه	#exact
+keifiate	کيفيت	#exact
+keiko	کيکو	#exact
+kelas	کلاس	#exact
+kelasi	کلاسي	#exact
+kenar	کنار	#exact
+kenaram	کنارم	#exact
+kenare	کنار	#exact
+kenaremoon	کنارمون	#exact
+keraye	کرايه	#exact
+kerkerehaye	کرکرهاي	#exact
+keshidan	کشيدن	#exact
+keshidanesh	کشيدنش	#exact
+keshidid	کشيديد	#exact
+keshidin	کشيدين	#exact
+keshido	کشيدو	#exact
+keshvar	کشور	#exact
+keshvarhaii	کشورهايي	#exact
+keshwar	کشور	#exact
+kesi	کسي	#exact
+ketaab	کتاب	#exact
+ketab	کتاب	#exact
+ketabaro	کتابارو	کتابرو	#exact
+ketabe	کتاب	#exact
+ketabkhooneo	کتابخونه‌و	#exact
+key	کي	#exact
+keyf	کيف	#exact
+keyfiate	کيفيت	#exact
+keyvan	کيوان	#exact
+khaabi	خوابي	#exact
+khaahad	خواهد	#exact
+khaaham	خواهم	#exact
+khaalam	خالم	#exact
+khaalie	خاليه	خالي	#exact
+khaalit	خاليت	#exact
+khaanade	خنده	#exact
+khaanande	خواننده	#exact
+khaanvaadame	خانوادم	خانوادمه	#exact
+khaareji	خارجي	#exact
+khab	خواب	#exact
+khabar	خبر	#exact
+khabara	خبرا	#exact
+khabare	خبر	خبره	#exact
+khabargozari	خبرگزاري	#exact
+khabari	خبري	#exact
+khabe	خواب	خوابه	#exact
+khabet	خوابت	#exact
+khabeto	خوابتو	#exact
+khabgahemoon	خوابگاهمون	#exact
+khabidam	خوابيدم	#exact
+khafan	خفن	#exact
+khafe	خفه	#exact
+khahad	خواهد	#exact
+khaham	خواهم	#exact
+khaharash	خواهرش	#exact
+khahare	خواهر	#exact
+khaharha	خواهرها	#exact
+khahesh	خواهش	#exact
+khaili	خيلي	#exact
+khak	خاک	#exact
+khaki	خاکي	#exact
+khalas	خلاص	#exact
+khale	خاله	#exact
+khaleo	خاله‌و	#exact
+khali	خالي	#exact
+khalie	خاليه	#exact
+khaliye	خاليه	خالي	#exact
+khallaghiyyate	خلاقيت	#exact
+khalvat	خلوت	#exact
+khamush	خاموش	#exact
+khan	خان	#exact
+khanandeh	خواننده	#exact
+khanandehaa	خواننده‌ها	#exact
+khanandehi	خواننده‌اي	#exact
+khanandeye	خواننده‌ي	خواننده	#exact
+khande	خنده	خوانده	#exact
+khandeye	خنده‌ي	خنده	#exact
+khandidam	خنديدم	#exact
+khane	خانه	#exact
+khanomi	خانومي	خانمي	#exact
+khanoom	خانوم	#exact
+khanoome	خانوم	خانومه	#exact
+khar	خر	#exact
+kharab	خراب	#exact
+kharabe	خرابه	خراب	#exact
+kharabetam	خرابتم	#exact
+kharabkari	خراب‌کاري	#exact
+kharabtar	خرابتر	#exact
+khareji	خارجي	#exact
+khari	خري	خاري	#exact
+kharid	خريد	#exact
+kharidam	خريدم	#exact
+kharide	خريد	خريده	#exact
+kharidim	خريديم	#exact
+khashme	خشم	#exact
+khast	خواست	#exact
+khastand	خواستند	#exact
+khastash	خواستش	#exact
+khaste	خسته	#exact
+khastegari	خواستگاري	#exact
+khasteh	خسته	#exact
+khat	خط	#exact
+khate	خط	خطه	#exact
+khatere	خاطر	خاطره	#exact
+khatoon	خاتون	#exact
+khedmat	خدمت	#exact
+kheeili	خيلي	#exact
+kheili	خيلي	#exact
+kheilii	خيلي	#exact
+kheli	خيلي	#exact
+khertto	خرتو	#exact
+kheyli	خيلي	#exact
+kheylia	خيليا	خيلي‌ها	#exact
+khiaboon	خيابون	#exact
+khiaboone	خيابون	#exact
+khialati	خيالاتي	#exact
+khiale	خيال	خياله	#exact
+khire	خيره	#exact
+khiyabone	خيابون	#exact
+khob	خوب	#exact
+khobe	خوبه	#exact
+khobeh	خوبه	#exact
+khobi	خوبي	#exact
+khobie	خوبيه	خوبي	#exact
+khod	خود	#exact
+khoda	خدا	#exact
+khodafez	خدافظ	#exact
+khodafezi	خدافظي	خداحافظي	#exact
+khodai	خدايي	خداي	#exact
+khodam	خودم	#exact
+khodame	خودمه	#exact
+khodamo	خودمو	#exact
+khodaya	خدايا	#exact
+khodaye	خداي	خدايي	#exact
+khode	خود	خوده	#exact
+khodemoon	خودمون	#exact
+khodemoono	خودمونو	#exact
+khodesh	خودش	#exact
+khodesham	خودشم	#exact
+khodesho	خودشو	#exact
+khodeshon	خودشون	#exact
+khodeshoon	خودشون	#exact
+khodeshun	خودشون	#exact
+khodet	خودت	#exact
+khodete	خودت	خودته	#exact
+khodeti	خودتي	#exact
+khodeto	خودتو	#exact
+khodetonro	خدتونرو	#exact
+khodetoon	خودتون	#exact
+khodkaramo	خودکارمو	#exact
+khodshono	خودشنو	#exact
+kholaaase	خلاصه	#exact
+kholase	خلاصه	#exact
+khonak	خنک	#exact
+khond	خوند	#exact
+khondam	خوندم	#exact
+khondi	خوندي	#exact
+khone	خونه	#exact
+khoneye	خونه‌ي	خونه	#exact
+khoneyee	خونه‌ي	#exact
+khoob	خوب	#exact
+khoob	خوب	#exact
+khoobam	خوبم	#exact
+khoobe	خوبه	خوب	#exact
+khoobeh	خوبه	#exact
+khoobemoon	خوبمون	#exact
+khoobi	خوبي	#exact
+khoobia	خوبيا	#exact
+khoobie	خوبيه	خوبي	#exact
+khoobiye	خوبيه	خوبي	#exact
+khoobo	خوبو	#exact
+khoonam	خونم	#exact
+khoonashoono	خونشونو	#exact
+khoonato	خونتو	#exact
+khoond	خوند	#exact
+khoondam	خوندم	#exact
+khoondan	خوندن	#exact
+khoondan	خوندن	#exact
+khoondan	خوندن	#exact
+khoondane	خوندن	#exact
+khoondanesh	خوندنش	#exact
+khoone	خونه	خون	#exact
+khooneh	خونه	#exact
+khoonehamoon	خونه‌هامون	#exact
+khooneye	خونه‌ي	#exact
+khoono	خونو	#exact
+khoord	خورد	#exact
+khoosh	خوش	#exact
+khord	خورد	#exact
+khordam	خوردم	#exact
+khordamo	خوردمو	#exact
+khordan	خوردن	#exact
+khorde	خورده	#exact
+khordim	خورديم	#exact
+khosh	خوش	#exact
+khoshalin	خشالين	خشحالين	#exact
+khosham	خوشم	#exact
+khoshbakhtane	خوشبختانه	#exact
+khoshbakhti	خوشبختي	#exact
+khoshe2n	خشتون	#exact
+khoshet	خوشت	#exact
+khoshetoon	خوشتون	#exact
+khoshgel	خوشگل	#exact
+khoshgelam	خوشگلم	#exact
+khoshgele	خشگله	خوشگل	#exact
+khoshgele	خشگله	#exact
+khoshgeleh	خوشگله	#exact
+khoshgelo	خوشگلو	#exact
+khoshhaal	خوشحال	خوشال	#exact
+khoshhal	خوشحال	#exact
+khoshhalam	خوشحالم	#exact
+khoshhali	خوشحالي	#exact
+khoshk	خشک	#exact
+khoshkel	خوشکل	#exact
+khoshmaze	خوشمزه	#exact
+khoshtip	خوش‌تيپ	خوشتيپ	#exact
+khosoos	خصوص	#exact
+khoubi	خوبي	#exact
+khoundane	خوندن	#exact
+khounde	خونده	#exact
+khub	خوب	#exact
+khubam	خوبم	#exact
+khube	خوبه	#exact
+khubi	خوبي	#exact
+khundam	خوندم	#exact
+khunde	خونده	خوانده	#exact
+khune	خونه	#exact
+khyly	خيلي	#exact
+ki	کي	#exact
+kie	کيه	#exact
+kilometeri	کيلومتري	#exact
+king	کينگ	شاه	king	#exact
+kise	کيسه	#exact
+kiss	کيس	بوس	بوسه	kiss	#exact
+kiye	کيه	#exact
+kkhali	خالي	#exact
+klik	کليک	click	#exact
+kocholomo	کوچولومو	#exact
+kocholoo	کوچولو	#exact
+kodam	کدام	#exact
+kodametan	کدامتان	#exact
+kodom	کدوم	#exact
+kodomeshon	کدومشون	#exact
+kodoom	کدوم	#exact
+kodum	کدوم	#exact
+kofr	کفر	#exact
+koja	کجا	#exact
+kojaa	کجا	#exact
+kojae	کجاي	#exact
+kojaha	کجاها	#exact
+kojast	کجاست	#exact
+kol	کل	#exact
+kolan	کلاٌ	#exact
+kole	کل	#exact
+koli	کلي	#exact
+kolish	کليش	#exact
+kolita	کليتا	#exact
+kollan	کلا	#exact
+kolli	کلي	#exact
+komak	کمک	#exact
+komakam	کمکم	#exact
+kon	کن	#exact
+konam	کنم	#exact
+konan	کنن	#exact
+konand	کنند	#exact
+konande	کننده	کنند	#exact
+kone	کنه	#exact
+koni	کني	#exact
+konid	کنيد	#exact
+konied	کنيد	#exact
+konim	کنيم	کنيم	#exact
+konim	کنيم	#exact
+konin	کنين	#exact
+konj	کنج	#exact
+konkoor	کنکور	#exact
+konkoor	کنکور	#exact
+konkor	کنکور	#exact
+konkour	کنکور	#exact
+konm	کنم	#exact
+koo	کو	#exact
+koochik	کوچيک	#exact
+koochiko	کوچيک‌و	#exact
+koochooloote	کوچولوته	کوچولوت	#exact
+koochuloo	کوچولو	#exact
+koodoom	کودوم	کدوم	#exact
+koodoomo	کودومو	کدومو	#exact
+koohe	کوه	#exact
+kooli	کولي	کلي	#exact
+koor	کور	#exact
+koose	کوسه	#exact
+kosht	کشت	#exact
+koshtar	کشتار	#exact
+kotah	کوتاه	#exact
+kou	کو	#exact
+kuchuluhe	کوچولوه	کوچولوهه	#exact
+labkhand	لبخند	#exact
+labkhande	لبخند	#exact
+labriz	لبريز	#exact
+lahze	لحظه	#exact
+lak	لاک	لک	#exact
+lake	لکه	لک	#exact
+land	لند	#exact
+laptope	لپ‌تاپ	لپ‌تاپه	#exact
+larze	لرزه	لرز	#exact
+larzid	لرزيد	#exact
+last	لاست	لست	قبلي	last	#exact
+lat	لات	#exact
+latin	لاتين	latin	#exact
+lavazeme	لوازم	لوازمه	#exact
+layegh	لايق	#exact
+lazem	لازم	#exact
+left	لفت	#exact
+lezat	لذت	#exact
+lg	ال.جي	LG	#exact
+life	لايف	زندگي	life	#exact
+like	لايک	like	#exact
+line	لاين	خط	line	#exact
+link	لينک	مرتبط	link	#exact
+lirycs	ليريکس	#exact
+listamo	ليستمو	#exact
+liste	ليست	#exact
+live	لايو	زنده	live	#exact
+lo	لو	#exact
+local	لوکال	محلي	local	#exact
+location	لوکيشن	#exact
+log	لاگ	log	#exact
+login	لاگين	ورود	login	#exact
+lol	لول	#exact
+looti	لوطي	#exact
+lord	لرد	#exact
+lotf	لطف	#exact
+love	لاو	عشق	love	#exact
+lyrice	ليريکه	ليريک	lyric	#exact
+ma	ما	#exact
+ma'soom	معصوم	#exact
+maa	ما	#exact
+maah	ماه	#exact
+maam	مام	#exact
+maast	ماست	مست	#exact
+mabi	مآبي	#exact
+mach	ماچ	مچ	تطبيق	mach	#exact
+mache	ماچ	مچ	#exact
+mad	مد	ماد	#exact
+madar	مادر	مدار	#exact
+madararo	مادرارو	#exact
+madarim	مادريم	مدارييم	#exact
+madi	مادي	#exact
+madrese	مدرسه	#exact
+madreseh	مدرسه	#exact
+maee	مايي	#exact
+magazine	مگزينه	#exact
+mage	مگه	#exact
+maghz	مغز	#exact
+maghzesh	مغزش	#exact
+maghzeto	مغزتو	#exact
+magooli	مگولي	#exact
+mah	ماه	#exact
+maha	ماها	#exact
+mahal	محل	محال	#exact
+mahale	محله	محل	#exact
+mahaletono	محلتونو	#exact
+maham	ماهم	ماهام	#exact
+maharathaie	مهارت‌هاي	مهارت‌هايي	#exact
+mahe	ماه	مه	#exact
+mahi	ماهي	#exact
+mahsoob	محسوب	#exact
+mahv	محو	#exact
+mahya	مهيا	#exact
+mail	ميل	پست	mail	#exact
+maileto	ميلتو	#exact
+majale	مجله	#exact
+majaleye	مجله‌ي	مجله	#exact
+majara	ماجرا	#exact
+majboor	مجبور	#exact
+majid	مجيد	#exact
+maketo	ماکتو	#exact
+makhsoos	مخصوص	#exact
+makhsoosan	مخصوصا	#exact
+makhsus	مخصوص	#exact
+male	مال	#exact
+mali	مالي	#exact
+malih	مليح	#exact
+maloom	معلوم	ملوم	#exact
+mamalie	ممليه	مملي	#exact
+maman	مامان	#exact
+mamanam	مامانم	#exact
+mamanesh	مامانش	#exact
+mamlekati	مملکتي	#exact
+mamnon	ممنون	#exact
+mamnonam	ممنونم	#exact
+mamnonet	ممنونت	#exact
+mamnoon	ممنون	#exact
+mamnoonam	ممنونم	#exact
+mamoolan	معمولا	#exact
+mamoolim	معموليم	مموليم	#exact
+man	من	مان	#exact
+manaast	معناست	#exact
+manabe	منابع	#exact
+manage	منيج	مديريت	manage	#exact
+manager	منيجر	مدير	manager	#exact
+manam	منم	#exact
+manavi	معنوي	#exact
+manba	منبع	#exact
+manbae	منبع	#exact
+mane	منه	من	#exact
+manhatan	منهتن	#exact
+mani	مني	ماني	#exact
+manie	معنيه	ماني	#exact
+manisho	معنيشو	#exact
+mano	منو	#exact
+mano	منو	#exact
+mansoob	منصوب	منسوب	#exact
+mansuro	منصورو	#exact
+manzooret	منظورت	#exact
+manzor	منظور	#exact
+manzuram	منظورم	#exact
+manzureto	منظورتو	#exact
+mar30	مرسي	مر30	#exact
+marame	مرامه	مرام	#exact
+marasem	مراسم	#exact
+marboot	مربوط	#exact
+march	مارچ	مارث	march	#exact
+marde	مرد	#exact
+mardeshab	مردشب	#exact
+mardom	مردم	#exact
+mardonegi	مردونگي	#exact
+marekeh	معرکه	مرکه	#exact
+marg	مرگ	#exact
+margam	مرگم	#exact
+marhumesh	مرهومش	#exact
+maroof	معروف	#exact
+marz	مرز	#exact
+masalan	مثلا	#exact
+masale	مسئله	مساله	#exact
+masayel	مسايل	مسائل	#exact
+mash	مش	ماش	#exact
+mashghe	مشق	#exact
+mashghoole	مشغول	مشغوله	#exact
+mashhad	مشهد	#exact
+mashin	ماشين	#exact
+mashinam	ماشينم	#exact
+mashine	ماشين	ماشينه	#exact
+mashooghe	معشوقه	معشوق	#exact
+masih	مسيح	#exact
+maskhare	مسخره	#exact
+mast	ماست	#exact
+mast	مست	#exact
+matalebe2no	مطلبتونو	#exact
+matlab	مطلب	#exact
+matne	متن	#exact
+matrah	مطرح	#exact
+max	مکث	#exact
+maye	مايه	#exact
+mayehaye	مي‌هاي	مايه‌هاي	#exact
+mazast	مزست	#exact
+maze	مزه	#exact
+mazerat	معذرت	#exact
+me	مي	من	me	#exact
+meeting	ميتينگ	ملاقات	meeting	#exact
+meeting-e	ميتينگ	ميتينگه	#exact
+mehdi	مهدي	#exact
+mehr	مهر	#exact
+mehrabooni	مهربوني	#exact
+mehraboono	مهربونو	#exact
+mehran	مهران	#exact
+melat	ملت	#exact
+melate	ملت	#exact
+memare	معماره	معمار	#exact
+mentally	منتالي	ذهني	mentally	#exact
+menu	منو	فهرست	Meno	#exact
+menuye	منوي	#exact
+mer30	مرسي	#exact
+merc	مرسي	#exact
+merci	مرسي	#exact
+mersi	مرسي	#exact
+mesalam	مثالم	#exact
+mesalan	مثلا	#exact
+mese	مثل	مس	#exact
+mesengere	مسنجر	پيغام‌آور	messenger	#exact
+mesl	مثل	#exact
+mesle	مثل	#exact
+mesleh	مثل	مثله	#exact
+message	مسيج	پيغام	message	#exact
+metal	متال	#exact
+metro	مترو	#exact
+meyam	ميام	#exact
+mi2nin	مي‌تونين	#exact
+miaan	ميان	#exact
+miad	مياد	#exact
+miai	مياي	#exact
+miain	مياين	#exact
+miam	ميام	#exact
+mian	ميان	#exact
+miaram	ميارم	#exact
+miaran	ميارن	#exact
+miare	مياره	#exact
+miarzeh	مي‌ارزه	ميرزه	#exact
+miay	مياي	#exact
+mibande	مي‌بنده	ميبنده	#exact
+mibaram	مي‌برم	ميبرم	مي‌بارم	ميبارم	#exact
+mibashad	مي‌باشد	ميباشد	#exact
+mibinam	مي‌بينم	ميبينم	#exact
+mibinamesh	مي‌بينمش	ميبينمش	#exact
+mibinanad	مي‌بينند	#exact
+mibine	ميبينه	#exact
+mibini	مي‌بيني	ميبيني	#exact
+mibood	مي‌بود	ميبود	#exact
+mibordam	مي‌بردم	ميبردم	#exact
+mibudi	مي‌بودي	ميبودي	#exact
+mic	ميسي	#exact
+microphone	ميکروفن	#exact
+mid	ميد	#exact
+midaadam	ميدادم	#exact
+midad	مي‌داد	ميداد	#exact
+midam	ميدم	#exact
+midan	ميدن	#exact
+midanad	ميداند	#exact
+midand	ميدند	#exact
+midashti	ميداشتي	#exact
+mide	ميده	#exact
+midi	ميدي	#exact
+mididam	ميديدم	#exact
+mididan	ميديدن	#exact
+midim	مي‌ديم	ميديم	#exact
+midonam	مي‌دونم	ميدونم	#exact
+midonam	مي‌دونم	ميدونم	#exact
+midoni	ميدوني	#exact
+midoonam	مي‌دونم	ميدونم	#exact
+midoone	مي‌دونه	ميدونه	#exact
+midoonestam	ميدونستم	#exact
+midooni	ميدوني	#exact
+midouni	ميدوني	#exact
+midunam	ميدونم	#exact
+midunestam	مي‌دونستم	ميدونستم	#exact
+miduni	ميدوني	#exact
+mifahmam	ميفهمم	#exact
+mifahme	ميفهمه	#exact
+mifahmi	مي‌فهمي	#exact
+mifrestam	ميفرستم	#exact
+migam	مي‌گم	#exact
+migan	ميگن	#exact
+migardam	مي‌گردم	ميگردم	#exact
+migarde	مي‌گرده	ميگرده	مي‌گرد	ميگرد	#exact
+migardi	مي‌گردي	ميگردي	#exact
+migashtam	مي‌گشتم	ميگشتم	#exact
+mige	ميگه	#exact
+migeh	مي‌گه	ميگه	#exact
+migereftam	مي‌گرفتم	ميگرفتم	#exact
+migi	ميگي	#exact
+migim	ميگيم	#exact
+migin	ميگين	#exact
+migire	مي‌گيره	ميگيره	#exact
+migirin	ميگيرين	#exact
+migm	ميگم	#exact
+migoft	ميگفت	#exact
+migoftam	مي‌گفتم	ميگفتم	#exact
+migoftan	ميگفتن	#exact
+migofti	مي‌گفتي	ميگفتي	#exact
+migoftim	مي‌گفتيم	ميگفتيم	#exact
+migoftin	مي‌گفتين	#exact
+migzaaram	ميگذارم	#exact
+migzare	ميگذره	ميگذاره	#exact
+migzareh	مي‌گذره	ميگذره	مي‌گذاره	ميگذاره	#exact
+mikanam	مي‌کنم	ميکنم	#exact
+mikard	مي‌کرد	#exact
+mikardam	مي‌کردم	ميکردم	#exact
+mikardan	مي‌کردن	ميکردن	#exact
+mikardand	مي‌کردند	#exact
+mikardim	مي‌کرديم	#exact
+mikeshan	مي‌کشن	ميکشن	#exact
+mikeshi	مي‌کشي	#exact
+mikeshid	مي‌کشيد	ميکشيد	#exact
+mikeshin	ميکشين	#exact
+mikhad	مي‌خواد	ميخواد	#exact
+mikhai	ميخواي	#exact
+mikhaie	ميخواي	#exact
+mikham	مي‌خوام	ميخوام	#exact
+mikhamet	مي‌خوامت	ميخوامت	#exact
+mikhan	ميخوان	#exact
+mikhanad	مي‌خواند	ميخواند	#exact
+mikhandidam	مي‌خنديدم	ميخنديدم	#exact
+mikhandidim	مي‌خنديديم	ميخنديديم	#exact
+mikharam	ميخرم	#exact
+mikhast	ميخواست	#exact
+mikhastam	مي‌خواستم	ميخواستم	#exact
+mikhaste	مي‌خواسته	#exact
+mikhasti	ميخواستي	#exact
+mikhay	مي‌خواي	ميخواي	#exact
+mikhaym	مي‌خوايم	ميخوايم	#exact
+mikhayn	مي‌خواين	#exact
+mikhonand	ميخونند	#exact
+mikhondam	ميخوندم	#exact
+mikhoneh	ميخونه	#exact
+mikhorim	مي‌خوريم	ميخوريم	#exact
+mikhoure	مي‌خوره	#exact
+mikhunam	ميخونم	#exact
+mikonam	مي‌کنم	ميکنم	#exact
+mikonam	مي‌کنم	ميکنم	#exact
+mikonamesh	مي‌کنمش	ميکنمش	#exact
+mikonan	مي‌کنن	#exact
+mikone	مي‌کنه	ميکنه	#exact
+mikoneh	ميکنه	#exact
+mikoni	مي‌کني	#exact
+mikonid	مي‌کنيد	ميکنيد	#exact
+mikonim	مي‌کنيم	ميکنيم	#exact
+mikoonam	مي‌کنم	ميکنم	#exact
+mikoonam	مي‌کونم	ميکونم	#exact
+milade	ميلاد	#exact
+milinkamet	ميلينکمت	#exact
+milliardha	ميلياردها	#exact
+mimiram	مي‌ميرم	ميميرم	#exact
+mimiran	ميميرن	#exact
+mimune	ميمونه	#exact
+min	مين	دقيقه	min	minute	#exact
+mindazam	ميندازم	#exact
+minevc	مينوسي	#exact
+mineveshtam	مي‌نوشتم	مينوشتم	#exact
+minevisam	مي‌نويسم	مينويسم	#exact
+minevisan	مينويسن	#exact
+mioftam	ميفتم	#exact
+miofte	ميفته	#exact
+mioomad	ميومد	#exact
+mipardazand	مي‌پردازند	ميپردازند	#exact
+mipardazim	مي‌پردازيم	ميپردازيم	#exact
+mipichidam	ميپيچيدم	مي‌پيچيدم	#exact
+mipoosad	ميپوسد	#exact
+miporsam	مي‌پرسم	ميپرسم	#exact
+miporse	مي‌پرسه	ميپرسه	#exact
+miraftam	ميرفتم	مي‌رفتم	#exact
+miraftim	مي‌رفتيم	ميرفتيم	#exact
+miraghse	ميرقصه	#exact
+miraghsidan	مي‌رقصيدن	ميرقصيدن	#exact
+miram	ميرم	#exact
+miran	مي‌رن	ميرن	#exact
+miravad	مي‌رود	ميرود	#exact
+mirdamad	ميرداماد	#exact
+mire	ميره	#exact
+mirese	ميرسه	#exact
+miresi	مي‌رسي	ميرسي	#exact
+miresid	ميرسيد	#exact
+miri	ميري	#exact
+mirim	ميريم	مي‌ريم	#exact
+mirin	ميرين	#exact
+misazan	مي‌سازن	ميسازن	#exact
+misham	ميشم	#exact
+mishan	ميشن	#exact
+mishe	مي‌شه	#exact
+misheh	ميشه	#exact
+mishenavam	مي‌شنوم	ميشنوم	#exact
+mishenidam	مي‌شنيدم	ميشنيدم	#exact
+mishi	ميشي	#exact
+mishinam	مي‌شينم	ميشينم	#exact
+mishnakhtamesh	ميشناختمش	#exact
+mishnakhtand	ميشناختند	#exact
+mishnavam	مي‌شنوم	ميشنوم	#exact
+mishnavan	ميشنون	#exact
+mishnidish	ميشنيديش	#exact
+mishod	ميشد	#exact
+mishodam	ميشدم	#exact
+miss	ميس	#exact
+mitarsan	مي‌ترسن	ميترسن	#exact
+mitarse	مي‌ترسه	ميترسه	#exact
+mitarsi	مي‌ترسي	ميترسي	#exact
+mitavanad	ميتواند	مي‌تواند	#exact
+miterekoonam	ميترکونم	#exact
+mitonam	مي‌تونم	ميتونم	#exact
+mitonied	ميتونيد	#exact
+mitoonam	مي‌تونم	ميتونم	#exact
+mitoonan	مي‌تونن	ميتونن	#exact
+mitoonand	ميتونند	#exact
+mitoone	ميتونه	#exact
+mitoonestam	مي‌تونستم	ميتونستم	#exact
+mitooni	ميتوني	#exact
+mitoonim	مي‌تونيم	ميتونيم	#exact
+mitoonin	مي‌تونين	ميتونين	#exact
+mitune	ميتونه	#exact
+mitunim	مي‌تونيم	ميتونيم	#exact
+mix	ميکس	#exact
+miyad	مياد	#exact
+miyam	ميام	#exact
+miyoomad	ميومد	#exact
+mizad	ميزد	#exact
+mizadam	ميزدم	#exact
+mizam	ميزم	#exact
+mizanam	ميزنم	#exact
+mizanan	مي‌زنن	ميزنن	#exact
+mizanand	مي‌زنند	ميزنند	#exact
+mizane	ميزان	مي‌زنه	#exact
+mizani	ميزني	ميزاني	#exact
+mizanim	مي‌زنيم	ميزنيم	#exact
+mizanin	ميزنين	#exact
+mizaram	ميزارم	#exact
+mizari	ميذاري	#exact
+mizarin	ميذارين	ميزارين	#exact
+mize	ميز	#exact
+mo'adabane	موادبانه	#exact
+moazabam	معذبم	#exact
+mobarak	مبارک	#exact
+mobaraketo0n	مبارکتون	#exact
+mobile	موبايل	#exact
+mochakeram	مچکرم	#exact
+modat	مدت	#exact
+modati	مدتي	#exact
+modatie	مدتيه	#exact
+model	مدل	#exact
+modele	مدل	#exact
+moft	مفت	#exact
+moghabele	مقابله	مقابل	#exact
+moghe	موقع	#exact
+mohabbataye	محبتاي	#exact
+mohamad	محمد	#exact
+mohammad	محمد	#exact
+mohandesi	مهندسي	#exact
+mohasebato	محاسباتو	#exact
+mohem	مهم	#exact
+mohemat	مهمات	#exact
+moheme	مهمه	مهم	#exact
+mohemi	مهمي	#exact
+mohemmat	مهمات	#exact
+mohemtarin	مهمترين	#exact
+mohkam	محکم	#exact
+mohsen	محسن	#exact
+moji	موجي	#exact
+mojrian	مجريان	#exact
+mojtaba	مجتبي	#exact
+mokhalefam	مخالفم	#exact
+mokhalefeshunam	مخالفشونم	#exact
+mokhlesam	مخلصم	#exact
+mokhlese	مخلص	#exact
+mokhtalef	مختلف	#exact
+mola	مولا	#exact
+momken	ممکن	#exact
+momkene	ممکن	ممکنه	#exact
+mongol	منگل	#exact
+monhaser	منحصر	#exact
+montazer	منتظر	#exact
+montazeram	منتظرم	#exact
+montazere	منتظر	#exact
+moon	مون	#exact
+moond	موند	#exact
+moonde	مونده	#exact
+moose	موس	#exact
+moozi	موذي	#exact
+moqadas	مقدس	#exact
+moqaddame	مقدمه	مقدم	#exact
+moqava	مقوا	#exact
+mor	مور	#exact
+morakhas	مرخص	#exact
+moratab	مرتب	#exact
+morche	مورچه	#exact
+mord	مرد	مورد	#exact
+mordaad	مرداد	#exact
+mordad	مرداد	#exact
+mordam	مردم	#exact
+morde	مرده	#exact
+more	مور	مر	#exact
+morede	مورد	#exact
+moredo	موردو	#exact
+mortazavi	مرتضوي	#exact
+mosafer	مسافر	#exact
+mosahebasham	مصاحبشم	#exact
+mosahebee	مصاحبه	مصاحب	#exact
+mosahebeh	مصاحبه	#exact
+mosahebehaye	مصاحبه‌هاي	#exact
+mosahebeye	مصاحبه‌ي	مصاحبه	#exact
+mosallaman	مسلما	#exact
+mosalman	مسلمان	#exact
+mosbate	مثبت	#exact
+moshakhasat	مشخصات	#exact
+moshaver	مشاور	#exact
+moshkel	مشکل	#exact
+moshkelat	مشکلات	#exact
+moshkeleh	مشکله	مشکل	#exact
+moshkelesh	مشکلش	#exact
+mosht	مشت	#exact
+moshtarak	مشترک	#exact
+mosicio	موزيکيو	#exact
+mostanad	مستند	#exact
+motade	معتاد	معتاده	#exact
+motaghedam	معتقدم	#exact
+motale'	مطالعه	#exact
+motalee	مطالعه	#exact
+motamaenam	مطمئنم	#exact
+motasefane	متاسفانه	#exact
+mote'ajeb	متعجب	#exact
+moteasefane	متاسفانه	#exact
+moteghaed	متقاعد	#exact
+motenaferam	متنفرم	#exact
+motevajeh	متوجه	#exact
+motlaghe	مطلقه	مطلق	#exact
+motmaen	مطمئن	#exact
+motmaenam	مطمئنم	#exact
+motmaenan	مطمئنا	#exact
+motorola	موتورولا	motorola	#exact
+motshaker	متشکر	#exact
+movaafegham	موافقم	#exact
+movafagh	موفق	#exact
+movafagheyat	موفقيت	#exact
+movafegh	موافق	#exact
+movafeghatesho	موافقتشو	#exact
+movazeb	مواظب	#exact
+movazebe	مواظب	#exact
+moz	موز	#exact
+mozahem	مزاحم	#exact
+mozakhraf	مزخرف	#exact
+mozer	مضر	#exact
+mozoe	موضوع	#exact
+mp3	ام.پي.3	MP3	#exact
+much	موچ	ماچ	#exact
+muche	ماچ	ماچه	#exact
+multi-core	مولتي-کر	#exact
+music	موزيک	موسيقي	music	#exact
+music	موزيک	#exact
+mutli-core	موتلي-کر	چند هسته‌اي	multi-core	#exact
+my	ماي	مي	my	#exact
+myad	مياد	#exact
+myaneye	ميانه‌ي	#exact
+na	نه	#exact
+na're	نعره	نره	#exact
+nabab	ناباب	#exact
+nabash	نباش	#exact
+nabashe	نباشه	#exact
+nabastam	نبستم	#exact
+nabavari	ناباوري	#exact
+nabayad	نبايد	#exact
+nabeghe	نابغه	#exact
+nabinam	نبينم	#exact
+nabood	نبود	#exact
+naboodam	نبودم	#exact
+naboodim	نبوديم	#exact
+nabud	نابود	نبود	#exact
+nachar	ناچار	#exact
+nadaarand	ندارند	#exact
+nadad	نداد	#exact
+nadadam	ندادم	#exact
+nadadd	نداد	#exact
+nadadi	ندادي	#exact
+nadaram	ندارم	#exact
+nadare	نداره	#exact
+nadari	نداري	#exact
+nadasht	نداشت	#exact
+nadashtam	نداشتم	#exact
+nadashtan	نداشتن	#exact
+nadashte	نداشته	#exact
+nadashti	نداشتي	#exact
+nadid	نديد	#exact
+nadidam	نديدم	#exact
+nadidand	نديدند	#exact
+nadide	نديده	#exact
+nadin	ندين	#exact
+nadoone	ندونه	#exact
+nadshte	نداشته	#exact
+nafar	نفر	#exact
+nafare	نفر	#exact
+nafari	نفري	#exact
+nafaro	نفرو	#exact
+nafs	نفس	#exact
+nagereft	نگرفت	#exact
+nagereftam	نگرفتم	#exact
+naghafel	ناغافل	#exact
+naghes	ناقص	#exact
+naghsh	نقش	#exact
+naghshehaye	نقشه‌هاي	#exact
+naghsho	نقشو	#exact
+nagi	نگي	#exact
+nagire	نگيره	نگير	#exact
+nagoftam	نگفتم	#exact
+nagoftia	نگفتيا	#exact
+nagonjid	نگنجيد	#exact
+nahaee	نهايي	نهائي	#exact
+nahaii	نهايي	#exact
+nahar	ناهار	#exact
+nahayat	نهايت	#exact
+nahofte	نهفته	#exact
+nahv	نحو	#exact
+nakard	نکرد	#exact
+nakardam	نکردم	#exact
+nakardan	نکردن	#exact
+nakardd	نکرد	#exact
+nakarde	نکرده	#exact
+nakardeh	نکرده	#exact
+nakardim	نکرديم	#exact
+nakh	نخ	#exact
+nakhaham	نخواهم	#exact
+nakhordam	نخوردم	#exact
+nakhorde	نخورده	نخورد	#exact
+nakhore	نخوره	#exact
+nakon	نکن	#exact
+nakonam	نکنم	#exact
+nakone	نکنه	#exact
+nakoneh	نکنه	#exact
+nakoni	نکني	#exact
+nakonid	نکنيد	#exact
+nakoon	نکون	#exact
+namade	نماد	نمد	#exact
+namak	نمک	#exact
+namardie	نامرديه	#exact
+name	نام	نامه	#exact
+namidoonam	نمي‌دونم	نميدونم	#exact
+namikhore	نمي‌خوره	نميخوره	#exact
+namikonam	نمي‌کنم	نميکنم	#exact
+namishe	نمي‌شه	نميشه	#exact
+namizare	نمي‌ذاره	نميذاره	#exact
+nane	ننه	#exact
+naneveshtam	ننوشتم	#exact
+naoomade	نيومده	#exact
+naraftam	نرفتم	#exact
+narahat	ناراحت	#exact
+narahati	ناراحتي	#exact
+naraheteton	ناراحت‌تون	#exact
+naram	نرم	#exact
+narm	نرم	#exact
+narmafzari	نرم‌افزاري	#exact
+naro	نرو	#exact
+nasb	نصب	#exact
+nasbesh	نصبش	#exact
+nashe	نشه	#exact
+nashnase	نشناس	نشناسه	#exact
+nashod	نشد	#exact
+nashodam	نشدم	#exact
+nashodam	نشدم	#exact
+nashode	نشده	#exact
+nashodim	نشديم	#exact
+nasibeshoon	نصيبشون	#exact
+nasim	نسيم	#exact
+nasl	نسل	#exact
+natars	نترس	#exact
+natarse	نترسه	#exact
+natije	نتيجه	#exact
+natoonestam	نتونستم	#exact
+navaar	نوار	#exact
+navazesh	نوازش	#exact
+navazeshesho	نوازششو	#exact
+nayad	نياد	#exact
+nazan	نزن	#exact
+nazar	نظر	#exact
+nazaram	نظرم	#exact
+nazaram	نظرم	#exact
+nazaramo	نظرمو	#exact
+nazaratetoon	نظراتتون	نذراتتون	#exact
+nazare	نظر	#exact
+nazdik	نزديک	#exact
+nazdike	نزديکه	نزديک	#exact
+nazli	نازلي	#exact
+neda	ندا	#exact
+nedaye	نداي	#exact
+negah	نگاه	#exact
+negaham	نگاهم	#exact
+negahe	نگاه	#exact
+negahesh	نگاهش	نگهش	#exact
+negahi	نگاهي	#exact
+negaran	نگران	#exact
+negarane	نگران	#exact
+negaranie	نگراني	نگرانيه	#exact
+negare	نگار	نگاره	#exact
+negat	نگات	#exact
+nejat	نجات	#exact
+nekoi	نکوي	نکويي	#exact
+nemi2nam	نمي‌تونم	#exact
+nemiaram	نميارم	#exact
+nemiay	نمياي	#exact
+nemibandan	نمي‌بندن	نميبندن	#exact
+nemibine	نميبينه	#exact
+nemibinim	نمي‌بينيم	#exact
+nemidaadam	نميدادم	#exact
+nemidadan	نميدادن	#exact
+nemidam	نمي‌دم	نميدم	#exact
+nemide	نمي‌ده	نميده	#exact
+nemidi	نميدي	#exact
+nemidonam	نمي‌دونم	#exact
+nemidone	نميدونه	#exact
+nemidonestam	نميدونستم	#exact
+nemidonid	نمي‌دونيد	#exact
+nemidoonam	نمي‌دونم	نميدونم	#exact
+nemidoonestam	نميدونستم	#exact
+nemidunam	نميدونم	نمي‌دونم	#exact
+nemidune	نمي‌دونه	نميدونه	#exact
+nemidunestam	نمي‌دونستم	نميدونستم	#exact
+nemifahmam	نمي‌فهمم	نميفهمم	#exact
+nemigam	نمي‌گم	#exact
+nemigardad	نميگردد	#exact
+nemigiram	نمي‌گيرم	نميگيرم	#exact
+nemigonji	نمي‌گنجي	نميگنجي	#exact
+nemigozarad	نمي‌گذارد	#exact
+nemigozasht	نمي‌گذشت	نميگذشت	نمي‌گذاشت	نمي‌گذشت	#exact
+nemigzare	نمي‌گذره	نميگذره	#exact
+nemijavabi	نميجوابي	#exact
+nemikardam	نميکردم	نمي‌کردم	#exact
+nemikhone	نمي‌خونه	نميخونه	#exact
+nemikhoreh	نمي‌خوره	نميخوره	#exact
+nemikonam	نمي‌کنم	نميکنم	#exact
+nemikone	نمي‌کنه	#exact
+nemikoneh	نمي‌کنه	#exact
+nemikoni	نمي‌کني	نميکني	#exact
+nemimoone	نمي‌مونه	نميمونه	#exact
+nemire	نميره	#exact
+nemirese	نميرسه	#exact
+nemirese	نميرسه	#exact
+nemishe	نمي‌شه	نميشه	#exact
+nemisheh	نميشه	#exact
+nemishi	نميشي	#exact
+nemishin	نميشين	#exact
+nemishnave	نميشنوه	#exact
+nemishod	نمي‌شد	نميشد	#exact
+nemitarsam	نمي‌ترسم	نميترسم	#exact
+nemitone	نميتونه	#exact
+nemitonid	نميتونيد	#exact
+nemitoonam	نميتونم	#exact
+nemitoone	نميتونه	#exact
+nemitoonestam	نميتونستم	#exact
+nemitunam	نميتونم	نمي‌تونم	#exact
+nemiyad	نمياد	#exact
+nemizadam	نمي‌زدم	نميزدم	#exact
+nemizanam	نمي‌زنم	نميزنم	#exact
+nemizare	نميذاره	نميزاره	#exact
+nesbat	نسبت	#exact
+nesf	نصف	#exact
+nesfi	نصفي	#exact
+neshast	نشست	#exact
+neshastan	نشستن	#exact
+neshaste	نشسته	#exact
+neshestam	نشستم	#exact
+nesheste	نشسته	#exact
+neshon	نشون	#exact
+neshonie	نشونه‌اي	نشونه‌يي	#exact
+neshoon	نشون	#exact
+neshoonei	نشونه‌اي	#exact
+neshooneye	نشونه‌ي	نشانه‌ي	#exact
+net	نت	شبکه	net	#exact
+network	نتورک	شبکه	network	#exact
+neveshtam	نوشتم	#exact
+neveshtan	نوشتن	#exact
+neveshtand	نوشتند	#exact
+neveshte	نوشته	#exact
+neveshteh	نوشته	#exact
+neveshteha	نوشته‌ها	نوشتها	#exact
+neveshtehaaye	نوشته‌هاي	#exact
+neveshteye	نوشته‌ي	#exact
+nevisande	نويسنده	#exact
+new	نيو	جديد	new	#exact
+next	نکست	بعد	next	#exact
+niaz	نياز	#exact
+nice	نايس	دلپسند	nice	#exact
+night	نايت	شب	night	#exact
+nim	نيم	#exact
+nima	نيما	#exact
+nimam	نيمام	#exact
+nina	نينا	#exact
+niroogah	نيروگاه	#exact
+nis	نيس	#exact
+nist	نيست	#exact
+nistaa	نيستا	#exact
+nistam	نيستم	#exact
+nistama	نيستما	#exact
+nistand	نيستند	#exact
+nisti	نيستي	#exact
+nistid	نيستيد	#exact
+nistim	نيستيم	#exact
+nisty	نيستي	#exact
+niyayesh	نيايش	#exact
+no	نو	#exact
+nobel	نوبل	#exact
+noboogh	نبوغ	#exact
+noe	نوع	#exact
+nokaretam	نوکرتم	#exact
+nokhod	نخود	#exact
+nokia	نوکيا	nokia	#exact
+nomre	نمره	#exact
+noon	نون	#exact
+noone	نون	نونه	#exact
+noono	نون‌و	#exact
+noorani	نوراني	#exact
+november	نوامبر	november	#exact
+now	نو	الان	now	#exact
+ntesab	انتصاب	انتساب	#exact
+nyazhaye	نيازهاي	#exact
+o0n	اون	#exact
+oct	اکتبر	#exact
+october	اکتبر	october	#exact
+of	آو	of	#exact
+office	آفيس	office	#exact
+oftadam	افتادم	#exact
+oftadast	افتادست	#exact
+oftade	افتاده	افتاد	#exact
+oftadeh	افتاده	#exact
+oftadeid	افتاده‌ايد	#exact
+oh	اوه	#exact
+ojagh	اجاق	#exact
+oje	اوج	#exact
+ok	اوکي	باشه	ok	#exact
+omad	اومد	#exact
+omadd	اومد	#exact
+omade	اومده	#exact
+omadeh	اومده	#exact
+omid	اميد	#exact
+omidvaram	اميدوارم	#exact
+omidvram	اميدوارم	#exact
+omidwarem	اميدورام	#exact
+omisho	اميشه	#exact
+omoomi	عمومي	#exact
+omram	عمرم	#exact
+omran	عمران	عمرا	#exact
+omre	عمر	#exact
+on	اون	آن	#exact
+onae	اونايي	اونا	#exact
+onaei	اونايي	#exact
+onam	اونم	#exact
+oncall	آنکال	#exact
+one	اونه	#exact
+oni	اوني	#exact
+onja	اونجا	#exact
+onjast	آنجاست	#exact
+online	آنلاين	برخط	online	#exact
+onmoghe	اون‌موقع	اونموقه	#exact
+onshaba	اون‌شبا	اونشبا	#exact
+ontoori	اونطوري	#exact
+onvan	عنوان	#exact
+onvane	عنوان	عنوانه	#exact
+oo	اوو	#exact
+oo	او	اوو	#exact
+oomad	اومد	#exact
+oomadam	اومدم	#exact
+oomadan	اومدن	#exact
+oomade	اومده	#exact
+oomadeh	اومده	#exact
+oomadim	اومديم	#exact
+oomadin	اومدين	#exact
+oomadio	اومديو	#exact
+oomado	اومدو	#exact
+oon	اون	#exact
+oona	اونا	#exact
+oonam	اونم	#exact
+oonhaa	اونها	#exact
+ooni	اوني	#exact
+oonja	اونجا	#exact
+oonjaa	اونجا	#exact
+oono	اونو	#exact
+oontaraf	اونطرف	#exact
+oonvar	اونور	#exact
+ooonam	اونم	#exact
+open	اوپن	باز	Open	#exact
+optimization	اپتيمايزيشن	Optimization	#exact
+or	اور	يا	or	#exact
+org	ارگ	#exact
+organo	ارگانو	#exact
+oskol	اوسکل	#exact
+osoolan	اصولا	#exact
+osoolgara	اصولگرا	#exact
+ostad	استاد	#exact
+ostadam	استادم	#exact
+ostade	استاد	#exact
+otaagham	اتاقم	اطاقم	#exact
+otaghamo	اتاقمو	#exact
+otaghim	اتاقيم	#exact
+otaghimo	اتاقيمو	#exact
+otoboos	اتوبوس	#exact
+otobosa	اتوبوسا	#exact
+otobose	اتوبوس	#exact
+otobus	اتوبوس	#exact
+oumad	اومد	#exact
+oun	اون	#exact
+ounam	اونم	#exact
+ounvaght	اونوقت	#exact
+ovordam	اوردم	#exact
+ovordi	آوردي	#exact
+oza	اوضا	اوضاع	#exact
+ozvi	عضوي	#exact
+pa	پا	#exact
+paadeshahe	پادشاه	#exact
+paak	پاک	#exact
+padideye	پديده‌ي	پديده	#exact
+paeen	پايين	پائين	#exact
+pagamo	پيجمو	#exact
+page	پيج	صفجه	Page	#exact
+pagesh	پيجش	#exact
+pak	پاک	پک	#exact
+pakestani	پاکستاني	#exact
+pakhsh	پخش	#exact
+paki	پاکي	#exact
+palang	پلنگ	#exact
+palidi	پليدي	#exact
+pam	پام	#exact
+panjereham	پنجره‌هام	#exact
+papa	پاپا	#exact
+parallel	پارالل	موازي	parallel	#exact
+parasite	پارازيت	#exact
+parastoo	پرستو	#exact
+pardaziye	پردازي	پردازيه	#exact
+parde	پرده	#exact
+pardeye	پرده‌ي	پرده	#exact
+pare	پاره	پر	#exact
+parishab	پريشب	#exact
+parishan	پريشان	#exact
+parishooni	پريشوني	#exact
+park	پارک	#exact
+parsal	پارسال	#exact
+parsal	پارسال	#exact
+part	پرت	#exact
+party	پارتي	#exact
+parvaz	پرواز	#exact
+parya	پريا	#exact
+pas	پس	#exact
+pasandet	پسندت	#exact
+pasesh	پسش	#exact
+pashe	پشه	#exact
+pashimoon	پشيمون	#exact
+patoogh	پاتوق	#exact
+payane	پايان	#exact
+payani	پاياني	#exact
+paye	پايه	پاي	#exact
+payeam	پايه‌ام	پاييم	#exact
+payeh	پايه	پاي	#exact
+paytakhte	پايتخت	پايتخته	#exact
+paze	پز	#exact
+pegham	پيغام	#exact
+peida	پيدا	#exact
+penhoon	پنهون	#exact
+performance	پرفورمنس	کارايي	performance	#exact
+permanent	پرمننت	ماندگار	permanent	#exact
+persian	پرشين	#exact
+pert	پرت	#exact
+pesar	پسر	#exact
+pesare	پسر	#exact
+pesaroonaro	پسرونرو	#exact
+peyda	پيدا	#exact
+peydash	پيداش	#exact
+peydat	پيدات	#exact
+peye	پي	#exact
+peygham	پيغام	#exact
+peyma	پيما	#exact
+peymooneh	پيمونه	#exact
+pezeshki	پزشکي	#exact
+phone	فن	تلفن	phone	#exact
+photo	فوتو	عکس	photo	#exact
+piade	پياده	#exact
+picasa	پيکاسا	#exact
+pichidam	پيچيدم	#exact
+piish	پييش	#exact
+ping	پينگ	#exact
+pir	پير	#exact
+piremarde	پيرمرد	#exact
+pirmard	پيرمرد	#exact
+piroz	پيروز	#exact
+pish	پيش	#exact
+pisham	پيشم	#exact
+pishe	پيش	#exact
+pishemoon	پيشمون	#exact
+pishet	پيشت	#exact
+pishnahadati	پيشنهاداتي	#exact
+pishraft	پيشرفت	#exact
+pishrafte	پيشرفته	پيشرفت	#exact
+piyade	پياده	#exact
+please	پليز	لطفا	please	#exact
+pm	پي‌.ام	pm	#exact
+pofak	پفک	#exact
+pofioz	پفيوز	#exact
+pofyooza	پفيوزا	#exact
+pola	پولا	#exact
+pole	پول	#exact
+polo	پلو	#exact
+polopaze	پلوپز	#exact
+pong	پنگ	#exact
+pool	پول	#exact
+poole	پول	#exact
+poolesho	پولشو	#exact
+poostam	پوستم	پستم	#exact
+pooste	پوست	پوسته	#exact
+por	پر	#exact
+poraz	پراز	#exact
+pore	پوره	#exact
+porn	پرن	porn	#exact
+porojeye	پروژه‌ي	#exact
+portable	پرتابل	قابل حمل	portable	#exact
+poshte	پشت	#exact
+poshtesh	پشتش	#exact
+poshtkar	پشتکار	#exact
+post	پست	#exact
+postam	پوستم	#exact
+poste	پست	#exact
+posteshoon	پستشون	#exact
+postet	پستت	پوستت	#exact
+postetoon	پستتون	#exact
+power	پاور	قدرت	power	#exact
+print	پرينت	چاپ	print	#exact
+prirozesh	پريروزش	#exact
+privacy	پريوکي	پرايوسي	#exact
+private	پرايوت	خصوصي	private	#exact
+pro	پرو	#exact
+professor	پروفسور	#exact
+profile	پروفايل	profile	#exact
+proje	پروژه	#exact
+project	پروجکت	پروژه	project	#exact
+projectam	پروجکتم	#exact
+qabli	قبلي	#exact
+qesmat	قسمت	#exact
+quiz	کويز	#exact
+ra	را	#exact
+raaham	راهم	#exact
+raahnamaa	راهنما	#exact
+raame	رام	رامه	#exact
+raazist	رازيست	#exact
+rabtesho	ربطشو	#exact
+rad	رد	رعد	#exact
+radio	راديو	#exact
+radioactive	راديواکتيو	#exact
+raeesam	رئيسم	#exact
+raeesame	رئيسمه	#exact
+rafigh	رفيق	#exact
+raft	رفت	#exact
+raft	رفت	#exact
+raftam	رفتم	#exact
+raftan	رفتن	#exact
+raftane	رفتن	#exact
+raftanesho	رفتنشو	#exact
+raftaresho	رفتارشو	#exact
+rafte	رفته	#exact
+rafti	رفتي	#exact
+raftid	رفتيد	#exact
+raftim	رفتيم	#exact
+rafty	رفتي	#exact
+raghm	رغم	#exact
+raghs	رقص	#exact
+rah	راه	ره	#exact
+rahat	راحت	#exact
+rahattare	راحتتره	#exact
+rahe	راه	#exact
+rahi	راهي	رهي	#exact
+rahim	رحيم	#exact
+rahimi	رحيمي	#exact
+rahmatollahe	رحمت‌الاهه	#exact
+rahnamaii	راهنمايي	#exact
+rahnamaye	راهنماي	راهنمايه	#exact
+rahnamee	راهنمايي	#exact
+raje	راجع	#exact
+raje	راجع	#exact
+rajebe	راجع به	راجبه	#exact
+ranande	راننده	#exact
+ranandehe	راننده	#exact
+range	رنگ	رنج	برد	range	#exact
+ranginkamane	رنگين‌کمان	رنگينکمان	#exact
+raoof	رئوف	#exact
+rap	رپ	#exact
+rar	رر	rar	#exact
+rashti	رشتي	#exact
+rasman	رسما	#exact
+rast	راست	#exact
+rastaye	راستاي	#exact
+rastesh	راستش	#exact
+rastesho	راستشو	#exact
+rasti	راستي	#exact
+rasty	راستي	#exact
+ravabete	روابط	#exact
+razist	رازيست	#exact
+real	رئال	ريل	واقعي	real	#exact
+refigh	رفيق	#exact
+refigham	رفيقم	رفيقام	#exact
+refighamam	رفيقمم	#exact
+refighame	رفيقمه	#exact
+refighamo	رفيقمو	#exact
+refighet	رفيقت	#exact
+register	رجيستر	ثبت‌نام	register	#exact
+report	ريپرت	گزارش	report	#exact
+reporte	ريپورت	#exact
+resad	رسد	#exact
+research	ريسرچ	پژوهش	research	#exact
+reshte	رشته	#exact
+reshteye	رشته‌ي	رشته	#exact
+resid	رسيد	#exact
+residam	رسيدم	#exact
+residan	رسيدن	#exact
+residim	رسيديم	#exact
+reza	رضا	#exact
+riazi	رياضي	#exact
+riazye	رياضي	رياضي يه	#exact
+ridam	ريدم	#exact
+rikhtam	ريختم	#exact
+rikhtane	ريختن	#exact
+rikhtim	ريختيم	#exact
+rings	رينگز	#exact
+ringtone	رينگتنه	rينگتن	#exact
+rish	ريش	#exact
+risheie	ريشه‌ي	ريشه	#exact
+riske	ريسک	ريسکه	#exact
+ritm	ريتم	#exact
+rize	ريزه	ريز	#exact
+ro	رو	#exact
+rob	رب	#exact
+robert	رابرت	ربرت	#exact
+romo	رومو	رمو	#exact
+ronaldo	رونالدو	#exact
+roo	رو	#exact
+rooberoo	روبرو	#exact
+rooberoom	روبروم	#exact
+rooh	روح	#exact
+room	روم	اتاق	room	#exact
+roosh	روش	#exact
+rooye	روي	#exact
+rooz	روز	#exact
+rooza	روزا	#exact
+roozaa	روزا	#exact
+roozam	روزم	روزام	#exact
+roozaye	روزاي	#exact
+roozayee	روزايه	روزايي	#exact
+rooze	روز	روزه	#exact
+roozesham	روزشم	#exact
+roozhaaye	روزهاي	#exact
+roozi	روزي	#exact
+roshan	روشن	#exact
+roshane	روشنه	#exact
+roshani	روشني	#exact
+rotbe	رتبه	#exact
+rou	رو	#exact
+rouz	روز	#exact
+royahamo	روياهامو	#exact
+roye	روي	#exact
+roz	روز	رز	#exact
+roza	روزا	رزا	#exact
+rozbeh	روزبه	#exact
+rozhaye	روزهاي	#exact
+rozname	روزنامه	#exact
+ru	رو	روي	#exact
+ruhi	روحي	#exact
+ruye	روي	#exact
+ruzi	روزي	#exact
+sa@	ساعت	#exact
+saalam	سلام	#exact
+saat	ساعت	#exact
+sabado	سبدو	سبد	#exact
+sabke	سبک	#exact
+sabkesh	سبکش	#exact
+sabr	صبر	#exact
+sad	صد	#exact
+sade	ساده	#exact
+sadegh	صادق	#exact
+sadeq	صادق	#exact
+saeat	ساعت	#exact
+saeed	سعيد	#exact
+safar	سفر	#exact
+safarian	صفريان	صفاريان	#exact
+safe	صاف	سيف	مطمئن	safe	#exact
+safheye	صفحه‌ي	صفحه	#exact
+sag	سگ	#exact
+sage	سگه	سگ	#exact
+sahar	سحر	صحر	#exact
+sahario	سحري‌و	سحري	#exact
+sahm	سهم	#exact
+sahme	سهم	سهمه	#exact
+sahne	صحنه	#exact
+sahneye	صحنه‌ي	صحنه	#exact
+saieash	سعيش	#exact
+saite	سايت	#exact
+saket	ساکت	#exact
+sakht	سخت	ساخت	#exact
+sakhtane	ساختن	#exact
+sakhte	ساخته	سخته	#exact
+sakhtemoon	ساختمون	#exact
+sakhtemoone	ساختمونه	سختمونه	#exact
+sakhttarin	سخت‌ترين	#exact
+sal	سال	#exact
+salam	سلام	#exact
+salamat	سلامت	#exact
+salamati	سلامتي	#exact
+salame	سلام	#exact
+sale	سال	ساله	#exact
+salegi	سالگي	#exact
+saleh	ساله	#exact
+salem	سالم	#exact
+saleme	سالم	سالمه	#exact
+salet	سالت	#exact
+saligheye	سليقه‌ي	سليقه	#exact
+sallam	سلام	#exact
+sama	سما	صما	#exact
+samsung	سامسونگ	#exact
+samte	سمت	#exact
+san'at	صنعت	#exact
+san'athaye	صنعت‌هاي	#exact
+sandwich	ساندويچ	sandwich	#exact
+sanginiye	سنگينيه	سنگيني	#exact
+sanie	ثانيه	ثاني	#exact
+sanyo	سانيو	sanyo	#exact
+saqfo	سقف‌و	سقف	#exact
+sar	سر	#exact
+saraki	سرکي	#exact
+saram	سرم	#exact
+saramo	سرمو	#exact
+sarapa	سراپا	#exact
+sarasari	سراسري	#exact
+sarbaze	سرباز	#exact
+sardard	سردرد	#exact
+sare	سر	#exact
+saresh	سرش	#exact
+sareshon	سرشون	#exact
+sareshoon	سرشون	#exact
+saret	سرت	#exact
+sareton	سرتون	#exact
+saretoono	سرتونو	#exact
+sari	سري	سريع	#exact
+sarih	صريح	#exact
+sarma	سرما	#exact
+sarmaye	سرمايه	#exact
+sarmayegozari	سرمايه‌گذاري	#exact
+sarnevesht	سرنوشت	#exact
+saro	سرو	#exact
+sarvare	سرور	#exact
+sarvaremoon	سرورمون	#exact
+sarvari	سروري	#exact
+sarvenaz	سروناز	#exact
+sarvy	سروي	#exact
+savaresh	سوارش	#exact
+say	سعي	#exact
+sayamo	سعيمو	سايمو	#exact
+sayatam	سايتم	#exact
+saze	سازه	ساز	#exact
+se	سه	#exact
+searchamo	سرچمو	#exact
+security	سکيوريتي	امنيت	security	#exact
+seda	صدا	#exact
+sedaash	صداش	#exact
+sedaaye	صداي	#exact
+sedahaye	صداهاي	#exact
+sedam	صدام	#exact
+sedamo	صدامو	#exact
+sedash	صداش	#exact
+sedasho	صداشو	#exact
+sedato	صداتو	#exact
+sedaye	صداي	#exact
+sedayee	صدايي	#exact
+sefareshe	سفارش	#exact
+sei	سه‌اي	#exact
+seire	سير	#exact
+send	سند	ارسال	send	#exact
+senin	سنين	#exact
+sep	سپ	سپتامبر	sep	#exact
+sepanlou	سپنلو	سپانلو	#exact
+september	سپتامبر	semtember	#exact
+serat	صراط	#exact
+seri	سري	#exact
+serooz	سه‌روز	#exact
+servatmandtarin	ثروتمندترين	#exact
+server	سرور	server	#exact
+service	سرويس	service	#exact
+seshanbe	سه‌شنبه	#exact
+session	سشن	جلسه	session	#exact
+set	ست	مجموعه	set	#exact
+setareh	ستاره	#exact
+sevomemon	سوممون	#exact
+sewed	سوئد	#exact
+sex	سکس	رابطه‌ي جنسي	sex	#exact
+sexi	سکي	Sexy	#exact
+shaadi	شادي	#exact
+shab	شب	#exact
+shabakehaie	شبکه‌هاي	شبک‌هاي	#exact
+shabaye	شباي	#exact
+shabe	شب	شبه	#exact
+shabhaye	شب‌هاي	#exact
+shabi	شبي	#exact
+shabihe	شبيه	#exact
+shad	شاد	#exact
+shadi	شادي	#exact
+shadid	شديد	#exact
+shadidan	شديدا	#exact
+shadimoon	شاديمون	#exact
+shadmehr	شادمهر	#exact
+shadmehr	شادمهر	#exact
+shado	شاد	شادو	#exact
+shadtar	شادتر	#exact
+shahr	شهر	#exact
+shahre	شهر	#exact
+shahreshon	شهرشون	#exact
+shahrzad	شهرزاد	#exact
+shahrzado	شهرزادو	#exact
+shahzadeh	شاهزاده	#exact
+shak	شک	#exact
+shakhsiatesh	شخصيتش	#exact
+shakhsiatesham	شخسيتشم	#exact
+shakhsiatesham	شخصيتشم	#exact
+shakhsyat	شخصيت	#exact
+shakhsyati	شخصيتي	#exact
+sham	شم	#exact
+sham'ha	شمع‌ها	#exact
+shamo	شمو	شمع	شمع‌و	#exact
+shan	شان	شن	#exact
+shanbe	شنبه	#exact
+shanbeh	شنبه	#exact
+shans	شانس	#exact
+shansam	شانسم	#exact
+shanse	شانس	#exact
+shansiroo	شانسي‌رو	#exact
+sharghi	شرقي	#exact
+sharhe	شرح	شرحه	#exact
+sharik	شريک	#exact
+sharm	شرم	#exact
+sharmandam	شرمندم	#exact
+sharmande	شرمنده	#exact
+sharmandeh	شرمنده	#exact
+sharto	شرطو	شرط	#exact
+shayad	شايد	#exact
+shayadm	شايدم	#exact
+she	شه	#exact
+shedate	شدت	#exact
+sheer	شعر	#exact
+shekan	شکن	#exact
+shekaste	شکسته	#exact
+shekasteh	شکسته	#exact
+shekl	شکل	#exact
+shekle	شکل	#exact
+shemord	شمرد	#exact
+shenakhtanam	شناختنم	#exact
+shenava	شنوا	#exact
+shenid	شنيد	صحنيد	#exact
+shenidam	شنيدم	#exact
+shenidamesh	شنيدمش	#exact
+shere	شر	شعر	#exact
+sheresh	شعرش	شرش	#exact
+sherkat	شرکت	#exact
+sherkataye	شرکتاي	#exact
+sherkate	شرکت	#exact
+sherkatesh	شرکتش	#exact
+sherkati	شرکتي	#exact
+shero	شرو	شعرو	#exact
+shid	شيد	#exact
+shikami	شيکمي	#exact
+shila	شيلا	#exact
+shim	شيم	#exact
+shima	شيما	#exact
+shishe	شيشه	#exact
+sho'oor	شعور	#exact
+shod	شد	#exact
+shodam	شدم	#exact
+shodan	شدن	#exact
+shodane	شدن	شدنه	#exact
+shode	شده	#exact
+shodeh	شده	#exact
+shodi	شدي	#exact
+shodid	شديد	#exact
+shodim	شديم	#exact
+shohadaye	شهداي	#exact
+shohar	شوهر	#exact
+shokret	شکرت	#exact
+sholughe	شلوغ	#exact
+shom	شوم	#exact
+shoma	شما	#exact
+shomaa	شما	#exact
+shomaha	شماها	#exact
+shomal	شمال	#exact
+shomam	شمام	#exact
+shomare	شماره	#exact
+shomareh	شماره	#exact
+shomareye	شماره‌ي	شماره	#exact
+shomari	شماري	#exact
+shomaro	شمارو	#exact
+shood	شد	شود	#exact
+shookh	شوخ	#exact
+shooloogh	شلوغ	#exact
+shooroo	شورو	شروع	#exact
+shoro	شروع	#exact
+shoroo	شروع	#exact
+shorooe	شروع	#exact
+shotori	شتري	#exact
+shouhar	شوهر	#exact
+shuno	شونو	#exact
+siah	سياه	سيه	#exact
+siavash	سياوش	#exact
+sibilam	سيبيلام	سيبيلم	#exact
+sibzamini	سيب‌زميني	#exact
+sigh	سيق	#exact
+sign	ساين	امضا	sign	#exact
+silent	سايلنت	#exact
+silver	سيلور	#exact
+siman	سيمان	#exact
+sina	سينا	#exact
+single	سينگل	مجرد	single	#exact
+singlesh	سينگلش	#exact
+site	سايت	#exact
+sitesh	سايتش	#exact
+siteshe	سايتش	#exact
+sitetam	سايتتم	#exact
+sitetono	سايتتونو	#exact
+sitt	سيت	سايت	#exact
+size	سايز	اندازه	size	#exact
+sms	اس.ام.اس	پيامک	SMS	#exact
+sms	اس.ام.اس	پيام کوتاه	sms	#exact
+smso	اس.ام.اس و	#exact
+so	سو	پس	so	#exact
+soal	سوال	#exact
+soale	سوال	#exact
+sob	صب	صبح	#exact
+sobat	ثبات	#exact
+sobh	صبح	#exact
+sobhgahi	صبحگاهي	#exact
+sohbat	صحبت	#exact
+sokhanranihaye	سخنرانيهاي	#exact
+sokoote	سکوت	#exact
+solh	صلح	#exact
+solombe	سلمبه	#exact
+sony	سوني	sony	#exact
+sooeestefade	سوء استفاده	#exact
+soog	سوگ	#exact
+sooie	سوي	سوء	#exact
+soorat	صورت	#exact
+soorate	صورت	#exact
+soorati	صورتي	#exact
+soot	سوت	#exact
+sooti	سوتي	صوتي	#exact
+sooye	سوي	#exact
+soraatesh	سرعتش	#exact
+sorat	صورت	سرعت	#exact
+soratesh	صورتش	#exact
+sorfeham	سرفه‌هام	#exact
+sorry	ساري	معذرت	sorry	#exact
+sosan	سوسن	#exact
+sosol	سوسول	#exact
+sost	سست	#exact
+star	استار	ستاره	*	Star	#exact
+statamo	استيتمو	#exact
+steres	استرس	#exact
+sunday	ساندي	شنبه	sunday	#exact
+super	سوپر	#exact
+susan	سوسن	#exact
+suzo	سوزو	#exact
+ta	تا	#exact
+ta'ajob	تعجب	#exact
+ta'ajobaye	تعجباي	#exact
+ta'siri	تاثيري	#exact
+taa	تا	تعا	#exact
+taabe	تابع	تاب	تب	#exact
+taabestoon	تابستون	#exact
+taaskabab	تاسکباب	#exact
+tabarok	تبرک	#exact
+tabdil	تبديل	#exact
+tabeie	طبيعي	#exact
+tabrik	تبريک	#exact
+tafaole	تفال	#exact
+tafavot	تفاوت	#exact
+tafavote	تفاوت	#exact
+taghdir	تقدير	#exact
+taghir	تغيير	#exact
+taghriban	تقريبا	#exact
+taghsire	تقصير	#exact
+taghviate	تقويت	#exact
+tah	ته	#exact
+tahala	تاحالا	#exact
+tahammole	تحمل	#exact
+tahamol	تحمل	#exact
+tahavol	تحول	#exact
+tahesh	تهش	#exact
+tahiye	تهيه	#exact
+tahvil	تحويل	#exact
+tahvile	تحويل	تحويله	#exact
+tajavoz	تجاوز	#exact
+tajrobeye	تجربه‌ي	#exact
+tak	تک	#exact
+takeshon	تکشون	#exact
+takht	تخت	#exact
+takhtam	تختم	#exact
+takhte	تخته	تخت	#exact
+takir	تکبير	#exact
+tako	تکو	تاکو	#exact
+taksia	تاکسيا	#exact
+talab	طلب	تالاب	#exact
+talafish	تلافيش	#exact
+talashhaye	تلاش‌هاي	#exact
+tamaam	تمام	#exact
+tamaame	تمام	#exact
+tamam	تمام	#exact
+tamame	تمام	#exact
+tamarkoz	تمرکز	#exact
+tamarkoze	تمرکز	#exact
+tamasha	تماشا	#exact
+tamoom	تموم	#exact
+tamoome	تمومه	#exact
+tamoomesh	تمومش	#exact
+tamum	تموم	#exact
+tang	تنگ	#exact
+tanha	تنها	#exact
+tanhaa	تنها	#exact
+tanhaeest	تنهاييست	#exact
+tanhaii	تنهايي	#exact
+tanham	تنهام	#exact
+tanham	تنهام	#exact
+tanhayee	تنهايي	تنهائي	#exact
+tanhayim	تنهاييم	#exact
+tapaleye	تاپاله‌ي	#exact
+tapanche	تپانچه	#exact
+tapash	طپش	تپش	#exact
+tapesh	طپش	#exact
+tar	تر	#exact
+taraanash	ترانش	#exact
+taraaneh	ترانه	#exact
+taraanehaaye	ترانه‌هاي	#exact
+taraf	طرف	#exact
+tarafa	طرفا	#exact
+tarafast	طرفاست	#exact
+tarafdaaresh	طرفدارش	#exact
+tarafdare	طرفدار	#exact
+tarafdareh	طرفدار	طرفداره	#exact
+tarafe	طرف	#exact
+tarafesh	طرفش	#exact
+tarafeshoono	طرفشونو	#exact
+tarafo	طرفو	#exact
+tarahie	طراحي	طراحيه	#exact
+taran	ترن	#exact
+taranash	ترانش	#exact
+taranehash	ترنه‌هاش	#exact
+taranehye	ترانه‌ي	#exact
+taraneye	ترانه‌ي	#exact
+tare	تره	تاره	#exact
+tarfdareh	طرفدار	طرفداره	#exact
+tarif	تعريف	#exact
+tarikh	تاريخ	#exact
+tariki	تاريکي	#exact
+tarin	ترين	#exact
+tars	ترس	#exact
+tasavi	تساوي	#exact
+tasavir	تصاوير	#exact
+tashakor	تشکر	#exact
+tashkhis	تشخيص	#exact
+tashoono	تشونو	تاشونو	#exact
+tashrif	تشريف	#exact
+tasiir	تاثير	#exact
+taskhire	تسخير	#exact
+taskin	تسکين	#exact
+tasliat	تسليت	#exact
+tasmim	تصميم	#exact
+tasmimate	تصميمات	#exact
+tasviire	تصوير	#exact
+tavajoh	توجه	#exact
+tavakolet	توکلت	#exact
+tavallode	تولد	#exact
+tavalode	تولد	#exact
+tavasote	توسط	#exact
+tayin	تعيين	#exact
+tazakoretoon	تذکرتون	#exact
+taze	تازه	#exact
+tazeh	تازه	#exact
+tazehgiha	تازه‌گيها	#exact
+tazmin	تضمين	#exact
+techno	تکنو	#exact
+tehran	تهران	#exact
+tei	طي	#exact
+tejari	تجاري	#exact
+tekrar	تکرار	#exact
+telephone	تلفن	#exact
+teleshoon	تلشون	#exact
+teletam	تلتم	#exact
+tey	طي	#exact
+the	ده	#exact
+thread	ترد	نخ	thread	#exact
+thursday	ترزدي	پنج‌شنبه	#exact
+tigh	تيغ	#exact
+tike	تيک	تيکه	#exact
+tina	تينا	#exact
+tiq	تيغ	#exact
+titletam	تايتلتم	#exact
+tnx	تنکس	متشکر	tnx	#exact
+to	تو	#exact
+toam	توام	#exact
+todo	تودو	ليست انجام کار	todo	#exact
+toefl	تافل	TOEFL	#exact
+toei	توئي	#exact
+tofang	تفنگ	#exact
+tohin	توهين	#exact
+toman	تومان	تومن	#exact
+tomani	توماني	تومني	#exact
+tone	تن	#exact
+tonestid	تونستيد	#exact
+too	تو	#exact
+toode	توده	#exact
+tool	طول	تول	ابزار	tool	#exact
+toonestam	تونستم	#exact
+toosh	توش	#exact
+tooye	توي	#exact
+top	تاپ	top	#exact
+topic	تاپيک	موضوع	topic	#exact
+tor	طور	#exact
+tore	طور	#exact
+tori	طوري	#exact
+tosh	توش	#exact
+toshak	تشک	#exact
+tosifate	توصيفات	#exact
+tou	تو	#exact
+touye	توي	#exact
+toye	توي	#exact
+tozih	توضيح	#exact
+tozihate	توضيحات	#exact
+track	ترک	قسمت	track	#exact
+tu	تو	#exact
+turkiye	ترکيه	#exact
+tv	تي.وي	تلويزيون	TV	#exact
+twin	توين	#exact
+type	تايپ	#exact
+uk	يو.کي	انگليس	uk	#exact
+umad	اومد	#exact
+umade	اومده	#exact
+un	اون	#exact
+una	اونا	#exact
+unja	اونجا	#exact
+unjai	اونجايي	#exact
+untor	اونطور	#exact
+unyekio	اون‌يکيو	#exact
+up	آپ	بالا	up	#exact
+upload	آپلود	ارسال فايل	upload	#exact
+us	يو.اس	US	#exact
+usa	يو.اس.اي	آمريکا	USA	#exact
+user	يوزر	کاربر	استفاده‌ کننده	#exact
+va	و	#exact
+vaase	واسه	#exact
+vagar	وگر	#exact
+vagarna	وگرنه	#exact
+vaghe	واقع	#exact
+vaghean	واقعا	واقعن	#exact
+vaghean	واقعا	#exact
+vaghen	واقعا	#exact
+vaght	وقت	#exact
+vaght	وقت	#exact
+vaghtayee	وقتايي	#exact
+vaghte	وقت	#exact
+vaghti	وقتي	#exact
+vaghtii	وقتي	#exact
+vaghty	وقتي	#exact
+vagty	وقتي	#exact
+vaie	واي	#exact
+vajebe	واجبه	واجب	#exact
+val	ول	#exact
+vala'	ولع	والا	#exact
+vali	ولي	#exact
+valiasr	وليعصر	#exact
+valimishe	وليميشه	#exact
+valy	ولي	#exact
+van	وان	ون	#exact
+vaqt	وقت	#exact
+var	ور	#exact
+varam	وارم	ورم	#exact
+vared	وارد	#exact
+varedan	واردن	#exact
+varede	وارد	#exact
+vasam	واسم	#exact
+vasash	واسش	#exact
+vasat	واست	#exact
+vasate	وسط	#exact
+vasatesh	وسطش	#exact
+vasatun	واستون	#exact
+vasayel	وسايل	وسائل	#exact
+vase	واسه	#exact
+vasetoon	واستون	#exact
+vaseye	واسه‌ي	واسه	#exact
+vasl	وصل	#exact
+vay	واي	#exact
+vaziat	وضعيت	#exact
+vaziate	وضعيت	#exact
+vazifamoo	وظيفمو	#exact
+vel	ول	#exact
+vere	ور	وره	#exact
+version	ورژن	نسخه	version	#exact
+versione	ورژن	نسخه‌ي	version	#exact
+very	وري	خيلي	very	#exact
+vezarat	وزارت	#exact
+vezarate	وزارت	#exact
+video	ويدئو	#exact
+videohaye	ويدئوهاي	#exact
+videohaye	ويدئوهاي	#exact
+videoiye	ويدئوي	#exact
+videoye	ويدئوي	ويديوي	#exact
+view	ويو	ديد	view	#exact
+virgin	ويرجين	باکره	virgin	#exact
+visit	ويزيت	#exact
+visitet	ويزيتت	#exact
+vocal	وکال	شفاهي	vocal	#exact
+vom	وم	#exact
+vorod	ورود	#exact
+wayy	واي	وي	#exact
+web	وب	web	#exact
+weblog	وبلاگ	يادداشت‌هاي شخصي	weblog	#exact
+weblogam	وبلاگم	#exact
+webloge	وبلاگ	#exact
+webloget	وبلاگت	#exact
+weblogetoono	وبلگتونو	#exact
+wednesday	ونزدي	چهارشنبه	wednesday	#exact
+what	وات	چي	What	#exact
+who	وهو	#exact
+wiki	ويکي	#exact
+wink	وينک	چشمک	wink	#exact
+wire	واير	سيم	wire	#exact
+witexo	وايتکس	#exact
+with	ويت	با	with	#exact
+word	ورد	کلمه	word	#exact
+www	دبليو.دبليو.دبليو	www	#exact
+x	ايکس	فلان	x	#exact
+ya	يا	#exact
+yaad	ياد	#exact
+yaadetoon	يادتون	#exact
+yad	ياد	#exact
+yadam	يادم	#exact
+yadame	يادمه	#exact
+yade	ياد	#exact
+yademon	يادمون	#exact
+yadesh	يادش	#exact
+yadeshon	يادشون	#exact
+yadet	يادت	#exact
+yaho	ياهو	yahoo	#exact
+yalda	يلدا	#exact
+yaldast	يلداست	#exact
+yaldat	يلدات	#exact
+yaldaye	يلداي	#exact
+yaldayee	يلدايي	يلداي	#exact
+yani	يعني	#exact
+yaran	ياران	#exact
+yari	ياري	#exact
+yaroo	يارو	#exact
+yazdanijoo	يزدانيجو	#exact
+yazdi	يزدي	#exact
+ye	يه	#exact
+yedoonei	يدونه‌اي	يه‌دونه‌اي	يه‌دونه‌يي	#exact
+yegaane	يگان	يگانه	#exact
+yeho	يهو	#exact
+yejor	يه‌جور	يجور	#exact
+yejurie	يجوريه	يجوري	#exact
+yek	يک	#exact
+yekam	يکم	#exact
+yeki	يکي	#exact
+yekja	يکجا	#exact
+yeseri	يسري	يه‌سري	#exact
+yevar	يه‌ور	#exact
+yoho	يوهو	#exact
+york	يورک	#exact
+you	يو	تو	you	#exact
+your	يور	#exact
+zabane	زبان	#exact
+zabtesho	ضبطشو	#exact
+zad	زد	#exact
+zadam	زدم	#exact
+zadan	زدن	#exact
+zadane	زدن	#exact
+zade	زده	زاده	#exact
+zadi	زدي	#exact
+zadid	زديد	#exact
+zadim	زديم	زاديم	#exact
+zadin	زدين	#exact
+zaeef	ضعيف	#exact
+zaghartie	زقارتيه	#exact
+zahamate	زحمات	#exact
+zaheran	ظاهرا	#exact
+zahmat	زحمت	#exact
+zahmatato	زحمتتو	#exact
+zahmati	زحمتي	#exact
+zahmaty	زحمتي	زحماتي	#exact
+zahr	زهر	#exact
+zahra	زهرا	#exact
+zajr	زجر	#exact
+zaman	زمان	#exact
+zamanesham	زمانشم	#exact
+zamani	زماني	#exact
+zamin	زمين	#exact
+zamine	زمينه	#exact
+zamini	زميني	#exact
+zan	زن	زان	#exact
+zanet	زنت	#exact
+zang	زنگ	#exact
+zangam	زنگم	#exact
+zanjan	زنجان	#exact
+zarar	ضرر	#exact
+zarfiat	ظرفيت	#exact
+zarfiate	ظرفيت	#exact
+zarori	ضروري	#exact
+zarre	ذره	#exact
+zavaye	زواي	#exact
+zed	زد	#exact
+zehnam	ذهنم	#exact
+zehnet	ذهنت	#exact
+zemestoon	زمستون	#exact
+zemn	ضمن	#exact
+zemzeme	زمزمه	زمزم	#exact
+zendegi	زندگي	#exact
+zendegie	زندگي	#exact
+zendegim	زندگيم	#exact
+zendegishon	زندگيشون	#exact
+zendegito	زندگيتو	#exact
+zendegiye	زندگي	#exact
+zendegiye	زندگي	#exact
+zendeh	زنده	#exact
+zerti	زرتي	#exact
+zeshte	زشته	#exact
+ziad	زياد	#exact
+ziade	زياده	#exact
+ziadi	زيادي	#exact
+ziadio	زيادي‌و	زيادي	#exact
+ziba	زيبا	#exact
+zibast	زيباست	#exact
+zibayee	زيبايي	#exact
+zidane	زيدان	#exact
+zii	زي	زيي	#exact
+zir	زير	#exact
+zire	زير	#exact
+ziyaad	زياد	#exact
+ziyad	زياد	#exact
+zogh	ذوق	#exact
+zogh	ذوق	#exact
+zogham	ذوقم	#exact
+zohre	زهره	ظهر	#exact
+zood	زود	#exact
+zyadi	زيادي	#exact

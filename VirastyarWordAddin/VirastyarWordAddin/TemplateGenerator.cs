@@ -14,9 +14,9 @@ namespace VirastyarWordAddin
     {
         public abstract Template Generate(ThisAddIn thisAddin, string templatePath);
 
-        public static TemplateGenerator GetGenerator(OfficeVersion version)
+        public static TemplateGenerator GetGenerator(OfficeVersions version)
         {
-            if (version == OfficeVersion.Office2003)
+            if (version == OfficeVersions.Office2003)
                 return new Template2003Generator();
             else
                 return new Template2007Generator();

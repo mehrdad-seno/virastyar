@@ -18,7 +18,7 @@ namespace SCICT.NLP.Utility.Parsers
         /// <returns></returns>
         public static string ConvertNumber2English(string num)
         {
-            StringBuilder sb = new StringBuilder(num.Length);
+            var sb = new StringBuilder(num.Length);
             char ch;
             foreach (char c in num)
             {

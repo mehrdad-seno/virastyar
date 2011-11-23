@@ -154,4 +154,35 @@
         /// </summary>
         EnglishNum
     }
+
+    /// <summary>
+    /// Enumerates different outcomes of a range trim operation.
+    /// </summary>
+    public enum TrimRangeResult
+    {
+        /// <summary>
+        /// Range is null, or empty or full of control characters
+        /// </summary>
+        InvalidRange,
+
+        /// <summary>
+        /// The range is trimmed and fit successfully
+        /// </summary>
+        Success,
+
+        /// <summary>
+        /// The range is valid, and has valid contents; but it cannot be trimmed
+        /// e.g., because of hyperlinks.
+        /// </summary>
+        Failure,
+
+        /// <summary>
+        /// The range-text equals the desired trimmed text. But the length of the
+        /// range is larger than the length of the text.
+        /// i.e., the range contains the text, together with some meta-data
+        /// </summary>
+        TrimmedButLengthMismatch
+    }
+
+
 }

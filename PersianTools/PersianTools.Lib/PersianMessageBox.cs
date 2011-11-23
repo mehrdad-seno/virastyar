@@ -37,7 +37,12 @@ namespace SCICT.Utility.GUI
         /// <returns>The button pressed</returns>
         public static DialogResult Show(string text)
         {
-            return Show(text, "پیغام", MessageBoxButtons.OK, MessageBoxIcon.None, MessageBoxDefaultButton.Button1);
+            return Show(null, text, "پیام", MessageBoxButtons.OK, MessageBoxIcon.None, MessageBoxDefaultButton.Button1);
+        }
+
+        public static DialogResult Show(IWin32Window owner, string text)
+        {
+            return Show(owner, text, "پیام", MessageBoxButtons.OK, MessageBoxIcon.None, MessageBoxDefaultButton.Button1);
         }
 
         /// <summary>
@@ -59,7 +64,12 @@ namespace SCICT.Utility.GUI
         /// <returns>The button pressed</returns>
         public static DialogResult Show(string text, string caption)
         {
-            return Show(text, caption, MessageBoxButtons.OK, MessageBoxIcon.None, MessageBoxDefaultButton.Button1);
+            return Show(null, text, caption, MessageBoxButtons.OK, MessageBoxIcon.None, MessageBoxDefaultButton.Button1);
+        }
+
+        public static DialogResult Show(IWin32Window owner, string text, string caption)
+        {
+            return Show(owner, text, caption, MessageBoxButtons.OK, MessageBoxIcon.None, MessageBoxDefaultButton.Button1);
         }
 
         /// <summary>
@@ -71,7 +81,12 @@ namespace SCICT.Utility.GUI
         /// <returns>The button pressed</returns>
         public static DialogResult Show(string text, string caption, MessageBoxButtons buttons)
         {
-            return Show(text, caption, buttons, MessageBoxIcon.None, MessageBoxDefaultButton.Button1);
+            return Show(null, text, caption, buttons, MessageBoxIcon.None, MessageBoxDefaultButton.Button1);
+        }
+
+        public static DialogResult Show(IWin32Window owner, string text, string caption, MessageBoxButtons buttons)
+        {
+            return Show(owner, text, caption, buttons, MessageBoxIcon.None, MessageBoxDefaultButton.Button1);
         }
 
         /// <summary>
@@ -84,12 +99,17 @@ namespace SCICT.Utility.GUI
         /// <returns>The button pressed</returns>
         public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon)
         {
-            return Show(text, caption, buttons, icon, MessageBoxDefaultButton.Button1);
+            return Show(null, text, caption, buttons, icon, MessageBoxDefaultButton.Button1);
+        }
+
+        public static DialogResult Show(IWin32Window owner, string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon)
+        {
+            return Show(owner, text, caption, buttons, icon, MessageBoxDefaultButton.Button1);
         }
 
         public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxDefaultButton shieldedButton, MessageBoxIcon icon)
         {
-            return Show(text, caption, buttons, shieldedButton, icon, MessageBoxDefaultButton.Button1);
+            return Show(null, text, caption, buttons, shieldedButton, icon, MessageBoxDefaultButton.Button1);
         }
 
         /// <summary>
@@ -104,23 +124,30 @@ namespace SCICT.Utility.GUI
         public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, 
             MessageBoxIcon icon, MessageBoxDefaultButton defaultButton)
         {
-            DialogResult dr = DialogResult.None;
-            using (PersianMessageBox frm = new PersianMessageBox())
+            return Show(null, text, caption, buttons, icon, defaultButton);
+        }
+
+        public static DialogResult Show(IWin32Window owner, string text, string caption, MessageBoxButtons buttons,
+            MessageBoxIcon icon, MessageBoxDefaultButton defaultButton)
+        {
+            DialogResult result = DialogResult.None;
+            using (var form = new PersianMessageBox())
             {
-                frm.Text = (caption != "") ? caption : " ";
-                frm.labelMessage.Text = (text != "") ? text : " ";
+                form.Text = (caption != "") ? caption : " ";
+                form.labelMessage.Text = (text != "") ? text : " ";
 
-                frm.SetIcon(icon);
+                form.SetIcon(icon);
 
-                frm.SetButtons(buttons, defaultButton);
+                form.SetButtons(buttons, defaultButton);
 
-                frm.SetSize();
-                frm.ShowDialog();
-                dr = frm.GetDialogResult();
+                form.SetSize();
+                form.ShowDialog(owner);
+                result = form.GetDialogResult();
             }
 
-            return dr;
+            return result;
         }
+
 
         /// <summary>
         /// Opens a persian message box.
@@ -134,22 +161,28 @@ namespace SCICT.Utility.GUI
         public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxDefaultButton shieldedButton, 
             MessageBoxIcon icon, MessageBoxDefaultButton defaultButton)
         {
-            DialogResult dr = DialogResult.None;
-            using (PersianMessageBox frm = new PersianMessageBox())
+            return Show(null, text, caption, buttons, shieldedButton, icon, defaultButton);
+        }
+
+        public static DialogResult Show(IWin32Window owner, string text, string caption, MessageBoxButtons buttons, MessageBoxDefaultButton shieldedButton,
+            MessageBoxIcon icon, MessageBoxDefaultButton defaultButton)
+        {
+            DialogResult result = DialogResult.None;
+            using (var form = new PersianMessageBox())
             {
-                frm.Text = (caption != "") ? caption : " ";
-                frm.labelMessage.Text = (text != "") ? text : " ";
+                form.Text = (caption != "") ? caption : " ";
+                form.labelMessage.Text = (text != "") ? text : " ";
 
-                frm.SetIcon(icon);
+                form.SetIcon(icon);
 
-                frm.SetButtons(buttons, defaultButton);
-                frm.SetShieldedButton(shieldedButton);
-                frm.SetSize();
-                frm.ShowDialog();
-                dr = frm.GetDialogResult();
+                form.SetButtons(buttons, defaultButton);
+                form.SetShieldedButton(shieldedButton);
+                form.SetSize();
+                form.ShowDialog(owner);
+                result = form.GetDialogResult();
             }
 
-            return dr;
+            return result;
         }
 
         private DialogResult GetDialogResult()
@@ -237,58 +270,52 @@ namespace SCICT.Utility.GUI
             {
                 case MessageBoxButtons.AbortRetryIgnore:
                     btn1.Text = CaptionAbort;
+                    btn1.DialogResult = DialogResult.Abort;
                     btn2.Text = CaptionRetry;
+                    btn2.DialogResult = DialogResult.Retry;
                     btn3.Text = CaptionIgnore;
+                    btn3.DialogResult = DialogResult.Ignore;
                     btnCount = 3;
                     break;
                 case MessageBoxButtons.OK:
                     btn1.Text = CaptionOK;
+                    btn1.DialogResult = DialogResult.OK;
                     cancelButton = btn1;
                     btnCount = 1;
                     break;
                 case MessageBoxButtons.OKCancel:
                     btn1.Text = CaptionOK;
+                    btn1.DialogResult = DialogResult.OK;
                     btn2.Text = CaptionCancel;
+                    btn2.DialogResult = DialogResult.Cancel;
                     cancelButton = btn2;
                     btnCount = 2;
                     break;
                 case MessageBoxButtons.RetryCancel:
                     btn1.Text = CaptionRetry;
+                    btn1.DialogResult = DialogResult.Retry;
                     btn2.Text = CaptionCancel;
+                    btn2.DialogResult = DialogResult.Cancel;
                     cancelButton = btn2;
                     btnCount = 2;
                     break;
                 case MessageBoxButtons.YesNo:
                     btn1.Text = CaptionYes;
+                    btn1.DialogResult = DialogResult.Yes;
                     btn2.Text = CaptionNo;
+                    btn2.DialogResult = DialogResult.No;
                     cancelButton = btn2;
                     btnCount = 2;
                     break;
                 case MessageBoxButtons.YesNoCancel:
                     btn1.Text = CaptionYes;
+                    btn1.DialogResult = DialogResult.Yes;
                     btn2.Text = CaptionNo;
+                    btn2.DialogResult = DialogResult.No;
                     btn3.Text = CaptionCancel;
+                    btn3.DialogResult = DialogResult.Cancel;
                     cancelButton = btn3;
                     btnCount = 3;
-                    break;
-                default:
-                    break;
-            }
-
-            m_btnCancelButton = cancelButton;
-            if (cancelButton != null)
-                this.CancelButton = cancelButton;
-
-            switch (defaultButton)
-            {
-                case MessageBoxDefaultButton.Button1:
-                    this.AcceptButton = btn1;
-                    break;
-                case MessageBoxDefaultButton.Button2:
-                    this.AcceptButton = btn2;
-                    break;
-                case MessageBoxDefaultButton.Button3:
-                    this.AcceptButton = btn3;
                     break;
                 default:
                     break;
@@ -310,6 +337,25 @@ namespace SCICT.Utility.GUI
                     break;
                 default:
                     m_minButtonWidth = 3 * btn1.Width + 4 * paddingButtons + paddingPanel;
+                    break;
+            }
+
+            m_btnCancelButton = cancelButton;
+            if (cancelButton != null)
+                this.CancelButton = cancelButton;
+
+            switch (defaultButton)
+            {
+                case MessageBoxDefaultButton.Button1:
+                    this.AcceptButton = btn1;
+                    break;
+                case MessageBoxDefaultButton.Button2:
+                    this.AcceptButton = btn2;
+                    break;
+                case MessageBoxDefaultButton.Button3:
+                    this.AcceptButton = btn3;
+                    break;
+                default:
                     break;
             }
         }

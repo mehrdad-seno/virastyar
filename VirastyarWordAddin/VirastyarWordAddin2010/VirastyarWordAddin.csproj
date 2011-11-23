@@ -133,18 +133,19 @@
   <PropertyGroup>
     <PreBuildEvent>copy /y "$(SolutionDir)VirastyarWordAddin\app.$(Configuration).config" "$(SolutionDir)VirastyarWordAddin\app.config"
 copy /y "$(SolutionDir)..\Punctuation\Punctuation.UI\patterns.txt" "$(SolutionDir)VirastyarWordAddin\Resources\Patterns.txt"
-copy /y "$(SolutionDir)..\SynonymSuggester\Common\Synonyms.mdb" "$(SolutionDir)VirastyarWordAddin\Resources\Synonyms.mdb"
 copy /y "$(SolutionDir)..\PinglishConverter\Pinglish.dat" "$(SolutionDir)VirastyarWordAddin\Resources\Pinglish.dat"
-copy /y "$(SolutionDir)..\PinglishConverter\PinglishPreprocesses.dat" "$(SolutionDir)VirastyarWordAddin\Resources\PinglishPreprocesses.dat"
-powershell.exe "$(SolutionDir)Compress.ps1" -filePath "$(SolutionDir)VirastyarWordAddin\Resources\dic.dat"
-powershell.exe "$(SolutionDir)Compress.ps1" -filePath "$(SolutionDir)VirastyarWordAddin\Resources\dic_informal.dat"
-powershell.exe "$(SolutionDir)Compress.ps1" -filePath "$(SolutionDir)VirastyarWordAddin\Resources\Patterns.txt"
-powershell.exe "$(SolutionDir)Compress.ps1" -filePath "$(SolutionDir)VirastyarWordAddin\Resources\Pinglish.dat"
-powershell.exe "$(SolutionDir)Compress.ps1" -filePath "$(SolutionDir)VirastyarWordAddin\Resources\PinglishPreprocesses.dat"
-powershell.exe "$(SolutionDir)Compress.ps1" -filePath "$(SolutionDir)VirastyarWordAddin\Resources\Stem.dat"
-powershell.exe "$(SolutionDir)Compress.ps1" -filePath "$(SolutionDir)VirastyarWordAddin\Resources\Virastyar2003.dot"
-powershell.exe "$(SolutionDir)Compress.ps1" -filePath "$(SolutionDir)VirastyarWordAddin\Resources\Virastyar2007.dotm"
-powershell.exe "$(SolutionDir)Compress.ps1" -filePath "$(SolutionDir)VirastyarWordAddin\Resources\Virastyar2010.dotm"</PreBuildEvent>
+copy /y "$(SolutionDir)..\PinglishConverter\Transliterator\Inputs\GoftariDic.dat" "$(SolutionDir)VirastyarWordAddin\Resources\GoftariDic.dat"
+copy /y "$(SolutionDir)..\PinglishConverter\Transliterator\Inputs\ExceptionWords.dat" "$(SolutionDir)VirastyarWordAddin\Resources\ExceptionWords.dat"
+powershell.exe -Command "&amp; '$(SolutionDir)Compress.ps1' -filePath '$(SolutionDir)VirastyarWordAddin\Resources\dic.dat'"
+powershell.exe -Command "&amp; '$(SolutionDir)Compress.ps1' -filePath '$(SolutionDir)VirastyarWordAddin\Resources\Patterns.txt'"
+powershell.exe -Command "&amp; '$(SolutionDir)Compress.ps1' -filePath '$(SolutionDir)VirastyarWordAddin\Resources\Pinglish.dat'"
+powershell.exe -Command "&amp; '$(SolutionDir)Compress.ps1' -filePath '$(SolutionDir)VirastyarWordAddin\Resources\ExceptionWords.dat'"
+powershell.exe -Command "&amp; '$(SolutionDir)Compress.ps1' -filePath '$(SolutionDir)VirastyarWordAddin\Resources\GoftariDic.dat'"
+powershell.exe -Command "&amp; '$(SolutionDir)Compress.ps1' -filePath '$(SolutionDir)VirastyarWordAddin\Resources\Stem.dat'"
+powershell.exe -Command "&amp; '$(SolutionDir)Compress.ps1' -filePath '$(SolutionDir)VirastyarWordAddin\Resources\Virastyar2003.dot'"
+powershell.exe -Command "&amp; '$(SolutionDir)Compress.ps1' -filePath '$(SolutionDir)VirastyarWordAddin\Resources\Virastyar2007.dotm'"
+powershell.exe -Command "&amp; '$(SolutionDir)Compress.ps1' -filePath '$(SolutionDir)VirastyarWordAddin\Resources\Virastyar2010.dotm'"
+</PreBuildEvent>
     <PostBuildEvent>
     </PostBuildEvent>
   </PropertyGroup>
@@ -152,14 +153,10 @@ powershell.exe "$(SolutionDir)Compress.ps1" -filePath "$(SolutionDir)VirastyarWo
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>
-    </AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>..\..\Product_StrongKey\Virastyar.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <SignManifests>true</SignManifests>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ManifestKeyFile>NoorProduct2.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestCertificateThumbprint>3211E151317C1F6B2F080FF293929E0DFF31F749</ManifestCertificateThumbprint>
@@ -202,7 +199,7 @@ powershell.exe "$(SolutionDir)Compress.ps1" -filePath "$(SolutionDir)VirastyarWo
       <HintPath>..\..\ExternalLib\AutomaticUpdater.dll</HintPath>
     </Reference>
     <Reference Include="ManagedWinapi">
-      <HintPath>..\..\Lib\ManagedWinapi.dll</HintPath>
+      <HintPath>..\..\ExternalLib\ManagedWinapi.dll</HintPath>
     </Reference>
     <Reference Include="NLog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -217,9 +214,6 @@ powershell.exe "$(SolutionDir)Compress.ps1" -filePath "$(SolutionDir)VirastyarWo
     <Reference Include="SCICT.NLP.Morphology.Inflection.Conjugation">
       <HintPath>..\..\Lib\SCICT.NLP.Morphology.Inflection.Conjugation.dll</HintPath>
     </Reference>
-    <Reference Include="SCICT.NLP.Morphology.Lemmatization">
-      <HintPath>..\..\Lib\SCICT.NLP.Morphology.Lemmatization.dll</HintPath>
-    </Reference>
     <Reference Include="SCICT.NLP.TextProofing.Punctuation">
       <HintPath>..\..\Lib\SCICT.NLP.TextProofing.Punctuation.dll</HintPath>
     </Reference>
@@ -229,11 +223,11 @@ powershell.exe "$(SolutionDir)Compress.ps1" -filePath "$(SolutionDir)VirastyarWo
     <Reference Include="SCICT.NLP.Utility.LanguageModel">
       <HintPath>..\..\Lib\SCICT.NLP.Utility.LanguageModel.dll</HintPath>
     </Reference>
-    <Reference Include="SCICT.NLP.Utility.PinglishConverter">
-      <HintPath>..\..\Lib\SCICT.NLP.Utility.PinglishConverter.dll</HintPath>
-    </Reference>
     <Reference Include="SCICT.NLP.Utility.StringDistance">
       <HintPath>..\..\Lib\SCICT.NLP.Utility.StringDistance.dll</HintPath>
+    </Reference>
+    <Reference Include="SCICT.NLP.Utility.Transliteration">
+      <HintPath>..\..\Lib\SCICT.NLP.Utility.Transliteration.dll</HintPath>
     </Reference>
     <Reference Include="SCICT.NLP.Utility.WordContainer">
       <HintPath>..\..\Lib\SCICT.NLP.Utility.WordContainer.dll</HintPath>
@@ -307,9 +301,6 @@ powershell.exe "$(SolutionDir)Compress.ps1" -filePath "$(SolutionDir)VirastyarWo
       <Link>AboutWindow.designer.cs</Link>
       <DependentUpon>AboutWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="..\VirastyarWordAddin\AllCharactersRefiner.cs">
-      <Link>AllCharactersRefiner.cs</Link>
-    </Compile>
     <Compile Include="..\VirastyarWordAddin\AxHost2.cs">
       <Link>AxHost2.cs</Link>
       <SubType>Component</SubType>
@@ -327,6 +318,14 @@ powershell.exe "$(SolutionDir)Compress.ps1" -filePath "$(SolutionDir)VirastyarWo
     </Compile>
     <Compile Include="..\VirastyarWordAddin\Configurations\AllCharactersRefinerSettings.cs">
       <Link>Configurations\AllCharactersRefinerSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\Configurations\AutomaticReportConfirmWindow.cs">
+      <Link>Configurations\AutomaticReportConfirmWindow.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\Configurations\AutomaticReportConfirmWindow.designer.cs">
+      <Link>Configurations\AutomaticReportConfirmWindow.designer.cs</Link>
+      <DependentUpon>AutomaticReportConfirmWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="..\VirastyarWordAddin\Configurations\IAddinConfigurationDialog.cs">
       <Link>Configurations\IAddinConfigurationDialog.cs</Link>
@@ -348,17 +347,6 @@ powershell.exe "$(SolutionDir)Compress.ps1" -filePath "$(SolutionDir)VirastyarWo
     <Compile Include="..\VirastyarWordAddin\Controls\HotkeyControl2.designer.cs">
       <Link>Controls\HotkeyControl2.designer.cs</Link>
       <DependentUpon>HotkeyControl2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="..\VirastyarWordAddin\DateVerificationWindow.cs">
-      <Link>DateVerificationWindow.cs</Link>
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="..\VirastyarWordAddin\DateVerificationWindow.designer.cs">
-      <Link>DateVerificationWindow.designer.cs</Link>
-      <DependentUpon>DateVerificationWindow.cs</DependentUpon>
-    </Compile>
-    <Compile Include="..\VirastyarWordAddin\DateVerifier.cs">
-      <Link>DateVerifier.cs</Link>
     </Compile>
     <Compile Include="..\VirastyarWordAddin\DictionaryManagement\DictionaryEditor.cs">
       <Link>DictionaryManagement\DictionaryEditor.cs</Link>
@@ -407,15 +395,6 @@ powershell.exe "$(SolutionDir)Compress.ps1" -filePath "$(SolutionDir)VirastyarWo
     <Compile Include="..\VirastyarWordAddin\Log\VirastyarLogEventInfo.cs">
       <Link>Log\VirastyarLogEventInfo.cs</Link>
     </Compile>
-    <Compile Include="..\VirastyarWordAddin\NumberVerifier.cs">
-      <Link>NumberVerifier.cs</Link>
-    </Compile>
-    <Compile Include="..\VirastyarWordAddin\PinglishVerifier.cs">
-      <Link>PinglishVerifier.cs</Link>
-    </Compile>
-    <Compile Include="..\VirastyarWordAddin\PreprocessSpellVerifier.cs">
-      <Link>PreprocessSpellVerifier.cs</Link>
-    </Compile>
     <Compile Include="..\VirastyarWordAddin\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
@@ -425,34 +404,11 @@ powershell.exe "$(SolutionDir)Compress.ps1" -filePath "$(SolutionDir)VirastyarWo
     <Compile Include="..\VirastyarWordAddin\Properties\Settings.Designer.cs">
       <Link>Properties\Settings.Designer.cs</Link>
     </Compile>
-    <Compile Include="..\VirastyarWordAddin\PunctuationVerifier.cs">
-      <Link>PunctuationVerifier.cs</Link>
-    </Compile>
     <Compile Include="..\VirastyarWordAddin\Resources\ResourceManager.cs">
       <Link>Resources\ResourceManager.cs</Link>
     </Compile>
-    <Compile Include="..\VirastyarWordAddin\RoundQueue.cs">
-      <Link>RoundQueue.cs</Link>
-    </Compile>
     <Compile Include="..\VirastyarWordAddin\SettingsHelper.cs">
       <Link>SettingsHelper.cs</Link>
-    </Compile>
-    <Compile Include="..\VirastyarWordAddin\SimpleVerificationWindow.cs">
-      <Link>SimpleVerificationWindow.cs</Link>
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="..\VirastyarWordAddin\SimpleVerificationWindow.Designer.cs">
-      <Link>SimpleVerificationWindow.Designer.cs</Link>
-    </Compile>
-    <Compile Include="..\VirastyarWordAddin\SpellCheckerVerificationWindow.cs">
-      <Link>SpellCheckerVerificationWindow.cs</Link>
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="..\VirastyarWordAddin\SpellCheckerVerificationWindow.designer.cs">
-      <Link>SpellCheckerVerificationWindow.designer.cs</Link>
-    </Compile>
-    <Compile Include="..\VirastyarWordAddin\SpellCheckerVerifier.cs">
-      <Link>SpellCheckerVerifier.cs</Link>
     </Compile>
     <Compile Include="..\VirastyarWordAddin\SpellCheckerWrapper.cs">
       <Link>SpellCheckerWrapper.cs</Link>
@@ -487,27 +443,126 @@ powershell.exe "$(SolutionDir)Compress.ps1" -filePath "$(SolutionDir)VirastyarWo
     <Compile Include="..\VirastyarWordAddin\Update\WyUpdateChecker.cs">
       <Link>Update\WyUpdateChecker.cs</Link>
     </Compile>
-    <Compile Include="..\VirastyarWordAddin\VerificationCanceledException.cs">
-      <Link>VerificationCanceledException.cs</Link>
-    </Compile>
     <Compile Include="..\VirastyarWordAddin\VerificationTypes.cs">
       <Link>VerificationTypes.cs</Link>
     </Compile>
-    <Compile Include="..\VirastyarWordAddin\VerificationWinArgs.cs">
-      <Link>VerificationWinArgs.cs</Link>
-    </Compile>
-    <Compile Include="..\VirastyarWordAddin\VerificationWindowBase.cs">
-      <Link>VerificationWindowBase.cs</Link>
+    <Compile Include="..\VirastyarWordAddin\Verifiers\Basics\BatchModeVerificationWindow.cs">
+      <Link>Verifiers\Basics\BatchModeVerificationWindow.cs</Link>
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="..\VirastyarWordAddin\VerificationWindowBase.Designer.cs">
-      <Link>VerificationWindowBase.Designer.cs</Link>
+    <Compile Include="..\VirastyarWordAddin\Verifiers\Basics\BatchModeVerificationWindow.designer.cs">
+      <Link>Verifiers\Basics\BatchModeVerificationWindow.designer.cs</Link>
+      <DependentUpon>BatchModeVerificationWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="..\VirastyarWordAddin\VerificationWindowButtons.cs">
-      <Link>VerificationWindowButtons.cs</Link>
+    <Compile Include="..\VirastyarWordAddin\Verifiers\Basics\IBatchModeVerificationWindow.cs">
+      <Link>Verifiers\Basics\IBatchModeVerificationWindow.cs</Link>
     </Compile>
-    <Compile Include="..\VirastyarWordAddin\VerifierBase.cs">
-      <Link>VerifierBase.cs</Link>
+    <Compile Include="..\VirastyarWordAddin\Verifiers\Basics\IInteractiveVerificationWindow.cs">
+      <Link>Verifiers\Basics\IInteractiveVerificationWindow.cs</Link>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\Verifiers\Basics\InteractiveVerificationWindow.cs">
+      <Link>Verifiers\Basics\InteractiveVerificationWindow.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\Verifiers\Basics\InteractiveVerificationWindow.designer.cs">
+      <Link>Verifiers\Basics\InteractiveVerificationWindow.designer.cs</Link>
+      <DependentUpon>InteractiveVerificationWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\Verifiers\Basics\ISuggestions.cs">
+      <Link>Verifiers\Basics\ISuggestions.cs</Link>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\Verifiers\Basics\ISuggestionsViwer.cs">
+      <Link>Verifiers\Basics\ISuggestionsViwer.cs</Link>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\Verifiers\Basics\NGramVerifierBase.cs">
+      <Link>Verifiers\Basics\NGramVerifierBase.cs</Link>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\Verifiers\Basics\ProceedTypes.cs">
+      <Link>Verifiers\Basics\ProceedTypes.cs</Link>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\Verifiers\Basics\ShrinkingVerifierBase.cs">
+      <Link>Verifiers\Basics\ShrinkingVerifierBase.cs</Link>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\Verifiers\Basics\StateMachineVerifierBase.cs">
+      <Link>Verifiers\Basics\StateMachineVerifierBase.cs</Link>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\Verifiers\Basics\StringVerificationData.cs">
+      <Link>Verifiers\Basics\StringVerificationData.cs</Link>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\Verifiers\Basics\TextValuePair.cs">
+      <Link>Verifiers\Basics\TextValuePair.cs</Link>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\Verifiers\Basics\UserSelectedActions.cs">
+      <Link>Verifiers\Basics\UserSelectedActions.cs</Link>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\Verifiers\Basics\VerificationController.cs">
+      <Link>Verifiers\Basics\VerificationController.cs</Link>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\Verifiers\Basics\VerificationData.cs">
+      <Link>Verifiers\Basics\VerificationData.cs</Link>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\Verifiers\Basics\VerificationResult.cs">
+      <Link>Verifiers\Basics\VerificationResult.cs</Link>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\Verifiers\Basics\VerifierBase.cs">
+      <Link>Verifiers\Basics\VerifierBase.cs</Link>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\Verifiers\Basics\VerifierRequestTypes.cs">
+      <Link>Verifiers\Basics\VerifierRequestTypes.cs</Link>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\Verifiers\Basics\WindowWrapper.cs">
+      <Link>Verifiers\Basics\WindowWrapper.cs</Link>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\Verifiers\CharacterRefinementVerification\CharacterRefinementVerifier.cs">
+      <Link>Verifiers\CharacterRefinementVerification\CharacterRefinementVerifier.cs</Link>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\Verifiers\CustomGUIs\DateSuggestions\DateSuggestion.cs">
+      <Link>Verifiers\CustomGUIs\DateSuggestions\DateSuggestion.cs</Link>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\Verifiers\CustomGUIs\DateSuggestions\DateSuggestionsViewer.cs">
+      <Link>Verifiers\CustomGUIs\DateSuggestions\DateSuggestionsViewer.cs</Link>
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\Verifiers\CustomGUIs\DateSuggestions\DateSuggestionsViewer.designer.cs">
+      <Link>Verifiers\CustomGUIs\DateSuggestions\DateSuggestionsViewer.designer.cs</Link>
+      <DependentUpon>DateSuggestionsViewer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\Verifiers\CustomGUIs\SpellCheckerSuggestions\SpellCheckerSuggestion.cs">
+      <Link>Verifiers\CustomGUIs\SpellCheckerSuggestions\SpellCheckerSuggestion.cs</Link>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\Verifiers\CustomGUIs\SpellCheckerSuggestions\SpellCheckerSuggestionViewer.cs">
+      <Link>Verifiers\CustomGUIs\SpellCheckerSuggestions\SpellCheckerSuggestionViewer.cs</Link>
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\Verifiers\CustomGUIs\SpellCheckerSuggestions\SpellCheckerSuggestionViewer.designer.cs">
+      <Link>Verifiers\CustomGUIs\SpellCheckerSuggestions\SpellCheckerSuggestionViewer.designer.cs</Link>
+      <DependentUpon>SpellCheckerSuggestionViewer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\Verifiers\CustomGUIs\TitledListBox\TitledListBoxSuggestion.cs">
+      <Link>Verifiers\CustomGUIs\TitledListBox\TitledListBoxSuggestion.cs</Link>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\Verifiers\CustomGUIs\TitledListBox\TitledListBoxSuggestionViewer.cs">
+      <Link>Verifiers\CustomGUIs\TitledListBox\TitledListBoxSuggestionViewer.cs</Link>
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\Verifiers\CustomGUIs\TitledListBox\TitledListBoxSuggestionViewer.designer.cs">
+      <Link>Verifiers\CustomGUIs\TitledListBox\TitledListBoxSuggestionViewer.designer.cs</Link>
+      <DependentUpon>TitledListBoxSuggestionViewer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\Verifiers\DateVerification\DateVerifier.cs">
+      <Link>Verifiers\DateVerification\DateVerifier.cs</Link>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\Verifiers\NumberVerification\NumberVerifier.cs">
+      <Link>Verifiers\NumberVerification\NumberVerifier.cs</Link>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\Verifiers\PinglishVerification\PinglishVerifier.cs">
+      <Link>Verifiers\PinglishVerification\PinglishVerifier.cs</Link>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\Verifiers\PunctuationVerification\PunctuationVerifier.cs">
+      <Link>Verifiers\PunctuationVerification\PunctuationVerifier.cs</Link>
+    </Compile>
+    <Compile Include="..\VirastyarWordAddin\Verifiers\SpellCheckerVerification\SpellCheckerVerifier.cs">
+      <Link>Verifiers\SpellCheckerVerification\SpellCheckerVerifier.cs</Link>
     </Compile>
     <Compile Include="..\VirastyarWordAddin\VirastyarAddin.cs">
       <Link>VirastyarAddin.cs</Link>
@@ -515,8 +570,8 @@ powershell.exe "$(SolutionDir)Compress.ps1" -filePath "$(SolutionDir)VirastyarWo
     <Compile Include="..\VirastyarWordAddin\WindowListener.cs">
       <Link>WindowListener.cs</Link>
     </Compile>
-    <Compile Include="..\VirastyarWordAddin\WindowWrapper.cs">
-      <Link>WindowWrapper.cs</Link>
+    <Compile Include="..\VirastyarWordAddin\WinFormsUtils\StatusBarToProgressToggler.cs">
+      <Link>WinFormsUtils\StatusBarToProgressToggler.cs</Link>
     </Compile>
     <Compile Include="..\VirastyarWordAddin\WordCompletionDistractionForm.cs">
       <Link>WordCompletionDistractionForm.cs</Link>
@@ -540,6 +595,7 @@ powershell.exe "$(SolutionDir)Compress.ps1" -filePath "$(SolutionDir)VirastyarWo
     <Compile Include="..\VirastyarWordAddin\WordUIHelper.cs">
       <Link>WordUIHelper.cs</Link>
     </Compile>
+    <Compile Include="VirastyarRibbon.cs" />
     <EmbeddedResource Include="..\VirastyarWordAddin\AboutWindow.resx">
       <Link>AboutWindow.resx</Link>
       <DependentUpon>AboutWindow.cs</DependentUpon>
@@ -548,13 +604,13 @@ powershell.exe "$(SolutionDir)Compress.ps1" -filePath "$(SolutionDir)VirastyarWo
       <Link>Configurations\AddinConfigurationDialog.resx</Link>
       <DependentUpon>AddinConfigurationDialog.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="..\VirastyarWordAddin\Configurations\AutomaticReportConfirmWindow.resx">
+      <Link>Configurations\AutomaticReportConfirmWindow.resx</Link>
+      <DependentUpon>AutomaticReportConfirmWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="..\VirastyarWordAddin\Controls\HotkeyControl2.resx">
       <Link>Controls\HotkeyControl2.resx</Link>
       <DependentUpon>HotkeyControl2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\VirastyarWordAddin\DateVerificationWindow.resx">
-      <Link>DateVerificationWindow.resx</Link>
-      <DependentUpon>DateVerificationWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="..\VirastyarWordAddin\DictionaryManagement\DictionaryEditor.resx">
       <Link>DictionaryManagement\DictionaryEditor.resx</Link>
@@ -575,21 +631,12 @@ powershell.exe "$(SolutionDir)Compress.ps1" -filePath "$(SolutionDir)VirastyarWo
     <EmbeddedResource Include="..\VirastyarWordAddin\Properties\Resources.resx">
       <Link>Properties\Resources.resx</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\VirastyarWordAddin\SimpleVerificationWindow.resx">
-      <Link>SimpleVerificationWindow.resx</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\VirastyarWordAddin\SpellCheckerVerificationWindow.resx">
-      <Link>SpellCheckerVerificationWindow.resx</Link>
-    </EmbeddedResource>
     <EmbeddedResource Include="..\VirastyarWordAddin\TipOfTheDayForm.resx">
       <Link>TipOfTheDayForm.resx</Link>
     </EmbeddedResource>
     <EmbeddedResource Include="..\VirastyarWordAddin\Update\UpdateNotificationWindow.resx">
       <Link>Update\UpdateNotificationWindow.resx</Link>
       <DependentUpon>UpdateNotificationWindow.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\VirastyarWordAddin\VerificationWindowBase.resx">
-      <Link>VerificationWindowBase.resx</Link>
     </EmbeddedResource>
     <None Include="..\VirastyarWordAddin\app.config">
       <Link>app.config</Link>
@@ -612,26 +659,26 @@ powershell.exe "$(SolutionDir)Compress.ps1" -filePath "$(SolutionDir)VirastyarWo
     <EmbeddedResource Include="..\VirastyarWordAddin\Resources\dic.dat.zip">
       <Link>Resources\dic.dat.zip</Link>
     </EmbeddedResource>
-    <None Include="..\VirastyarWordAddin\Resources\dic_informal.dat">
-      <Link>Resources\dic_informal.dat</Link>
-    </None>
-    <EmbeddedResource Include="..\VirastyarWordAddin\Resources\dic_informal.dat.zip">
-      <Link>Resources\dic_informal.dat.zip</Link>
-    </EmbeddedResource>
     <EmbeddedResource Include="..\VirastyarWordAddin\Resources\Patterns.txt.zip">
       <Link>Resources\Patterns.txt.zip</Link>
+    </EmbeddedResource>
+    <None Include="..\VirastyarWordAddin\Resources\ExceptionWords.dat">
+      <Link>Resources\ExceptionWords.dat</Link>
+    </None>
+    <EmbeddedResource Include="..\VirastyarWordAddin\Resources\ExceptionWords.dat.zip">
+      <Link>Resources\ExceptionWords.dat.zip</Link>
+    </EmbeddedResource>
+    <None Include="..\VirastyarWordAddin\Resources\GoftariDic.dat">
+      <Link>Resources\GoftariDic.dat</Link>
+    </None>
+    <EmbeddedResource Include="..\VirastyarWordAddin\Resources\GoftariDic.dat.zip">
+      <Link>Resources\GoftariDic.dat.zip</Link>
     </EmbeddedResource>
     <None Include="..\VirastyarWordAddin\Resources\Pinglish.dat">
       <Link>Resources\Pinglish.dat</Link>
     </None>
     <EmbeddedResource Include="..\VirastyarWordAddin\Resources\Pinglish.dat.zip">
       <Link>Resources\Pinglish.dat.zip</Link>
-    </EmbeddedResource>
-    <None Include="..\VirastyarWordAddin\Resources\PinglishPreprocesses.dat">
-      <Link>Resources\PinglishPreprocesses.dat</Link>
-    </None>
-    <EmbeddedResource Include="..\VirastyarWordAddin\Resources\PinglishPreprocesses.dat.zip">
-      <Link>Resources\PinglishPreprocesses.dat.zip</Link>
     </EmbeddedResource>
     <None Include="..\VirastyarWordAddin\Resources\stem.dat">
       <Link>Resources\stem.dat</Link>
@@ -663,12 +710,41 @@ powershell.exe "$(SolutionDir)Compress.ps1" -filePath "$(SolutionDir)VirastyarWo
     <None Include="..\VirastyarWordAddin\Resources\Virastyar2010.dotm">
       <Link>Resources\Virastyar2010.dotm</Link>
     </None>
+    <None Include="..\VirastyarWordAddin\Resources\Templates\Virastyar2003.vba">
+      <Link>Resources\Templates\Virastyar2003.vba</Link>
+    </None>
+    <None Include="..\VirastyarWordAddin\Resources\Templates\Virastyar2007.vba">
+      <Link>Resources\Templates\Virastyar2007.vba</Link>
+    </None>
+    <None Include="..\VirastyarWordAddin\Resources\Templates\Virastyar2010.vba">
+      <Link>Resources\Templates\Virastyar2010.vba</Link>
+    </None>
     <EmbeddedResource Include="..\VirastyarWordAddin\Resources\Virastyar2010.dotm.zip">
       <Link>Resources\Virastyar2010.dotm.zip</Link>
     </EmbeddedResource>
     <Compile Include="..\VirastyarWordAddin\ThisAddIn.cs">
       <SubType>Code</SubType>
     </Compile>
+    <EmbeddedResource Include="..\VirastyarWordAddin\Verifiers\Basics\BatchModeVerificationWindow.resx">
+      <Link>Verifiers\Basics\BatchModeVerificationWindow.resx</Link>
+      <DependentUpon>BatchModeVerificationWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\VirastyarWordAddin\Verifiers\Basics\InteractiveVerificationWindow.resx">
+      <Link>Verifiers\Basics\InteractiveVerificationWindow.resx</Link>
+      <DependentUpon>InteractiveVerificationWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\VirastyarWordAddin\Verifiers\CustomGUIs\DateSuggestions\DateSuggestionsViewer.resx">
+      <Link>Verifiers\CustomGUIs\DateSuggestions\DateSuggestionsViewer.resx</Link>
+      <DependentUpon>DateSuggestionsViewer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\VirastyarWordAddin\Verifiers\CustomGUIs\SpellCheckerSuggestions\SpellCheckerSuggestionViewer.resx">
+      <Link>Verifiers\CustomGUIs\SpellCheckerSuggestions\SpellCheckerSuggestionViewer.resx</Link>
+      <DependentUpon>SpellCheckerSuggestionViewer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\VirastyarWordAddin\Verifiers\CustomGUIs\TitledListBox\TitledListBoxSuggestionViewer.resx">
+      <Link>Verifiers\CustomGUIs\TitledListBox\TitledListBoxSuggestionViewer.resx</Link>
+      <DependentUpon>TitledListBoxSuggestionViewer.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\client.wyc" />
     <None Include="ThisAddIn.Designer.xml">
       <DependentUpon>ThisAddIn.cs</DependentUpon>
@@ -687,6 +763,7 @@ powershell.exe "$(SolutionDir)Compress.ps1" -filePath "$(SolutionDir)VirastyarWo
       <Link>WordCompletionForm.resx</Link>
       <DependentUpon>WordCompletionForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="VirastyarRibbon.xml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\VirastyarWordAddin\Resources\DidYouKnow.png">
@@ -739,6 +816,12 @@ powershell.exe "$(SolutionDir)Compress.ps1" -filePath "$(SolutionDir)VirastyarWo
     </Content>
     <Content Include="..\VirastyarWordAddin\Resources\IconVirastyar.png">
       <Link>Resources\IconVirastyar.png</Link>
+    </Content>
+    <Content Include="..\VirastyarWordAddin\Resources\Templates\customUI-2007.xml">
+      <Link>Resources\Templates\customUI-2007.xml</Link>
+    </Content>
+    <Content Include="..\VirastyarWordAddin\Resources\Templates\customUI-2010.xml">
+      <Link>Resources\Templates\customUI-2010.xml</Link>
     </Content>
     <EmbeddedResource Include="..\VirastyarWordAddin\Resources\wyUpdate.exe">
       <Link>Resources\wyUpdate.exe</Link>

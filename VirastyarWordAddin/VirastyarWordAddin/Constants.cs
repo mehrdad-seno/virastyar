@@ -3,7 +3,7 @@ using Microsoft.Win32;
 
 namespace VirastyarWordAddin
 {
-    public enum OfficeVersion
+    public enum OfficeVersions
     {
         Office2003,
         Office2007,
@@ -16,17 +16,38 @@ namespace VirastyarWordAddin
         public const string Office2007Version = "12.0";
         public const string Office2010Version = "14.0";
 
-        public const string PinglishFileName = "Pinglish.dat";
         public const string PatternsFileName = "Patterns.txt";
         public const string UserDicFileName = "UserDictionary.dat";
         public const string MainDicFileName = "dic.dat";
+
+        #region Transliteration Files
+
+        public const string PinglishFileName = "Pinglish.dat";
+        public const string ExceptionWordsFileName = "ExceptionWords.dat";
+        public const string GoftariDicFileName = "GoftariDic.dat";
+
+        [Obsolete("", true)]
         public const string PinglishPreprocessFileName = "PinglishPreprocesses.dat";
+
+        [Obsolete("", true)]
         public const string InformalDicFileName = "dic_informal.dat";
+        
+        #endregion
+
+        #region Reg Constants
 
         public const string VirastyarApplicationRegKey = "Software\\SCICT\\Virastyar";
         public const string VirastyarApplicationUsersRegKey = VirastyarApplicationRegKey + "\\Users";
         public static readonly string FullApplicationRegKey = Registry.LocalMachine.Name + "\\" + VirastyarApplicationRegKey;
-        
+        public const string VirastyarTrustedLocationDescription = "Virastyar Templates Location";
+        public static readonly string VirastyarTrustedLocationRegString = 
+            "Windows Registry Editor Version 5.00" + Environment.NewLine + Environment.NewLine + 
+            @"[HKEY_CURRENT_USER\Software\Microsoft\Office\{0}\Word\Security\Trusted Locations\Location{1}]" + Environment.NewLine + 
+            "\"Description\"=\"Virastyar Templates Location\"" + Environment.NewLine + 
+            "\"Path\"=\"{2}\"" + Environment.NewLine;
+
+        #endregion
+
         [Obsolete("The template mechansim has been changed.", true)]
         public const string CustomTemplateName = "VirastyarCustomTemplate.dot";
 

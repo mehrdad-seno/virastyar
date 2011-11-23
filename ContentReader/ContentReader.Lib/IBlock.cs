@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
+using System;
 
 namespace SCICT.Microsoft.Office.Word.ContentReader
 {
     /// <summary>
     /// The parent interface for the objects carrying MS-Word document content.
     /// </summary>
+    [Obsolete("Use RangeWrapper instead!", true)]
     public abstract class IBlock
     {
         /// <summary>

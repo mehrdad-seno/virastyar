@@ -1,10 +1,6 @@
-﻿// Author: Omid Kashefi 
-// Created on: 2010-March-08
-// Last Modified: Omid Kashefi at 2010-March-08
-//
-
-using System;
+﻿using System;
 using SCICT.NLP.Persian.Constants;
+using SCICT.NLP.Utility;
 using SCICT.Utility;
 using SCICT.NLP.Utility.Parsers;
 using System.Collections.Generic;
@@ -487,7 +483,7 @@ namespace SCICT.NLP.Morphology.Inflection
 
         private static IEnumerable<string> CreateYaaBadalAzKasraPermutation()
         {
-            return MultiplyStrings(ReversePatternMatcher.SymbolHalfSpace.ToString(),
+            return MultiplyStrings(ReversePatternMatcher.SymbolHalfSpaceQuestionMark.ToString(),
                         PersianSuffixes.YaaBadalAzKasre);
         }
 
@@ -510,19 +506,19 @@ namespace SCICT.NLP.Morphology.Inflection
         private static IEnumerable<string> CreateObjectivePronounBasePermutation()
         {
             return MultiplyStrings(ReversePatternMatcher.SymbolHalfSpaceQuestionMark.ToString(),
-                        MultiplyStrings(PersianSuffixes.ObjectivePronounsBase, PersianSuffixes.ToBeVerbsBase).Concat(
+                        MultiplyStrings(PersianSuffixes.ObjectivePronounsBase, m_toBeVerbPermutationBase).Concat(
                             PersianSuffixes.ObjectivePronounsBase));
         }
         private static IEnumerable<string> CreateObjectivePronounForAlefPermutation()
         {
             return MultiplyStrings(ReversePatternMatcher.SymbolHalfSpaceQuestionMark.ToString(),
-                        MultiplyStrings(PersianSuffixes.ObjectivePronounsPermutedForAlef, PersianSuffixes.ToBeVerbsBase).Concat(
+                        MultiplyStrings(PersianSuffixes.ObjectivePronounsPermutedForAlef, m_toBeVerbPermutationBase).Concat(
                             PersianSuffixes.ObjectivePronounsPermutedForAlef));
         }
         private static IEnumerable<string> CreateObjectivePronounForHaaYaaPermutation()
         {
             return MultiplyStrings(ReversePatternMatcher.SymbolHalfSpaceQuestionMark.ToString(),
-                        MultiplyStrings(PersianSuffixes.ObjectivePronounsPermutedForHaaYaa, PersianSuffixes.ToBeVerbsBase).Concat(
+                        MultiplyStrings(PersianSuffixes.ObjectivePronounsPermutedForHaaYaa, m_toBeVerbPermutationBase).Concat(
                             PersianSuffixes.ObjectivePronounsPermutedForHaaYaa));
         }
 
@@ -530,9 +526,9 @@ namespace SCICT.NLP.Morphology.Inflection
         {
             return MultiplyStrings(ReversePatternMatcher.SymbolHalfSpaceQuestionMark.ToString(),
                        MultiplyStrings(PersianSuffixes.PluralSignHaa, m_objectivePronounPermutationAlef).Concat(
-                           MultiplyStrings(PersianSuffixes.PluralSignHaa, PersianSuffixes.ToBeVerbsPermutedForAlef).Concat(
-                               MultiplyStrings(PersianSuffixes.PluralSignHaa, PersianSuffixes.IndefiniteYaaPermutedForAlef).Concat(
-                                   MultiplyStrings(PersianSuffixes.PluralSignHaa, PersianSuffixes.YaaBadalAzKasre).Concat(
+                           MultiplyStrings(PersianSuffixes.PluralSignHaa, m_toBeVerbPermutationAlef).Concat(
+                               MultiplyStrings(PersianSuffixes.PluralSignHaa, m_indefiniteYaaPermutationAlef).Concat(
+                                   MultiplyStrings(PersianSuffixes.PluralSignHaa, m_yaaBadalAzKasraPermutation).Concat(
                                             PersianSuffixes.PluralSignHaa)))));
         }
 
@@ -540,24 +536,24 @@ namespace SCICT.NLP.Morphology.Inflection
         {
             return MultiplyStrings(ReversePatternMatcher.SymbolHalfSpaceQuestionMark.ToString(),
                        MultiplyStrings(PersianSuffixes.PluralSignAanBase, m_objectivePronounPermutationBase).Concat(
-                           MultiplyStrings(PersianSuffixes.PluralSignAanBase, PersianSuffixes.ToBeVerbsBase).Concat(
-                               MultiplyStrings(PersianSuffixes.PluralSignAanBase, PersianSuffixes.IndefiniteYaaBase).Concat(
+                           MultiplyStrings(PersianSuffixes.PluralSignAanBase, m_toBeVerbPermutationBase).Concat(
+                               MultiplyStrings(PersianSuffixes.PluralSignAanBase, m_indefiniteYaaPermutationBase).Concat(
                                    PersianSuffixes.PluralSignAan))));
         }
         private static IEnumerable<string> CreatePluralAnnForAlefPermutation()
         {
             return MultiplyStrings(ReversePatternMatcher.SymbolHalfSpaceQuestionMark.ToString(),
                        MultiplyStrings(PersianSuffixes.PluralSignAanPermutedForAlef, m_objectivePronounPermutationBase).Concat(
-                           MultiplyStrings(PersianSuffixes.PluralSignAanPermutedForAlef, PersianSuffixes.ToBeVerbsBase).Concat(
-                               MultiplyStrings(PersianSuffixes.PluralSignAanPermutedForAlef, PersianSuffixes.IndefiniteYaaBase).Concat(
+                           MultiplyStrings(PersianSuffixes.PluralSignAanPermutedForAlef, m_toBeVerbPermutationBase).Concat(
+                               MultiplyStrings(PersianSuffixes.PluralSignAanPermutedForAlef, m_indefiniteYaaPermutationBase).Concat(
                                    PersianSuffixes.PluralSignAanPermutedForAlef))));
         }
         private static IEnumerable<string> CreatePluralAnnForHaaPermutation()
         {
             return MultiplyStrings(ReversePatternMatcher.SymbolHalfSpaceQuestionMark.ToString(),
                        MultiplyStrings(PersianSuffixes.PluralSignAanPermutedForHaa, m_objectivePronounPermutationBase).Concat(
-                           MultiplyStrings(PersianSuffixes.PluralSignAanPermutedForHaa, PersianSuffixes.ToBeVerbsBase).Concat(
-                               MultiplyStrings(PersianSuffixes.PluralSignAanPermutedForHaa, PersianSuffixes.IndefiniteYaaBase).Concat(
+                           MultiplyStrings(PersianSuffixes.PluralSignAanPermutedForHaa, m_toBeVerbPermutationBase).Concat(
+                               MultiplyStrings(PersianSuffixes.PluralSignAanPermutedForHaa, m_indefiniteYaaPermutationBase).Concat(
                                    PersianSuffixes.PluralSignAanPermutedForHaa))));
         }
 
@@ -565,9 +561,9 @@ namespace SCICT.NLP.Morphology.Inflection
         {
             return MultiplyStrings(ReversePatternMatcher.SymbolHalfSpaceQuestionMark.ToString(),
                        MultiplyStrings(PersianSuffixes.ComparativeAdjectives, m_objectivePronounPermutationBase).Concat(
-                           MultiplyStrings(PersianSuffixes.ComparativeAdjectives, PersianSuffixes.ToBeVerbsBase).Concat(
-                               MultiplyStrings(PersianSuffixes.ComparativeAdjectives, PersianSuffixes.IndefiniteYaaBase).Concat(
-                                   MultiplyStrings(PersianSuffixes.ComparativeAdjectives, PluralHaaPermutation).Concat(
+                           MultiplyStrings(PersianSuffixes.ComparativeAdjectives, m_toBeVerbPermutationBase).Concat(
+                               MultiplyStrings(PersianSuffixes.ComparativeAdjectives, m_indefiniteYaaPermutationBase).Concat(
+                                   MultiplyStrings(PersianSuffixes.ComparativeAdjectives, m_pluralHaaPermutation).Concat(
                                        MultiplyStrings(PersianSuffixes.ComparativeAdjectives, m_pluralAnnPermutationBase).Concat(
                                            PersianSuffixes.ComparativeAdjectives))))));
 
@@ -577,9 +573,9 @@ namespace SCICT.NLP.Morphology.Inflection
         {
             return MultiplyStrings(ReversePatternMatcher.SymbolHalfSpaceQuestionMark.ToString(),
                        MultiplyStrings(PersianSuffixes.EnumerableAdjectiveOrdinal, m_objectivePronounPermutationBase).Concat(
-                           MultiplyStrings(PersianSuffixes.EnumerableAdjectiveOrdinal, PersianSuffixes.ToBeVerbsBase).Concat(
-                               MultiplyStrings(PersianSuffixes.EnumerableAdjectiveOrdinal, PersianSuffixes.IndefiniteYaaBase).Concat(
-                                   MultiplyStrings(PersianSuffixes.EnumerableAdjectiveOrdinal, PluralHaaPermutation).Concat(
+                           MultiplyStrings(PersianSuffixes.EnumerableAdjectiveOrdinal, m_toBeVerbPermutationBase).Concat(
+                               MultiplyStrings(PersianSuffixes.EnumerableAdjectiveOrdinal, m_indefiniteYaaPermutationBase).Concat(
+                                   MultiplyStrings(PersianSuffixes.EnumerableAdjectiveOrdinal, m_pluralHaaPermutation).Concat(
                                        PersianSuffixes.EnumerableAdjectiveOrdinal)))));
 
         }
@@ -587,9 +583,9 @@ namespace SCICT.NLP.Morphology.Inflection
         {
             return MultiplyStrings(ReversePatternMatcher.SymbolHalfSpaceQuestionMark.ToString(),
                        MultiplyStrings(PersianSuffixes.EnumerableAdjectiveAmbigus, m_objectivePronounPermutationHaaYaa).Concat(
-                           MultiplyStrings(PersianSuffixes.EnumerableAdjectiveAmbigus, PersianSuffixes.ToBeVerbsPermutedForHaaYaa).Concat(
-                               MultiplyStrings(PersianSuffixes.EnumerableAdjectiveAmbigus, PersianSuffixes.IndefiniteYaaPermutedForHaaYaa).Concat(
-                                   MultiplyStrings(PersianSuffixes.EnumerableAdjectiveAmbigus, PluralHaaPermutation).Concat(
+                           MultiplyStrings(PersianSuffixes.EnumerableAdjectiveAmbigus, m_toBeVerbPermutationHaaYaa).Concat(
+                               MultiplyStrings(PersianSuffixes.EnumerableAdjectiveAmbigus, m_indefiniteYaaPermutationHaaYaa).Concat(
+                                   MultiplyStrings(PersianSuffixes.EnumerableAdjectiveAmbigus, m_pluralHaaPermutation).Concat(
                                        PersianSuffixes.EnumerableAdjectiveAmbigus)))));
 
         }
@@ -598,11 +594,11 @@ namespace SCICT.NLP.Morphology.Inflection
         {
             return MultiplyStrings(ReversePatternMatcher.SymbolHalfSpaceQuestionMark.ToString(),
                        MultiplyStrings(PersianSuffixes.YaaNesbatBase, m_objectivePronounPermutationHaaYaa).Concat(
-                           MultiplyStrings(PersianSuffixes.YaaNesbatBase, PersianSuffixes.ToBeVerbsPermutedForHaaYaa).Concat(
-                               MultiplyStrings(PersianSuffixes.YaaNesbatBase, PersianSuffixes.IndefiniteYaaPermutedForHaaYaa).Concat(
-                                   MultiplyStrings(PersianSuffixes.YaaNesbatBase, PluralHaaPermutation).Concat(
+                           MultiplyStrings(PersianSuffixes.YaaNesbatBase, m_toBeVerbPermutationHaaYaa).Concat(
+                               MultiplyStrings(PersianSuffixes.YaaNesbatBase, m_indefiniteYaaPermutationHaaYaa).Concat(
+                                   MultiplyStrings(PersianSuffixes.YaaNesbatBase, m_pluralHaaPermutation).Concat(
                                        MultiplyStrings(PersianSuffixes.YaaNesbatBase, m_pluralAnnPermutationBase).Concat(
-                                           MultiplyStrings(PersianSuffixes.YaaNesbatBase, ComparativeAdjectivePermutation).Concat(
+                                           MultiplyStrings(PersianSuffixes.YaaNesbatBase, m_comparativeAdjectivePermutation).Concat(
                                                PersianSuffixes.YaaNesbatBase)))))));
 
         }
@@ -610,11 +606,11 @@ namespace SCICT.NLP.Morphology.Inflection
         {
             return MultiplyStrings(ReversePatternMatcher.SymbolHalfSpaceQuestionMark.ToString(),
                        MultiplyStrings(PersianSuffixes.YaaNesbatPermutedForAlef, m_objectivePronounPermutationHaaYaa).Concat(
-                           MultiplyStrings(PersianSuffixes.YaaNesbatPermutedForAlef, PersianSuffixes.ToBeVerbsPermutedForHaaYaa).Concat(
-                               MultiplyStrings(PersianSuffixes.YaaNesbatPermutedForAlef, PersianSuffixes.IndefiniteYaaPermutedForHaaYaa).Concat(
-                                   MultiplyStrings(PersianSuffixes.YaaNesbatPermutedForAlef, PluralHaaPermutation).Concat(
+                           MultiplyStrings(PersianSuffixes.YaaNesbatPermutedForAlef, m_toBeVerbPermutationHaaYaa).Concat(
+                               MultiplyStrings(PersianSuffixes.YaaNesbatPermutedForAlef, m_indefiniteYaaPermutationHaaYaa).Concat(
+                                   MultiplyStrings(PersianSuffixes.YaaNesbatPermutedForAlef, m_pluralHaaPermutation).Concat(
                                        MultiplyStrings(PersianSuffixes.YaaNesbatPermutedForAlef, m_pluralAnnPermutationBase).Concat(
-                                           MultiplyStrings(PersianSuffixes.YaaNesbatPermutedForAlef, ComparativeAdjectivePermutation).Concat(
+                                           MultiplyStrings(PersianSuffixes.YaaNesbatPermutedForAlef, m_comparativeAdjectivePermutation).Concat(
                                                PersianSuffixes.YaaNesbatPermutedForAlef)))))));
 
         }
@@ -622,11 +618,11 @@ namespace SCICT.NLP.Morphology.Inflection
         {
             return MultiplyStrings(ReversePatternMatcher.SymbolHalfSpaceQuestionMark.ToString(),
                        MultiplyStrings(PersianSuffixes.YaaNesbatPermutedForHaaYaa, m_objectivePronounPermutationHaaYaa).Concat(
-                           MultiplyStrings(PersianSuffixes.YaaNesbatPermutedForHaaYaa, PersianSuffixes.ToBeVerbsPermutedForHaaYaa).Concat(
-                               MultiplyStrings(PersianSuffixes.YaaNesbatPermutedForHaaYaa, PersianSuffixes.IndefiniteYaaPermutedForHaaYaa).Concat(
-                                   MultiplyStrings(PersianSuffixes.YaaNesbatPermutedForHaaYaa, PluralHaaPermutation).Concat(
+                           MultiplyStrings(PersianSuffixes.YaaNesbatPermutedForHaaYaa, m_toBeVerbPermutationHaaYaa).Concat(
+                               MultiplyStrings(PersianSuffixes.YaaNesbatPermutedForHaaYaa, m_indefiniteYaaPermutationHaaYaa).Concat(
+                                   MultiplyStrings(PersianSuffixes.YaaNesbatPermutedForHaaYaa, m_pluralHaaPermutation).Concat(
                                        MultiplyStrings(PersianSuffixes.YaaNesbatPermutedForHaaYaa, m_pluralAnnPermutationBase).Concat(
-                                           MultiplyStrings(PersianSuffixes.YaaNesbatPermutedForHaaYaa, ComparativeAdjectivePermutation).Concat(
+                                           MultiplyStrings(PersianSuffixes.YaaNesbatPermutedForHaaYaa, m_comparativeAdjectivePermutation).Concat(
                                                PersianSuffixes.YaaNesbatPermutedForHaaYaa)))))));
 
         }
@@ -764,6 +760,20 @@ namespace SCICT.NLP.Morphology.Inflection
                     return true;
                 }
             }
+            else if (stem.EndsWith("ای"))
+            {
+                if (PhoneticCompositinRulesForConsonants(stem, suffix)) // Start With Yaa
+                {
+                    return true;
+                }
+            }
+            //else if (stem.EndsWith("وی"))
+            //{
+            //    if (PhoneticCompositinRulesForConsonants(stem, suffix) || PhoneticCompositinRulesForYaa(stem, suffix)) // Start With Yaa
+            //    {
+            //        return true;
+            //    }
+            //}
             else if (stem.EndsWith("ی"))
             {
                 if (PhoneticCompositinRulesForYaa(stem, suffix)) // Start With Yaa
@@ -886,6 +896,14 @@ namespace SCICT.NLP.Morphology.Inflection
             {
                 suffix = ModifySuffixForAlef(suffix, suffixCategory);
             }
+            else if (stem.EndsWith("ای"))
+            {
+                suffix = ModifySuffixForConsonant(suffix, suffixCategory);
+            }
+            //else if (stem.EndsWith("وی"))
+            //{
+            //    suffix = ModifySuffixForConsonant(suffix, suffixCategory);
+            //}
             else if (stem.EndsWith("ی"))
             {
                 suffix = ModifySuffixForYaa(suffix, suffixCategory);
@@ -917,6 +935,14 @@ namespace SCICT.NLP.Morphology.Inflection
             {
                 suffix = ModifySuffixForAlef(suffix, suffixCategory);
             }
+            else if (stem.EndsWith("ای"))
+            {
+                suffix = ModifySuffixForConsonant(suffix, suffixCategory);
+            }
+            //else if (stem.EndsWith("وی"))
+            //{
+            //    suffix = ModifySuffixForConsonant(suffix, suffixCategory);
+            //}
             else if (stem.EndsWith("ی"))
             {
                 suffix = ModifySuffixForYaa(suffix, suffixCategory);
@@ -946,6 +972,14 @@ namespace SCICT.NLP.Morphology.Inflection
             {
                 return SpacingStateForAlef(stem, suffix); // Start with Alef
             }
+            else if (stem.EndsWith("ای"))
+            {
+                return SpacingStateForConsonants(stem, suffix);
+            }
+            //else if (stem.EndsWith("وی"))
+            //{
+            //    return SpacingStateForConsonants(stem, suffix);
+            //}
             else if (stem.EndsWith("ی"))
             {
                 return SpacingStateForYaa(stem, suffix); // Start With Yaa
@@ -1377,8 +1411,8 @@ namespace SCICT.NLP.Morphology.Inflection
 
         private static PersianCombinationSpacingState SpacingStateForConsonants(string stem, string suffix)
         {
-            if (stem.EndsWith(PersianAlphabets.Consonants.ToStringArray()))
-            {
+            //if (stem.EndsWith(PersianAlphabets.Consonants.ToStringArray()))
+            //{
                 suffix = suffix.Replace(PseudoSpace.ZWNJ.ToString(), "");
 
                 if (IsInSuffixPattern(suffix, m_indefiniteYaaPermutationBase)) // ye nakare
@@ -1435,7 +1469,7 @@ namespace SCICT.NLP.Morphology.Inflection
                     //    return PersianCombinationSpacingState.PseudoSpace;
                     //}
                 }
-            }
+            //}
 
             return PersianCombinationSpacingState.WhiteSpace;
         }
@@ -1688,51 +1722,46 @@ namespace SCICT.NLP.Morphology.Inflection
 
             return false;
         }
-        
+
         private static bool PhoneticCompositinRulesForConsonants(string stem, string suffix)
         {
-            if (stem.EndsWith(PersianAlphabets.Consonants.ToStringArray()))
+            suffix = suffix.Replace(PseudoSpace.ZWNJ.ToString(), "");
+
+            if (IsInSuffixPattern(suffix, m_indefiniteYaaPermutationBase)) // ye nakare
             {
-                suffix = suffix.Replace(PseudoSpace.ZWNJ.ToString(), "");
-
-                if (IsInSuffixPattern(suffix, m_indefiniteYaaPermutationBase)) // ye nakare
-                {
-                    return true;
-                }
-                else if (IsInSuffixPattern(suffix, m_objectivePronounPermutationBase))
-                {
-                    return true;
-                }
-                else if (IsInSuffixPattern(suffix, m_toBeVerbPermutationBase))
-                {
-                    return true;
-                }
-                else if (IsInSuffixPattern(suffix, m_pluralAnnPermutationBase))
-                {
-                    return true;
-                }
-                else if (IsInSuffixPattern(suffix, m_yaaNesbatPermutationBase))
-                {
-                    return true;
-                }
-                else if (IsInSuffixPattern(suffix, PluralHaaPermutation))
-                {
-                    return true;
-                }
-                //else if (suffix.StartsWith(PersianSuffixes.EnumerableAdjective))
-                //{
-                //    return true;
-                //}
-                else if (IsInSuffixPattern(suffix, ComparativeAdjectivePermutation))
-                {
-                    return true;
-                }
-
+                return true;
+            }
+            else if (IsInSuffixPattern(suffix, m_objectivePronounPermutationBase))
+            {
+                return true;
+            }
+            else if (IsInSuffixPattern(suffix, m_toBeVerbPermutationBase))
+            {
+                return true;
+            }
+            else if (IsInSuffixPattern(suffix, m_pluralAnnPermutationBase))
+            {
+                return true;
+            }
+            else if (IsInSuffixPattern(suffix, m_yaaNesbatPermutationBase))
+            {
+                return true;
+            }
+            else if (IsInSuffixPattern(suffix, PluralHaaPermutation))
+            {
+                return true;
+            }
+            //else if (suffix.StartsWith(PersianSuffixes.EnumerableAdjective))
+            //{
+            //    return true;
+            //}
+            else if (IsInSuffixPattern(suffix, ComparativeAdjectivePermutation))
+            {
+                return true;
             }
 
             return false;
         }
-
         #endregion
 
         #region Equivallent Suffix With Correct Phonetic
@@ -2131,10 +2160,10 @@ namespace SCICT.NLP.Morphology.Inflection
         /// <summary>
         /// List of Suffixes pattern
         /// </summary>
-        private List<string> m_lstPatterns = new List<string>();
+        private readonly List<string> m_lstPatterns = new List<string>();
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PersianSuffixRecognizer"/> class.
+        /// Initializes a new instance of the <see cref="PersianSuffixLemmatizer"/> class.
         /// </summary>
         /// <param name="useColloquals">if set to <c>true</c> it will recognize colloqual affixes as well.</param>
         public PersianSuffixLemmatizer(bool useColloquals)
@@ -2142,9 +2171,8 @@ namespace SCICT.NLP.Morphology.Inflection
         {
         }
 
-
         /// <summary>
-        /// Initializes a new instance of the <see cref="PersianSuffixRecognizer"/> class.
+        /// Initializes a new instance of the <see cref="PersianSuffixLemmatizer"/> class.
         /// </summary>
         /// <param name="useColloquals">if set to <c>true</c> it will recognize colloqual affixes as well.</param>
         /// <param name="uniqueResults">if set to <c>true</c> unique results will be returned.</param>
@@ -2167,6 +2195,7 @@ namespace SCICT.NLP.Morphology.Inflection
             InitPatternsList(suffixCategory, useColloquals);
 
             m_revPatternMatcher.SetEndingPatterns(m_lstPatterns);
+            m_revPatternMatcher.SetPostProcessRule(WordConstructionRules);
         }
 
         public PersianSuffixLemmatizer(bool useColloquals, bool uniqueResults, PersianSuffixesCategory suffixCategory)
@@ -2177,6 +2206,103 @@ namespace SCICT.NLP.Morphology.Inflection
             InitPatternsList(suffixCategory, useColloquals);
 
             m_revPatternMatcher.SetEndingPatterns(m_lstPatterns);
+            m_revPatternMatcher.SetPostProcessRule(WordConstructionRules);
+        }
+
+        /// <summary>
+        /// Performs Persian word construction rules to the given base-word and suffix strings.
+        /// </summary>
+        /// <param name="baseWord">The base word to modify.</param>
+        /// <param name="suffix">The suffix to modify.</param>
+        /// <param name="newBaseWords">The new base words to be added.</param>
+        /// <param name="newSuffixes">The new suffixes to be added.</param>
+        private static void WordConstructionRules(string baseWord, string suffix, out string[] newBaseWords, out string[] newSuffixes)
+        {
+            baseWord = StringUtil.TrimEndArabicWord(baseWord);
+            suffix = StringUtil.TrimStartArabicWord(suffix);
+
+            //int i;
+            //for (i = body.Length - 1;
+            //    i >= 0 &&
+            //        (body[i] == ReversePatternMatcher.HalfSpace ||
+            //         Char.IsWhiteSpace(body[i]));
+            //     --i) 
+            //{ }
+
+            //int prefLen = i + 1;
+            //if (prefLen < body.Length)
+            //{
+            //    affix = body.Substring(prefLen) + affix;
+            //    body = body.Substring(0, prefLen);
+            //}
+
+            if (suffix.StartsWith("ان") && baseWord.EndsWith("ای")) // e.g. خدایان
+            {
+                baseWord = baseWord.Substring(0, baseWord.Length - 1); // remove last letter
+                suffix = "ی" + suffix;
+            }
+            else if (suffix.StartsWith("گان") && !suffix.StartsWith("گانه") && !baseWord.EndsWith("ه")) // e.g. پرندگان
+            {
+                baseWord = baseWord + "ه";
+            }
+            else if(baseWord.EndsWith("ئ"))
+            {
+                HamzaWordConstructionRules(baseWord, suffix, out newBaseWords, out newSuffixes);
+                return;
+            }
+
+            newBaseWords = new [] {baseWord};
+            newSuffixes = new [] {suffix};
+        }
+
+        private static void HamzaWordConstructionRules(string baseWord, string suffix, out string[] newBaseWords, out string[] newSuffixes)
+        {
+            // at this point we assume that baseWord ends in "ئ"
+
+            int prevCharIndex = baseWord.Length - 2;
+            while (prevCharIndex >= 0 && StringUtil.IsHalfSpace(baseWord[prevCharIndex]))
+                prevCharIndex--;
+
+            //if there's at lease one letter before the hamza
+            if (prevCharIndex >= 0)
+            {
+                // if the letter before hamza is Yeh (as in  متلألی‌ئ، شیئ، بطی‌ئ)
+                if (StringUtil.IsYe(baseWord[prevCharIndex]))
+                {
+                    string priorYeh = baseWord.Substring(0, prevCharIndex); // i.e., شی out of شیئ
+                    newBaseWords = new[] { priorYeh + "ئ", priorYeh + "یء" };
+                    newSuffixes = new[] { suffix, suffix };
+                    return;
+                }
+                else if (baseWord[prevCharIndex] == 'ا') // as in منشائی
+                {
+                    string priorAlef = baseWord.Substring(0, prevCharIndex); // i.e., منش
+                    newBaseWords = new[] { priorAlef + "أ", priorAlef + "اء" };
+                    newSuffixes = new[] { suffix, suffix };
+                    return;
+                }
+                else if (baseWord[prevCharIndex] == 'و') // as in لؤلوئی
+                {
+                    string priorVav = baseWord.Substring(0, prevCharIndex); // i.e., لؤل
+                    newBaseWords = new[] { priorVav + "ؤ", priorVav + "وء" };
+                    newSuffixes = new[] { suffix, suffix };
+                    return;
+                }
+                else // as in جزئی
+                {
+                    string priorHamza = baseWord.Substring(0, prevCharIndex + 1); // i.e., جز
+                    newBaseWords = new[] { priorHamza + "ء" };
+                    newSuffixes = new[] { suffix };
+                    return;
+                }
+
+
+            }// end of if there's at lease one letter before the hamza
+            else
+            {
+                newBaseWords = new[] {baseWord};
+                newSuffixes = new[] {suffix};
+            }
         }
 
         /// <summary>

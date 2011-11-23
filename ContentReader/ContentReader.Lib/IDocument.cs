@@ -7,6 +7,7 @@ namespace SCICT.Microsoft.Office.Word.ContentReader
     /// <summary>
     /// Parent for objects manipulating MS-Word Document.
     /// </summary>
+    [Obsolete("Use RangeWrapper and DocumentUtils instead!", true)]
     public abstract class IDocument
     {
         #region Ctor

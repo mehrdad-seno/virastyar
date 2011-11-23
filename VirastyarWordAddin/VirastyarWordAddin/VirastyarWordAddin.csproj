@@ -114,7 +114,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'DebugWithSetup|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\DebugWithSetup\</OutputPath>
+    <OutputPath>bin\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -142,9 +142,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\ExternalLib\AutomaticUpdater.dll</HintPath>
     </Reference>
-    <Reference Include="ManagedWinapi, Version=0.3.0.1, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ManagedWinapi, Version=0.3.1.0, Culture=neutral, PublicKeyToken=ff2cf56caa65669b, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\SpellCheckerLib\ManagedWinapi.dll</HintPath>
+      <HintPath>..\..\ExternalLib\ManagedWinapi.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Office.Interop.Word, Version=11.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c">
       <SpecificVersion>False</SpecificVersion>
@@ -182,13 +182,13 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\SCICT.NLP.Utility.LanguageModel.dll</HintPath>
     </Reference>
-    <Reference Include="SCICT.NLP.Utility.PinglishConverter, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff2cf56caa65669b, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Lib\SCICT.NLP.Utility.PinglishConverter.dll</HintPath>
-    </Reference>
     <Reference Include="SCICT.NLP.Utility.StringDistance, Version=1.0.3649.34659, Culture=neutral, PublicKeyToken=ff2cf56caa65669b, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\SCICT.NLP.Utility.StringDistance.dll</HintPath>
+    </Reference>
+    <Reference Include="SCICT.NLP.Utility.Transliteration, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff2cf56caa65669b, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\SCICT.NLP.Utility.Transliteration.dll</HintPath>
     </Reference>
     <Reference Include="SCICT.NLP.Utility.WordContainer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff2cf56caa65669b, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -240,6 +240,7 @@
     <Compile Include="AboutWindow.Designer.cs">
       <DependentUpon>AboutWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="AddinTestMethods.cs" />
     <Compile Include="AxHost2.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -250,8 +251,13 @@
       <DependentUpon>AddinConfigurationDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Configurations\AddinConfigurationEvents.cs" />
-    <Compile Include="AllCharactersRefiner.cs" />
     <Compile Include="Configurations\AllCharactersRefinerSettings.cs" />
+    <Compile Include="Configurations\AutomaticReportConfirmWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Configurations\AutomaticReportConfirmWindow.Designer.cs">
+      <DependentUpon>AutomaticReportConfirmWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="Configurations\SpellCheckerSettings.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Controls\HotkeyControl2.cs">
@@ -272,7 +278,6 @@
     <Compile Include="Settings.cs" />
     <Compile Include="TemplateGenerator.cs" />
     <Compile Include="IVirastyarAddin.cs" />
-    <Compile Include="PreprocessSpellVerifier.cs" />
     <Compile Include="ExceptionForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -285,13 +290,6 @@
     <Compile Include="ListBoxWithOptionForm.Designer.cs">
       <DependentUpon>ListBoxWithOptionForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="DateVerificationWindow.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="DateVerificationWindow.Designer.cs">
-      <DependentUpon>DateVerificationWindow.cs</DependentUpon>
-    </Compile>
-    <Compile Include="DateVerifier.cs" />
     <Compile Include="Controls\HotkeyBox.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -303,8 +301,6 @@
     <Compile Include="ListBoxForm.Designer.cs">
       <DependentUpon>ListBoxForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="NumberVerifier.cs" />
-    <Compile Include="PinglishVerifier.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -312,21 +308,9 @@
       <DependentUpon>AddinConfigurationDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="DateVerificationWindow.resx">
-      <DependentUpon>DateVerificationWindow.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SimpleVerificationWindow.resx">
-      <DependentUpon>SimpleVerificationWindow.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="VerificationWindowBase.resx">
-      <DependentUpon>VerificationWindowBase.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
@@ -344,29 +328,13 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="PunctuationVerifier.cs" />
     <Compile Include="SettingsHelper.cs" />
     <Compile Include="Resources\ResourceManager.cs" />
-    <Compile Include="RoundQueue.cs" />
-    <Compile Include="SimpleVerificationWindow.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SimpleVerificationWindow.Designer.cs">
-      <DependentUpon>SimpleVerificationWindow.cs</DependentUpon>
-    </Compile>
-    <Compile Include="SpellCheckerVerificationWindow.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SpellCheckerVerificationWindow.designer.cs">
-      <DependentUpon>SpellCheckerVerificationWindow.cs</DependentUpon>
-    </Compile>
-    <Compile Include="SpellCheckerVerifier.cs" />
     <Compile Include="SpellCheckerWrapper.cs" />
     <Compile Include="ThisAddIn.cs">
       <SubType>Code</SubType>
     </Compile>
     <None Include="Resources\Pinglish.dat" />
-    <None Include="Resources\dic_informal.dat" />
     <None Include="ThisAddIn.Designer.xml">
       <DependentUpon>ThisAddIn.cs</DependentUpon>
     </None>
@@ -389,24 +357,68 @@
       <DependentUpon>UpdateNotificationWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Update\WyUpdateChecker.cs" />
-    <Compile Include="VerificationCanceledException.cs" />
     <Compile Include="VerificationTypes.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="VerificationWinArgs.cs" />
-    <Compile Include="VerificationWindowBase.cs">
+    <Compile Include="Verifiers\Basics\BatchModeVerificationWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="VerificationWindowBase.Designer.cs">
-      <DependentUpon>VerificationWindowBase.cs</DependentUpon>
+    <Compile Include="Verifiers\Basics\BatchModeVerificationWindow.Designer.cs">
+      <DependentUpon>BatchModeVerificationWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="VerificationWindowButtons.cs">
-      <SubType>Code</SubType>
+    <Compile Include="Verifiers\Basics\IBatchModeVerificationWindow.cs" />
+    <Compile Include="Verifiers\Basics\IInteractiveVerificationWindow.cs" />
+    <Compile Include="Verifiers\Basics\InteractiveVerificationWindow.cs">
+      <SubType>Form</SubType>
     </Compile>
-    <Compile Include="VerifierBase.cs" />
+    <Compile Include="Verifiers\Basics\InteractiveVerificationWindow.Designer.cs">
+      <DependentUpon>InteractiveVerificationWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Verifiers\Basics\ISuggestions.cs" />
+    <Compile Include="Verifiers\Basics\ISuggestionsViwer.cs" />
+    <Compile Include="Verifiers\Basics\NGramVerifierBase.cs" />
+    <Compile Include="Verifiers\Basics\ProceedTypes.cs" />
+    <Compile Include="Verifiers\Basics\ShrinkingVerifierBase.cs" />
+    <Compile Include="Verifiers\Basics\StateMachineVerifierBase.cs" />
+    <Compile Include="Verifiers\Basics\StringVerificationData.cs" />
+    <Compile Include="Verifiers\Basics\TextValuePair.cs" />
+    <Compile Include="Verifiers\Basics\UserSelectedActions.cs" />
+    <Compile Include="Verifiers\Basics\VerificationController.cs" />
+    <Compile Include="Verifiers\Basics\VerificationData.cs" />
+    <Compile Include="Verifiers\Basics\VerificationResult.cs" />
+    <Compile Include="Verifiers\Basics\VerifierBase.cs" />
+    <Compile Include="Verifiers\Basics\VerifierRequestTypes.cs" />
+    <Compile Include="Verifiers\Basics\WindowWrapper.cs" />
+    <Compile Include="Verifiers\CharacterRefinementVerification\CharacterRefinementVerifier.cs" />
+    <Compile Include="Verifiers\CustomGUIs\DateSuggestions\DateSuggestion.cs" />
+    <Compile Include="Verifiers\CustomGUIs\DateSuggestions\DateSuggestionsViewer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Verifiers\CustomGUIs\DateSuggestions\DateSuggestionsViewer.Designer.cs">
+      <DependentUpon>DateSuggestionsViewer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Verifiers\CustomGUIs\SpellCheckerSuggestions\SpellCheckerSuggestion.cs" />
+    <Compile Include="Verifiers\CustomGUIs\SpellCheckerSuggestions\SpellCheckerSuggestionViewer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Verifiers\CustomGUIs\SpellCheckerSuggestions\SpellCheckerSuggestionViewer.Designer.cs">
+      <DependentUpon>SpellCheckerSuggestionViewer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Verifiers\CustomGUIs\TitledListBox\TitledListBoxSuggestion.cs" />
+    <Compile Include="Verifiers\CustomGUIs\TitledListBox\TitledListBoxSuggestionViewer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Verifiers\CustomGUIs\TitledListBox\TitledListBoxSuggestionViewer.Designer.cs">
+      <DependentUpon>TitledListBoxSuggestionViewer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Verifiers\DateVerification\DateVerifier.cs" />
+    <Compile Include="Verifiers\NumberVerification\NumberVerifier.cs" />
+    <Compile Include="Verifiers\PinglishVerification\PinglishVerifier.cs" />
+    <Compile Include="Verifiers\PunctuationVerification\PunctuationVerifier.cs" />
+    <Compile Include="Verifiers\SpellCheckerVerification\SpellCheckerVerifier.cs" />
     <Compile Include="VirastyarAddin.cs" />
     <Compile Include="WindowListener.cs" />
-    <Compile Include="WindowWrapper.cs" />
+    <Compile Include="WinFormsUtils\StatusBarToProgressToggler.cs" />
     <Compile Include="WordCompletionDistractionForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -428,14 +440,20 @@
     <Content Include="Resources\IconTip.png" />
     <Content Include="Resources\IconUpdate.png" />
     <Content Include="Resources\IconVirastyar.png" />
+    <EmbeddedResource Include="Configurations\AutomaticReportConfirmWindow.resx">
+      <DependentUpon>AutomaticReportConfirmWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\client.wyc">
     </EmbeddedResource>
     <Content Include="Resources\Virastyar.ico" />
+    <None Include="Resources\ExceptionWords.dat" />
+    <EmbeddedResource Include="Resources\GoftariDic.dat" />
+    <EmbeddedResource Include="Resources\ExceptionWords.dat.zip" />
+    <EmbeddedResource Include="Resources\GoftariDic.dat.zip" />
     <None Include="Resources\Virastyar.png" />
     <EmbeddedResource Include="Resources\wyUpdate.exe">
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\dic.dat.zip" />
-    <EmbeddedResource Include="Resources\dic_informal.dat.zip" />
     <None Include="app.debug.config" />
     <None Include="app.release.config" />
     <None Include="Resources\IconHelp.png" />
@@ -465,12 +483,10 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="Resources\dic.dat" />
-    <None Include="Resources\PinglishPreprocesses.dat" />
     <EmbeddedResource Include="Resources\UserDictionary.dat" />
     <EmbeddedResource Include="Resources\Stem.dat.zip" />
     <EmbeddedResource Include="Resources\Patterns.txt.zip" />
     <EmbeddedResource Include="Resources\Pinglish.dat.zip" />
-    <EmbeddedResource Include="Resources\PinglishPreprocesses.dat.zip" />
     <None Include="Resources\Virastyar.chm" />
     <EmbeddedResource Include="Resources\Virastyar2003.dot.zip" />
     <EmbeddedResource Include="Resources\Virastyar2007.dotm.zip" />
@@ -492,15 +508,26 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="Resources\Patterns.txt" />
-    <EmbeddedResource Include="SpellCheckerVerificationWindow.resx">
-      <DependentUpon>SpellCheckerVerificationWindow.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="TipOfTheDayForm.resx">
       <DependentUpon>TipOfTheDayForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Update\UpdateNotificationWindow.resx">
       <DependentUpon>UpdateNotificationWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Verifiers\Basics\BatchModeVerificationWindow.resx">
+      <DependentUpon>BatchModeVerificationWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Verifiers\Basics\InteractiveVerificationWindow.resx">
+      <DependentUpon>InteractiveVerificationWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Verifiers\CustomGUIs\DateSuggestions\DateSuggestionsViewer.resx">
+      <DependentUpon>DateSuggestionsViewer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Verifiers\CustomGUIs\SpellCheckerSuggestions\SpellCheckerSuggestionViewer.resx">
+      <DependentUpon>SpellCheckerSuggestionViewer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Verifiers\CustomGUIs\TitledListBox\TitledListBoxSuggestionViewer.resx">
+      <DependentUpon>TitledListBoxSuggestionViewer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WordCompletionDistractionForm.resx">
       <DependentUpon>WordCompletionDistractionForm.cs</DependentUpon>
@@ -537,14 +564,18 @@
     <PostBuildEvent>
     </PostBuildEvent>
     <PreBuildEvent>copy /y "$(ProjectDir)app.$(ConfigurationName).config" "$(ProjectDir)app.config"
-powershell.exe "$(SolutionDir)Compress.ps1" -filePath "$(SolutionDir)VirastyarWordAddin\Resources\dic.dat"
-powershell.exe "$(SolutionDir)Compress.ps1" -filePath "$(SolutionDir)VirastyarWordAddin\Resources\dic_informal.dat"
-powershell.exe "$(SolutionDir)Compress.ps1" -filePath "$(SolutionDir)VirastyarWordAddin\Resources\Patterns.txt"
-powershell.exe "$(SolutionDir)Compress.ps1" -filePath "$(SolutionDir)VirastyarWordAddin\Resources\Pinglish.dat"
-powershell.exe "$(SolutionDir)Compress.ps1" -filePath "$(SolutionDir)VirastyarWordAddin\Resources\PinglishPreprocesses.dat"
-powershell.exe "$(SolutionDir)Compress.ps1" -filePath "$(SolutionDir)VirastyarWordAddin\Resources\Stem.dat"
-powershell.exe "$(SolutionDir)Compress.ps1" -filePath "$(SolutionDir)VirastyarWordAddin\Resources\Virastyar2003.dot"
-powershell.exe "$(SolutionDir)Compress.ps1" -filePath "$(SolutionDir)VirastyarWordAddin\Resources\Virastyar2007.dotm"
-powershell.exe "$(SolutionDir)Compress.ps1" -filePath "$(SolutionDir)VirastyarWordAddin\Resources\Virastyar2010.dotm"</PreBuildEvent>
+copy /y "$(SolutionDir)..\PinglishConverter\Pinglish.dat" "$(ProjectDir)Resources\Pinglish.dat"
+copy /y "$(SolutionDir)..\PinglishConverter\Transliterator\Inputs\GoftariDic.dat" "$(ProjectDir)\Resources\GoftariDic.dat"
+copy /y "$(SolutionDir)..\PinglishConverter\Transliterator\Inputs\ExceptionWords.dat" "$(ProjectDir)\Resources\ExceptionWords.dat"
+powershell.exe -Command "&amp; '$(SolutionDir)Compress.ps1' -filePath '$(SolutionDir)VirastyarWordAddin\Resources\dic.dat'"
+powershell.exe -Command "&amp; '$(SolutionDir)Compress.ps1' -filePath '$(SolutionDir)VirastyarWordAddin\Resources\Patterns.txt'"
+powershell.exe -Command "&amp; '$(SolutionDir)Compress.ps1' -filePath '$(SolutionDir)VirastyarWordAddin\Resources\Pinglish.dat'"
+powershell.exe -Command "&amp; '$(SolutionDir)Compress.ps1' -filePath '$(SolutionDir)VirastyarWordAddin\Resources\ExceptionWords.dat'"
+powershell.exe -Command "&amp; '$(SolutionDir)Compress.ps1' -filePath '$(SolutionDir)VirastyarWordAddin\Resources\GoftariDic.dat'"
+powershell.exe -Command "&amp; '$(SolutionDir)Compress.ps1' -filePath '$(SolutionDir)VirastyarWordAddin\Resources\Stem.dat'"
+powershell.exe -Command "&amp; '$(SolutionDir)Compress.ps1' -filePath '$(SolutionDir)VirastyarWordAddin\Resources\Virastyar2003.dot'"
+powershell.exe -Command "&amp; '$(SolutionDir)Compress.ps1' -filePath '$(SolutionDir)VirastyarWordAddin\Resources\Virastyar2007.dotm'"
+powershell.exe -Command "&amp; '$(SolutionDir)Compress.ps1' -filePath '$(SolutionDir)VirastyarWordAddin\Resources\Virastyar2010.dotm'"
+</PreBuildEvent>
   </PropertyGroup>
 </Project>

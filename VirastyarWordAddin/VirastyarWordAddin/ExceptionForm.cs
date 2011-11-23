@@ -55,7 +55,6 @@ namespace VirastyarWordAddin
 
         private void btnSendError_Click(object sender, EventArgs e)
         {
-            // TODO: Exception form must accept an instance of VirastyarLogEventInfo
             var logEventInfo = new VirastyarLogEventInfo(LogLevel.Error, "ExceptionForm", "");
             logEventInfo.Exception = ExceptionToShow;
 

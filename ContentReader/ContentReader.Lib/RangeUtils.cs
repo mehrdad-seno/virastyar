@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 using System.Text;
 using Microsoft.Office.Interop.Word;
 using SCICT.NLP.Persian;
 using SCICT.NLP.Persian.Constants;
 using SCICT.NLP.Utility;
+using System.Reflection;
+using SCICT.Utility.GUI;
 
 namespace SCICT.Microsoft.Office.Word.ContentReader
 {
@@ -14,6 +17,202 @@ namespace SCICT.Microsoft.Office.Word.ContentReader
     /// </summary>
     public static class RangeUtils
     {
+        #region TrimRange Stuff
+
+
+        /// <summary>
+        /// Finds the trimmed range start. returns -1 if it cannot trim the start of range.
+        /// </summary>
+        /// <param name="range">The range to find its trimmed content start.</param>
+        /// <param name="trimmedText">The trimmed text of the range.</param>
+        /// <returns></returns>
+        private static int FindTrimmedRangeStart(Range range, string trimmedText)
+        {
+            const int minTrimLen = 4;
+            if (trimmedText.Length < minTrimLen)
+                throw new Exception(String.Format(
+                    "The length of trimmed text must be larger than {0}.", minTrimLen));
+
+            // form a part of the beginning of the range
+            string startPart = trimmedText.Substring(0, minTrimLen);
+            int wsInd = startPart.IndexOfAny(new[] { ' ', '\t', '\r', '\n' });
+            if (wsInd > 0)
+                startPart = startPart.Substring(0, wsInd);
+
+            int prestart = range.Start,
+                preend = range.End;
+
+            object missingValue = Missing.Value;
+
+            object otextToFind = startPart;
+            if (range.Find.Execute(ref otextToFind, ref missingValue, ref missingValue, ref missingValue,
+                                   ref missingValue, ref missingValue, ref missingValue, ref missingValue,
+                                   ref missingValue, ref missingValue, ref missingValue, ref missingValue,
+                                   ref missingValue, ref missingValue, ref missingValue))
+            {
+                Range found = range;
+                if (IntervalOverlap.Detect(prestart, preend, range.Start, range.End) ==
+                    IntervalOverlapKinds.FirstIncludesSecond
+                    && found.Text == startPart)
+                {
+                    return found.Start;
+                }
+            }
+
+            return -1;
+        }
+
+        /// <summary>
+        /// Finds the trimmed range end. returns -1 if it cannot trim the end of range.
+        /// </summary>
+        /// <param name="range">The range to find its trimmed content start.</param>
+        /// <param name="trimmedText">The trimmed text of the range.</param>
+        /// <returns></returns>
+        private static int FindTrimmedRangeEnd(Range range, string trimmedText)
+        {
+            const int MinTrimLen = 4;
+            if (trimmedText.Length < MinTrimLen)
+                throw new Exception(String.Format(
+                    "The length of trimmed text must be larger than {0}.", MinTrimLen));
+
+            // form a part of the beginning of the range
+            string endPart = trimmedText.Substring(trimmedText.Length - MinTrimLen, MinTrimLen);
+            int wsInd = endPart.IndexOfAny(new[] { ' ', '\t', '\r', '\n' });
+            if (wsInd > 0)
+                endPart = endPart.Substring(0, wsInd);
+
+            int prestart = range.Start,
+                preend = range.End;
+
+            object missingValue = Missing.Value;
+
+            range.Find.Forward = false;
+            object otextToFind = endPart;
+            if (range.Find.Execute(ref otextToFind, ref missingValue, ref missingValue, ref missingValue,
+                                   ref missingValue, ref missingValue, ref missingValue, ref missingValue,
+                                   ref missingValue, ref missingValue, ref missingValue, ref missingValue,
+                                   ref missingValue, ref missingValue, ref missingValue))
+            {
+                Range found = range;
+                if (IntervalOverlap.Detect(prestart, preend, range.Start, range.End) ==
+                    IntervalOverlapKinds.FirstIncludesSecond
+                    && found.Text == endPart)
+                {
+                    return found.End;
+                }
+            }
+
+            return -1;
+        }
+
+        public static TrimRangeResult TryTrimRange(Range rangeToTrim, out Range trimmedRange)
+        {
+            trimmedRange = null;
+
+            if (rangeToTrim == null)
+                return TrimRangeResult.InvalidRange;
+
+            string rangeText = rangeToTrim.Text;
+            if (rangeText == null)
+                return TrimRangeResult.InvalidRange;
+
+            string trimmedText = TrimRangeText(rangeText);
+
+            if (String.IsNullOrEmpty(trimmedText))
+                return TrimRangeResult.InvalidRange;
+
+            Range range = RangeUtils.GetCopy(rangeToTrim);
+            object missingValue = Missing.Value;
+
+            if (rangeText == trimmedText) // no need to find
+            {
+                trimmedRange = range;
+
+                if (trimmedText.Length != range.End - range.Start)
+                    return TrimRangeResult.TrimmedButLengthMismatch;
+                else
+                    return TrimRangeResult.Success;
+            }
+            else if (trimmedText.Length > 250) // range.Find does not support strings of more than 250 chars length
+            {
+                int newStart = -1,
+                    newEnd = -1;
+
+                Range copy1 = RangeUtils.GetCopy(range);
+                Range copy2 = RangeUtils.GetCopy(range);
+                newStart = FindTrimmedRangeStart(copy1, trimmedText);
+                if (newStart < 0)
+                    return TrimRangeResult.Failure;
+
+                newEnd = FindTrimmedRangeEnd(copy2, trimmedText);
+                if (newEnd < 0)
+                    return TrimRangeResult.Failure;
+
+                range.SetRange(newStart, newEnd);
+                trimmedRange = range;
+                if (newEnd - newStart != trimmedText.Length)
+                    return TrimRangeResult.TrimmedButLengthMismatch;
+                else
+                    return TrimRangeResult.Success;
+
+            }
+            else // if rangeText is not the same as trimmedText (which usually happens)
+            {
+                int prestart = range.Start,
+                    preend = range.End;
+
+                object otextToFind = trimmedText;
+                if (range.Find.Execute(ref otextToFind, ref missingValue, ref missingValue, ref missingValue,
+                                       ref missingValue, ref missingValue, ref missingValue, ref missingValue,
+                                       ref missingValue, ref missingValue, ref missingValue, ref missingValue,
+                                       ref missingValue, ref missingValue, ref missingValue))
+                {
+                    Range found = range;
+                    if (IntervalOverlap.Detect(prestart, preend, range.Start, range.End) ==
+                        IntervalOverlapKinds.FirstIncludesSecond
+                        && found.Text == trimmedText)
+                    {
+                        trimmedRange = found;
+                        if (trimmedText.Length != found.End - found.Start)
+                            return TrimRangeResult.TrimmedButLengthMismatch;
+                        else
+                            return TrimRangeResult.Success;
+                    }
+                }
+            }
+
+            return TrimRangeResult.Failure;
+        }
+
+        public static string TrimRangeText(string rangeText)
+        {
+            int start = 0;
+            int end = rangeText.Length - 1;
+
+            for (; start <= end; start++)
+            {
+                if(!Char.IsWhiteSpace(rangeText[start]) &&
+                    !Char.IsControl(rangeText[start]))
+                    break;
+            }
+
+            for(; end >= start; end--)
+            {
+                if (!Char.IsWhiteSpace(rangeText[end]) &&
+                    !Char.IsControl(rangeText[end]))
+                    break;
+            }
+
+            if (start > end)
+                return "";
+            else
+                return rangeText.Substring(start, end - start + 1);
+
+            //return rangeText.Trim(new char[] { ' ', '\t', '\r', '\n', '\a', '\v', '\f', '\u0001', '\u0002' });
+        }
+
+        #endregion
+
         /// <summary>
         /// Matches the string with range.
         /// </summary>
@@ -265,8 +464,10 @@ namespace SCICT.Microsoft.Office.Word.ContentReader
         /// If the specified range is null or its Text property is null,
         /// it does not modify the range.
         /// Note: It modifies the range in parameter and does NOT create a copy
+        /// This method is obsolete, use <c>TryTrimRange</c> instead!
         /// </summary>
         /// <param name="r">The range to trim.</param>
+        [Obsolete]
         public static void TrimRange(Range r)
         {
             FixRangeLimitsBase(r, true);
@@ -335,6 +536,60 @@ namespace SCICT.Microsoft.Office.Word.ContentReader
             //int endIndex = RangeUtils.GetTrimmedContentEndIndexInRange(r);
             //r.SetRange(startIndex, endIndex);
         }
+
+        public static Range[] GetNWordsBeforeAndInsideParagraph(Range word, int n)
+        {
+            return GetNWordsInsideParagraph(word, n, false);
+        }
+
+        public static Range[] GetNWordsAfterAndInsideParagraph(Range word, int n)
+        {
+            return GetNWordsInsideParagraph(word, n, true);
+        }
+
+
+        private static Range[] GetNWordsInsideParagraph(Range word, int n, bool goForward)
+        {
+            if (word == null)
+                throw new ArgumentNullException("word", "the provided range for word cannot be null!");
+
+            if(n <= 0)
+                throw new ArgumentException("n must be positive", "n");
+
+            // variable r0, saves us a few COM calls
+            Range r0 = word.Paragraphs[1].Range;
+            int s0 = r0.Start,
+                e0 = r0.End;
+
+            var ranges = new List<Range>();
+
+            object movementCount = goForward ? 1 : -1;
+            object unit = WdUnits.wdWord;
+
+            Range nextWord = word;
+            for (int i = 0; i < n; i++)
+            {
+                nextWord = nextWord.Next(ref unit, ref movementCount);
+                if (nextWord == null)
+                    break;
+
+                // check if the paragraph has been changed
+                Range r = nextWord.Paragraphs[1].Range;
+                int s = r.Start,
+                    e = r.End;
+
+                // check the paragraph boundries, 
+                // break if paragraph has been changed
+                if (s != s0 || e != e0)
+                    break;
+
+                ranges.Add(nextWord);
+                //ranges.Add(prevWord.GetCopy());
+            }
+
+            return ranges.ToArray();
+        }
+
 
         /// <summary>
         /// Checks whether the specified range is in a hyperlink or not.
@@ -861,6 +1116,181 @@ namespace SCICT.Microsoft.Office.Word.ContentReader
             }
         }
 
+        public static int GetLengthBetweenContentStartAndParagraphStart(RangeWrapper rParagraph, RangeWrapper rContent)
+        {
+            int beforeContentLength = 0;
+            if (rContent.Start > rParagraph.Start)
+            {
+                var rBeforeContent = rParagraph.GetRange(rParagraph.Start, rContent.Start);
+                if (rBeforeContent == null || rBeforeContent.Text == null)
+                    beforeContentLength = 0;
+                else
+                    beforeContentLength = rBeforeContent.Text.Length;
+            }
+
+            return beforeContentLength;
+        }
+
+        public static bool SetRangeContentCharSensitive(Range r, string content)
+        {
+            try
+            {
+                string rText = r.Text;
+                if (rText != content)
+                {
+                    string beforeSpace, afterSpace;
+                    string orgBeforeSpChar, orgAfterSpChar, repBeforeSpChar, repAfterSpChar;
+                    if (IsSpecialCodeReplacement(rText, content, out orgBeforeSpChar, out orgAfterSpChar, out repBeforeSpChar, out repAfterSpChar))
+                    {
+                        //MessageBox.Show("Special Code Replacement!");
+
+                        if(orgBeforeSpChar.Length > 0)
+                        {
+                            Range prior = r.GetSubRange(0, orgBeforeSpChar.Length - 1);
+                            SetRangeContentCharSensitive(prior, repBeforeSpChar);
+                        }
+
+                        if (orgAfterSpChar.Length > 0)
+                        {
+                            Range posterior = r.GetSubRange(orgBeforeSpChar.Length /* - 1 + 1 */ + 1);
+                            SetRangeContentCharSensitive(posterior, repAfterSpChar);
+                        }
+                    }
+                    else
+                    {
+                        if (!IsOneSpaceInsertion(rText, content, out beforeSpace, out afterSpace))
+                        {
+                            r.Text = content;
+                        }
+                        else
+                        {
+                            //MessageBox.Show(String.Format("One Space Insertion!\r\nBefore:*{0}*\r\nAfter:*{1}*",
+                            //    beforeSpace, afterSpace));
+
+                            Range rFirstChar = null;
+                            bool isFirstWordPersian = false;
+                            if (beforeSpace.Length > 0)
+                            {
+                                rFirstChar = r.GetValidCharAt(beforeSpace.Length /* - 1 + 1 */);
+                                isFirstWordPersian = StringUtil.IsArabicLetter(rFirstChar.Text[0]);
+                            }
+
+                            Range rSecondChar = null;
+                            bool isSecondWordPersian = false;
+                            if (afterSpace.Length > 0)
+                            {
+                                rSecondChar = r.GetValidCharAt(beforeSpace.Length /* - 1 + 1 */ + 1);
+                                isSecondWordPersian = StringUtil.IsArabicLetter(rSecondChar.Text[0]);
+                            }
+
+                            bool tryAddToSecondFirst = false;
+
+                            if (rFirstChar == null && rSecondChar == null)
+                                return false;
+                            else if (rFirstChar != null && rSecondChar == null)
+                                tryAddToSecondFirst = false;
+                            else if (rFirstChar == null && rSecondChar != null)
+                                tryAddToSecondFirst = true;
+                            else
+                                tryAddToSecondFirst = (isSecondWordPersian && !isFirstWordPersian);
+
+                            if (tryAddToSecondFirst)
+                            {
+                                try
+                                {
+                                    if (rSecondChar != null)
+                                        rSecondChar.Text = " " + rSecondChar.Text;
+                                }
+                                catch (COMException)
+                                {
+                                    try
+                                    {
+                                        if (rFirstChar != null)
+                                            rFirstChar.Text = rFirstChar.Text + " ";
+                                    }
+                                    catch (COMException)
+                                    {
+                                        throw new COMException();
+                                    }
+                                }
+                            }
+                            else // if try add to first first!
+                            {
+                                try
+                                {
+                                    if (rFirstChar != null)
+                                        rFirstChar.Text = rFirstChar.Text + " ";
+                                }
+                                catch (COMException)
+                                {
+                                    try
+                                    {
+                                        if (rSecondChar != null)
+                                            rSecondChar.Text = " " + rSecondChar.Text;
+                                    }
+                                    catch (COMException)
+                                    {
+                                        throw new COMException();
+                                    }
+                                }
+                            }
+                        } // end of else (if isOneSpaceInsertion)
+                    } // end of else (if isSpecialCodeReplacement)
+                } // end of if (rText != content)
+            } // end of try
+            catch (COMException)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public static bool IsSpecialCodeReplacement(string original, string replacement, out string orgBeforeSpCode, out string orgAfterSpCode, out string repBeforeSpCode, out string repAfterSpCode)
+        {
+            repBeforeSpCode = repAfterSpCode = orgBeforeSpCode = orgAfterSpCode = "";
+
+            int orgSpIndex = -1;
+            int repSpIndex = -1;
+            char spChar = ' ';
+            if (StringUtil.StringContainsAny(original, WordSpecialCharacters.SpecialCharsArray, out orgSpIndex))
+            {
+                spChar = original[orgSpIndex];
+                repSpIndex = replacement.IndexOf(spChar);
+                if (repSpIndex >= 0)
+                {
+                    orgBeforeSpCode = original.Substring(0, orgSpIndex);
+                    if (orgSpIndex < original.Length - 1)
+                        orgAfterSpCode = original.Substring(orgSpIndex + 1);
+
+                    repBeforeSpCode = replacement.Substring(0, repSpIndex);
+                    if (repSpIndex < replacement.Length - 1)
+                        repAfterSpCode = replacement.Substring(repSpIndex + 1);
+
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public static bool IsOneSpaceInsertion(string original, string replacement, out string beforeSpace, out string afterSpace)
+        {
+            beforeSpace = afterSpace = "";
+            int firstSpaceIndex = replacement.IndexOf(' ');
+            if (firstSpaceIndex < 0)
+                return false;
+            string repCopy = replacement.Remove(firstSpaceIndex, 1);
+            if (repCopy != original)
+                return false;
+
+            beforeSpace = replacement.Substring(0, firstSpaceIndex);
+            if (firstSpaceIndex < replacement.Length - 1)
+                afterSpace = replacement.Substring(firstSpaceIndex + 1);
+
+            return true;
+        }
+
 
         #region Obsolete
         /// <summary>
@@ -940,6 +1370,7 @@ namespace SCICT.Microsoft.Office.Word.ContentReader
 
         #endregion
     }
+
 
     #region RangeEqualityComparer Class an IEqualityComparer<Range>
 

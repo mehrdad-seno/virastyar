@@ -26,7 +26,7 @@ namespace VirastyarWordAddin.Log
 
         public static void AutomaticReport()
         {
-            if (Settings.Default.LogReport_AutomaticReport)
+            if (Settings.Default.LogReport_AutomaticReport && Settings.Default.LogReport_ConfirmationDone)
                 AutomaticReport(false, 15000);
         }
 
@@ -39,6 +39,7 @@ namespace VirastyarWordAddin.Log
         {
             int reportInterval = Settings.Default.LogReport_AutomaticReportInterval;
             DateTime lastReport = Settings.Default.LogReport_LastSentLog;
+
             if (force || lastReport.AddDays(reportInterval).Date <= DateTime.Now.Date)
             {
                 try

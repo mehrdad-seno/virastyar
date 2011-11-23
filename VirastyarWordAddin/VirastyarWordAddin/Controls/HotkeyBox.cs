@@ -261,7 +261,6 @@ namespace VirastyarWordAddin.Controls
         /// <summary>
         /// Redraws the TextBox when necessary.
         /// </summary>
-        /// <param name="bCalledProgramatically">Specifies whether this function was called by the Hotkey/HotkeyModifiers properties or by the user.</param>
         private static Hotkey ValidateHotkey(Keys key, Keys modifiers)
         {
             if (key == Keys.LWin || key == Keys.RWin)
@@ -273,21 +272,21 @@ namespace VirastyarWordAddin.Controls
             if (key == Keys.None || 
                 (modifiers == Keys.None && !NoModifierIsNeededFor(key)))
             {
-                validatedHotkey = new Hotkey(Keys.None, SCICT.Microsoft.Win32.Modifiers.None);
+                validatedHotkey = new Hotkey(Keys.None, SCICT.Utility.Windows.Modifiers.None);
             }
 
-            else if (modifiers.Has<Keys>(Keys.Shift) && 
-                !modifiers.Has<Keys>(Keys.Control) && 
-                !modifiers.Has<Keys>(Keys.Alt) && 
+            else if (modifiers.Has(Keys.Shift) && 
+                !modifiers.Has(Keys.Control) && 
+                !modifiers.Has(Keys.Alt) && 
                 needNonShiftModifier.Contains((int)key))
             {
-                validatedHotkey = new Hotkey(Keys.None, SCICT.Microsoft.Win32.Modifiers.None);
+                validatedHotkey = new Hotkey(Keys.None, SCICT.Utility.Windows.Modifiers.None);
             }
             // I have no idea why this is needed, but it is. Without this code, pressing only Ctrl
             // will show up as "Control + ControlKey", etc.
             else if (key == Keys.Menu /* Alt */ || key == Keys.ShiftKey || key == Keys.ControlKey)
             {
-                validatedHotkey = new Hotkey(Keys.None, SCICT.Microsoft.Win32.Modifiers.None);
+                validatedHotkey = new Hotkey(Keys.None, SCICT.Utility.Windows.Modifiers.None);
             }
 
             ManagedWinapi.KeyboardKey kKey = new ManagedWinapi.KeyboardKey(key);

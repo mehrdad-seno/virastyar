@@ -36,7 +36,6 @@ namespace SCICT.NLP.Utility.StringDistance
         
         #endregion
 
-
         #region  Constructors
 
         public NGramGenerator()

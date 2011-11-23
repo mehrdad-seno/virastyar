@@ -45,8 +45,8 @@
             this.linkLabelDeleteItem = new System.Windows.Forms.LinkLabel();
             this.linkLabelSpellCheckerAddExistingDic = new System.Windows.Forms.LinkLabel();
             this.listViewUserDictionaries = new System.Windows.Forms.ListView();
-            this.columnHeaderDesc = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeaderFile = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeaderDesc = new System.Windows.Forms.ColumnHeader();
+            this.columnHeaderFile = new System.Windows.Forms.ColumnHeader();
             this.contextMenuStripDictionaries = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItemEditDic = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemDeleteDic = new System.Windows.Forms.ToolStripMenuItem();
@@ -55,20 +55,6 @@
             this.txtFileName = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.btnBrowse = new System.Windows.Forms.Button();
-            this.grpSpellCheckSettings = new System.Windows.Forms.GroupBox();
-            this.cbDontCheckSingleLetters = new System.Windows.Forms.CheckBox();
-            this.cbHaaShisakiToHaaYaa = new System.Windows.Forms.CheckBox();
-            this.cbVocabSpaceCorrection = new System.Windows.Forms.CheckBox();
-            this.nmrMaxSuggestionsCount = new System.Windows.Forms.NumericUpDown();
-            this.nmrEditDistance = new System.Windows.Forms.NumericUpDown();
-            this.tbPageWords = new System.Windows.Forms.TabPage();
-            this.grpSynRhyme = new System.Windows.Forms.GroupBox();
-            this.lnkRhyme = new System.Windows.Forms.LinkLabel();
-            this.lnkPersian = new System.Windows.Forms.LinkLabel();
-            this.lnkObsolete = new System.Windows.Forms.LinkLabel();
-            this.lnkVulgar = new System.Windows.Forms.LinkLabel();
-            this.lnkOral = new System.Windows.Forms.LinkLabel();
-            this.lnkImpolite = new System.Windows.Forms.LinkLabel();
             this.tbPageRefineAll = new System.Windows.Forms.TabPage();
             this.grpRefineIgnoreList = new System.Windows.Forms.GroupBox();
             this.btnRemoveFromIgnoreList = new System.Windows.Forms.Button();
@@ -76,11 +62,14 @@
             this.tetLetterToIgnore = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.listViewIgnoreList = new System.Windows.Forms.ListView();
-            this.columnCharFace = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHex = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnDecimal = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnCharFace = new System.Windows.Forms.ColumnHeader();
+            this.columnHex = new System.Windows.Forms.ColumnHeader();
+            this.columnDecimal = new System.Windows.Forms.ColumnHeader();
             this.label6 = new System.Windows.Forms.Label();
             this.grpItemsToRefine = new System.Windows.Forms.GroupBox();
+            this.cbRefineAndNormalizeHeYe = new System.Windows.Forms.CheckBox();
+            this.cbConvertShortHeYeToLong = new System.Windows.Forms.CheckBox();
+            this.cbConvertLongHeYeToShort = new System.Windows.Forms.CheckBox();
             this.cbRemoveHalfSpaces = new System.Windows.Forms.CheckBox();
             this.cbRefineErab = new System.Windows.Forms.CheckBox();
             this.cbRefineHalfSpaceChar = new System.Windows.Forms.CheckBox();
@@ -89,12 +78,11 @@
             this.cbRefineKaaf = new System.Windows.Forms.CheckBox();
             this.tbPagePreprocessSpell = new System.Windows.Forms.TabPage();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.cbPrespellCorrectPrefixes = new System.Windows.Forms.CheckBox();
+            this.cbPrespellCorrectSuffixes = new System.Windows.Forms.CheckBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.cbRefineAllAffixes = new System.Windows.Forms.CheckBox();
-            this.cbRefineBe = new System.Windows.Forms.CheckBox();
-            this.cbRefineHeYe = new System.Windows.Forms.CheckBox();
-            this.cbRefineMee = new System.Windows.Forms.CheckBox();
-            this.cbRefineHaa = new System.Windows.Forms.CheckBox();
+            this.cbPrespellCorrectBe = new System.Windows.Forms.CheckBox();
             this.tbPageWordCompletion = new System.Windows.Forms.TabPage();
             this.gpWCFont = new System.Windows.Forms.GroupBox();
             this.numUpDownWCFontSize = new System.Windows.Forms.NumericUpDown();
@@ -113,8 +101,8 @@
             this.tbPageShortcut = new System.Windows.Forms.TabPage();
             this.panel2 = new System.Windows.Forms.Panel();
             this.lstShortcuts = new System.Windows.Forms.ListView();
-            this.clmnName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.clmnShortcut = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.clmnName = new System.Windows.Forms.ColumnHeader();
+            this.clmnShortcut = new System.Windows.Forms.ColumnHeader();
             this.panel1 = new System.Windows.Forms.Panel();
             this.lblCurrentHotkey = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
@@ -127,7 +115,7 @@
             this.btnCheckForUpdate = new System.Windows.Forms.Button();
             this.label12 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.linkLabelViewGatheredInfo = new System.Windows.Forms.LinkLabel();
             this.label3 = new System.Windows.Forms.Label();
             this.rdoSendReportDecline = new System.Windows.Forms.RadioButton();
             this.rdoSendReportAccept = new System.Windows.Forms.RadioButton();
@@ -145,11 +133,6 @@
             this.groupBoxUserDictionaries.SuspendLayout();
             this.contextMenuStripDictionaries.SuspendLayout();
             this.grpDicPath.SuspendLayout();
-            this.grpSpellCheckSettings.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nmrMaxSuggestionsCount)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nmrEditDistance)).BeginInit();
-            this.tbPageWords.SuspendLayout();
-            this.grpSynRhyme.SuspendLayout();
             this.tbPageRefineAll.SuspendLayout();
             this.grpRefineIgnoreList.SuspendLayout();
             this.grpItemsToRefine.SuspendLayout();
@@ -181,7 +164,7 @@
             this.btnOK.TabIndex = 0;
             this.btnOK.Text = "تأیید";
             this.btnOK.UseVisualStyleBackColor = true;
-            this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
+            this.btnOK.Click += new System.EventHandler(this.BtnOkClick);
             // 
             // btnApply
             // 
@@ -194,7 +177,6 @@
             this.btnApply.Text = "اعمال - غیرفعال است";
             this.btnApply.UseVisualStyleBackColor = true;
             this.btnApply.Visible = false;
-            this.btnApply.Click += new System.EventHandler(this.btnApply_Click);
             // 
             // btnCancel
             // 
@@ -206,7 +188,7 @@
             this.btnCancel.TabIndex = 1;
             this.btnCancel.Text = "لغو";
             this.btnCancel.UseVisualStyleBackColor = true;
-            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            this.btnCancel.Click += new System.EventHandler(this.BtnCancelClick);
             // 
             // pnlButtonsContainer
             // 
@@ -231,7 +213,6 @@
             // tabCtrlSettings
             // 
             this.tabCtrlSettings.Controls.Add(this.tbPageSpellCheck);
-            this.tabCtrlSettings.Controls.Add(this.tbPageWords);
             this.tabCtrlSettings.Controls.Add(this.tbPageRefineAll);
             this.tabCtrlSettings.Controls.Add(this.tbPagePreprocessSpell);
             this.tabCtrlSettings.Controls.Add(this.tbPageWordCompletion);
@@ -249,7 +230,6 @@
             // 
             this.tbPageSpellCheck.Controls.Add(this.groupBoxUserDictionaries);
             this.tbPageSpellCheck.Controls.Add(this.grpDicPath);
-            this.tbPageSpellCheck.Controls.Add(this.grpSpellCheckSettings);
             this.tbPageSpellCheck.Location = new System.Drawing.Point(4, 22);
             this.tbPageSpellCheck.Name = "tbPageSpellCheck";
             this.tbPageSpellCheck.Padding = new System.Windows.Forms.Padding(3);
@@ -261,24 +241,25 @@
             // 
             // groupBoxUserDictionaries
             // 
-            this.groupBoxUserDictionaries.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBoxUserDictionaries.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBoxUserDictionaries.Controls.Add(this.lnkEditDictionary);
             this.groupBoxUserDictionaries.Controls.Add(this.progressBarBuildDictionary);
             this.groupBoxUserDictionaries.Controls.Add(this.linkLabelSpellCheckerCreateDictionary);
             this.groupBoxUserDictionaries.Controls.Add(this.linkLabelDeleteItem);
             this.groupBoxUserDictionaries.Controls.Add(this.linkLabelSpellCheckerAddExistingDic);
             this.groupBoxUserDictionaries.Controls.Add(this.listViewUserDictionaries);
-            this.groupBoxUserDictionaries.Location = new System.Drawing.Point(6, 179);
+            this.groupBoxUserDictionaries.Location = new System.Drawing.Point(6, 90);
             this.groupBoxUserDictionaries.Name = "groupBoxUserDictionaries";
-            this.groupBoxUserDictionaries.Size = new System.Drawing.Size(515, 284);
+            this.groupBoxUserDictionaries.Size = new System.Drawing.Size(515, 373);
             this.groupBoxUserDictionaries.TabIndex = 2;
             this.groupBoxUserDictionaries.TabStop = false;
             this.groupBoxUserDictionaries.Text = "واژه‌نامه(ها)‌ی اختیاری کاربر";
             // 
             // lnkEditDictionary
             // 
+            this.lnkEditDictionary.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lnkEditDictionary.AutoSize = true;
             this.lnkEditDictionary.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
             this.lnkEditDictionary.Location = new System.Drawing.Point(428, 34);
@@ -287,13 +268,13 @@
             this.lnkEditDictionary.TabIndex = 7;
             this.lnkEditDictionary.TabStop = true;
             this.lnkEditDictionary.Text = "ویرایش واژه‌نامه";
-            this.lnkEditDictionary.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkEditDictionary_LinkClicked);
+            this.lnkEditDictionary.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LnkEditDictionaryLinkClicked);
             // 
             // progressBarBuildDictionary
             // 
-            this.progressBarBuildDictionary.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.progressBarBuildDictionary.Location = new System.Drawing.Point(6, 259);
+            this.progressBarBuildDictionary.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.progressBarBuildDictionary.Location = new System.Drawing.Point(6, 348);
             this.progressBarBuildDictionary.Name = "progressBarBuildDictionary";
             this.progressBarBuildDictionary.RightToLeftLayout = true;
             this.progressBarBuildDictionary.Size = new System.Drawing.Size(352, 15);
@@ -305,13 +286,13 @@
             this.linkLabelSpellCheckerCreateDictionary.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.linkLabelSpellCheckerCreateDictionary.AutoSize = true;
             this.linkLabelSpellCheckerCreateDictionary.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.linkLabelSpellCheckerCreateDictionary.Location = new System.Drawing.Point(364, 256);
+            this.linkLabelSpellCheckerCreateDictionary.Location = new System.Drawing.Point(364, 345);
             this.linkLabelSpellCheckerCreateDictionary.Name = "linkLabelSpellCheckerCreateDictionary";
             this.linkLabelSpellCheckerCreateDictionary.Size = new System.Drawing.Size(142, 13);
             this.linkLabelSpellCheckerCreateDictionary.TabIndex = 3;
             this.linkLabelSpellCheckerCreateDictionary.TabStop = true;
             this.linkLabelSpellCheckerCreateDictionary.Text = "ساختن واژه‌نامه از سند جاری ";
-            this.linkLabelSpellCheckerCreateDictionary.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelSpellCheckerCreateDictionary_LinkClicked);
+            this.linkLabelSpellCheckerCreateDictionary.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabelSpellCheckerCreateDictionaryLinkClicked);
             // 
             // linkLabelDeleteItem
             // 
@@ -323,11 +304,10 @@
             this.linkLabelDeleteItem.TabIndex = 1;
             this.linkLabelDeleteItem.TabStop = true;
             this.linkLabelDeleteItem.Text = "حذف واژه‌نامه";
-            this.linkLabelDeleteItem.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelDeleteItem_LinkClicked);
+            this.linkLabelDeleteItem.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabelDeleteItemLinkClicked);
             // 
             // linkLabelSpellCheckerAddExistingDic
             // 
-            this.linkLabelSpellCheckerAddExistingDic.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.linkLabelSpellCheckerAddExistingDic.AutoSize = true;
             this.linkLabelSpellCheckerAddExistingDic.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
             this.linkLabelSpellCheckerAddExistingDic.Location = new System.Drawing.Point(21, 17);
@@ -336,13 +316,13 @@
             this.linkLabelSpellCheckerAddExistingDic.TabIndex = 0;
             this.linkLabelSpellCheckerAddExistingDic.TabStop = true;
             this.linkLabelSpellCheckerAddExistingDic.Text = "افزودن واژه‌نامه ";
-            this.linkLabelSpellCheckerAddExistingDic.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelSpellCheckerAddExistingDic_LinkClicked);
+            this.linkLabelSpellCheckerAddExistingDic.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabelSpellCheckerAddExistingDicLinkClicked);
             // 
             // listViewUserDictionaries
             // 
-            this.listViewUserDictionaries.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.listViewUserDictionaries.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.listViewUserDictionaries.CheckBoxes = true;
             this.listViewUserDictionaries.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeaderDesc,
@@ -355,11 +335,12 @@
             this.listViewUserDictionaries.MultiSelect = false;
             this.listViewUserDictionaries.Name = "listViewUserDictionaries";
             this.listViewUserDictionaries.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.listViewUserDictionaries.Size = new System.Drawing.Size(499, 192);
+            this.listViewUserDictionaries.Size = new System.Drawing.Size(499, 281);
             this.listViewUserDictionaries.TabIndex = 2;
             this.listViewUserDictionaries.UseCompatibleStateImageBehavior = false;
             this.listViewUserDictionaries.View = System.Windows.Forms.View.Details;
-            this.listViewUserDictionaries.BeforeLabelEdit += new System.Windows.Forms.LabelEditEventHandler(this.listViewUserDictionaries_BeforeLabelEdit);
+            this.listViewUserDictionaries.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.listViewUserDictionaries_ItemChecked);
+            this.listViewUserDictionaries.BeforeLabelEdit += new System.Windows.Forms.LabelEditEventHandler(this.ListViewUserDictionariesBeforeLabelEdit);
             // 
             // columnHeaderDesc
             // 
@@ -385,19 +366,19 @@
             this.toolStripMenuItemEditDic.Name = "toolStripMenuItemEditDic";
             this.toolStripMenuItemEditDic.Size = new System.Drawing.Size(146, 22);
             this.toolStripMenuItemEditDic.Text = "ویرایش واژه‌نامه";
-            this.toolStripMenuItemEditDic.Click += new System.EventHandler(this.toolStripMenuItemEditDic_Click);
+            this.toolStripMenuItemEditDic.Click += new System.EventHandler(this.ToolStripMenuItemEditDicClick);
             // 
             // toolStripMenuItemDeleteDic
             // 
             this.toolStripMenuItemDeleteDic.Name = "toolStripMenuItemDeleteDic";
             this.toolStripMenuItemDeleteDic.Size = new System.Drawing.Size(146, 22);
             this.toolStripMenuItemDeleteDic.Text = "حذف واژه‌نامه";
-            this.toolStripMenuItemDeleteDic.Click += new System.EventHandler(this.toolStripMenuItemDeleteDic_Click);
+            this.toolStripMenuItemDeleteDic.Click += new System.EventHandler(this.ToolStripMenuItemDeleteDicClick);
             // 
             // grpDicPath
             // 
-            this.grpDicPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.grpDicPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.grpDicPath.Controls.Add(this.lnkEditUserDic);
             this.grpDicPath.Controls.Add(this.txtFileName);
             this.grpDicPath.Controls.Add(this.label1);
@@ -410,6 +391,7 @@
             // 
             // lnkEditUserDic
             // 
+            this.lnkEditUserDic.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lnkEditUserDic.AutoSize = true;
             this.lnkEditUserDic.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
             this.lnkEditUserDic.Location = new System.Drawing.Point(428, 45);
@@ -418,12 +400,12 @@
             this.lnkEditUserDic.TabIndex = 8;
             this.lnkEditUserDic.TabStop = true;
             this.lnkEditUserDic.Text = "ویرایش واژه‌نامه";
-            this.lnkEditUserDic.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkEditUserDic_LinkClicked);
+            this.lnkEditUserDic.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LnkEditUserDicLinkClicked);
             // 
             // txtFileName
             // 
-            this.txtFileName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtFileName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.txtFileName.Location = new System.Drawing.Point(40, 41);
             this.txtFileName.Name = "txtFileName";
             this.txtFileName.ReadOnly = true;
@@ -437,9 +419,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(359, 17);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(150, 13);
+            this.label1.Size = new System.Drawing.Size(140, 13);
             this.label1.TabIndex = 0;
-            this.label1.Text = "مسیر واژه‌نامه‌ی شخصی کاربر:";
+            this.label1.Text = "مسیر واژه‌نامهٔ شخصی کاربر:";
             // 
             // btnBrowse
             // 
@@ -449,210 +431,7 @@
             this.btnBrowse.TabIndex = 2;
             this.btnBrowse.Text = "...";
             this.btnBrowse.UseVisualStyleBackColor = true;
-            this.btnBrowse.Click += new System.EventHandler(this.btnBrowse_Click);
-            // 
-            // grpSpellCheckSettings
-            // 
-            this.grpSpellCheckSettings.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.grpSpellCheckSettings.Controls.Add(this.cbDontCheckSingleLetters);
-            this.grpSpellCheckSettings.Controls.Add(this.cbHaaShisakiToHaaYaa);
-            this.grpSpellCheckSettings.Controls.Add(this.cbVocabSpaceCorrection);
-            this.grpSpellCheckSettings.Controls.Add(this.nmrMaxSuggestionsCount);
-            this.grpSpellCheckSettings.Controls.Add(this.nmrEditDistance);
-            this.grpSpellCheckSettings.Location = new System.Drawing.Point(6, 90);
-            this.grpSpellCheckSettings.Name = "grpSpellCheckSettings";
-            this.grpSpellCheckSettings.Size = new System.Drawing.Size(515, 83);
-            this.grpSpellCheckSettings.TabIndex = 1;
-            this.grpSpellCheckSettings.TabStop = false;
-            this.grpSpellCheckSettings.Text = "تنظیمات";
-            // 
-            // cbDontCheckSingleLetters
-            // 
-            this.cbDontCheckSingleLetters.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cbDontCheckSingleLetters.AutoSize = true;
-            this.cbDontCheckSingleLetters.Location = new System.Drawing.Point(324, 52);
-            this.cbDontCheckSingleLetters.Name = "cbDontCheckSingleLetters";
-            this.cbDontCheckSingleLetters.Size = new System.Drawing.Size(185, 17);
-            this.cbDontCheckSingleLetters.TabIndex = 1;
-            this.cbDontCheckSingleLetters.Text = "عدم غلط‌یابی حروف به صورت منفرد";
-            this.cbDontCheckSingleLetters.UseVisualStyleBackColor = true;
-            // 
-            // cbHaaShisakiToHaaYaa
-            // 
-            this.cbHaaShisakiToHaaYaa.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cbHaaShisakiToHaaYaa.AutoSize = true;
-            this.cbHaaShisakiToHaaYaa.Checked = true;
-            this.cbHaaShisakiToHaaYaa.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbHaaShisakiToHaaYaa.Location = new System.Drawing.Point(202, 20);
-            this.cbHaaShisakiToHaaYaa.Name = "cbHaaShisakiToHaaYaa";
-            this.cbHaaShisakiToHaaYaa.Size = new System.Drawing.Size(307, 17);
-            this.cbHaaShisakiToHaaYaa.TabIndex = 0;
-            this.cbHaaShisakiToHaaYaa.Text = "در نظر گرفتن «ـۀ» به عنوان غلط املایی و تصحیح آن به «ـه‌ی»";
-            this.cbHaaShisakiToHaaYaa.UseVisualStyleBackColor = true;
-            // 
-            // cbVocabSpaceCorrection
-            // 
-            this.cbVocabSpaceCorrection.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cbVocabSpaceCorrection.AutoSize = true;
-            this.cbVocabSpaceCorrection.Location = new System.Drawing.Point(147, 20);
-            this.cbVocabSpaceCorrection.Name = "cbVocabSpaceCorrection";
-            this.cbVocabSpaceCorrection.Size = new System.Drawing.Size(40, 17);
-            this.cbVocabSpaceCorrection.TabIndex = 15;
-            this.cbVocabSpaceCorrection.Tag = "اصلاح فاصله‌گذاری کلمات صحیح";
-            this.cbVocabSpaceCorrection.Text = "اص";
-            this.cbVocabSpaceCorrection.UseVisualStyleBackColor = true;
-            this.cbVocabSpaceCorrection.Visible = false;
-            // 
-            // nmrMaxSuggestionsCount
-            // 
-            this.nmrMaxSuggestionsCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.nmrMaxSuggestionsCount.Location = new System.Drawing.Point(102, 16);
-            this.nmrMaxSuggestionsCount.Maximum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.nmrMaxSuggestionsCount.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.nmrMaxSuggestionsCount.Name = "nmrMaxSuggestionsCount";
-            this.nmrMaxSuggestionsCount.Size = new System.Drawing.Size(37, 21);
-            this.nmrMaxSuggestionsCount.TabIndex = 14;
-            this.nmrMaxSuggestionsCount.Tag = "تعداد پیشنهادات";
-            this.nmrMaxSuggestionsCount.Value = new decimal(new int[] {
-            7,
-            0,
-            0,
-            0});
-            this.nmrMaxSuggestionsCount.Visible = false;
-            // 
-            // nmrEditDistance
-            // 
-            this.nmrEditDistance.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.nmrEditDistance.Location = new System.Drawing.Point(65, 16);
-            this.nmrEditDistance.Maximum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.nmrEditDistance.Name = "nmrEditDistance";
-            this.nmrEditDistance.Size = new System.Drawing.Size(31, 21);
-            this.nmrEditDistance.TabIndex = 12;
-            this.nmrEditDistance.Tag = "فاصله ویرایشی";
-            this.nmrEditDistance.Value = new decimal(new int[] {
-            2,
-            0,
-            0,
-            0});
-            this.nmrEditDistance.Visible = false;
-            // 
-            // tbPageWords
-            // 
-            this.tbPageWords.Controls.Add(this.grpSynRhyme);
-            this.tbPageWords.Location = new System.Drawing.Point(4, 22);
-            this.tbPageWords.Name = "tbPageWords";
-            this.tbPageWords.Size = new System.Drawing.Size(529, 469);
-            this.tbPageWords.TabIndex = 6;
-            this.tbPageWords.Text = "واژه‌ها";
-            this.tbPageWords.UseVisualStyleBackColor = true;
-            // 
-            // grpSynRhyme
-            // 
-            this.grpSynRhyme.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.grpSynRhyme.Controls.Add(this.lnkRhyme);
-            this.grpSynRhyme.Controls.Add(this.lnkPersian);
-            this.grpSynRhyme.Controls.Add(this.lnkObsolete);
-            this.grpSynRhyme.Controls.Add(this.lnkVulgar);
-            this.grpSynRhyme.Controls.Add(this.lnkOral);
-            this.grpSynRhyme.Controls.Add(this.lnkImpolite);
-            this.grpSynRhyme.Location = new System.Drawing.Point(3, 12);
-            this.grpSynRhyme.Name = "grpSynRhyme";
-            this.grpSynRhyme.Size = new System.Drawing.Size(518, 118);
-            this.grpSynRhyme.TabIndex = 0;
-            this.grpSynRhyme.TabStop = false;
-            this.grpSynRhyme.Text = "ویرایش پایگاه داده";
-            // 
-            // lnkRhyme
-            // 
-            this.lnkRhyme.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lnkRhyme.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.lnkRhyme.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
-            this.lnkRhyme.Location = new System.Drawing.Point(204, 85);
-            this.lnkRhyme.Name = "lnkRhyme";
-            this.lnkRhyme.Size = new System.Drawing.Size(126, 13);
-            this.lnkRhyme.TabIndex = 5;
-            this.lnkRhyme.TabStop = true;
-            this.lnkRhyme.Text = "هم-قافیه ";
-            this.lnkRhyme.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkRhyme_LinkClicked);
-            // 
-            // lnkPersian
-            // 
-            this.lnkPersian.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lnkPersian.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.lnkPersian.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
-            this.lnkPersian.Location = new System.Drawing.Point(215, 57);
-            this.lnkPersian.Name = "lnkPersian";
-            this.lnkPersian.Size = new System.Drawing.Size(115, 13);
-            this.lnkPersian.TabIndex = 4;
-            this.lnkPersian.TabStop = true;
-            this.lnkPersian.Text = "پارسی ";
-            this.lnkPersian.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkPersian_LinkClicked);
-            // 
-            // lnkObsolete
-            // 
-            this.lnkObsolete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lnkObsolete.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.lnkObsolete.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
-            this.lnkObsolete.Location = new System.Drawing.Point(219, 33);
-            this.lnkObsolete.Name = "lnkObsolete";
-            this.lnkObsolete.Size = new System.Drawing.Size(111, 13);
-            this.lnkObsolete.TabIndex = 3;
-            this.lnkObsolete.TabStop = true;
-            this.lnkObsolete.Text = "مهجور ";
-            this.lnkObsolete.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkObsolete_LinkClicked);
-            // 
-            // lnkVulgar
-            // 
-            this.lnkVulgar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lnkVulgar.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.lnkVulgar.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
-            this.lnkVulgar.Location = new System.Drawing.Point(372, 85);
-            this.lnkVulgar.Name = "lnkVulgar";
-            this.lnkVulgar.Size = new System.Drawing.Size(115, 13);
-            this.lnkVulgar.TabIndex = 2;
-            this.lnkVulgar.TabStop = true;
-            this.lnkVulgar.Text = "عامیانه ";
-            this.lnkVulgar.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkVulgar_LinkClicked);
-            // 
-            // lnkOral
-            // 
-            this.lnkOral.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lnkOral.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.lnkOral.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
-            this.lnkOral.Location = new System.Drawing.Point(365, 57);
-            this.lnkOral.Name = "lnkOral";
-            this.lnkOral.Size = new System.Drawing.Size(122, 13);
-            this.lnkOral.TabIndex = 1;
-            this.lnkOral.TabStop = true;
-            this.lnkOral.Text = "شفاهی ";
-            this.lnkOral.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkOral_LinkClicked);
-            // 
-            // lnkImpolite
-            // 
-            this.lnkImpolite.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lnkImpolite.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.lnkImpolite.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
-            this.lnkImpolite.Location = new System.Drawing.Point(367, 33);
-            this.lnkImpolite.Name = "lnkImpolite";
-            this.lnkImpolite.Size = new System.Drawing.Size(120, 13);
-            this.lnkImpolite.TabIndex = 0;
-            this.lnkImpolite.TabStop = true;
-            this.lnkImpolite.Text = "نامودبانه ";
-            this.lnkImpolite.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkImpolite_LinkClicked);
+            this.btnBrowse.Click += new System.EventHandler(this.BtnBrowseClick);
             // 
             // tbPageRefineAll
             // 
@@ -668,18 +447,18 @@
             // 
             // grpRefineIgnoreList
             // 
-            this.grpRefineIgnoreList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.grpRefineIgnoreList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.grpRefineIgnoreList.Controls.Add(this.btnRemoveFromIgnoreList);
             this.grpRefineIgnoreList.Controls.Add(this.btnAddLetterToIgnoreList);
             this.grpRefineIgnoreList.Controls.Add(this.tetLetterToIgnore);
             this.grpRefineIgnoreList.Controls.Add(this.label7);
             this.grpRefineIgnoreList.Controls.Add(this.listViewIgnoreList);
             this.grpRefineIgnoreList.Controls.Add(this.label6);
-            this.grpRefineIgnoreList.Location = new System.Drawing.Point(7, 169);
+            this.grpRefineIgnoreList.Location = new System.Drawing.Point(7, 259);
             this.grpRefineIgnoreList.Name = "grpRefineIgnoreList";
-            this.grpRefineIgnoreList.Size = new System.Drawing.Size(514, 294);
+            this.grpRefineIgnoreList.Size = new System.Drawing.Size(514, 204);
             this.grpRefineIgnoreList.TabIndex = 1;
             this.grpRefineIgnoreList.TabStop = false;
             this.grpRefineIgnoreList.Text = "حروف زیر را نادیده بگیر";
@@ -692,7 +471,7 @@
             this.btnRemoveFromIgnoreList.TabIndex = 5;
             this.btnRemoveFromIgnoreList.Text = "حذف";
             this.btnRemoveFromIgnoreList.UseVisualStyleBackColor = true;
-            this.btnRemoveFromIgnoreList.Click += new System.EventHandler(this.btnRemoveFromIgnoreList_Click);
+            this.btnRemoveFromIgnoreList.Click += new System.EventHandler(this.BtnRemoveFromIgnoreListClick);
             // 
             // btnAddLetterToIgnoreList
             // 
@@ -703,7 +482,7 @@
             this.btnAddLetterToIgnoreList.TabIndex = 4;
             this.btnAddLetterToIgnoreList.Text = "افزودن";
             this.btnAddLetterToIgnoreList.UseVisualStyleBackColor = true;
-            this.btnAddLetterToIgnoreList.Click += new System.EventHandler(this.btnAddLetterToIgnoreList_Click);
+            this.btnAddLetterToIgnoreList.Click += new System.EventHandler(this.BtnAddLetterToIgnoreListClick);
             // 
             // tetLetterToIgnore
             // 
@@ -725,9 +504,9 @@
             // 
             // listViewIgnoreList
             // 
-            this.listViewIgnoreList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.listViewIgnoreList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.listViewIgnoreList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnCharFace,
             this.columnHex,
@@ -737,14 +516,14 @@
             this.listViewIgnoreList.MultiSelect = false;
             this.listViewIgnoreList.Name = "listViewIgnoreList";
             this.listViewIgnoreList.RightToLeftLayout = true;
-            this.listViewIgnoreList.Size = new System.Drawing.Size(499, 209);
+            this.listViewIgnoreList.Size = new System.Drawing.Size(499, 119);
             this.listViewIgnoreList.TabIndex = 1;
             this.listViewIgnoreList.UseCompatibleStateImageBehavior = false;
             this.listViewIgnoreList.View = System.Windows.Forms.View.Details;
             // 
             // columnCharFace
             // 
-            this.columnCharFace.Text = "نویسه‌ی حرف";
+            this.columnCharFace.Text = "نویسهٔ حرف";
             this.columnCharFace.Width = 150;
             // 
             // columnHex
@@ -759,8 +538,8 @@
             // 
             // label6
             // 
-            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.label6.Location = new System.Drawing.Point(6, 26);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(502, 24);
@@ -769,8 +548,11 @@
             // 
             // grpItemsToRefine
             // 
-            this.grpItemsToRefine.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.grpItemsToRefine.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.grpItemsToRefine.Controls.Add(this.cbRefineAndNormalizeHeYe);
+            this.grpItemsToRefine.Controls.Add(this.cbConvertShortHeYeToLong);
+            this.grpItemsToRefine.Controls.Add(this.cbConvertLongHeYeToShort);
             this.grpItemsToRefine.Controls.Add(this.cbRemoveHalfSpaces);
             this.grpItemsToRefine.Controls.Add(this.cbRefineErab);
             this.grpItemsToRefine.Controls.Add(this.cbRefineHalfSpaceChar);
@@ -779,10 +561,51 @@
             this.grpItemsToRefine.Controls.Add(this.cbRefineKaaf);
             this.grpItemsToRefine.Location = new System.Drawing.Point(6, 6);
             this.grpItemsToRefine.Name = "grpItemsToRefine";
-            this.grpItemsToRefine.Size = new System.Drawing.Size(515, 160);
+            this.grpItemsToRefine.Size = new System.Drawing.Size(515, 247);
             this.grpItemsToRefine.TabIndex = 0;
             this.grpItemsToRefine.TabStop = false;
             this.grpItemsToRefine.Text = "مواردی که اصلاح می‌شوند";
+            // 
+            // cbRefineAndNormalizeHeYe
+            // 
+            this.cbRefineAndNormalizeHeYe.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbRefineAndNormalizeHeYe.AutoSize = true;
+            this.cbRefineAndNormalizeHeYe.Checked = true;
+            this.cbRefineAndNormalizeHeYe.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbRefineAndNormalizeHeYe.Location = new System.Drawing.Point(262, 160);
+            this.cbRefineAndNormalizeHeYe.Name = "cbRefineAndNormalizeHeYe";
+            this.cbRefineAndNormalizeHeYe.Size = new System.Drawing.Size(247, 17);
+            this.cbRefineAndNormalizeHeYe.TabIndex = 6;
+            this.cbRefineAndNormalizeHeYe.Text = "اصلاح نگارش «ـه‌ی» یا «ـهٔ» بدون تبدیل به یکدیگر";
+            this.toolTip.SetToolTip(this.cbRefineAndNormalizeHeYe, "اصلاح نگارش «ـه‌ی» یا «ـه» بدون تبدیل آن‌ها به دیگری مثلاً اصلاح «ـه ی» به «ـه‌ی»" +
+                    " و «ـهء» به «ـهٔ»");
+            this.cbRefineAndNormalizeHeYe.UseVisualStyleBackColor = true;
+            // 
+            // cbConvertShortHeYeToLong
+            // 
+            this.cbConvertShortHeYeToLong.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbConvertShortHeYeToLong.AutoSize = true;
+            this.cbConvertShortHeYeToLong.Checked = true;
+            this.cbConvertShortHeYeToLong.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbConvertShortHeYeToLong.Location = new System.Drawing.Point(389, 213);
+            this.cbConvertShortHeYeToLong.Name = "cbConvertShortHeYeToLong";
+            this.cbConvertShortHeYeToLong.Size = new System.Drawing.Size(120, 17);
+            this.cbConvertShortHeYeToLong.TabIndex = 8;
+            this.cbConvertShortHeYeToLong.Text = "تبدیل «ـهٔ» به «ـه‌ی»";
+            this.cbConvertShortHeYeToLong.UseVisualStyleBackColor = true;
+            this.cbConvertShortHeYeToLong.Click += new System.EventHandler(this.ConvertHeYeToCheckBoxesClick);
+            // 
+            // cbConvertLongHeYeToShort
+            // 
+            this.cbConvertLongHeYeToShort.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbConvertLongHeYeToShort.AutoSize = true;
+            this.cbConvertLongHeYeToShort.Location = new System.Drawing.Point(389, 186);
+            this.cbConvertLongHeYeToShort.Name = "cbConvertLongHeYeToShort";
+            this.cbConvertLongHeYeToShort.Size = new System.Drawing.Size(120, 17);
+            this.cbConvertLongHeYeToShort.TabIndex = 7;
+            this.cbConvertLongHeYeToShort.Text = "تبدیل «ـه‌ی» به «ـهٔ»";
+            this.cbConvertLongHeYeToShort.UseVisualStyleBackColor = true;
+            this.cbConvertLongHeYeToShort.Click += new System.EventHandler(this.ConvertHeYeToCheckBoxesClick);
             // 
             // cbRemoveHalfSpaces
             // 
@@ -790,14 +613,14 @@
             this.cbRemoveHalfSpaces.AutoSize = true;
             this.cbRemoveHalfSpaces.Checked = true;
             this.cbRemoveHalfSpaces.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbRemoveHalfSpaces.Location = new System.Drawing.Point(311, 135);
+            this.cbRemoveHalfSpaces.Location = new System.Drawing.Point(312, 135);
             this.cbRemoveHalfSpaces.Name = "cbRemoveHalfSpaces";
-            this.cbRemoveHalfSpaces.Size = new System.Drawing.Size(198, 17);
+            this.cbRemoveHalfSpaces.Size = new System.Drawing.Size(197, 17);
             this.cbRemoveHalfSpaces.TabIndex = 5;
             this.cbRemoveHalfSpaces.Text = "حذف و جابجایی نیم‌فاصله‌های اضافی";
             this.toolTip.SetToolTip(this.cbRemoveHalfSpaces, "چنانچه بیش از یک نیم‌فاصله پشت سر هم درج شود نیم‌فاصله‌های اضافی حذف می‌شوند.\r\nهم" +
-        "‌چنین اگر بعد از حرف‌های غیرچسبان (مثل د و ر) نیم‌فاصله درج شده باشد این نیم‌فاص" +
-        "له نیز اضافی بوده و حذف خواهد شد.");
+                    "‌چنین اگر بعد از حرف‌های غیرچسبان (مثل د و ر) نیم‌فاصله درج شده باشد این نیم‌فاص" +
+                    "له نیز اضافی بوده و حذف خواهد شد.");
             this.cbRemoveHalfSpaces.UseVisualStyleBackColor = true;
             // 
             // cbRefineErab
@@ -806,13 +629,13 @@
             this.cbRefineErab.AutoSize = true;
             this.cbRefineErab.Checked = true;
             this.cbRefineErab.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbRefineErab.Location = new System.Drawing.Point(427, 112);
+            this.cbRefineErab.Location = new System.Drawing.Point(426, 112);
             this.cbRefineErab.Name = "cbRefineErab";
-            this.cbRefineErab.Size = new System.Drawing.Size(82, 17);
+            this.cbRefineErab.Size = new System.Drawing.Size(83, 17);
             this.cbRefineErab.TabIndex = 4;
             this.cbRefineErab.Text = "اصلاح اعراب";
             this.toolTip.SetToolTip(this.cbRefineErab, "برخی فونت‌های فارسی، کاراکترهای غیر استانداردی برای اعراب اضافه کرده‌اند که با ای" +
-        "ن گزینه\r\n می‌توان آن‌ها را به معادل استانداردشان تبدیل کرد.");
+                    "ن گزینه\r\n می‌توان آن‌ها را به معادل استانداردشان تبدیل کرد.");
             this.cbRefineErab.UseVisualStyleBackColor = true;
             // 
             // cbRefineHalfSpaceChar
@@ -821,14 +644,14 @@
             this.cbRefineHalfSpaceChar.AutoSize = true;
             this.cbRefineHalfSpaceChar.Checked = true;
             this.cbRefineHalfSpaceChar.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbRefineHalfSpaceChar.Location = new System.Drawing.Point(369, 89);
+            this.cbRefineHalfSpaceChar.Location = new System.Drawing.Point(376, 89);
             this.cbRefineHalfSpaceChar.Name = "cbRefineHalfSpaceChar";
-            this.cbRefineHalfSpaceChar.Size = new System.Drawing.Size(140, 17);
+            this.cbRefineHalfSpaceChar.Size = new System.Drawing.Size(133, 17);
             this.cbRefineHalfSpaceChar.TabIndex = 3;
-            this.cbRefineHalfSpaceChar.Text = "اصلاح نویسه‌ی نیم فاصله";
+            this.cbRefineHalfSpaceChar.Text = "اصلاح نویسهٔ نیم فاصله";
             this.toolTip.SetToolTip(this.cbRefineHalfSpaceChar, "برخی کاراکترهای نیم‌فاصله که در برنامه‌های مختلف استفاده می‌شود با هم متفاوت هستن" +
-        "د.\r\nبا این گزینه می‌توان تمامی آن‌ها را به کاراکتر نیم‌فاصله‌ی استاندارد تغییر د" +
-        "اد.");
+                    "د.\r\nبا این گزینه می‌توان تمامی آن‌ها را به کاراکتر نیم‌فاصلهٔ استاندارد تغییر دا" +
+                    "د.");
             this.cbRefineHalfSpaceChar.UseVisualStyleBackColor = true;
             // 
             // cbRefineDigits
@@ -837,9 +660,9 @@
             this.cbRefineDigits.AutoSize = true;
             this.cbRefineDigits.Checked = true;
             this.cbRefineDigits.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbRefineDigits.Location = new System.Drawing.Point(322, 66);
+            this.cbRefineDigits.Location = new System.Drawing.Point(323, 66);
             this.cbRefineDigits.Name = "cbRefineDigits";
-            this.cbRefineDigits.Size = new System.Drawing.Size(187, 17);
+            this.cbRefineDigits.Size = new System.Drawing.Size(186, 17);
             this.cbRefineDigits.TabIndex = 2;
             this.cbRefineDigits.Text = "اصلاح ارقام عربی به معادل فارسی";
             this.toolTip.SetToolTip(this.cbRefineDigits, "مثلا تبدیل «٤ به ۴»  یا  «٦ به ۶»");
@@ -851,9 +674,9 @@
             this.cbRefineYaa.AutoSize = true;
             this.cbRefineYaa.Checked = true;
             this.cbRefineYaa.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbRefineYaa.Location = new System.Drawing.Point(205, 43);
+            this.cbRefineYaa.Location = new System.Drawing.Point(201, 43);
             this.cbRefineYaa.Name = "cbRefineYaa";
-            this.cbRefineYaa.Size = new System.Drawing.Size(304, 17);
+            this.cbRefineYaa.Size = new System.Drawing.Size(308, 17);
             this.cbRefineYaa.TabIndex = 1;
             this.cbRefineYaa.Text = "اصلاح انواع حرف «ی»: تبدیل «ى ي ﻱ ﻲ ...» به ی استاندارد\r\n";
             this.cbRefineYaa.UseVisualStyleBackColor = true;
@@ -864,9 +687,9 @@
             this.cbRefineKaaf.AutoSize = true;
             this.cbRefineKaaf.Checked = true;
             this.cbRefineKaaf.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbRefineKaaf.Location = new System.Drawing.Point(226, 20);
+            this.cbRefineKaaf.Location = new System.Drawing.Point(215, 20);
             this.cbRefineKaaf.Name = "cbRefineKaaf";
-            this.cbRefineKaaf.Size = new System.Drawing.Size(283, 17);
+            this.cbRefineKaaf.Size = new System.Drawing.Size(294, 17);
             this.cbRefineKaaf.TabIndex = 0;
             this.cbRefineKaaf.Text = "اصلاح انواع حرف «ک»: تبدیل «ڪ ك ﻚ ...» به ک استاندارد\r\n";
             this.cbRefineKaaf.UseVisualStyleBackColor = true;
@@ -884,12 +707,11 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.cbPrespellCorrectPrefixes);
+            this.groupBox1.Controls.Add(this.cbPrespellCorrectSuffixes);
             this.groupBox1.Controls.Add(this.groupBox3);
             this.groupBox1.Controls.Add(this.cbRefineAllAffixes);
-            this.groupBox1.Controls.Add(this.cbRefineBe);
-            this.groupBox1.Controls.Add(this.cbRefineHeYe);
-            this.groupBox1.Controls.Add(this.cbRefineMee);
-            this.groupBox1.Controls.Add(this.cbRefineHaa);
+            this.groupBox1.Controls.Add(this.cbPrespellCorrectBe);
             this.groupBox1.Location = new System.Drawing.Point(11, 18);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(510, 163);
@@ -897,12 +719,40 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "مواردی که هنگام پیش‌پردازش املایی اصلاح می‌شوند";
             // 
+            // cbPrespellCorrectPrefixes
+            // 
+            this.cbPrespellCorrectPrefixes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbPrespellCorrectPrefixes.AutoSize = true;
+            this.cbPrespellCorrectPrefixes.Checked = true;
+            this.cbPrespellCorrectPrefixes.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbPrespellCorrectPrefixes.Location = new System.Drawing.Point(380, 29);
+            this.cbPrespellCorrectPrefixes.Name = "cbPrespellCorrectPrefixes";
+            this.cbPrespellCorrectPrefixes.Size = new System.Drawing.Size(120, 17);
+            this.cbPrespellCorrectPrefixes.TabIndex = 0;
+            this.cbPrespellCorrectPrefixes.Text = "اصلاح پیشوند واژه‌ها";
+            this.cbPrespellCorrectPrefixes.UseVisualStyleBackColor = true;
+            this.cbPrespellCorrectPrefixes.Click += new System.EventHandler(this.CbSpellCheckRefinersClicked);
+            // 
+            // cbPrespellCorrectSuffixes
+            // 
+            this.cbPrespellCorrectSuffixes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbPrespellCorrectSuffixes.AutoSize = true;
+            this.cbPrespellCorrectSuffixes.Checked = true;
+            this.cbPrespellCorrectSuffixes.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbPrespellCorrectSuffixes.Location = new System.Drawing.Point(384, 61);
+            this.cbPrespellCorrectSuffixes.Name = "cbPrespellCorrectSuffixes";
+            this.cbPrespellCorrectSuffixes.Size = new System.Drawing.Size(116, 17);
+            this.cbPrespellCorrectSuffixes.TabIndex = 1;
+            this.cbPrespellCorrectSuffixes.Text = "اصلاح پسوند واژه‌ها";
+            this.cbPrespellCorrectSuffixes.UseVisualStyleBackColor = true;
+            this.cbPrespellCorrectSuffixes.Click += new System.EventHandler(this.CbSpellCheckRefinersClicked);
+            // 
             // groupBox3
             // 
-            this.groupBox3.Location = new System.Drawing.Point(195, 115);
+            this.groupBox3.Location = new System.Drawing.Point(195, 112);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(305, 10);
-            this.groupBox3.TabIndex = 2;
+            this.groupBox3.TabIndex = 3;
             this.groupBox3.TabStop = false;
             // 
             // cbRefineAllAffixes
@@ -918,63 +768,21 @@
             this.cbRefineAllAffixes.Text = "اصلاح تمام موارد بالا";
             this.cbRefineAllAffixes.ThreeState = true;
             this.cbRefineAllAffixes.UseVisualStyleBackColor = true;
-            this.cbRefineAllAffixes.CheckStateChanged += new System.EventHandler(this.cbRefineAllAffixes_CheckStateChanged);
+            this.cbRefineAllAffixes.CheckStateChanged += new System.EventHandler(this.CbRefineAllAffixesCheckStateChanged);
             // 
-            // cbRefineBe
+            // cbPrespellCorrectBe
             // 
-            this.cbRefineBe.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cbRefineBe.AutoSize = true;
-            this.cbRefineBe.Checked = true;
-            this.cbRefineBe.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbRefineBe.Location = new System.Drawing.Point(230, 94);
-            this.cbRefineBe.Name = "cbRefineBe";
-            this.cbRefineBe.Size = new System.Drawing.Size(270, 17);
-            this.cbRefineBe.TabIndex = 3;
-            this.cbRefineBe.Text = "اصلاح «بـ»: تبدیل «ب» متصل به ابتدای واژه‌ها به «به»\r\n";
-            this.cbRefineBe.UseVisualStyleBackColor = true;
-            this.cbRefineBe.CheckedChanged += new System.EventHandler(this.cbSpellCheckRefiners_CheckedChanged);
-            // 
-            // cbRefineHeYe
-            // 
-            this.cbRefineHeYe.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cbRefineHeYe.AutoSize = true;
-            this.cbRefineHeYe.Checked = true;
-            this.cbRefineHeYe.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbRefineHeYe.Location = new System.Drawing.Point(329, 71);
-            this.cbRefineHeYe.Name = "cbRefineHeYe";
-            this.cbRefineHeYe.Size = new System.Drawing.Size(171, 17);
-            this.cbRefineHeYe.TabIndex = 2;
-            this.cbRefineHeYe.Text = "اصلاح «ـۀ»: تبدیل «‍ـۀ» به «‍ه‌ی»";
-            this.cbRefineHeYe.UseVisualStyleBackColor = true;
-            this.cbRefineHeYe.CheckedChanged += new System.EventHandler(this.cbSpellCheckRefiners_CheckedChanged);
-            // 
-            // cbRefineMee
-            // 
-            this.cbRefineMee.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cbRefineMee.AutoSize = true;
-            this.cbRefineMee.Checked = true;
-            this.cbRefineMee.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbRefineMee.Location = new System.Drawing.Point(215, 48);
-            this.cbRefineMee.Name = "cbRefineMee";
-            this.cbRefineMee.Size = new System.Drawing.Size(285, 17);
-            this.cbRefineMee.TabIndex = 1;
-            this.cbRefineMee.Text = "اصلاح «می»: اصلاح فاصله‌گذاری «می» در ابتدای واژه‌ها";
-            this.cbRefineMee.UseVisualStyleBackColor = true;
-            this.cbRefineMee.CheckedChanged += new System.EventHandler(this.cbSpellCheckRefiners_CheckedChanged);
-            // 
-            // cbRefineHaa
-            // 
-            this.cbRefineHaa.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cbRefineHaa.AutoSize = true;
-            this.cbRefineHaa.Checked = true;
-            this.cbRefineHaa.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbRefineHaa.Location = new System.Drawing.Point(221, 25);
-            this.cbRefineHaa.Name = "cbRefineHaa";
-            this.cbRefineHaa.Size = new System.Drawing.Size(279, 17);
-            this.cbRefineHaa.TabIndex = 0;
-            this.cbRefineHaa.Text = "اصلاح «ها»: اصلاح فاصله‌گذاری «ها» در انتهای واژه‌ها";
-            this.cbRefineHaa.UseVisualStyleBackColor = true;
-            this.cbRefineHaa.CheckedChanged += new System.EventHandler(this.cbSpellCheckRefiners_CheckedChanged);
+            this.cbPrespellCorrectBe.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbPrespellCorrectBe.AutoSize = true;
+            this.cbPrespellCorrectBe.Checked = true;
+            this.cbPrespellCorrectBe.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbPrespellCorrectBe.Location = new System.Drawing.Point(230, 94);
+            this.cbPrespellCorrectBe.Name = "cbPrespellCorrectBe";
+            this.cbPrespellCorrectBe.Size = new System.Drawing.Size(270, 17);
+            this.cbPrespellCorrectBe.TabIndex = 2;
+            this.cbPrespellCorrectBe.Text = "اصلاح «بـ»: تبدیل «ب» متصل به ابتدای واژه‌ها به «به»\r\n";
+            this.cbPrespellCorrectBe.UseVisualStyleBackColor = true;
+            this.cbPrespellCorrectBe.Click += new System.EventHandler(this.CbSpellCheckRefinersClicked);
             // 
             // tbPageWordCompletion
             // 
@@ -991,8 +799,8 @@
             // 
             // gpWCFont
             // 
-            this.gpWCFont.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.gpWCFont.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.gpWCFont.Controls.Add(this.numUpDownWCFontSize);
             this.gpWCFont.Controls.Add(this.label11);
             this.gpWCFont.Location = new System.Drawing.Point(8, 226);
@@ -1031,14 +839,14 @@
             this.label11.AutoSize = true;
             this.label11.Location = new System.Drawing.Point(303, 24);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(198, 13);
+            this.label11.Size = new System.Drawing.Size(188, 13);
             this.label11.TabIndex = 0;
-            this.label11.Text = "اندازه‌ی فونت پنجره‌ی تکمیل خودکار کلمات";
+            this.label11.Text = "اندازهٔ فونت پنجره‌ی تکمیل خودکار کلمات";
             // 
             // gbWCMisc
             // 
-            this.gbWCMisc.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbWCMisc.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.gbWCMisc.Controls.Add(this.label9);
             this.gbWCMisc.Controls.Add(this.numUpDownWCMinWordLength);
             this.gbWCMisc.Controls.Add(this.label8);
@@ -1100,13 +908,13 @@
             this.cbWCCompleteWithoutHotkey.AutoSize = true;
             this.cbWCCompleteWithoutHotkey.Checked = true;
             this.cbWCCompleteWithoutHotkey.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbWCCompleteWithoutHotkey.Location = new System.Drawing.Point(249, 43);
+            this.cbWCCompleteWithoutHotkey.Location = new System.Drawing.Point(253, 43);
             this.cbWCCompleteWithoutHotkey.Name = "cbWCCompleteWithoutHotkey";
-            this.cbWCCompleteWithoutHotkey.Size = new System.Drawing.Size(258, 17);
+            this.cbWCCompleteWithoutHotkey.Size = new System.Drawing.Size(254, 17);
             this.cbWCCompleteWithoutHotkey.TabIndex = 1;
             this.cbWCCompleteWithoutHotkey.Text = "بدون فشردن میانبر تکمیل خودکار کلمات فعال شود";
             this.cbWCCompleteWithoutHotkey.UseVisualStyleBackColor = true;
-            this.cbWCCompleteWithoutHotkey.CheckedChanged += new System.EventHandler(this.cbWCCompleteWithoutHotkey_CheckedChanged);
+            this.cbWCCompleteWithoutHotkey.CheckedChanged += new System.EventHandler(this.CbWcCompleteWithoutHotkeyCheckedChanged);
             // 
             // cbWCInsertSpace
             // 
@@ -1114,17 +922,17 @@
             this.cbWCInsertSpace.AutoSize = true;
             this.cbWCInsertSpace.Checked = true;
             this.cbWCInsertSpace.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbWCInsertSpace.Location = new System.Drawing.Point(330, 20);
+            this.cbWCInsertSpace.Location = new System.Drawing.Point(325, 20);
             this.cbWCInsertSpace.Name = "cbWCInsertSpace";
-            this.cbWCInsertSpace.Size = new System.Drawing.Size(177, 17);
+            this.cbWCInsertSpace.Size = new System.Drawing.Size(182, 17);
             this.cbWCInsertSpace.TabIndex = 0;
             this.cbWCInsertSpace.Text = "پس از تکمیل کلمه فاصله درج شود";
             this.cbWCInsertSpace.UseVisualStyleBackColor = true;
             // 
             // gbWCWordCount
             // 
-            this.gbWCWordCount.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbWCWordCount.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.gbWCWordCount.Controls.Add(this.label4);
             this.gbWCWordCount.Controls.Add(this.numUpDownWCWordCount);
             this.gbWCWordCount.Controls.Add(this.rbWCShowMaxWords);
@@ -1180,7 +988,7 @@
             this.rbWCShowMaxWords.TabStop = true;
             this.rbWCShowMaxWords.Text = "نمایش حداکثر";
             this.rbWCShowMaxWords.UseVisualStyleBackColor = true;
-            this.rbWCShowMaxWords.CheckedChanged += new System.EventHandler(this.rbWCShowMaxWords_CheckedChanged);
+            this.rbWCShowMaxWords.CheckedChanged += new System.EventHandler(this.RbWcShowMaxWordsCheckedChanged);
             // 
             // rbWCShowAllWords
             // 
@@ -1215,9 +1023,9 @@
             // 
             // lstShortcuts
             // 
-            this.lstShortcuts.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lstShortcuts.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.lstShortcuts.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.clmnName,
             this.clmnShortcut});
@@ -1231,7 +1039,7 @@
             this.lstShortcuts.TabIndex = 1;
             this.lstShortcuts.UseCompatibleStateImageBehavior = false;
             this.lstShortcuts.View = System.Windows.Forms.View.Details;
-            this.lstShortcuts.SelectedIndexChanged += new System.EventHandler(this.lstShortcuts_SelectedIndexChanged);
+            this.lstShortcuts.SelectedIndexChanged += new System.EventHandler(this.LstShortcutsSelectedIndexChanged);
             // 
             // clmnName
             // 
@@ -1283,7 +1091,7 @@
             this.btnClearHotkey.TabIndex = 4;
             this.btnClearHotkey.Text = "حذف";
             this.btnClearHotkey.UseVisualStyleBackColor = true;
-            this.btnClearHotkey.Click += new System.EventHandler(this.btnClearHotkey_Click);
+            this.btnClearHotkey.Click += new System.EventHandler(this.BtnClearHotkeyClick);
             // 
             // btnAssignHotkey
             // 
@@ -1294,12 +1102,12 @@
             this.btnAssignHotkey.TabIndex = 2;
             this.btnAssignHotkey.Text = "تعیین";
             this.btnAssignHotkey.UseVisualStyleBackColor = true;
-            this.btnAssignHotkey.Click += new System.EventHandler(this.btnAssignShortcut_Click);
+            this.btnAssignHotkey.Click += new System.EventHandler(this.BtnAssignShortcutClick);
             // 
             // lblShortcutDesc
             // 
-            this.lblShortcutDesc.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblShortcutDesc.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.lblShortcutDesc.BackColor = System.Drawing.Color.AntiqueWhite;
             this.lblShortcutDesc.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblShortcutDesc.Location = new System.Drawing.Point(8, 1);
@@ -1314,7 +1122,7 @@
             this.hotkeyControl.Name = "hotkeyControl";
             this.hotkeyControl.Size = new System.Drawing.Size(180, 21);
             this.hotkeyControl.TabIndex = 8;
-            this.hotkeyControl.HotkeyChanged += new System.EventHandler(this.hotkeyControl_HotkeyChanged);
+            this.hotkeyControl.HotkeyChanged += new System.EventHandler(this.HotkeyControlHotkeyChanged);
             // 
             // tbPageAddinSettings
             // 
@@ -1330,8 +1138,8 @@
             // 
             // grpVirastyarUpdate
             // 
-            this.grpVirastyarUpdate.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.grpVirastyarUpdate.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.grpVirastyarUpdate.Controls.Add(this.btnCheckForUpdate);
             this.grpVirastyarUpdate.Controls.Add(this.label12);
             this.grpVirastyarUpdate.Location = new System.Drawing.Point(8, 256);
@@ -1347,14 +1155,14 @@
             this.btnCheckForUpdate.Name = "btnCheckForUpdate";
             this.btnCheckForUpdate.Size = new System.Drawing.Size(160, 23);
             this.btnCheckForUpdate.TabIndex = 4;
-            this.btnCheckForUpdate.Text = "بررسی نسخه‌ی جدید";
+            this.btnCheckForUpdate.Text = "بررسی نسخهٔ جدید";
             this.btnCheckForUpdate.UseVisualStyleBackColor = true;
-            this.btnCheckForUpdate.Click += new System.EventHandler(this.btnCheckForUpdate_Click);
+            this.btnCheckForUpdate.Click += new System.EventHandler(this.BtnCheckForUpdateClick);
             // 
             // label12
             // 
-            this.label12.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label12.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.label12.Location = new System.Drawing.Point(6, 17);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(501, 23);
@@ -1363,9 +1171,9 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox2.Controls.Add(this.linkLabel1);
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.Controls.Add(this.linkLabelViewGatheredInfo);
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Controls.Add(this.rdoSendReportDecline);
             this.groupBox2.Controls.Add(this.rdoSendReportAccept);
@@ -1377,21 +1185,22 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "کمک به بهبود ویراستیار";
             // 
-            // linkLabel1
+            // linkLabelViewGatheredInfo
             // 
-            this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Location = new System.Drawing.Point(337, 155);
-            this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(166, 13);
-            this.linkLabel1.TabIndex = 6;
-            this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "» مشاهده اطلاعات جمع‌آوری شده";
-            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
+            this.linkLabelViewGatheredInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.linkLabelViewGatheredInfo.AutoSize = true;
+            this.linkLabelViewGatheredInfo.Location = new System.Drawing.Point(370, 155);
+            this.linkLabelViewGatheredInfo.Name = "linkLabelViewGatheredInfo";
+            this.linkLabelViewGatheredInfo.Size = new System.Drawing.Size(134, 13);
+            this.linkLabelViewGatheredInfo.TabIndex = 6;
+            this.linkLabelViewGatheredInfo.TabStop = true;
+            this.linkLabelViewGatheredInfo.Text = "» مشاهده اطلاعاتِ ارسالی";
+            this.linkLabelViewGatheredInfo.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabelViewGatheredInfoLinkClicked);
             // 
             // label3
             // 
-            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.label3.Location = new System.Drawing.Point(6, 67);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(498, 88);
@@ -1402,9 +1211,9 @@
             // 
             this.rdoSendReportDecline.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.rdoSendReportDecline.AutoSize = true;
-            this.rdoSendReportDecline.Location = new System.Drawing.Point(413, 208);
+            this.rdoSendReportDecline.Location = new System.Drawing.Point(407, 208);
             this.rdoSendReportDecline.Name = "rdoSendReportDecline";
-            this.rdoSendReportDecline.Size = new System.Drawing.Size(82, 17);
+            this.rdoSendReportDecline.Size = new System.Drawing.Size(88, 17);
             this.rdoSendReportDecline.TabIndex = 4;
             this.rdoSendReportDecline.Text = "موافق نیستم";
             this.rdoSendReportDecline.UseVisualStyleBackColor = true;
@@ -1414,9 +1223,9 @@
             this.rdoSendReportAccept.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.rdoSendReportAccept.AutoSize = true;
             this.rdoSendReportAccept.Checked = true;
-            this.rdoSendReportAccept.Location = new System.Drawing.Point(440, 185);
+            this.rdoSendReportAccept.Location = new System.Drawing.Point(437, 185);
             this.rdoSendReportAccept.Name = "rdoSendReportAccept";
-            this.rdoSendReportAccept.Size = new System.Drawing.Size(55, 17);
+            this.rdoSendReportAccept.Size = new System.Drawing.Size(58, 17);
             this.rdoSendReportAccept.TabIndex = 3;
             this.rdoSendReportAccept.TabStop = true;
             this.rdoSendReportAccept.Text = "موافقم";
@@ -1424,20 +1233,20 @@
             // 
             // label2
             // 
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.Location = new System.Drawing.Point(3, 29);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(501, 33);
             this.label2.TabIndex = 2;
             this.label2.Text = "ویراستیار می‌تواند بصورت خودکار گزارشی از عملکرد و خطاهای رخ‌داده در برنامه را جم" +
-    "ع‌آوری و ارسال کند.\r\nبا فعال‌سازی این قابلیت می‌توانید به بهبود ویراستیار کمک کن" +
-    "ید.";
+                "ع‌آوری و ارسال کند.\r\nبا فعال‌سازی این قابلیت می‌توانید به بهبود ویراستیار کمک کن" +
+                "ید.";
             // 
             // grpResetSettings
             // 
-            this.grpResetSettings.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.grpResetSettings.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.grpResetSettings.Controls.Add(this.btnRestoreDataFiles);
             this.grpResetSettings.Controls.Add(this.btnResetSettings);
             this.grpResetSettings.Controls.Add(this.label5);
@@ -1456,7 +1265,7 @@
             this.btnRestoreDataFiles.TabIndex = 5;
             this.btnRestoreDataFiles.Text = "بازگرداندن فایل‌های دادگان";
             this.btnRestoreDataFiles.UseVisualStyleBackColor = true;
-            this.btnRestoreDataFiles.Click += new System.EventHandler(this.btnRestoreDataFiles_Click);
+            this.btnRestoreDataFiles.Click += new System.EventHandler(this.BtnRestoreDataFilesClick);
             // 
             // btnResetSettings
             // 
@@ -1467,18 +1276,18 @@
             this.btnResetSettings.TabIndex = 4;
             this.btnResetSettings.Text = "بازگرداندن تنظیمات پیش‌فرض";
             this.btnResetSettings.UseVisualStyleBackColor = true;
-            this.btnResetSettings.Click += new System.EventHandler(this.btnResetSettings_Click);
+            this.btnResetSettings.Click += new System.EventHandler(this.BtnResetSettingsClick);
             // 
             // label5
             // 
-            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.label5.Location = new System.Drawing.Point(6, 20);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(501, 31);
             this.label5.TabIndex = 1;
             this.label5.Text = "اگر مشکلی در اجرای قابلیت‌های افزونه مشاهده می‌کنید، می‌توانید تنظیمات یا فایل‌ها" +
-    "ی دادگان ویراستیار را به حالت پیش‌فرض برگردانید:";
+                "ی دادگان ویراستیار را به حالت پیش‌فرض برگردانید:";
             // 
             // errorProvider
             // 
@@ -1505,7 +1314,8 @@
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "تنظیمات افزونه";
-            this.HelpButtonClicked += new System.ComponentModel.CancelEventHandler(this.AddinConfigurationDialog_HelpButtonClicked);
+            this.HelpButtonClicked += new System.ComponentModel.CancelEventHandler(this.AddinConfigurationDialogHelpButtonClicked);
+            this.Shown += new System.EventHandler(this.AddinConfigurationDialog_Shown);
             this.pnlButtonsContainer.ResumeLayout(false);
             this.pnlTabContainer.ResumeLayout(false);
             this.tabCtrlSettings.ResumeLayout(false);
@@ -1515,12 +1325,6 @@
             this.contextMenuStripDictionaries.ResumeLayout(false);
             this.grpDicPath.ResumeLayout(false);
             this.grpDicPath.PerformLayout();
-            this.grpSpellCheckSettings.ResumeLayout(false);
-            this.grpSpellCheckSettings.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nmrMaxSuggestionsCount)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nmrEditDistance)).EndInit();
-            this.tbPageWords.ResumeLayout(false);
-            this.grpSynRhyme.ResumeLayout(false);
             this.tbPageRefineAll.ResumeLayout(false);
             this.grpRefineIgnoreList.ResumeLayout(false);
             this.grpRefineIgnoreList.PerformLayout();
@@ -1566,10 +1370,7 @@
         private System.Windows.Forms.Button btnBrowse;
         private System.Windows.Forms.TextBox txtFileName;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.NumericUpDown nmrEditDistance;
-        private System.Windows.Forms.GroupBox grpSpellCheckSettings;
         private System.Windows.Forms.GroupBox grpDicPath;
-        private System.Windows.Forms.NumericUpDown nmrMaxSuggestionsCount;
         private System.Windows.Forms.TabPage tbPageAddinSettings;
         private System.Windows.Forms.GroupBox grpResetSettings;
         private System.Windows.Forms.Label label5;
@@ -1598,14 +1399,6 @@
         private System.Windows.Forms.ColumnHeader columnDecimal;
         private System.Windows.Forms.Button btnAddLetterToIgnoreList;
         private System.Windows.Forms.Button btnRemoveFromIgnoreList;
-        private System.Windows.Forms.TabPage tbPageWords;
-        private System.Windows.Forms.GroupBox grpSynRhyme;
-        private System.Windows.Forms.LinkLabel lnkRhyme;
-        private System.Windows.Forms.LinkLabel lnkPersian;
-        private System.Windows.Forms.LinkLabel lnkObsolete;
-        private System.Windows.Forms.LinkLabel lnkVulgar;
-        private System.Windows.Forms.LinkLabel lnkOral;
-        private System.Windows.Forms.LinkLabel lnkImpolite;
         private System.Windows.Forms.TabPage tbPageWordCompletion;
         private System.Windows.Forms.GroupBox gbWCWordCount;
         private System.Windows.Forms.RadioButton rbWCShowMaxWords;
@@ -1629,21 +1422,15 @@
         private System.Windows.Forms.LinkLabel linkLabelSpellCheckerAddExistingDic;
         private System.Windows.Forms.LinkLabel linkLabelSpellCheckerCreateDictionary;
         private System.Windows.Forms.ColumnHeader columnHeaderDesc;
-        private System.Windows.Forms.CheckBox cbVocabSpaceCorrection;
-        private System.Windows.Forms.CheckBox cbHaaShisakiToHaaYaa;
         private System.Windows.Forms.TabPage tbPagePreprocessSpell;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.CheckBox cbRefineHeYe;
-        private System.Windows.Forms.CheckBox cbRefineMee;
-        private System.Windows.Forms.CheckBox cbRefineHaa;
         private System.Windows.Forms.CheckBox cbRefineAllAffixes;
-        private System.Windows.Forms.CheckBox cbRefineBe;
+        private System.Windows.Forms.CheckBox cbPrespellCorrectBe;
         private System.Windows.Forms.Button btnClearHotkey;
         private System.Windows.Forms.Label label10;
         private VirastyarWordAddin.Controls.HotkeyBox hotkeyControl;
         private System.Windows.Forms.Button btnResetSettings;
         private System.Windows.Forms.ProgressBar progressBarBuildDictionary;
-        private System.Windows.Forms.CheckBox cbDontCheckSingleLetters;
         private System.Windows.Forms.Label lblCurrentHotkey;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label label2;
@@ -1659,8 +1446,13 @@
         private System.Windows.Forms.Button btnCheckForUpdate;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Button btnRestoreDataFiles;
-        private System.Windows.Forms.LinkLabel linkLabel1;
+        private System.Windows.Forms.LinkLabel linkLabelViewGatheredInfo;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.ToolTip toolTip;
+        private System.Windows.Forms.CheckBox cbConvertShortHeYeToLong;
+        private System.Windows.Forms.CheckBox cbConvertLongHeYeToShort;
+        private System.Windows.Forms.CheckBox cbPrespellCorrectPrefixes;
+        private System.Windows.Forms.CheckBox cbPrespellCorrectSuffixes;
+        private System.Windows.Forms.CheckBox cbRefineAndNormalizeHeYe;
     }
 }

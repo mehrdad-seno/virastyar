@@ -30,7 +30,7 @@ namespace SCICT.NLP.Utility.Parsers
         /// <summary>
         /// HashSet that holds all possible words which can occur in a written form of a number in Persian language.
         /// </summary>
-        private static HashSet<string> setAllChunkWords = new HashSet<string>();
+        private static readonly HashSet<string> s_setAllChunkWords = new HashSet<string>();
 
         /// <summary>
         /// Initializes the <see cref="PersianRealNumberParser"/> class. 
@@ -109,12 +109,12 @@ namespace SCICT.NLP.Utility.Parsers
             AddWordToSet("تریلیون");
             AddWordToSet("ترلیون");
 
-            setAllChunkWords.Add("نیم");
+            s_setAllChunkWords.Add("نیم");
 
-            setAllChunkWords.Add("و");
-            setAllChunkWords.Add("ممیز");
-            setAllChunkWords.Add("منفی");
-            setAllChunkWords.Add("منهای");
+            s_setAllChunkWords.Add("و");
+            s_setAllChunkWords.Add("ممیز");
+            s_setAllChunkWords.Add("منفی");
+            s_setAllChunkWords.Add("منهای");
         }
 
         /// <summary>
@@ -123,28 +123,28 @@ namespace SCICT.NLP.Utility.Parsers
         /// <param name="word">The word to add.</param>
         private static void AddWordToSet(string word)
         {
-            setAllChunkWords.Add(word);
+            s_setAllChunkWords.Add(word);
 
             if (word == "یک")
             {
-                setAllChunkWords.Add("اول");
-                setAllChunkWords.Add(word + "م");
+                s_setAllChunkWords.Add("اول");
+                s_setAllChunkWords.Add(word + "م");
             }
             if (word == "سه")
             {
-                setAllChunkWords.Add("سوم");
+                s_setAllChunkWords.Add("سوم");
             }
             else if (word.EndsWith("ی"))
             {
-                setAllChunkWords.Add(word + "‌ام");
+                s_setAllChunkWords.Add(word + "‌ام");
             }
             else if (word.EndsWith("ن"))
             {
-                setAllChunkWords.Add(word + "یم");
+                s_setAllChunkWords.Add(word + "یم");
             }
             else
             {
-                setAllChunkWords.Add(word + "م");
+                s_setAllChunkWords.Add(word + "م");
             }
 
         }
@@ -162,23 +162,23 @@ namespace SCICT.NLP.Utility.Parsers
             var lstTags = new List<ChunkElement>();
 
             bool isInsideChunk = false;
-            bool isWordProper = false;
+            bool isWordProper;
             string word;
 
             foreach (var wordInfo in WordReadingUtility.ReadWords(input, true))
             {
-                word = wordInfo.Word;
+                word = wordInfo.Value;
                 isWordProper = false;
 
                 #region First See if word is proper or not
-                if (setAllChunkWords.Contains(word))
+                if (s_setAllChunkWords.Contains(word))
                 {
                     isWordProper = true;
                 }
                 else if(word.EndsWith("و"))
                 {
                     string wordWithoutVaav = word.Substring(0, word.Length - 1);
-                    if (setAllChunkWords.Contains(wordWithoutVaav))
+                    if (s_setAllChunkWords.Contains(wordWithoutVaav))
                         isWordProper = true;
                 }
                 else if (word.Length > 0 && Char.IsDigit(word[0]))
@@ -194,19 +194,19 @@ namespace SCICT.NLP.Utility.Parsers
                     {
                         if (lstTags.Count <= 0)
                         {
-                            lstTags.Add(new ChunkElement(word, new long[] { 5L, 10L, MiimNumber },
-                                wordInfo.StartIndex, wordInfo.EndIndex));
+                            lstTags.Add(new ChunkElement(word, new [] { 5L, 10L, MiimNumber },
+                                wordInfo.Index, wordInfo.EndIndex));
                         }
                         else if (lstTags[lstTags.Count - 1].ElementValues.GetLastElement() == VaavNumber)
                         {
                             lstTags[lstTags.Count - 1].ElementValues.SetLastElement(MomayezNumber);
-                            lstTags.Add(new ChunkElement(word, new long[] { 5L, 10L, MiimNumber },
-                                wordInfo.StartIndex, wordInfo.EndIndex));
+                            lstTags.Add(new ChunkElement(word, new [] { 5L, 10L, MiimNumber },
+                                wordInfo.Index, wordInfo.EndIndex));
                         }
                         else
                         {
-                            lstTags.Add(new ChunkElement(word, new long[] { MomayezNumber, 5L, 10L, MiimNumber },
-                                wordInfo.StartIndex, wordInfo.EndIndex));
+                            lstTags.Add(new ChunkElement(word, new [] { MomayezNumber, 5L, 10L, MiimNumber },
+                                wordInfo.Index, wordInfo.EndIndex));
                         }
                     }
                     else
@@ -218,11 +218,11 @@ namespace SCICT.NLP.Utility.Parsers
                             numValue = GetWordNumericValue(wordWithoutVaav);
                             if (numValue == InvalidNumber)
                             {
-                                lstTags.Add(new ChunkElement(word, numValue, wordInfo.StartIndex, wordInfo.EndIndex ));
+                                lstTags.Add(new ChunkElement(word, numValue, wordInfo.Index, wordInfo.EndIndex ));
                             }
                             else
                             {
-                                lstTags.Add(new ChunkElement(wordWithoutVaav, numValue, wordInfo.StartIndex, wordInfo.EndIndex - 1 ));
+                                lstTags.Add(new ChunkElement(wordWithoutVaav, numValue, wordInfo.Index, wordInfo.EndIndex - 1 ));
                                 lstTags.Add(new ChunkElement("و", VaavNumber, wordInfo.EndIndex, wordInfo.EndIndex));
                             }
                         }
@@ -236,18 +236,18 @@ namespace SCICT.NLP.Utility.Parsers
                                 //}
                                 //else
                                 //{
-                                    lstTags.Add(new ChunkElement(word, new long[] { numValue, MiimNumber }, wordInfo.StartIndex, wordInfo.EndIndex));
+                                    lstTags.Add(new ChunkElement(word, new [] { numValue, MiimNumber }, wordInfo.Index, wordInfo.EndIndex));
                                 //}
                             }
                             else
                             {
-                                lstTags.Add(new ChunkElement(word, numValue, wordInfo.StartIndex, wordInfo.EndIndex));
+                                lstTags.Add(new ChunkElement(word, numValue, wordInfo.Index, wordInfo.EndIndex));
                             }
                         }
                     }
 
                     if (!isInsideChunk)
-                        chunkStart = wordInfo.StartIndex;
+                        chunkStart = wordInfo.Index;
                     chunkEnd = wordInfo.EndIndex;
 
                     if ( lstTags[lstTags.Count - 1].ElementValues.GetLastElement() == MiimNumber)
@@ -287,7 +287,7 @@ namespace SCICT.NLP.Utility.Parsers
         /// <returns></returns>
         public IEnumerable<GeneralNumberInfo> FindAndParse(string input)
         {
-            List<GeneralNumberInfo> lstNumberInfos = new List<GeneralNumberInfo>();
+            var lstNumberInfos = new List<GeneralNumberInfo>();
             
             foreach (ChunkInfo chunk in FindChunks(input))
             {
@@ -374,7 +374,7 @@ namespace SCICT.NLP.Utility.Parsers
 
             if (lstValues.Count > 0)
             {
-                List<GeneralNumberInfo> lstNumbers = new List<GeneralNumberInfo>();
+                var lstNumbers = new List<GeneralNumberInfo>();
 
                 if (lstValues.Count == 1)
                 {
@@ -672,12 +672,12 @@ namespace SCICT.NLP.Utility.Parsers
                 if (lstValues.Count == 1)
                 {
                     if (lstValues[0] >= 0)
-                        return new long[] {lstValues[0]};
+                        return new [] {lstValues[0]};
                 }
                 else
                 {
                     long n = GenerateIntegralPartFrom(lstValues, 0, lstValues.Count - 1);
-                    return new long[] { n };
+                    return new [] { n };
                 }
             }
             catch (NumberSeperationException ex)
@@ -685,7 +685,7 @@ namespace SCICT.NLP.Utility.Parsers
                 int exIndex = ex.Index;
                 if (exIndex < 0) exIndex = 0;
 
-                List<long> lstChunks = new List<long>();
+                var lstChunks = new List<long>();
 
                 if (exIndex >= 0 && exIndex < lstValues.Count - 1)
                 {
@@ -697,7 +697,7 @@ namespace SCICT.NLP.Utility.Parsers
             }
             catch (Exception ex)
             {
-                Debug.Print("Met General Exception\r\n" + ex.ToString());
+                Debug.Print("Met General Exception\r\n" + ex);
             }
             return new long[0];
         }
@@ -737,7 +737,7 @@ namespace SCICT.NLP.Utility.Parsers
             {
                 if (lstValues[0] >= 0)
                 {
-                    return new GeneralNumberInfo[] { new GeneralNumberInfo(chunk.Content, lstValues[0], null, chunk.StartIndex, chunk.EndIndex, chunk.ListChunkElements) };
+                    return new [] { new GeneralNumberInfo(chunk.Content, lstValues[0], null, chunk.StartIndex, chunk.EndIndex, chunk.ListChunkElements) };
                 }
                 else
                 {
@@ -751,15 +751,15 @@ namespace SCICT.NLP.Utility.Parsers
                 {
                     long n = GenerateIntegralPartFrom(lstValues, 0, lstValues.Count - 1);
 
-                    GeneralNumberInfo info = new GeneralNumberInfo(chunk.Content, n, null, chunk.StartIndex, chunk.EndIndex, chunk.ListChunkElements);
-                    return new GeneralNumberInfo[] { info };
+                    var info = new GeneralNumberInfo(chunk.Content, n, null, chunk.StartIndex, chunk.EndIndex, chunk.ListChunkElements);
+                    return new [] { info };
                 }
                 catch (NumberSeperationException ex)
                 {
                     int exIndex = ex.Index;
                     if (exIndex < 0) exIndex = 0;
 
-                    List<GeneralNumberInfo> lstChunks = new List<GeneralNumberInfo>();
+                    var lstChunks = new List<GeneralNumberInfo>();
                     int chunkIndex = chunk.GetChunkIndexFromValueIndex(exIndex);
 
                     if (chunkIndex >= 0 && chunkIndex < chunk.ListChunkElements.Count - 1)
@@ -911,9 +911,9 @@ namespace SCICT.NLP.Utility.Parsers
                     throw new NumberSeperationException("Values cannot from a floating part", dotIndex, 0);
                 }
             }
-            catch (NumberSeperationException ex)
+            catch (NumberSeperationException)
             {
-                throw ex;
+                throw;
             }
             catch /* (Exception ex) */
             {
@@ -1316,7 +1316,7 @@ namespace SCICT.NLP.Utility.Parsers
                 if (IsFraction)
                 {
                     double fracValue = FloatingPart.GetDoubleValue();
-                    StringBuilder strFraction = new StringBuilder();
+                    var strFraction = new StringBuilder();
 
                     if (fracValue != 0.0)
                     {
@@ -1746,11 +1746,11 @@ namespace SCICT.NLP.Utility.Parsers
         /// <returns></returns>
         public static string ListToString<T>(IEnumerable<T> seq)
         {
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
 
-            foreach (T t in seq)
+            foreach (var t in seq)
             {
-                sb.AppendFormat("{0}", t.ToString());
+                sb.AppendFormat("{0}", t);
             }
             return sb.ToString();
         }
@@ -1816,7 +1816,7 @@ namespace SCICT.NLP.Utility.Parsers
         /// <param name="startIndex">The start index.</param>
         /// <param name="endIndex">The end index.</param>
         public ChunkElement(string content, long elementValue, int startIndex, int endIndex)
-            :this(content, new long[] {elementValue}, startIndex, endIndex)
+            :this(content, new [] {elementValue}, startIndex, endIndex)
         {
         }
 
@@ -1843,7 +1843,7 @@ namespace SCICT.NLP.Utility.Parsers
         /// </returns>
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
 
             foreach (long l in ElementValues)
             {
@@ -1875,7 +1875,7 @@ namespace SCICT.NLP.Utility.Parsers
         /// <returns></returns>
         public static bool AreEqual(ChunkElement a, ChunkElement b)
         {
-            if (object.Equals(a, b))
+            if (Object.Equals(a, b))
                 return true;
 
             if (a.StartIndex == b.StartIndex &&
@@ -1984,7 +1984,7 @@ namespace SCICT.NLP.Utility.Parsers
         /// <returns></returns>
         public static IEnumerable<int> FindAllIndeces<TSource>(this List<TSource> source, TSource key)
         {
-            List<int> indexes = new List<int>();
+            var indexes = new List<int>();
             for (int i = 0; i < source.Count; ++i)
             {
                 if (source[i].Equals(key))

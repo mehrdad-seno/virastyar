@@ -6,7 +6,8 @@ namespace SCICT.Microsoft.Office.Word.ContentReader
     /// <summary>
     /// This class manipulates an MS-Word Document.
     /// </summary>
-    [SupportedDocTypesAtrribute("doc", "docx", "rtf", "docm", "dot", "dotx", "dotm", "txt", "html", "htm")]
+    [Obsolete("Use DocumentUtils and RangeWrapper instead!", true)]
+    //[SupportedDocTypesAtrribute("doc", "docx", "rtf", "docm", "dot", "dotx", "dotm", "txt", "html", "htm")]
     public class MSWordDocument : IDocument, IDisposable
     {
         #region Private Fields

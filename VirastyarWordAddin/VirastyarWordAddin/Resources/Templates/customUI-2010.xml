@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<customUI xmlns="http://schemas.microsoft.com/office/2006/01/customui">
+    <ribbon>
+        <tabs>
+            <tab id="TabVirastyar" label="Virastyar" keytip="Z">
+                <group id="grpRefinement" label="اصلاحات">
+                    <button id="btnCheckSpell" label="غلط‌یاب املایی" size="large" image="IconVirastyar" onAction="VirastyarCheckSpell_Action2" keytip="S"/>
+                    <button id="btnPreprocessSpellCheck" label="پیش‌پردازش املایی" image="IconPrespell" onAction="VirastyarPreCheckSpell_Action2" keytip="PR"/>
+                    <button id="btnRefineAllChars" label="اصلاح نویسه‌های متن" image="IconCharRefiner" onAction="VirastyarRefineAllCharacters_Action2" keytip="R"/>
+                    <separator id="separator1" />
+                    <button id="btnPunctuation" label="اصلاح علائم نگارشی" image="IconPunc" onAction="VirastyarCheckPunctuation_Action2" keytip="PN"/>
+                    <button id="btnPunctuationAll" label="اصلاح یکباره علائم نگارشی" image="IconPuncAll" onAction="VirastyarCheckAllPunctuation_Action2" keytip="PA"/>
+                </group>
+                <group id="grpConversion" label="تبدیلات">
+                    <button id="btnPinglishConvert" label="تبدیل پینگلیش" image="IconPinglish" keytip="PC" />
+                    <button id="btnPinglishConvertAll" label="تبدیل یکباره پینگلیش" image="IconPinglishAll" keytip="PG" />
+                    <separator id="separator2" />
+                    <button id="btnNumberConvertor" label="تبدیل اعداد" image="IconNumber" onAction="VirastyarCheckNumbers_Action2" keytip="N"/>
+                    <button id="btnDateConvertor" label="تبدیل تاریخ" image="IconDate" onAction="VirastyarCheckDates_Action2" keytip="D"/>
+                </group>
+                <group id="grpSettings" label="تنظیمات">
+                    <button id="btnAddinSettings" label="تنظیمات" image="IconSettings" onAction="VirastyarAddinSettings_Action2" keytip="T" />
+                    <button id="btnAbout" label="درباره ویراستیار" image="IconAbout" onAction="VirastyarAbout_Action2" keytip="H"/>
+                </group>
+            </tab>
+        </tabs>
+    </ribbon>
+</customUI>

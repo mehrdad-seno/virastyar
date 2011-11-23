@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
+using System.Xml.Linq;
 using NLog;
 using YAXLib;
 using NLog.LayoutRenderers;
@@ -77,7 +78,7 @@ namespace VirastyarWordAddin.Log
         [YAXSerializableField]
         public string OfficeVersion
         {
-            get { return Globals.ThisAddIn.Application.Version; }
+            get { return ThisAddIn.OfficeVersion; }
         }
 
         [YAXSerializableField]
@@ -97,6 +98,8 @@ namespace VirastyarWordAddin.Log
         }
 
         [YAXSerializableField]
+        [YAXCustomSerializer(typeof(CDataCustomSerializer))]
+        [YAXCustomDeserializer(typeof(CDataCustomSerializer))]
         public string ExceptionInfo
         {
             get;
@@ -123,6 +126,8 @@ namespace VirastyarWordAddin.Log
         }
 
         [YAXSerializableField]
+        [YAXCustomSerializer(typeof(CDataCustomSerializer))]
+        [YAXCustomDeserializer(typeof(CDataCustomSerializer))]
         public string StackTraceInfo
         {
             get
@@ -273,6 +278,53 @@ namespace VirastyarWordAddin.Log
 
         #endregion
 
+        #endregion
+    }
+
+    public class CDataCustomSerializer : ICustomSerializer<string>, ICustomDeserializer<string>
+    {
+        public string DeserializeFromElement(XElement element)
+        {
+            foreach (var node in element.Nodes())
+            {
+                if (node is XCData)
+                {
+                    return (node as XCData).Value;
+                }
+            }
+
+            return "NotFound";
+        }
+
+        public void SerializeToElement(string objectToSerialize, System.Xml.Linq.XElement elemToFill)
+        {
+            if (objectToSerialize != null)
+                elemToFill.Add(new XCData(objectToSerialize));
+            else
+                elemToFill.Add("");
+        }
+
+        #region Not Used
+
+        public void SerializeToAttribute(string objectToSerialize, System.Xml.Linq.XAttribute attrToFill)
+        {
+        }
+
+        public string SerializeToValue(string objectToSerialize)
+        {
+            return "NotImplemented";
+        }
+
+        public string DeserializeFromAttribute(XAttribute attrib)
+        {
+            return "NotImplemented";
+        }
+
+
+        public string DeserializeFromValue(string value)
+        {
+            return "NotImplemented";
+        }
         #endregion
     }
 }

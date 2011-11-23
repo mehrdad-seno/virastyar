@@ -1,7 +1,6 @@
 ﻿// Author: Omid Kashefi 
 // Created on: 2010-March-08
-// Last Modified: Omid Kashefi at 2010-March-08
-//
+// Last Modified: Omid Kashefi at 2010-March-08//
 
 using System;
 using System.Collections.Generic;
@@ -400,6 +399,8 @@ namespace SCICT.Utility.SpellChecker
                 while (!reader.EndOfStream)
                 {
                     string line = reader.ReadLine();
+
+                    // TODO: Use the new tokenizer
                     string[] words = line.Split(PersianAlphabets.Delimiters.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
 
                     //string[] words = StringUtil.ExtractPersianWordsStandardized(line);
@@ -976,18 +977,18 @@ namespace SCICT.Utility.SpellChecker
         ///<returns>Sorted List</returns>
         public string[] Sort(string[] words)
         {
-            string[] existingWords = ExtractModestUsedWordsFromList(ref words);
+            var existingWords = ExtractModestUsedWordsFromList(ref words);
 
-            List<string> finalList = new List<string>(existingWords);
+            var finalList = new List<string>(existingWords);
             finalList.AddRange(words);
 
             return finalList.ToArray();
         }
 
-        private string[] ExtractModestUsedWordsFromList(ref string[] words)
+        private IEnumerable<string> ExtractModestUsedWordsFromList(ref string[] words)
         {
-            List<string> wordList = new List<string>(words);
-            List<string> existingWords = new List<string>();
+            var wordList = new List<string>(words);
+            var existingWords = new List<string>();
             
             //foreach (KeyValuePair<string, int> pair in this.m_entry)
             foreach (string str in this.m_entry)
@@ -1001,9 +1002,7 @@ namespace SCICT.Utility.SpellChecker
 
             words = wordList.ToArray();
             existingWords.Reverse();
-            return existingWords.ToArray();
+            return existingWords;
         }
-        
     }
 }
-
