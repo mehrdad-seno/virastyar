@@ -16,21 +16,40 @@ namespace SCICT.NLP.Utility.Parsers
         /// <summary>
         /// List of patterns that should be checked in the end of each input
         /// </summary>
-        private List<string> listEndingPatterns = new List<string>();
+        private List<string> m_listEndingPatterns = new List<string>();
 
         /// <summary>
         /// List of search node which provide the means for reading from each ending pattern
         /// character by character or disable each node during the process.
         /// </summary>
-        private List<SearchNode> listSearchNodes = new List<SearchNode>();
+        private List<SearchNode> m_listSearchNodes = new List<SearchNode>();
 
         /// <summary>
         /// An instance of the <see cref="ReverseStringReader"/> class that helps 
         /// reading a string content in reverse order in linear time.
         /// </summary>
-        private ReverseStringReader reverseStringReader = new ReverseStringReader();
+        private readonly ReverseStringReader m_reverseStringReader = new ReverseStringReader();
+
+        /// <summary>
+        /// The delegate to post processing rules
+        /// </summary>
+        private PostProcessRule m_postProcessRule;
 
         #endregion
+
+        #region Delegates
+
+        /// <summary>
+        /// Use this delegate to pass methods which performs post-processing on returning results.
+        /// </summary>
+        /// <param name="baseWord">The base word to be modified.</param>
+        /// <param name="suffix">The suffix to be modified.</param>
+        /// <param name="baseWords">The new base words to be added.</param>
+        /// <param name="suffixes">The new suffixes to be added.</param>
+        public delegate void PostProcessRule(string baseWord, string suffix, out string[] baseWords, out string[] suffixes);
+
+        #endregion
+
 
         #region Methods
 
@@ -40,22 +59,23 @@ namespace SCICT.NLP.Utility.Parsers
         /// <param name="patterns">The sequence of patterns to add.</param>
         public void SetEndingPatterns(IEnumerable<string> patterns)
         {
-            listEndingPatterns.Clear();
+            m_listEndingPatterns.Clear();
             foreach (string str in patterns)
             {
                 AddEndingPattern(str, false);
             }
 
-            listEndingPatterns = listEndingPatterns.Distinct().ToList();
+            m_listEndingPatterns = m_listEndingPatterns.Distinct().ToList();
 
-            listSearchNodes = SearchNode.CreateSearchNodeList(listEndingPatterns);
+            m_listSearchNodes = SearchNode.CreateSearchNodeList(m_listEndingPatterns);
         }
 
         /// <summary>
-        /// Adds all possible pattern-combinations of an ending-pattern string 
+        /// Adds all possible pattern-combinations of an ending-pattern string
         /// to the list of ending patterns.
         /// </summary>
         /// <param name="pattern">The pattern string to add</param>
+        /// <param name="checkDuplicates">if set to <c>true</c> checks duplicate patterns.</param>
         private void AddEndingPattern(string pattern, bool checkDuplicates)
         {
             string revPattern = ReverseString(pattern.Trim());
@@ -71,6 +91,7 @@ namespace SCICT.NLP.Utility.Parsers
         /// has not been already added.
         /// </summary>
         /// <param name="pattern">The pattern to add.</param>
+        /// <param name="checkDuplicates">if set to <c>true</c> checks duplicate patterns.</param>
         private void AddAtomicEndingPattern(string pattern, bool checkDuplicates)
         {
             //if (pattern.Length > 0 && !listEndingPatterns.Contains(pattern))
@@ -79,12 +100,12 @@ namespace SCICT.NLP.Utility.Parsers
             {
                 if (checkDuplicates)
                 {
-                    if (!listEndingPatterns.Contains(pattern))
-                        listEndingPatterns.Add(pattern);
+                    if (!m_listEndingPatterns.Contains(pattern))
+                        m_listEndingPatterns.Add(pattern);
                 }
                 else
                 {
-                    listEndingPatterns.Add(pattern);
+                    m_listEndingPatterns.Add(pattern);
                 }
             }
         }
@@ -95,14 +116,14 @@ namespace SCICT.NLP.Utility.Parsers
         /// </summary>
         /// <param name="pat">The input pattern.</param>
         /// <returns></returns>
-        private IEnumerable<string> GeneratePossiblePatterns(string pat)
+        private static IEnumerable<string> GeneratePossiblePatterns(string pat)
         {
-            List<string> lstPatterns = new List<string>();
+            var lstPatterns = new List<string>();
             foreach (char ch in pat)
             {
                 if (IsOptionalSymbol(ch))
                 {
-                    List<string> newList = new List<string>();
+                    var newList = new List<string>();
                     if (lstPatterns.Count <= 0)
                         lstPatterns.Add("");
 
@@ -138,9 +159,9 @@ namespace SCICT.NLP.Utility.Parsers
         /// Reverses the specified string.
         /// </summary>
         /// <param name="str">The string to reverse.</param>
-        private string ReverseString(string str)
+        private static string ReverseString(string str)
         {
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
             for (int i = str.Length - 1; i >= 0; i--)
             {
                 sb.Append(str[i]);
@@ -158,7 +179,7 @@ namespace SCICT.NLP.Utility.Parsers
         /// <param name="chPattern">The character from pattern string.</param>
         /// <param name="chInput">The character from input string.</param>
         /// <returns></returns>
-        private bool AreCharactersEqual(char chPattern, char chInput)
+        private static bool AreCharactersEqual(char chPattern, char chInput)
         {
             if (chPattern == chInput)
             {
@@ -280,64 +301,95 @@ namespace SCICT.NLP.Utility.Parsers
         /// </summary>
         private void ResetSearchNodes()
         {
-            foreach (SearchNode node in listSearchNodes)
+            foreach (SearchNode node in m_listSearchNodes)
             {
                 node.Reset();
             }
         }
 
+        /// <summary>
+        /// Sets the post process rule. The rule is passed in the form of a delagate.
+        /// </summary>
+        /// <param name="ruleMethod">The post process rule method.</param>
+        public void SetPostProcessRule(PostProcessRule ruleMethod)
+        {
+            if (m_postProcessRule == null)
+                m_postProcessRule = ruleMethod;
+        }
+
+        /// <summary>
+        /// Matches the input string with the ending patterns provided before and returns a
+        /// sequence of <see cref="ReversePatternMatcherPatternInfo"/> objects which will hold information of the matched pattern.
+        /// </summary>
+        /// <param name="input">The input.</param>
+        /// <returns></returns>
         public ReversePatternMatcherPatternInfo[] Match(string input)
         {
             return Match(input, false);
         }
 
         /// <summary>
-        /// Matches the input string with the ending patterns provided before and returns a 
+        /// Matches the input string with the ending patterns provided before and returns a
         /// sequence of <see cref="ReversePatternMatcherPatternInfo"/> objects which will hold information of the matched pattern.
         /// </summary>
         /// <param name="input">The input.</param>
+        /// <param name="uniqueResults">if set to <c>true</c> returns unique results only.</param>
         /// <returns></returns>
         public ReversePatternMatcherPatternInfo[] Match(string input, bool uniqueResults)
         {
-            List<ReversePatternMatcherPatternInfo> lstFounds = new List<ReversePatternMatcherPatternInfo>();
+            var lstFoundPats = new List<ReversePatternMatcherPatternInfo>();
             if (input.Length <= 0)
-                return lstFounds.ToArray();
+                return lstFoundPats.ToArray();
 
             ResetSearchNodes();
-            bool[] inactiveSearchNodes = new bool[listSearchNodes.Count]; // automatically initialized to false
+            bool[] inactiveSearchNodes = new bool[m_listSearchNodes.Count]; // automatically initialized to false
 
             SearchNode curNode;
             bool removeNode = true;
 
-            char curChar = reverseStringReader.ReadFirstChar(input);
-            while (reverseStringReader.HasMoreChars())
+            char curChar = m_reverseStringReader.ReadFirstChar(input);
+            while (m_reverseStringReader.HasMoreChars())
             {
-                for (int j = listSearchNodes.Count - 1; j >= 0; j--)
+                for (int j = m_listSearchNodes.Count - 1; j >= 0; j--)
                 {
                     if (!inactiveSearchNodes[j])
                     {
                         removeNode = true; // the node should be removed by default unless it matches the input
-                        curNode = listSearchNodes[j];
+                        curNode = m_listSearchNodes[j];
                         if (curNode.Finished)
                         {
-                            ReversePatternMatcherPatternInfo foundPattern =
-                                new ReversePatternMatcherPatternInfo(
-                                    input.Substring(0, reverseStringReader.GetCurrentIndex() + 1),
-                                    input.Substring(reverseStringReader.GetCurrentIndex() + 1)
-                                );
+                            string baseWord = input.Substring(0, m_reverseStringReader.GetCurrentIndex() + 1);
+                            string suffix = input.Substring(m_reverseStringReader.GetCurrentIndex() + 1);
 
-                            if (!uniqueResults)
+                            string[] newBaseWords = null, newSuffixes = null;
+                            if (m_postProcessRule != null)
                             {
-                                lstFounds.Insert(0, foundPattern);
+                                m_postProcessRule(baseWord, suffix, out newBaseWords, out newSuffixes);
                             }
                             else
                             {
-                                if(!lstFounds.Contains(foundPattern))
-                                    lstFounds.Insert(0, foundPattern);
+                                newBaseWords = new[] {baseWord};
+                                newSuffixes = new[] {suffix};
                             }
 
+                            int len = newBaseWords == null ? 0 : newBaseWords.Length;
+                            for(int i = 0; i < len; i++)
+                            {
+                                var foundPattern =
+                                    new ReversePatternMatcherPatternInfo(newBaseWords[i], newSuffixes[i]);
+
+                                if (!uniqueResults)
+                                {
+                                    lstFoundPats.Insert(0, foundPattern);
+                                }
+                                else
+                                {
+                                    if (!lstFoundPats.Contains(foundPattern))
+                                        lstFoundPats.Insert(0, foundPattern);
+                                }
+                            }
                         }
-                        else
+                        else // if not curNode is finished
                         {
                             try
                             {
@@ -355,12 +407,12 @@ namespace SCICT.NLP.Utility.Parsers
                     }
                 } // for ... nodes
 
-                if (listSearchNodes.Count <= 0) break;
+                if (m_listSearchNodes.Count <= 0) break;
 
-                curChar = reverseStringReader.ReadNextChar();
+                curChar = m_reverseStringReader.ReadNextChar();
             } 
 
-            return lstFounds.ToArray();
+            return lstFoundPats.ToArray();
         }
 
         #endregion
@@ -770,40 +822,6 @@ namespace SCICT.NLP.Utility.Parsers
         /// <param name="suffix">The affix.</param>
         public ReversePatternMatcherPatternInfo(string baseWord, string suffix)
         {
-
-            baseWord = StringUtil.TrimEndArabicWord(baseWord);
-            suffix = StringUtil.TrimStartArabicWord(suffix);
-
-            //int i;
-            //for (i = body.Length - 1;
-            //    i >= 0 &&
-            //        (body[i] == ReversePatternMatcher.HalfSpace ||
-            //         Char.IsWhiteSpace(body[i]));
-            //     --i) 
-            //{ }
-
-            //int prefLen = i + 1;
-            //if (prefLen < body.Length)
-            //{
-            //    affix = body.Substring(prefLen) + affix;
-            //    body = body.Substring(0, prefLen);
-            //}
-
-
-
-            #region Apply word construction rules
-            if (suffix.StartsWith("ان") && baseWord.EndsWith("ای")) // e.g. خدایان
-            {
-                baseWord = baseWord.Substring(0, baseWord.Length - 1); // remove last letter
-                suffix = "ی" + suffix;
-            }
-            else if (suffix.StartsWith("گان") && !suffix.StartsWith("گانه") && !baseWord.EndsWith("ه")) // e.g. پرندگان
-            {
-                baseWord = baseWord + "ه";
-            }
-            #endregion
-
-
             BaseWord = baseWord;
             Suffix = suffix;
         }
@@ -831,7 +849,10 @@ namespace SCICT.NLP.Utility.Parsers
         /// </exception>
         public override bool Equals(object obj)
         {
-            ReversePatternMatcherPatternInfo theObj = obj as ReversePatternMatcherPatternInfo;
+            if (Object.ReferenceEquals(this, obj))
+                return true;
+
+            var theObj = obj as ReversePatternMatcherPatternInfo;
             if(theObj == null) return false;
 
             return ((this.Suffix == theObj.Suffix) && (this.BaseWord == theObj.BaseWord));

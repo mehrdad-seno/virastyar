@@ -344,7 +344,7 @@
             this.DeleteAllButton.Size = new System.Drawing.Size(80, 23);
             this.DeleteAllButton.TabIndex = 1;
             this.DeleteAllButton.Text = "کلاً پاک کن";
-            this.MessageToolTip.SetToolTip(this.DeleteAllButton, "همه‌ی کلمات را از لغت‌نامه حذف می‌کند.");
+            this.MessageToolTip.SetToolTip(this.DeleteAllButton, "همهٔ کلمات را از لغت‌نامه حذف می‌کند.");
             this.DeleteAllButton.UseVisualStyleBackColor = true;
             this.DeleteAllButton.Click += new System.EventHandler(this.DeleteAllButton_Click);
             // 

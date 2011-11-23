@@ -40,12 +40,15 @@
     <Lib Include="SpellChecker\WordGenerator\WordGenerator.csproj" />
     <Lib Include="StringDistance\StringDistance.Lib\StringDistance.Lib.csproj" />
     <Lib Include="MorphologyAnalyser\MorphologyAnalyser.Lib\MorphologyAnalyser.Lib.csproj" />
-    <Lib Include="Lemmatization\Lemmatization.Lib\Lemmatization.Lib.csproj" />
     <Lib Include="LanguageModel\LanguageModel\LanguageModel.csproj" />
 	<Lib Include="SpellChecker\SpellChecker.Lib\SpellChecker.Lib.csproj" />
     <Lib Include="Punctuation\PunctuationChecker.Lib\Punctuation.Lib.csproj" />
     <Lib Include="PinglishConverter\PinglishConverter.Lib\PinglishConverter.Lib.csproj" />
+	<Lib Include="PinglishConverter\Transliterator\Transliterator.csproj" />
+	<Lib Include="PartOfSpeechTagger\PartOfSpeechTagger\PartOfSpeechTagger.csproj" />
   </ItemGroup>
+
+  <!-- TODO SynonymSuggester AutoTextInsertion-->
 
   <ItemGroup>
     <Addin Include="VirastyarWordAddin\VirastyarWordAddin.sln" />

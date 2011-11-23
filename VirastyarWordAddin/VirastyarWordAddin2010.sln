@@ -3,6 +3,10 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirastyarWordAddin", "VirastyarWordAddin2010\VirastyarWordAddin.csproj", "{BC3B7D49-D0D8-4720-8F5E-7EC3B56EB8C8}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setupx64", "Setupx64\Setupx64.vdproj", "{59A7B61A-85EA-419D-A9BC-70E6831593CF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirastyarCustomInstaller.netfx4", "VirastyarCustomInstaller\VirastyarCustomInstaller.netfx4.csproj", "{C8F9EC89-C10B-49EF-8929-445A3262A6AC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +23,20 @@ Global
 		{BC3B7D49-D0D8-4720-8F5E-7EC3B56EB8C8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BC3B7D49-D0D8-4720-8F5E-7EC3B56EB8C8}.ReleaseWithSetup|Any CPU.ActiveCfg = Release|Any CPU
 		{BC3B7D49-D0D8-4720-8F5E-7EC3B56EB8C8}.ReleaseWithSetup|Any CPU.Build.0 = Release|Any CPU
+		{59A7B61A-85EA-419D-A9BC-70E6831593CF}.Debug|Any CPU.ActiveCfg = Debug
+		{59A7B61A-85EA-419D-A9BC-70E6831593CF}.DebugWithSetup|Any CPU.ActiveCfg = Debug
+		{59A7B61A-85EA-419D-A9BC-70E6831593CF}.DebugWithSetup|Any CPU.Build.0 = Debug
+		{59A7B61A-85EA-419D-A9BC-70E6831593CF}.Release|Any CPU.ActiveCfg = Release
+		{59A7B61A-85EA-419D-A9BC-70E6831593CF}.ReleaseWithSetup|Any CPU.ActiveCfg = Release
+		{59A7B61A-85EA-419D-A9BC-70E6831593CF}.ReleaseWithSetup|Any CPU.Build.0 = Release
+		{C8F9EC89-C10B-49EF-8929-445A3262A6AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8F9EC89-C10B-49EF-8929-445A3262A6AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8F9EC89-C10B-49EF-8929-445A3262A6AC}.DebugWithSetup|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8F9EC89-C10B-49EF-8929-445A3262A6AC}.DebugWithSetup|Any CPU.Build.0 = Debug|Any CPU
+		{C8F9EC89-C10B-49EF-8929-445A3262A6AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8F9EC89-C10B-49EF-8929-445A3262A6AC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8F9EC89-C10B-49EF-8929-445A3262A6AC}.ReleaseWithSetup|Any CPU.ActiveCfg = Release|Any CPU
+		{C8F9EC89-C10B-49EF-8929-445A3262A6AC}.ReleaseWithSetup|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

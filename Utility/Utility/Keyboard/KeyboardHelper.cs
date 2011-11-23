@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using SCICT.Microsoft.Win32;
+using SCICT.Microsoft.Windows;
 using ManagedWinapi;
 
 namespace SCICT.Utility.Keyboard

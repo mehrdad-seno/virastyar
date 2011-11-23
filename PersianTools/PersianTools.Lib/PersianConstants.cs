@@ -7,6 +7,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using SCICT.NLP.Utility;
 
 namespace SCICT.NLP.Persian.Constants
 {
@@ -14,30 +15,113 @@ namespace SCICT.NLP.Persian.Constants
 
     /// <summary>
     /// Holds PseudoSpace related constants
+    /// TODO: Complete this class based on unicode spaces, specified here:
+    /// http://www.cs.tut.fi/~jkorpela/chars/spaces.html
+    /// http://www.alanwood.net/unicode/general_punctuation.html
     /// </summary>
     public static class PseudoSpace
     {
         /// <summary>
         /// The main standard PseudoSpace (Zero Width Non-Joiner)
+        /// Value: U+200C
         /// </summary>
         public static readonly char ZWNJ = '\u200C';
 
         /// <summary>
         /// alternative PseudoSpace (Zero Width Space)
+        /// Value: U+200B
         /// </summary>
         public static readonly char ZWS = '\u200B';
 
         /// <summary>
         /// alternative PseudoSpace (Zero Width Joiner)
+        /// Value: U+200D
         /// </summary>
         public static readonly char ZWJ = '\u200D';
 
         /// <summary>
         /// alternative PseudoSpace used by Microsoft Word (Ctrl + -)
+        /// Value: U+00AC
         /// </summary>
         public static readonly char MSWPS = '\u00AC';
+    }
 
-        static PseudoSpace()
+    #endregion
+
+    #region He-Ye
+
+    /// <summary>
+    /// Holds He-ye related constants
+    /// </summary>
+    public static class HeYe
+    {
+        /// <summary>
+        /// A single hamza letter which is going to be used as the standard short-from Ye.
+        /// </summary>
+        public static readonly char ArabicHamzaAbove = '\u0654'; // The *final* char in: هٔ
+
+        /// <summary>
+        /// A single character containing both He and Ye in a single glyph.
+        /// This is a non-standard character in Persian contexts.
+        /// </summary>
+        public static readonly char ArabicHeWithYeAbove = '\u06C0'; // ۀ
+
+        /// <summary>
+        /// A single character containing both He and Ye in a single glyph. 
+        /// This is a non-standard character in Persian contexts.
+        /// </summary>
+        public static readonly char ArabicHeGoalWithYeAbove = '\u06C2'; // 
+
+        /// <summary>
+        /// Arabic Hamzah, which is sometimes used as Yeh following Pseudo-space and Heh
+        /// </summary>
+        public static readonly char ArabicHamzah = '\u0621';
+
+        /// <summary>
+        /// Standard character He
+        /// </summary>
+        public static readonly char He = 'ه';
+
+        /// <summary>
+        /// Standard form of writing long HeYe (i.e., ه‌ی)
+        /// </summary>
+        public static readonly string StandardLongHeYe = "" + He + Convert.ToChar(StandardCharacters.StandardHalfSpace) +
+                                                         Convert.ToChar(StandardCharacters.StandardYaa);
+
+        /// <summary>
+        /// Standard form of writing short HeYe (i.e., هٔ)
+        /// </summary>
+        public static readonly string StandardShortHeYe = "" + He + ArabicHamzaAbove;
+
+        /// <summary>
+        /// Determines whether the specified word sequence is forming a long HeYe.
+        /// </summary>
+        /// <param name="word0">first word</param>
+        /// <param name="word1">second word</param>
+        /// <returns>
+        /// 	<c>true</c> if the specified word sequence is forming a long HeYe; otherwise, <c>false</c>.
+        /// </returns>
+        public static bool IsTwoWordsFormingLongHeYe(string word0, string word1)
+        {
+            int lastWord0Index = StringUtil.LastWordCharIndex(word0);
+            if(lastWord0Index < 0)
+                return false;
+
+            if (word0[lastWord0Index] != HeYe.He)
+                return false;
+
+            string nextWordRefined = StringUtil.RefineAndFilterPersianWord(word1);
+            
+            if (nextWordRefined == Convert.ToChar(StandardCharacters.StandardYaa).ToString())
+                return true;
+            
+            if(nextWordRefined == ArabicHamzah.ToString())
+                return true;
+
+            return false;
+        }
+        
+        static HeYe()
         {
             Load();
         }
@@ -72,7 +156,7 @@ namespace SCICT.NLP.Persian.Constants
         {
             get
             {
-                return ConsonantsInAllConditions + Vowels + PseudoPersianAlphabet;
+                return ConsonantsInAllConditions + Vowels + Diacritics;
             }
         }
 
@@ -97,7 +181,7 @@ namespace SCICT.NLP.Persian.Constants
         ///<summary>
         /// Numbers
         ///</summary>
-        public static readonly string Numbers = "٠١٢٣٤٥٦٧٨٩";
+        public static readonly string Numbers = "۰۱۲۳۴۵۶۷۸۹";
 
         ///<summary>
         /// Consonant letters
@@ -162,7 +246,7 @@ namespace SCICT.NLP.Persian.Constants
         ///<summary>
         /// Conditional Consonant sticker letters
         ///</summary>
-        public static readonly string ConsonantsStickerConditional = "ه";
+        public static readonly string ConsonantsStickerConditional = "هئ";
 
         ///<summary>
         /// Consonant non-sticker letters
@@ -173,6 +257,10 @@ namespace SCICT.NLP.Persian.Constants
         /// Conditional Consonant non-sticker letters
         ///</summary>
         public static readonly string ConsonantsNonStickerConditional = "و";
+
+        #endregion
+
+        #region Vowels
 
         ///<summary>
         /// Vowel letters
@@ -247,18 +335,23 @@ namespace SCICT.NLP.Persian.Constants
         ///<summary>
         /// Vowel non-sticker letters
         ///</summary>
-        public static readonly string VowelsNonStickerConditional = "وأإؤ";
+        public static readonly string VowelsNonStickerConditional = "ءوأإؤ";
 
-        /// <summary>
-        /// Persian Characters which are always seperate, and cannot stick to a next char
-        /// </summary>
-        public static readonly char[] NonStickerChars = new char[] { ' ', '\t',
-                'ر', 'ز', 'و', 'ژ', 'ا', 'آ', 'د', 'ذ', 'ٱ', 'ؤ', 'إ', 'أ' };
+        #endregion
+
+        #region Diacritics
 
         ///<summary>
         /// Pseudo letters like Shaddah and Fathatan
         ///</summary>
-        public static readonly string PseudoPersianAlphabet = "ًّ";
+        public static readonly string Diacritics = new string
+            (new char[]
+            { 
+                (char)StandardCharacters.StandardZammatan,
+                (char)StandardCharacters.StandardFathatan,
+            });//"ًّ";
+
+        #endregion
 
         #region Erabs
 
@@ -280,6 +373,11 @@ namespace SCICT.NLP.Persian.Constants
 
         #endregion
 
+        /// <summary>
+        /// Persian Characters which are always seperate, and cannot stick to a next char
+        /// </summary>
+        public static readonly char[] NonStickerChars = new char[] { ' ', '\t',
+                'ر', 'ز', 'و', 'ژ', 'ا', 'آ', 'د', 'ذ', 'ٱ', 'ؤ', 'إ', 'أ', 'ء' };
 
 
         static PersianAlphabets()
@@ -327,9 +425,17 @@ namespace SCICT.NLP.Persian.Constants
         ///</summary>
         public static char[] AlefFamily = new char[] { 'ا', 'آ' };
         ///<summary>
-        /// Hamza homophone family
+        /// Hamza homophone family 1
         ///</summary>
-        public static char[] HamzaFamily = new char[] { 'ئ', 'أ', 'ی', 'ؤ', 'ء', 'إ', 'ا', 'و' };
+        public static char[] HamzaFamily1 = new char[] { 'ئ', 'أ', 'ء', 'إ', 'ا' };
+        ///<summary>
+        /// Hamza homophone family 2
+        ///</summary>
+        public static char[] HamzaFamily2 = new char[] { 'ئ', 'ؤ', 'و' };
+        ///<summary>
+        /// Ya homophone family
+        ///</summary>
+        public static char[] YaFamily = new char[] { 'ئ', 'ی'};
 
         ///<summary>
         /// Get all homophone letters
@@ -338,14 +444,16 @@ namespace SCICT.NLP.Persian.Constants
         {
             get
             {
-                List<char[]> all = new List<char[]>();
+                var all = new List<char[]>();
                 all.Add(ZainFamily);
                 all.Add(SeenFamily);
                 all.Add(TehFamily);
                 all.Add(GhainFamily);
                 all.Add(HahFamily);
                 all.Add(AlefFamily);
-                all.Add(HamzaFamily);
+                all.Add(HamzaFamily1);
+                all.Add(HamzaFamily2);
+                all.Add(YaFamily);
 
                 return all.ToArray();
             }
@@ -370,6 +478,8 @@ namespace SCICT.NLP.Persian.Constants
             return false;
         }
     }
+
+    #region PersianHomoshapeLetters
 
     ///<summary>
     /// Homoshape letters in Persian, homophone words are those that can pronounce the same
@@ -433,7 +543,7 @@ namespace SCICT.NLP.Persian.Constants
         {
             get
             {
-                List<char[]> all = new List<char[]>();
+                var all = new List<char[]>();
                 all.Add(AlefFamily);
                 all.Add(BeFamily);
                 all.Add(TehFamily);
@@ -792,46 +902,58 @@ namespace SCICT.NLP.Persian.Constants
     #region Persian POS Tags: Hedy
 
     [Flags]
-    public enum PersianPartOfSpeech
+    public enum PersianPartOfSpeech : ulong 
     {
-        Unknown = 0x00000000,
+        Unknown = 0x0,
 
-        Noun = 0x00000001,
-        Adjective = 0x00000002,
-        Adverb = 0x00000004,
-        Verb = 0x00000008,
-        Preposition = 0x00000010,
-        Postposition = 0x00000020,
-        Pronoun = 0x00000040,
-        Determiner = 0x00000080,
-        Conjunction = 0x00000100,
-        Interjunction = 0x00000200,
-        Number = 0x00000400,
-        Classifier = 0x00000800,
-        Punctuation = 0x00001000,
-        // 0x00001FFF
+        Noun = 0x1,
+        Adjective = 0x2,
+        Adverb = 0x4,
+        Verb = 0x8,
+        Preposition = 0x10,
+        Postposition = 0x20,
+        Pronoun = 0x40,
+        Determiner = 0x80,
+        Conjunction = 0x100,
+        Interjunction = 0x200,
+        Number = 0x400,
+        Classifier = 0x800,
+        Punctuation = 0x1000,
+        // 0x1FFF
 
-        Singular = 0x00002000,
-        Plural = 0x00004000,
-        // 0x00006000
+        Singular = 0x2000,
+        Plural = 0x4000,
+        // 0x6000
 
-        FirstPerson = 0x00008000,
-        SecondPerson = 0x00010000,
-        ThirdPerson = 0x00020000,
-        // 0x00038000
+        FirstPerson = 0x8000,
+        SecondPerson = 0x10000,
+        ThirdPerson = 0x20000,
+        // 0x38000
 
-        Comparative = 0x00040000,
-        Superlative = 0x00080000
-        // 0x000C0000
+        Comparative = 0x40000,
+        Superlative = 0x80000,
+        // 0xC0000
 
-        //Gerund = 0x00008000,
-        //Infinitive = 0x00010000,
+        Positive = 0x100000,
+        Negative = 0x200000,
+        // 0x300000
 
-        //Reflective = 0x00080000,
-        //Indefinite = 0x00100000,
-        //Personal = 0x00200000,
-        //Demonstrative = 0x00400000,
-        //Interrogative = 0x00800000,
+        MAZI_E_SADE = 0x400000,
+        MAZI_E_ESTEMRARI = 0x800000,
+        MAZI_E_BAEID = 0x1000000,
+        MAZI_E_MOSTAMAR = 0x2000000,
+        MAZI_E_SADEYE_NAGHLI = 0x4000000,
+        MAZI_E_ESTEMRARIE_NAGHLI = 0x8000000,
+        MAZI_E_BAEIDE_NAGHLI = 0x10000000,
+        MAZI_E_MOSTAMARE_NAGHLI = 0x20000000,
+        MAZI_E_ELTEZAMI = 0x40000000,
+        MOZARE_E_EKHBARI = 0x80000000,
+        MOZARE_E_MOSTAMAR = 0x100000000,
+        MOZARE_E_ELTEZAMI = 0x200000000,
+        AYANDE = 0x40000000,
+        AMR = 0x80000000
+        // 0xFFFC00000
+
     }
     #endregion
 

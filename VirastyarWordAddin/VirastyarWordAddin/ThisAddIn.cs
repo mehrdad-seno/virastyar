@@ -12,11 +12,11 @@ using System.Windows.Forms;
 using Microsoft.Office.Core;
 using Microsoft.Office.Interop.Word;
 using Microsoft.Win32;
+using SCICT.Utility.Windows;
 using VirastyarWordAddin.Configurations;
 using VirastyarWordAddin.Log;
 using VirastyarWordAddin.Properties;
 using SCICT.Microsoft.Office.Word.ContentReader;
-using SCICT.Microsoft.Win32;
 using SCICT.NLP.Persian.Constants;
 using SCICT.NLP.TextProofing.SpellChecker;
 using SCICT.NLP.Utility;
@@ -29,6 +29,12 @@ using System.Collections.Generic;
 using SCICT.Microsoft.Word;
 using VirastyarWordAddin.Update;
 using VirastyarWordAddin.Verifiers.Basics;
+using VirastyarWordAddin.Verifiers.CharacterRefinementVerification;
+using VirastyarWordAddin.Verifiers.PunctuationVerification;
+using VirastyarWordAddin.Verifiers.PinglishVerification;
+using VirastyarWordAddin.Verifiers.DateVerification;
+using VirastyarWordAddin.Verifiers.NumberVerification;
+using VirastyarWordAddin.Verifiers.SpellCheckerVerification;
 
 namespace VirastyarWordAddin
 {
@@ -65,19 +71,10 @@ namespace VirastyarWordAddin
 
         private Template m_virastyarTemplate;
 
-        private SpellCheckerVerifier m_spellCheckerVerifier;
-        private PreprocessSpellVerifier m_preprocessSpellVerifier;
-
-        private AllCharactersRefinerSettings m_allCharactersRefinerSettings;
-
-        private PinglishVerifier m_pinglishVerifier;
-        private NumberVerifier m_numberVerifier;
-        private PunctuationVerifier m_puncVerfier;
-        private DateVerifier m_dateVerifier;
-
         private NLog.Logger m_logger;
 
         private Settings m_appSettings;
+        private AllCharactersRefinerSettings m_allCharactersRefinerSettings;
 
         private AddinConfigurationDialog m_addinConfigurationDialog;
 
@@ -86,105 +83,10 @@ namespace VirastyarWordAddin
         private Form m_currentDialog;
         private ProcessStartInfo m_processStartInfo;
 
-        private Template LoadAddinTemplate()
-        {
-            object install = true;
-
-            string templatePath;
-            try
-            {
-                templatePath = SettingsHelper.GetOfficeUserTemplatesLocation();
-            }
-            catch (InvalidOperationException ex)
-            {
-                PersianMessageBox.Show("هیچ محل امنی (Trusted Location) در تنظیمات یافت نشد." + Environment.NewLine +
-                                       "برای فعال شدن ویراستیار، با استفاده از مسیر زیر یک محل امن در تنظمیات اضافه کنید. سپس برنامه را بسته و مجدداً باز کنید." +
-                                       Environment.NewLine +
-                                       "Word Options-> Trust Center-> Trust Center Settings-> Trusted Locations-> Add New Location",
-                                       "No Trusted Location found",
-                                       MessageBoxButtons.OK,
-                                       MessageBoxIcon.Error);
-                LogHelper.DebugException("No trusted location found", ex);
-                return null;
-            }
-
-            string templateName = SettingsHelper.GetVirastyarTemplateName();
-            object templateFullPath = Path.Combine(templatePath, templateName);
-
-            for (int i = Application.Templates.Count; i >= 1; i--)
-            {
-                object index = i;
-                Template installedTemplate = Application.Templates.get_Item(ref index);
-
-                if (installedTemplate == null)
-                {
-                    LogHelper.Trace("Got a null template from Templates.get_Item");
-                    continue;
-                }
-
-                if (installedTemplate.Name.ToLowerInvariant().CompareTo(templateName.ToLowerInvariant()) == 0)
-                {
-                    // Check it's path - it MUST be in the user templates folder, which is trusted by Office
-                    // If it does not - remove and add it again
-                    SettingsHelper.RemoveCustomization(installedTemplate.Name);
-                }
-            }
-
-            // Always overwrite with the embedded template
-            if (CheckAndRestoreDependency(templateName, templateFullPath.ToString(), true))
-            {
-                Application.AddIns.Add(templateFullPath.ToString(), ref install);
-
-                Debug.Assert((bool) install);
-
-                return Application.Templates.get_Item(ref templateFullPath);
-            }
-
-            return null;
-        }
-
-        private void UnloadAddinTemplate()
-        {
-            string templatePath;
-            try
-            {
-                templatePath = SettingsHelper.GetOfficeUserTemplatesLocation();
-            }
-            catch (InvalidOperationException)
-            {
-                return;
-            }
-
-            string templateName = SettingsHelper.GetVirastyarTemplateName();
-            object templateFullPath = Path.Combine(templatePath, templateName);
-
-            if (this.Application != null)
-            {
-                foreach (Template installedTemplate in this.Application.Templates)
-                {
-                    if (installedTemplate.Name.ToLowerInvariant().CompareTo(templateName.ToLowerInvariant()) == 0)
-                    {
-                        installedTemplate.Save();
-                        Debug.Assert(installedTemplate.Saved);
-                        SettingsHelper.RemoveCustomization(installedTemplate.Name);
-                    }
-                }
-            }
-            try
-            {
-                DeleteFile(templateFullPath.ToString());
-            }
-            catch (Exception ex)
-            {
-                LogHelper.DebugException("Could not delete " + templateFullPath, ex);
-            }
-            m_virastyarTemplate = null;
-        }
-
         private object m_oldTemplate = null;
 
         private const int NotInitialized = -1;
-        private static int lastDoEvent = NotInitialized;
+        private static int s_lastDoEvent = NotInitialized;
 
         private readonly VirastyarAddin m_virastyarAddin = new VirastyarAddin();
 
@@ -213,7 +115,7 @@ namespace VirastyarWordAddin
                 }
                 catch (Exception)
                 {
-                    return new System.Version(1, 2, 0, 0);
+                    return new System.Version(1, 3, 1, 0);
                 }
             }
         }
@@ -222,18 +124,12 @@ namespace VirastyarWordAddin
         {
             get
             {
-                //var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoaming);
-                //var value = config.AppSettings.Settings[Constants.InstallationGuid].Value;
-                //return value ?? "";
                 return Settings.Default.InstallationGuid ?? "";
             }
             private set
             {
                 try
                 {
-                    //var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoaming);
-                    //config.AppSettings.Settings[Constants.InstallationGuid].Value = value;
-                    //config.Save(ConfigurationSaveMode.Modified);
                     Settings.Default.InstallationGuid = value;
                     Settings.Default.Save();
                 }
@@ -247,30 +143,9 @@ namespace VirastyarWordAddin
         /// <summary>
         /// Indicates the whether the add-in is loaded or not
         /// </summary>
-        public bool IsLoaded
-        {
-            get;
-            private set;
-        }
+        public bool IsLoaded { get; private set; }
 
         public SpellCheckerWrapper SpellCheckerWrapper { get; private set; }
-
-        public MSWordDocument ActiveMSWordDocument
-        {
-            get
-            {
-                try
-                {
-                    Document doc = Globals.ThisAddIn.Application.ActiveDocument;
-                    return new MSWordDocument(doc);
-                }
-                catch
-                {
-                    // Ignore
-                    return null;
-                }
-            }
-        }
 
         public Template VirastyarTemplate
         {
@@ -292,42 +167,46 @@ namespace VirastyarWordAddin
 
             for (int tryCount = 0; tryCount < maxTry; tryCount++)
             {
-                engine = this.SpellCheckerWrapper.Engine;
-                if (this.SpellCheckerWrapper.IsInitialized)
+                engine = SpellCheckerWrapper.Engine;
+                if (SpellCheckerWrapper.IsInitialized)
                 {
                     break;
                 }
 
                 // Else
-                if (PersianMessageBox.Show("بنظر می‌رسد فایل واژه‌نامه بدرستی انتخاب نشده‌است. آیا مایل به انتخاب مجدد هستید؟",
+                if (PersianMessageBox.Show(GetWin32Window(),
+                    "به نظر می‌رسد فایل واژه‌نامه به درستی انتخاب نشده ‌است." + Environment.NewLine + 
+                    "آیا مایل به انتخاب مجدد هستید؟",
                    "اشکال در واژه‌نامه", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) != DialogResult.Yes)
                 {
                     break;
                 }
 
-                OpenFileDialog dlg = new OpenFileDialog();
+                var dlg = new OpenFileDialog();
                 if (dlg.ShowDialog() == DialogResult.OK)
                 {
-                    if (this.SpellCheckerWrapper.Initialize(dlg.FileName))
+                    if (SpellCheckerWrapper.Initialize(dlg.FileName))
                         break;
                 }
             }
 
-            if (!this.SpellCheckerWrapper.IsInitialized)
+            if (!SpellCheckerWrapper.IsInitialized)
             {
-                PersianMessageBox.Show("قابلیت‌های مرتبط با تصحیح واژه غیرفعال گردید. برای فعال کردن مجدد، در بخش تنظیمات محل فایل واژه‌نامه را تعیین کنید.",
+                PersianMessageBox.Show(GetWin32Window(),
+                    "قابلیت‌های مرتبط با تصحیح واژه غیرفعال شد." + Environment.NewLine + 
+                    "برای فعال کردن مجدد، در بخش تنظیمات محل فایل واژه‌نامه را تعیین کنید.",
                     "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 DisableSpellCheckFunctionalities();
-                this.SpellCheckerWrapper.Disable();
+                SpellCheckerWrapper.Disable();
             }
             else
             {
-                this.m_appSettings.Config_UserDictionaryPath = this.SpellCheckerWrapper.Config.DicPath;
-                this.m_appSettings.Save();
-                engine = this.SpellCheckerWrapper.Engine;
+                m_appSettings.SpellChecker_UserDictionaryPath = SpellCheckerWrapper.UserDictionary;
+                m_appSettings.Save();
+                engine = SpellCheckerWrapper.Engine;
             }
 
-            bool check = this.SpellCheckerWrapper.IsInitialized == (engine != null);
+            bool check = SpellCheckerWrapper.IsInitialized == (engine != null);
             Debug.Assert(check);
             if (!check)
             {
@@ -344,22 +223,21 @@ namespace VirastyarWordAddin
         public bool GetSpellCheckerUsageSession(out SessionLogger sessionLogger)
         {
             sessionLogger = this.SpellCheckerWrapper.SessionLogger;
-
             return (sessionLogger != null);
         }
 
         public static void ApplicationDoEvents()
         {
-            if (lastDoEvent == NotInitialized)
+            if (s_lastDoEvent == NotInitialized)
             {
-                lastDoEvent = Environment.TickCount;
+                s_lastDoEvent = Environment.TickCount;
             }
 
             int currentTickCount = Environment.TickCount;
 
-            if (currentTickCount - lastDoEvent >= 10)
+            if (currentTickCount - s_lastDoEvent >= 10)
             {
-                lastDoEvent = currentTickCount;
+                s_lastDoEvent = currentTickCount;
                 System.Windows.Forms.Application.DoEvents();
             }
             else
@@ -455,6 +333,41 @@ namespace VirastyarWordAddin
 
         #endregion
 
+        #region VSTO generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InternalStartup()
+        {
+            AppDomain.CurrentDomain.DomainUnload += (e, s) =>
+            {
+                try
+                {
+                    if (m_processStartInfo != null)
+                        Process.Start(m_processStartInfo);
+
+                    if (UpdateChecker.RunUpdateProgramBeforeClose)
+                        UpdateChecker.RunUpdateProgram();
+                }
+                catch (Exception ex)
+                {
+                    // the process couldn't be started. This happens for 1 of 3 reasons:
+
+                    // 1. The user cancelled the UAC box
+                    // 2. The limited user tried to elevate to an Admin that has a blank password
+                    // 3. The limited user tries to elevate as a Guest account                    
+                    Debug.WriteLine(ex.ToString());
+                }
+            };
+
+            this.Startup += ThisAddIn_Startup;
+            this.Shutdown += ThisAddIn_Shutdown;
+        }
+
+        #endregion
+
         #region ThisAddIn
 
         protected override object RequestComAddInAutomationService()
@@ -465,14 +378,32 @@ namespace VirastyarWordAddin
         private bool IsFirstAddinInstance()
         {
             bool createdNew;
-            string appSpecificName = Environment.UserName + "_" + Constants.Virastyar + "_Word_" + Application.Version;
+            string appSpecificName = Environment.UserName + "_" + Constants.Virastyar + "_Word_" + OfficeVersion;
             m_appSpecificMutex = new Mutex(true, appSpecificName, out createdNew);
             return createdNew;
+        }
+
+        public static string OfficeVersion
+        {
+            get
+            {
+                try
+                {
+                    return Globals.ThisAddIn.Application.Version;
+                }
+                catch (Exception)
+                {
+                    return "Unavailable";
+                }
+            }
         }
 
         private void ThisAddIn_Startup(object sender, EventArgs e)
         {
             IsLoaded = false;
+
+            //Debugger.Launch();
+            //Debugger.Break();
 
             var startupThread = new Thread(() =>
             {
@@ -485,6 +416,10 @@ namespace VirastyarWordAddin
 
                 try
                 {
+                    if (Application == null)
+                    {
+                        throw new ArgumentNullException("Application");
+                    }
                     var stopWatch = Stopwatch.StartNew();
 
                     this.m_appSettings = (Settings)SettingsBase.Synchronized(Settings.Default);
@@ -493,73 +428,71 @@ namespace VirastyarWordAddin
 
                     this.m_logger = NLog.LogManager.GetCurrentClassLogger();
 
-                    LogHelper.Trace("Virastyar version {0} is loading",
-                                    InstalledVersion);
+                    LogHelper.Trace("Virastyar version {0} is loading", InstalledVersion);
 
                     CheckAddinPrerequisites();
 
-                    m_virastyarTemplate = LoadAddinTemplate();
+                    bool failed = false;
+                    Exception failException = null;
+                    try
+                    {
+                        bool needsReset;
+                        m_virastyarTemplate = LoadAddinTemplate(out needsReset);
+                        if (needsReset)
+                            throw new OperationCanceledException("Virastyar loading canceled");
+                        failed = (m_virastyarTemplate == null);
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        throw;
+                    }
+                    catch (Exception ex)
+                    {
+                        failed = true;
+                        failException = ex;
+                    }
 
-                    if (m_virastyarTemplate == null)
+                    if (failed)
                     {
                         PersianMessageBox.Show(
                             "متأسفانه در بارگذاری ویراستیار خطایی اتفاق افتاده و افزونه غیرفعال شده است",
                             MessageBoxIcon.Error);
-                        LogHelper.Error("Error in loading Virastyar template");
+                        if (failException != null)
+                        {
+                            LogHelper.ErrorException("Error in loading Virastyar template", failException);
+                        }
+                        else
+                        {
+                            LogHelper.Error("Error in loading Virastyar template");
+                        }
                         return;
                     }
 
                     #region Init Fields
 
-                    this.m_allCharactersRefinerSettings =
-                        new AllCharactersRefinerSettings(Settings.Default);
+                    this.m_allCharactersRefinerSettings = new AllCharactersRefinerSettings(Settings.Default);
 
                     // Initializing a new instance of SpellCheckerWrapper, and give all necessary configurations to it
                     // Every new configuration parameter must be passed to SpellCheckerWrapper.
                     // TODO: An instance object is needed to reduce parameter counts here.
                     this.SpellCheckerWrapper =
                         new SpellCheckerWrapper(FindUserDictionaryLocation(),
-                                                (int)
-                                                Settings.Default.Config_EditDistance,
-                                                (int)
-                                                Settings.Default.
-                                                    Config_MaxSuggestions,
+                                                m_appSettings.SpellChecker_EditDistance,
+                                                m_appSettings.SpellChecker_MaxSuggestions,
                                                 SpellCheckerWrapper.
                                                     GetDictionariesArray(
                                                         FindMainDictionaryLocation(),
-                                                        this.m_appSettings.
-                                                            SpellChecker_MainDictionarySelected,
-                                                        this.m_appSettings.
+                                                        m_appSettings.SpellChecker_MainDictionarySelected,
+                                                        m_appSettings.
                                                             SpellChecker_CustomDictionaries,
-                                                        this.m_appSettings.
+                                                        m_appSettings.
                                                             SpellChecker_CustomDictionariesSelectionFlag
                                                     ),
-                                                this.m_appSettings.
-                                                    SpellChecker_VocabSpaceCorrection,
-                                                this.m_appSettings.
-                                                    SpellChecker_DontCheckSingleLetters,
-                                                this.m_appSettings.
-                                                    SpellChecker_HeYeConvertion,
-                                                this.m_appSettings.
-                                                    PreprocessSpell_RefineAllAffixes,
-                                                this.m_appSettings.
-                                                    PreprocessSpell_RefineBe,
-                                                this.m_appSettings.
-                                                    PreprocessSpell_RefineHaa,
-                                                this.m_appSettings.
-                                                    PreprocessSpell_RefineHeYe,
-                                                this.m_appSettings.
-                                                    PreprocessSpell_RefineMee,
-                                                SettingsHelper.GetFullPath(
-                                                    Constants.StemFileName,
-                                                    VirastyarFilePathTypes.
-                                                        AllUsersFiles)
+                                                m_appSettings.PreprocessSpell_CorrectPrefix,
+                                                m_appSettings.PreprocessSpell_CorrectPostfix,
+                                                m_appSettings.PreprocessSpell_CorrectBe,
+                                                SettingsHelper.GetFullPath(Constants.StemFileName, VirastyarFilePathTypes.AllUsersFiles)
                             );
-
-                    this.m_pinglishVerifier = null;
-                    this.m_dateVerifier = new DateVerifier();
-                    this.m_numberVerifier = new NumberVerifier();
-                    this.m_puncVerfier = new PunctuationVerifier();
 
                     #endregion
 
@@ -625,11 +558,11 @@ namespace VirastyarWordAddin
                     this.m_addinConfigurationDialog =
                         new AddinConfigurationDialog(this.m_appSettings);
                     this.m_addinConfigurationDialog.RepairMenubarsClicked +=
-                        addinConfigurationDialog_RepairMenubarsClicked;
+                        AddinConfigurationDialogRepairMenubarsClicked;
                     this.m_addinConfigurationDialog.RefineAllSettingsChanged +=
-                        addinConfigurationDialog_RefineAllSettingsChanged;
+                        AddinConfigurationDialogRefineAllSettingsChanged;
                     this.m_addinConfigurationDialog.SpellCheckSettingsChanged +=
-                        addinConfigurationDialog_SpellCheckSettingsChanged;
+                        AddinConfigurationDialogSpellCheckSettingsChanged;
 
                     #endregion
 
@@ -651,8 +584,8 @@ namespace VirastyarWordAddin
                     #region AutoUpdate, AutomaticReport
 
                     SetUpdateAvailableToolbarVisibility(false);
-                    UpdateChecker.UpdateAvailable += m_updateNotificationWindow_UpdateAvailable;
-                    UpdateChecker.CheckForUpdate();
+                    UpdateChecker.UpdateAvailable += UpdateNotificationWindowUpdateAvailable;
+                    UpdateChecker.CheckForUpdate(false);
 
                     LogReporter.AutomaticReport();
 
@@ -688,6 +621,8 @@ namespace VirastyarWordAddin
             {
                 LogHelper.ErrorException("Could not start the Startup thread", ex);
             }
+
+            AutomaticReportConfirm.ShowConfirmTray();
         }
 
         private void ThisAddIn_Shutdown(object sender, EventArgs e)
@@ -696,7 +631,7 @@ namespace VirastyarWordAddin
 
             try
             {
-                //UnloadAddinTemplate();
+                UnloadAddinTemplate();
                 m_appSpecificMutex.Close();
             }
             catch (Exception ex)
@@ -733,11 +668,14 @@ namespace VirastyarWordAddin
             {
                 Directory.CreateDirectory(userDataFolder);
             }
-            if (string.IsNullOrEmpty(this.m_appSettings.Config_UserDictionaryPath))
+            if (string.IsNullOrEmpty(m_appSettings.SpellChecker_UserDictionaryPath))
             {
                 string userDicPath = SettingsHelper.GetFullPath(Constants.UserDicFileName, VirastyarFilePathTypes.UserFiles);
-                File.Create(userDicPath).Close();
-                this.m_appSettings.Config_UserDictionaryPath = userDicPath;
+                if (!File.Exists(userDicPath))
+                {
+                    File.Create(userDicPath).Close();
+                }
+                m_appSettings.SpellChecker_UserDictionaryPath = userDicPath;
             }
 
             #endregion
@@ -761,8 +699,8 @@ namespace VirastyarWordAddin
             bool result = true;
             result &= CheckAndRestoreDependency(Constants.PatternsFileName, VirastyarFilePathTypes.AllUsersFiles, overwrite);
             result &= CheckAndRestoreDependency(Constants.PinglishFileName, VirastyarFilePathTypes.AllUsersFiles, overwrite);
-            result &= CheckAndRestoreDependency(Constants.PinglishPreprocessFileName, VirastyarFilePathTypes.AllUsersFiles, overwrite);
-            result &= CheckAndRestoreDependency(Constants.InformalDicFileName, VirastyarFilePathTypes.AllUsersFiles, overwrite);
+            result &= CheckAndRestoreDependency(Constants.GoftariDicFileName, VirastyarFilePathTypes.AllUsersFiles, overwrite);
+            result &= CheckAndRestoreDependency(Constants.ExceptionWordsFileName, VirastyarFilePathTypes.AllUsersFiles, overwrite);
             result &= CheckAndRestoreDependency(Constants.MainDicFileName, VirastyarFilePathTypes.AllUsersFiles, overwrite);
             result &= CheckAndRestoreDependency(Constants.StemFileName, VirastyarFilePathTypes.AllUsersFiles, overwrite);
 
@@ -799,7 +737,12 @@ namespace VirastyarWordAddin
 
                 if (showElevationConfirm)
                 {
-                    ShowElevationConfirm();
+                    string message = "برخی از فایل‌های مورد نیاز ویراستیار از روی دیسک پاک شده‌اند و یا نیاز به بازنویسی مجدد دارند." + Environment.NewLine +
+                                        "برای بازگرداندن آن‌ها، برنامهٔ Word باید بسته شده و با سطح دسترسی مدیر اجرا شود." + Environment.NewLine +
+                                        "آیا این عملیات را تأیید می‌کنید؟" + Environment.NewLine +
+                                        "------------" + Environment.NewLine +
+                                        "توجه: پیش از تأیید مطمئن شوید که هیچ پنجره‌ای در Word باز نیست";
+                    ShowElevationConfirm(message);
                     break;
                 }
             }
@@ -816,17 +759,13 @@ namespace VirastyarWordAddin
             return CheckAndRestoreDependency(dependencyFileName, dependencyFilePath, overwrite);
         }
 
-        private void ShowElevationConfirm()
+        private void ShowElevationConfirm(string confirmMessage)
         {
             if (IsAdministrator())
                 return;
 
-            var result = PersianMessageBox.Show("برخی از فایل‌های مورد نیاز ویراستیار از روی دیسک پاک شده‌اند و یا نیاز به بازنویسی مجدد دارند." + Environment.NewLine +
-                "برای بازگرداندن آن‌ها، برنامه‌ی Word باید بسته شده و با سطح دسترسی مدیر اجرا شود." + Environment.NewLine +
-                "آیا این عملیات را تأیید می‌کنید؟" + Environment.NewLine +
-                "------------" + Environment.NewLine +
-                "توجه: پیش از تأیید مطمئن شوید که هیچ پنجره‌ای در Word باز نیست",
-                "نیاز به سطح دسترسی مدیر", MessageBoxButtons.YesNo, MessageBoxDefaultButton.Button1, MessageBoxIcon.Question);
+            var result = PersianMessageBox.Show(confirmMessage, "نیاز به سطح دسترسی مدیر", 
+                MessageBoxButtons.YesNo, MessageBoxDefaultButton.Button1, MessageBoxIcon.Question);
             if (result == DialogResult.Yes)
             {
                 try
@@ -894,147 +833,329 @@ namespace VirastyarWordAddin
 
         #endregion
 
+        private Template LoadAddinTemplate(out bool needsReset)
+        {
+            needsReset = false;
+            string templatePath;
+            try
+            {
+                templatePath = SettingsHelper.GetOfficeUserTemplatesLocation();
+            }
+            catch (InvalidOperationException ex)
+            {
+                LogHelper.DebugException("No trusted location found", ex);
+                if (AddVirastyarTrustedLocation())
+                    needsReset = true;
+                return null;
+            }
+
+            string templateName = SettingsHelper.GetVirastyarTemplateName();
+            object templateFullPath = Path.Combine(templatePath, templateName);
+
+            for (int i = Application.Templates.Count; i >= 1; i--)
+            {
+                object index = i;
+                Template installedTemplate;
+                try
+                {
+                    installedTemplate = Application.Templates.get_Item(ref index);
+                }
+                catch (COMException ex)
+                {
+                    LogHelper.ErrorException("Got an exception from get_Item", ex);
+                    continue;
+                }
+
+                if (installedTemplate == null)
+                {
+                    LogHelper.Trace("Got a null template from Templates.get_Item");
+                    continue;
+                }
+
+                if (string.Compare(installedTemplate.Name, templateName, StringComparison.OrdinalIgnoreCase) == 0)
+                {
+                    bool removed = SettingsHelper.RemoveCustomization(installedTemplate.Name);
+                    Debug.Assert(removed);
+                }
+            }
+
+            // Always overwrite with the embedded template
+            if (CheckAndRestoreDependency(templateName, templateFullPath.ToString(), true))
+            {
+                Document newDoc = null;
+                object missingValue = Missing.Value;
+
+                var documentsCount = Application.Documents.Count;
+                if (documentsCount == 0 || 
+                    (Application.ActiveDocument != null && Application.ActiveDocument.ProtectionType != WdProtectionType.wdNoProtection))
+                {
+                    newDoc = Application.Documents.Add(ref missingValue, ref missingValue, ref missingValue, ref missingValue);
+                }
+
+                object install = true;
+                Application.AddIns.Add(templateFullPath.ToString(), ref install);
+
+                if (newDoc != null)
+                {
+                    object saveChanges = false;
+                    newDoc.Close(ref saveChanges, ref missingValue, ref missingValue);
+                }
+                return Application.Templates.get_Item(ref templateFullPath);
+            }
+            else // if (templateFullPath.ToString().Contains("Program Files"))
+            {
+                // I'm trying to be cool!
+                // We need to add a TrustedLocation manually, wear your seat belts
+                if (AddVirastyarTrustedLocation())
+                    needsReset = true;
+                return null;
+            }
+        }
+
+        private static bool AddVirastyarTrustedLocation()
+        {
+            // 1. Create a .reg file
+            string userPath = SettingsHelper.GetUserDataPath();
+            string regFilePath = Path.Combine(userPath, "Virastyar.reg");
+
+            using (var writer = File.CreateText(regFilePath))
+            {
+                string regContent = string.Format(
+                    Constants.VirastyarTrustedLocationRegString,
+                    OfficeVersion,
+                    SettingsHelper.GetLastOfficeUserTemplateLocationIndex(),
+                    userPath.Replace("\\", "\\\\"));
+                writer.Write(regContent);
+            }
+
+            // 2. Notify user
+            if (PersianMessageBox.Show(GetWin32Window(),
+                " ویراستیار نیاز به افزودن یک Trusted Location در تنظیمات برنامهٔ Word دارد" + Environment.NewLine +
+                " آیا موافقید که ویراستیار این تغییر را انجام دهد؟" + Environment.NewLine + Environment.NewLine +
+                "اگر موافق هستید، پیغام‌های بعدی را نیز تأیید کنید و در انتها، Word را بسته و دوباره اجرا کنید  ",
+                "No suitable Trusted Location found",
+                MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.OK)
+            {
+                // 2. Run regedit
+                var pInfo = new ProcessStartInfo("regedit");
+                pInfo.Arguments = regFilePath;
+
+                var regedit = Process.Start(pInfo);
+                regedit.WaitForExit();
+                return (regedit.ExitCode == 0);
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// This method does its best to unload the addin's template from Word's templates.
+        /// In case of any failures or unexpected behaviour, it does not throws any exception.
+        /// So it's safe to call it when the Addin is shuting down.
+        /// </summary>
+        private void UnloadAddinTemplate()
+        {
+            string templateName = SettingsHelper.GetVirastyarTemplateName();
+            
+            try
+            {
+                if (this.Application != null)
+                {
+                    for (int i = Application.Templates.Count; i >= 1; i--)
+                    {
+                        object index = i;
+                        Template installedTemplate;
+                        try
+                        {
+                            installedTemplate = Application.Templates.get_Item(ref index);
+                        }
+                        catch (COMException ex)
+                        {
+                            LogHelper.ErrorException("Got an exception from get_Item", ex);
+                            continue;
+                        }
+
+                        if (installedTemplate == null)
+                        {
+                            LogHelper.Trace("Got a null template from Templates.get_Item");
+                            continue;
+                        }
+
+                        if (string.Compare(installedTemplate.Name, templateName, StringComparison.OrdinalIgnoreCase) == 0)
+                        {
+                            if (!installedTemplate.Saved)
+                                installedTemplate.Save();
+                            Debug.Assert(installedTemplate.Saved);
+                            SettingsHelper.RemoveCustomization(installedTemplate.Name);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogHelper.DebugException("Could not unload the addin template", ex);
+            }
+
+            string templateFullPath = "";
+            try
+            {
+                string templatePath = SettingsHelper.GetOfficeUserTemplatesLocation();
+                templateFullPath = Path.Combine(templatePath, templateName);
+
+                DeleteFile(templateFullPath);
+            }
+            catch (InvalidOperationException)
+            {
+                return;
+            }
+            catch (Exception ex)
+            {
+                LogHelper.DebugException("Could not delete " + templateFullPath, ex);
+            }
+            m_virastyarTemplate = null;
+        }
+
         #endregion
 
         #region Main Functionalities
 
-        private void VerifyNumbers()
-        {
-            try
-            {
-                this.m_numberVerifier.RunVerify();
-            }
-            catch (Exception ex)
-            {
-                OnExceptionOccured(ex);
-            }
-        }
+        //private void VerifyNumbers()
+        //{
+        //    try
+        //    {
+        //        this.m_numberVerifier.RunVerify();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        OnExceptionOccured(ex);
+        //    }
+        //}
 
-        private void PreSpellCheck()
-        {
-            try
-            {
-                if (DialogResult.Yes == PersianMessageBox.Show(
-                    "این عملیات ممکن است بسیاری از کلمه‌های سند شما را تغییر دهد." + "\r\n" + 
-                    "لطفاً قبل از شروع عملیات از ذخیره بودن تغییرات متن خود اطمینان حاصل کنید." + "\r\n" + 
-                    "آیا موافقید که عمل پیش‌پردازش املایی متن آغاز شود؟", 
-                    "پیش‌پردازش املایی", MessageBoxButtons.YesNo, MessageBoxIcon.Question))
-                {
-                    if (!this.SpellCheckerWrapper.Enabled)
-                        return;
+        //private void PreSpellCheck()
+        //{
+        //    try
+        //    {
+        //        if (DialogResult.Yes == PersianMessageBox.Show(
+        //            "این عملیات ممکن است بسیاری از کلمه‌های سند شما را تغییر دهد." + "\r\n" + 
+        //            "لطفاً قبل از شروع عملیات از ذخیره بودن تغییرات متن خود اطمینان حاصل کنید." + "\r\n" + 
+        //            "آیا موافقید که عمل پیش‌پردازش املایی متن آغاز شود؟", 
+        //            "پیش‌پردازش املایی", MessageBoxButtons.YesNo, MessageBoxIcon.Question))
+        //        {
+        //            if (!this.SpellCheckerWrapper.Enabled)
+        //                return;
 
-                    if (this.m_preprocessSpellVerifier == null)
-                    {
-                        // TODO: What's this mess?
-                        PersianSpellChecker engine;
-                        if (!GetSpellCheckerEngine(out engine))
-                            return;
+        //            if (this.m_preprocessSpellVerifier == null)
+        //            {
+        //                // TODO: What's this mess?
+        //                PersianSpellChecker engine;
+        //                if (!GetSpellCheckerEngine(out engine))
+        //                    return;
 
-                        this.m_preprocessSpellVerifier = new PreprocessSpellVerifier(engine);
-                    }
+        //                this.m_preprocessSpellVerifier = new PreprocessSpellVerifier(engine);
+        //            }
 
-                    this.m_preprocessSpellVerifier.RunVerify(TextProcessType.Batch);
-                    this.m_preprocessSpellVerifier.ShowStats();
-                }
-            }
-            catch (Exception ex)
-            {
-                OnExceptionOccured(ex);
-            }
-        }
+        //            this.m_preprocessSpellVerifier.RunVerify(TextProcessType.Batch);
+        //            this.m_preprocessSpellVerifier.ShowStats();
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        OnExceptionOccured(ex);
+        //    }
+        //}
 
-        private void SpellCheck()
-        {
-            try
-            {
-                if (!this.SpellCheckerWrapper.Enabled)
-                    return;
+        //private void SpellCheck()
+        //{
+        //    try
+        //    {
+        //        if (!this.SpellCheckerWrapper.Enabled)
+        //            return;
 
-                if (this.m_spellCheckerVerifier == null)
-                {
-                    PersianSpellChecker engine;
-                    SessionLogger sessionLogger;
-                    if (!GetSpellCheckerEngine(out engine) || !GetSpellCheckerUsageSession(out sessionLogger))
-                        return;
+        //        if (this.m_spellCheckerVerifier == null)
+        //        {
+        //            PersianSpellChecker engine;
+        //            SessionLogger sessionLogger;
+        //            if (!GetSpellCheckerEngine(out engine) || !GetSpellCheckerUsageSession(out sessionLogger))
+        //                return;
 
-                    this.m_spellCheckerVerifier = new SpellCheckerVerifier(engine, sessionLogger);
-                }
+        //            this.m_spellCheckerVerifier = new SpellCheckerVerifier(engine, sessionLogger);
+        //        }
 
-                this.m_spellCheckerVerifier.RunVerify();
-            }
-            catch (Exception ex)
-            {
-                OnExceptionOccured(ex);
-            }
-        }
+        //        this.m_spellCheckerVerifier.RunVerify();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        OnExceptionOccured(ex);
+        //    }
+        //}
 
-        private void PinglishCheck(TextProcessType tpt)
-        {
-            try
-            {
-                if (!this.SpellCheckerWrapper.Enabled)
-                    return;
+        //private void PinglishCheck(TextProcessType tpt)
+        //{
+        //    try
+        //    {
+        //        if (!this.SpellCheckerWrapper.Enabled)
+        //            return;
 
-                if (this.m_pinglishVerifier == null)
-                {
-                    // TODO: Mehrdad: Experimental
-                    this.m_pinglishVerifier = new PinglishVerifier(m_appSettings.SpellChecker_MainDictionaryPath);
-                }
+        //        if (this.m_pinglishVerifier == null)
+        //        {
+        //            // TODO: Mehrdad: Experimental
+        //            this.m_pinglishVerifier = new PinglishVerifier(m_appSettings.SpellChecker_MainDictionaryPath);
+        //        }
 
-                this.m_pinglishVerifier.RunVerify(tpt);
-            }
-            catch (Exception ex)
-            {
-                OnExceptionOccured(ex);
-            }
-        }
+        //        this.m_pinglishVerifier.RunVerify(tpt);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        OnExceptionOccured(ex);
+        //    }
+        //}
 
-        private void DateCheck()
-        {
-            try
-            {
-                this.m_dateVerifier.RunVerify();
-            }
-            catch (Exception ex)
-            {
-                OnExceptionOccured(ex);
-            }
-        }
+        //private void DateCheck()
+        //{
+        //    try
+        //    {
+        //        this.m_dateVerifier.RunVerify();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        OnExceptionOccured(ex);
+        //    }
+        //}
 
-        private void PunctuationCheck(TextProcessType processType)
-        {
-            try
-            {
-                this.m_puncVerfier.RunVerify(processType);
-                if (processType == TextProcessType.Batch)
-                    this.m_puncVerfier.ShowStats();
-            }
-            catch (Exception ex)
-            {
-                OnExceptionOccured(ex);
-            }
-        }
+        //private void PunctuationCheck(TextProcessType processType)
+        //{
+        //    try
+        //    {
+        //        this.m_puncVerfier.RunVerify(processType);
+        //        if (processType == TextProcessType.Batch)
+        //            this.m_puncVerfier.ShowStats();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        OnExceptionOccured(ex);
+        //    }
+        //}
 
-        private void RefineAllCharacters()
-        {
-            try
-            {
-                if (DialogResult.Yes == PersianMessageBox.Show(
-                    "این عملیات ممکن است بسیاری از نویسه‌های سند شما را تغییر دهد." + "\r\n" + "لطفاً قبل از شروع عملیات از ذخیره بودن تغییرات متن خود اطمینان حاصل کنید." + "\r\n" + "آیا موافقید که عمل اصلاح تمامی نویسه‌های متن آغاز شود؟", 
-                    "اصلاح نویسه‌های متن", 
-                    MessageBoxButtons.YesNo, 
-                    MessageBoxIcon.Question))
-                {
-                    AllCharactersRefiner refiner = new AllCharactersRefiner(this.m_allCharactersRefinerSettings);
-                    refiner.RunVerify(TextProcessType.Batch);
-                    refiner.ShowStats();
-                }
-            }
-            catch (Exception ex)
-            {
-                OnExceptionOccured(ex);
-            }
-        }
+        //private void RefineAllCharacters()
+        //{
+        //    try
+        //    {
+        //        if (DialogResult.Yes == PersianMessageBox.Show(
+        //            "این عملیات ممکن است بسیاری از نویسه‌های سند شما را تغییر دهد." + "\r\n" + "لطفاً قبل از شروع عملیات از ذخیره بودن تغییرات متن خود اطمینان حاصل کنید." + "\r\n" + "آیا موافقید که عمل اصلاح تمامی نویسه‌های متن آغاز شود؟", 
+        //            "اصلاح نویسه‌های متن", 
+        //            MessageBoxButtons.YesNo, 
+        //            MessageBoxIcon.Question))
+        //        {
+        //            AllCharactersRefiner refiner = new AllCharactersRefiner(this.m_allCharactersRefinerSettings);
+        //            refiner.RunVerify(TextProcessType.Batch);
+        //            refiner.ShowStats();
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        OnExceptionOccured(ex);
+        //    }
+        //}
 
         private void SuggestRhyme()
         {
@@ -1149,9 +1270,9 @@ namespace VirastyarWordAddin
         public string FindUserDictionaryLocation()
         {
             string userDicPath = "";
-            if (File.Exists(this.m_appSettings.Config_UserDictionaryPath))
+            if (File.Exists(m_appSettings.SpellChecker_UserDictionaryPath))
             {
-                userDicPath = this.m_appSettings.Config_UserDictionaryPath;
+                userDicPath = m_appSettings.SpellChecker_UserDictionaryPath;
             }
             else
             {
@@ -1159,8 +1280,8 @@ namespace VirastyarWordAddin
 
                 if (!File.Exists(userDicPath))
                 {
-                    PersianMessageBox.Show("فایل واژه‌نامه‌ی شخصی کاربر یافت نشد. لطفاً محل آن را تعیین کنید."
-                        + Environment.NewLine + "در صورت انصراف، محل واژه‌نامه‌ی شخصی کاربر را می‌توانید از طریق صفحه تنظیمات نیز تغییر دهید.",
+                    PersianMessageBox.Show("فایل واژه‌نامهٔ شخصی کاربر یافت نشد. لطفاً محل آن را تعیین کنید."
+                        + Environment.NewLine + "در صورت انصراف، محل واژه‌نامهٔ شخصی کاربر را می‌توانید از طریق صفحه تنظیمات نیز تغییر دهید.",
                         "واژه‌نامه", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     var fileDiag = new OpenFileDialog();
                     if (fileDiag.ShowDialog() == DialogResult.OK)
@@ -1182,25 +1303,25 @@ namespace VirastyarWordAddin
             }
 
             // Save Settings
-            this.m_appSettings.Config_UserDictionaryPath = userDicPath;
-            this.m_appSettings.Save();
+            m_appSettings.SpellChecker_UserDictionaryPath = userDicPath;
+            m_appSettings.Save();
             return userDicPath;
         }
 
         public string FindMainDictionaryLocation()
         {
             string dicPath = "";
-            if (File.Exists(this.m_appSettings.SpellChecker_MainDictionaryPath))
+            if (File.Exists(m_appSettings.SpellChecker_MainDictionaryPath))
             {
-                dicPath = this.m_appSettings.SpellChecker_MainDictionaryPath;
+                dicPath = m_appSettings.SpellChecker_MainDictionaryPath;
             }
             else
             {
                 dicPath = SettingsHelper.GetFullPath(Constants.MainDicFileName, VirastyarFilePathTypes.AllUsersFiles);
                 Debug.Assert(File.Exists(dicPath));
                 // Save Settings
-                this.m_appSettings.SpellChecker_MainDictionaryPath = dicPath;
-                this.m_appSettings.Save();
+                m_appSettings.SpellChecker_MainDictionaryPath = dicPath;
+                m_appSettings.Save();
             }
 
             return dicPath;
@@ -1230,15 +1351,9 @@ namespace VirastyarWordAddin
 
         public void OnExceptionOccured(Exception ex, string message)
         {
-            LogHelper.ErrorException(message, ex);
-            ExceptionForm.ShowExceptionForm(ex);
-        }
-
-        public void OnExceptionOccured(Exception ex)
-        {
             try
             {
-                LogHelper.ErrorException("Unhandled Exception occured in Virastyar", ex);
+                LogHelper.ErrorException("[ExceptionForm] " + message, ex);
                 ExceptionForm.ShowExceptionForm(ex);
             }
             catch (Exception internalEx)
@@ -1247,15 +1362,55 @@ namespace VirastyarWordAddin
             }
         }
 
-        void m_updateNotificationWindow_UpdateAvailable(object sender, EventArgs e)
+        public void OnExceptionOccured(Exception ex)
+        {
+            try
+            {
+                LogHelper.ErrorException("[ExceptionForm] Unhandled Exception occured in Virastyar", ex);
+                ExceptionForm.ShowExceptionForm(ex);
+            }
+            catch (Exception internalEx)
+            {
+                Debug.WriteLine(internalEx);
+            }
+        }
+
+        void UpdateNotificationWindowUpdateAvailable(object sender, EventArgs e)
         {
             SetUpdateAvailableToolbarVisibility(true);
+
+            // If it's the first time for this version, show the dialog
+            try
+            {
+                bool showNotificationWindow = false;
+                if (string.IsNullOrEmpty(m_appSettings.Updater_LastShownVersion))
+                {
+                    showNotificationWindow = true;
+                }
+                else if (CheckVersionNumbers(new System.Version(m_appSettings.Updater_LastShownVersion))
+                    .CompareTo(CheckVersionNumbers(new System.Version(UpdateChecker.LatestVersion))) < 0)
+                {
+                    showNotificationWindow = true;
+                }
+
+                if (showNotificationWindow)
+                {
+                    m_appSettings.Updater_LastShownVersion = UpdateChecker.LatestVersion;
+                    m_appSettings.Save();
+
+                    VirastyarUpdate_Action();
+                }
+            }
+            catch(Exception ex)
+            {
+                m_logger.ErrorException("Unable to show the UpdateAvailable dialog", ex);
+            }
         }
 
         private void SetUpdateAvailableToolbarVisibility(bool visible)
         {
             var officeVersion = SettingsHelper.GetOfficeVersion();
-            if (officeVersion == OfficeVersion.Office2003)
+            if (officeVersion ==  OfficeVersions.Office2003)
             {
                 CommandBar cmdBar = WordUIHelper.FindOldToolbar(Application, Constants.UpdateToolbarName);
                 if (cmdBar != null)
@@ -1303,13 +1458,13 @@ namespace VirastyarWordAddin
 
         #region AddinConfiguration
 
-        private void addinConfigurationDialog_SpellCheckSettingsChanged(SpellCheckSettingsChangedEventArgs e)
+        private void AddinConfigurationDialogSpellCheckSettingsChanged(SpellCheckSettingsChangedEventArgs e)
         {
             try
             {
-                this.SpellCheckerWrapper.Initialize(e);
-                e.CancelLoadingUserDictionary = !this.SpellCheckerWrapper.IsInitialized;
-                if (this.SpellCheckerWrapper.IsInitialized)
+                SpellCheckerWrapper.Initialize(e);
+                e.CancelLoadingUserDictionary = !SpellCheckerWrapper.IsInitialized;
+                if (SpellCheckerWrapper.IsInitialized)
                     EnableSpellCheckFunctionalities();
                 else
                     DisableSpellCheckFunctionalities();
@@ -1322,7 +1477,7 @@ namespace VirastyarWordAddin
             }
         }
 
-        private void addinConfigurationDialog_RepairMenubarsClicked(object sender, EventArgs e)
+        private void AddinConfigurationDialogRepairMenubarsClicked(object sender, EventArgs e)
         {
             // TODO: Mouse cursor
             WordUIHelper.DeleteOldToolbars(this.Application, Constants.ToolbarPrefix);
@@ -1330,15 +1485,190 @@ namespace VirastyarWordAddin
             //TODO: CreateMenuAndToolbars(false);
         }
 
-        private void addinConfigurationDialog_RefineAllSettingsChanged(RefineAllSettingsChangedEventArgs e)
+        private void AddinConfigurationDialogRefineAllSettingsChanged(RefineAllSettingsChangedEventArgs e)
         {
-            this.m_allCharactersRefinerSettings = e.Settings;
+            m_allCharactersRefinerSettings = e.Settings;
         }
 
         #endregion
 
-        #region Some Utilities
+        #region IVirastyarAddin Members
 
+        public void PinglishConvert_Action()
+        {
+            try
+            {
+                if (!this.SpellCheckerWrapper.Enabled)
+                    return;
+
+                VerificationController.CreateAndStartInteractive<PinglishVerifier>(Application);
+            }
+            catch (Exception ex)
+            {
+                OnExceptionOccured(ex);
+            }
+        }
+
+        public void PinglishConvertAll_Action()
+        {
+            try
+            {
+                if (!ConfirmBatchStart(false, "تبدیل یکبارهٔ پینگلیش"))
+                    return;
+
+                if (!this.SpellCheckerWrapper.Enabled)
+                    return;
+
+                VerificationController.CreateAndStartBatchMode<PinglishVerifier>(Application);
+            }
+            catch (Exception ex)
+            {
+                OnExceptionOccured(ex);
+            }
+        }
+
+        public void CheckDates_Action()
+        {
+            VerificationController.CreateAndStartInteractive<DateVerifier>(Application);
+        }
+
+        public void CheckNumbers_Action()
+        {
+            VerificationController.CreateAndStartInteractive<NumberVerifier>(Application);
+        }
+
+        public void CheckSpell_Action()
+        {
+            try
+            {
+                if (!SpellCheckerWrapper.Enabled)
+                    return;
+
+                PersianSpellChecker engine;
+                SessionLogger sessionLogger;
+                if (!GetSpellCheckerEngine(out engine) || !GetSpellCheckerUsageSession(out sessionLogger))
+                    return;
+
+                VerificationController.CreateAndStartInteractive<SpellCheckerVerifier>(Application, false, engine, sessionLogger);
+            }
+            catch (Exception ex)
+            {
+                OnExceptionOccured(ex);
+            }
+        }
+
+        public void PreCheckSpell_Action()
+        {
+            try
+            {
+                if (!ConfirmBatchStart(false, "پیش‌پردازش املایی متن"))
+                    return;
+
+                if (!SpellCheckerWrapper.Enabled)
+                    return;
+
+                PersianSpellChecker engine;
+                SessionLogger sessionLogger;
+                if (!GetSpellCheckerEngine(out engine) || !GetSpellCheckerUsageSession(out sessionLogger))
+                    return;
+
+                VerificationController.CreateAndStartBatchMode<SpellCheckerVerifier>(Application, true, engine);
+            }
+            catch (Exception ex)
+            {
+                OnExceptionOccured(ex);
+            }
+        }
+
+        public void CheckPunctuation_Action()
+        {
+            VerificationController.CreateAndStartInteractive<PunctuationVerifier>(Application);
+        }
+
+        public void CheckAllPunctuation_Action()
+        {
+            if (!ConfirmBatchStart(false, "تصحیح یکبارهٔ نشانه‌گذاری"))
+                return;
+
+            VerificationController.CreateAndStartBatchMode<PunctuationVerifier>(Application);
+        }
+
+        public void RefineAllCharacters_Action()
+        {
+            if (!ConfirmBatchStart(true, "اصلاح نویسه‌های متن"))
+                return;
+
+
+            VerificationController.CreateAndStartBatchMode<CharacterRefinementVerifier>(Application, m_allCharactersRefinerSettings);
+        }
+
+        public void AddinSettings_Action()
+        {
+            m_addinConfigurationDialog.LoadConfigurations();
+            m_addinConfigurationDialog.ShowDialog();
+        }
+
+        public void About_Action()
+        {
+            var winAbout = new AboutWindow();
+            winAbout.ShowDialog();
+        }
+
+        public void AutoComplete_Action()
+        {
+            if (WordCompletionForm.GlobalEnabled)
+                WordCompletionForm.WordCompletionEventHandler(this, EventArgs.Empty);
+        }
+
+        public void Help_Action()
+        {
+            Globals.ThisAddIn.ShowHelp(HelpConstants.MainIntro);
+        }
+
+        public void Tip_Action()
+        {
+            try
+            {
+                Stream tipsStream = ResourceManager.GetResource(Constants.TipsOfTheDayFileName);
+                TipOfTheDayForm.ShowTipOfTheDay(tipsStream);
+            }
+            catch (Exception ex)
+            {
+                OnExceptionOccured(ex, "Unable to show Tip of the day");
+            }
+        }
+
+        public void SendReport_Action()
+        {
+            // TODO:
+        }
+
+        public bool Get_IsUpdateAvailable()
+        {
+            return UpdateChecker.UpdateIsAvailable;
+        }
+
+        public void VirastyarUpdate_Action()
+        {
+            var updateNotificationWindow = new UpdateNotificationWindow(CloseThisDialog, false);
+            m_currentDialog = updateNotificationWindow;
+            var activeWindow = WindowWrapper.GetWordActiveWindowWrapper();
+            if (activeWindow.Handle.ToInt64() != 0)
+            {
+                updateNotificationWindow.Show(WindowWrapper.GetWordActiveWindowWrapper());
+            }
+            else
+            {
+                updateNotificationWindow.ShowDialog();
+            }
+            m_currentDialog = null;
+        }
+
+        #endregion
+
+        #region Obsolete Members
+
+        [Obsolete("", true)]
         public bool IsSelectionStartedInBlock(Selection s, MSWordBlock b)
         {
             if (s.StoryType == b.Range.StoryType)
@@ -1350,6 +1680,7 @@ namespace VirastyarWordAddin
             return false;
         }
 
+        [Obsolete("", true)]
         public bool IsSelectionInBlock(Selection s, MSWordBlock b)
         {
             if (s.StoryType == b.Range.StoryType)
@@ -1361,6 +1692,7 @@ namespace VirastyarWordAddin
             return false;
         }
 
+        [Obsolete("", true)]
         public bool AreBlocksEqual(MSWordBlock a, MSWordBlock b)
         {
             if (a == b) return true;
@@ -1374,21 +1706,35 @@ namespace VirastyarWordAddin
             return false;
         }
 
+        [Obsolete("", true)]
+        private MSWordDocument ActiveMSWordDocument
+        {
+            get
+            {
+                return new MSWordDocument(Application.ActiveDocument);
+
+            }
+        }
+
+        [Obsolete("", true)]
         private IEnumerable<MSWordBlock> EnumerateMatchingParagraphs(string key, bool isCaseInsensitive)
         {
             return EnumerateMatchingParagraphs(key, null, isCaseInsensitive);
         }
 
+        [Obsolete("", true)]
         private IEnumerable<MSWordBlock> EnumerateMatchingParagraphs(string key)
         {
             return EnumerateMatchingParagraphs(key, null, false);
         }
 
+        [Obsolete("", true)]
         private IEnumerable<MSWordBlock> EnumerateMatchingParagraphs(string key1, string key2)
         {
             return EnumerateMatchingParagraphs(key1, key2, false);
         }
 
+        [Obsolete("", true)]
         private static IEnumerable<MSWordBlock> EnumerateMatchingParagraphs(string key1, string key2, bool isCaseInsensitive)
         {
             MSWordDocument d = Globals.ThisAddIn.ActiveMSWordDocument;
@@ -1422,6 +1768,8 @@ namespace VirastyarWordAddin
         }
 
         #region Replace All Stuff : The newer version with less COM calls
+
+        [Obsolete("", true)]
         public void ReplaceAll(string what, string with)
         {
             if (what == with)
@@ -1435,6 +1783,7 @@ namespace VirastyarWordAddin
                 }
         }
 
+        [Obsolete("", true)]
         public void ReplaceAllCaseInsensitive(string what, string with)
         {
             what = what.ToLower();
@@ -1449,6 +1798,7 @@ namespace VirastyarWordAddin
                 }
         }
 
+        [Obsolete("", true)]
         public void ReplaceAllTwoWordsWithOne(string firstStr, string secondStr, string with)
         {
             foreach (MSWordBlock p in EnumerateMatchingParagraphs(firstStr, secondStr))
@@ -1544,6 +1894,7 @@ namespace VirastyarWordAddin
 
         #endregion
 
+        [Obsolete("", true)]
         public void ReplaceTwoRangesWithOne(Range first, Range second, string with, bool showErrMsg)
         {
             //Debug.Assert(first != null && second != null);
@@ -1594,12 +1945,13 @@ namespace VirastyarWordAddin
             }
         }
 
+        [Obsolete("", true)]
         public void ReplaceTwoRangesWithOne(Range first, Range second, string with)
         {
             ReplaceTwoRangesWithOne(first, second, with, true);
         }
 
-
+        [Obsolete("", true)]
         public bool SetRangeContent(Range r, string content, bool showErrorMessage)
         {
             try
@@ -1717,6 +2069,7 @@ namespace VirastyarWordAddin
             return true;
         }
 
+        [Obsolete("", true)]
         public bool IsSpecialCodeReplacement(string original, string replacement, out string orgBeforeSpCode, out string orgAfterSpCode, out string repBeforeSpCode, out string repAfterSpCode)
         {
             repBeforeSpCode = repAfterSpCode = orgBeforeSpCode = orgAfterSpCode = "";
@@ -1745,10 +2098,11 @@ namespace VirastyarWordAddin
             return false;
         }
 
+        [Obsolete("", true)]
         public bool IsOneSpaceInsertion(string original, string replacement, out string beforeSpace, out string afterSpace)
         {
             beforeSpace = afterSpace = "";
-            int firstSpaceIndex = replacement.IndexOf(" ");
+            int firstSpaceIndex = replacement.IndexOf(' ');
             if (firstSpaceIndex < 0)
                 return false;
             string repCopy = replacement.Remove(firstSpaceIndex, 1);
@@ -1761,187 +2115,6 @@ namespace VirastyarWordAddin
 
             return true;
         }
-
-        #endregion
-
-        #region VSTO generated code
-
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
-        private void InternalStartup()
-        {
-            AppDomain.CurrentDomain.DomainUnload += (e, s) =>
-            {
-                try
-                {
-                    if (m_processStartInfo != null)
-                        Process.Start(m_processStartInfo);
-
-                    if (UpdateChecker.RunUpdateProgramBeforeClose)
-                        UpdateChecker.RunUpdateProgram();
-                }
-                catch (Exception ex)
-                {
-                    // the process couldn't be started. This happens for 1 of 3 reasons:
-
-                    // 1. The user cancelled the UAC box
-                    // 2. The limited user tried to elevate to an Admin that has a blank password
-                    // 3. The limited user tries to elevate as a Guest account                    
-                    Debug.WriteLine(ex.ToString());
-                }
-            };
-
-            this.Startup += ThisAddIn_Startup;
-            this.Shutdown += ThisAddIn_Shutdown;
-        }
-
-        #endregion
-
-        #region Pre and Post Actions
-
-        private bool m_isShowRevisionsEnabled = false;
-
-        protected void PreAction()
-        {
-            m_isShowRevisionsEnabled = Application.ActiveDocument.ShowRevisions;
-            if (m_isShowRevisionsEnabled)
-            {
-                Application.ActiveDocument.ShowRevisions = false;
-            }
-        }
-
-        protected void PostAction()
-        {
-            Application.ActiveDocument.ShowRevisions = m_isShowRevisionsEnabled;
-        }
-
-        #endregion
-
-        #region IVirastyarAddin Members
-
-        public void PinglishConvert_Action()
-        {
-            PreAction();
-            PinglishCheck(TextProcessType.Interactive);
-            PostAction();
-        }
-
-        public void PinglishConvertAll_Action()
-        {
-            PreAction();
-            PinglishCheck(TextProcessType.Batch);
-            PostAction();
-        }
-
-        public void CheckDates_Action()
-        {
-            PreAction();
-            DateCheck();
-            PostAction();
-        }
-
-        public void CheckNumbers_Action()
-        {
-            PreAction();
-            VerifyNumbers();
-            PostAction();
-        }
-
-        public void CheckSpell_Action()
-        {
-            PreAction();
-            SpellCheck();
-            PostAction();
-        }
-
-        public void PreCheckSpell_Action()
-        {
-            PreAction();
-            PreSpellCheck();
-            PostAction();
-        }
-
-        public void CheckPunctuation_Action()
-        {
-            PreAction();
-            PunctuationCheck(TextProcessType.Interactive);
-            PostAction();
-        }
-
-        public void CheckAllPunctuation_Action()
-        {
-            PreAction();
-            PunctuationCheck(TextProcessType.Batch);
-            PostAction();
-        }
-
-        public void RefineAllCharacters_Action()
-        {
-            PreAction();
-            RefineAllCharacters();
-            PostAction();
-        }
-
-        public void AddinSettings_Action()
-        {
-            this.m_addinConfigurationDialog.LoadConfigurations();
-            this.m_addinConfigurationDialog.ShowDialog();
-        }
-
-        public void About_Action()
-        {
-            var winAbout = new AboutWindow();
-            winAbout.ShowDialog();
-        }
-
-        public void AutoComplete_Action()
-        {
-            if (WordCompletionForm.GlobalEnabled)
-                WordCompletionForm.WordCompletionEventHandler(this, EventArgs.Empty);
-        }
-
-        public void Help_Action()
-        {
-            Globals.ThisAddIn.ShowHelp(HelpConstants.MainIntro);
-        }
-
-        public void Tip_Action()
-        {
-            try
-            {
-                Stream tipsStream = ResourceManager.GetResource(Constants.TipsOfTheDayFileName);
-                TipOfTheDayForm.ShowTipOfTheDay(tipsStream);
-            }
-            catch (Exception ex)
-            {
-                OnExceptionOccured(ex, "Unable to show Tip of the day");
-            }
-        }
-
-        public void SendReport_Action()
-        {
-            // TODO:
-        }
-
-        public bool Get_IsUpdateAvailable()
-        {
-            return UpdateChecker.UpdateIsAvailable;
-        }
-
-        public void VirastyarUpdate_Action()
-        {
-            var updateNotificationWindow = new UpdateNotificationWindow(CloseThisDialog, false);
-            m_currentDialog = updateNotificationWindow;
-            updateNotificationWindow.Show(WindowWrapper.GetWordActiveWindowWrapper());
-            m_currentDialog = null;
-        }
-
-        #endregion
-
-        #region Obsolete Members
-
         /// <summary>
         /// Only call it by CheckAddinPrerequisites
         /// </summary>
@@ -1991,16 +2164,6 @@ namespace VirastyarWordAddin
             }
         }
 
-        /// <summary>
-        /// Only call it by CheckAddinPrerequisites
-        /// </summary>
-        [Obsolete("", true)]
-        private static void FixConnectionString()
-        {
-            ConfigurationSettings.AppSettings["connectionString"] =
-                String.Format(Settings.Default.SynConnectionStringFormat,
-                SettingsHelper.GetFullPath(Settings.Default.SynDBBaseFileName, VirastyarFilePathTypes.AllUsersFiles));
-        }
 
         [Obsolete]
         public bool IsWordActive()
@@ -2018,5 +2181,35 @@ namespace VirastyarWordAddin
         }
 
         #endregion
+
+        private bool ConfirmBatchStart(bool isCharBased, string name)
+        {
+            string first = String.Format("این عملیات ممکن است بسیاری از {0}‌های سند شما را تغییر دهد.",
+                                         isCharBased ? "نویسه" : "واژه");
+            string second = "لطفاً قبل از آغاز عملیات از ذخیره بودن متن خود اطمینان حاصل کنید.";
+            string third = String.Format("آیا موافقید که {0} آغاز شود؟", name);
+
+            string msg = String.Format("{1}{0}{2}{0}{3}", Environment.NewLine,
+                                       first, second, third);
+
+            var dialogResult = PersianMessageBox.Show(GetWin32Window(), msg, name, MessageBoxButtons.YesNo, MessageBoxIcon.Question,
+                                   MessageBoxDefaultButton.Button2);
+
+            return dialogResult == DialogResult.Yes;
+        }
+
+        public static IWin32Window GetWin32Window()
+        {
+            try
+            {
+                var handle = Process.GetCurrentProcess().MainWindowHandle;
+                return new WindowWrapper(handle);
+            }
+            catch(Exception ex)
+            {
+                // Log Debug
+                return null;
+            }
+        }
     }
 }

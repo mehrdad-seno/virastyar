@@ -619,14 +619,14 @@ namespace SCICT.NLP.Utility.Parsers
         /// <param name="yearNo">The year number.</param>
         public EnglishDatePatternInfo(string content, int index, int length, DateCalendarType t, Weekdays w, int dayNo, int monthNo, int yearNo)
         {
-            this.m_content = content;
-            this.m_index = index;
-            this.m_length = length;
-            this.m_calType = t;
-            this.m_weekday = w;
-            this.m_dayNumber = dayNo;
-            this.m_monthNumber = monthNo;
-            this.m_yearNumber = yearNo;
+            m_content = content;
+            m_index = index;
+            m_length = length;
+            m_calType = t;
+            m_weekday = w;
+            m_dayNumber = dayNo;
+            m_monthNumber = monthNo;
+            m_yearNumber = yearNo;
         }
 
         /// <summary>

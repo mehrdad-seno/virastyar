@@ -11,7 +11,7 @@ namespace VirastyarWordAddin.Update
 {
     public partial class UpdateNotificationWindow : Form
     {
-        private readonly string Message_RunUpdateProgram = "آیا مایلید برنامه‌ی به‌روز رسان ویراستیار را اجرا کنید؟";
+        private readonly string Message_RunUpdateProgram = "آیا مایلید برنامهٔ به‌روز رسان ویراستیار را اجرا کنید؟";
         private readonly string Message_GoToUpdateSite = "آیا مایلید برای دریافت نسخه جدید به سایت ویراستیار هدایت شوید؟";
 
         private readonly EventHandler m_closeDialogesHandler;
@@ -46,16 +46,6 @@ namespace VirastyarWordAddin.Update
 
                         object missing = Missing.Value;
                         Globals.ThisAddIn.Application.Quit(ref missing, ref missing, ref missing);
-
-                        //if (UpdateChecker.RunUpdateProgram())
-                        //{
-                        //    m_closeDialogesHandler(this, EventArgs.Empty);
-                        //}
-                        //else
-                        //{
-                        //    LogHelper.Error("Unable to run update program");
-                        //    showErrorMsg = true;
-                        //}
                     }
                     else
                     {
@@ -67,7 +57,7 @@ namespace VirastyarWordAddin.Update
                     if (showErrorMsg)
                     {
                         PersianMessageBox.Show(
-                            "آماده‌سازی برنامه‌ی به‌روز رسان با خطا مواجه شد. بهروز رسانی متوقف می‌شود", "خطا",
+                            "آماده‌سازی برنامهٔ به‌روز رسان با خطا مواجه شد. بهروز رسانی متوقف می‌شود", "خطا",
                             MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }

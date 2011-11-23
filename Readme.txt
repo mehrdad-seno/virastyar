@@ -1,5 +1,5 @@
-Virastyar 1.2.0 
-Copyright © 2010 SCICT 
+Virastyar 1.3.1 
+Copyright © 2011 SCICT 
 
 ==========================
 Virastyar is free software: you can redistribute it and/or modify
@@ -43,9 +43,11 @@ You need the following to successfully build and run Virastyar from sources:
 There is an automated build script provided. To use it, run "buildenv.bat" and 
 execute "msrebuild.bat".
 
-If you wish to run Virastyar from source files, change the directory to 
+Alternatively, if you wish to run Virastyar from source files, you can open
+"VirastyarLibs.sln", and build the required libraries. Then according to your
+operating system and Microsoft Office version, change the directory to 
 "VirastyarWordAddin" and open the "VirastyarWordAddin.sln" solution file 
-(VirastyarWordAddin2010.sln in case of 64-bit Office).
+(or VirastyarWordAddin2010.sln in case of 64-bit Office).
 
 Also, you may need to change the ExecutionPolicy of the Powershell to build the Add-in successfully. 
 To do this, start a PowerShell console as administrator, and run this command:
@@ -66,7 +68,7 @@ Virastyar is produced by Supreme Council for Information and Communication Techn
 
 Developers of Virastyar:
 - Omid Kashefi, kashefi@{ieee.org, iust.ac.ir}
-- Mehrdad Senobari, senobari@modares.ac.ir
+- Mehrdad Senobari, senobari@gmail.com
 - Sina Iravanian, sina@sinairv.com
 - Kamiar Kanani, kanani@ce.sharif.edu
 - Mitra Nasri, mitra.nasri@ut.ac.ir

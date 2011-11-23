@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
 
 namespace SCICT.NLP.Utility.Parsers
 {
@@ -9,22 +8,6 @@ namespace SCICT.NLP.Utility.Parsers
     /// </summary>
     public class DigitizedNumberParser
     {
-        #region Regex Patterns
-
-        /// <summary>
-        /// Returns the whole pattern of a number in digits
-        /// </summary>
-        internal string NumericChunksPattern()
-        {
-            // \u066B == Arabic decimal seperator
-            // \u066C == Arabic thousand seperator
-
-            const string allChars = @"\+|\-|\d|\t| |e|E|\.|/|,|\u066B|\u066C";
-            return @"(" + allChars + @")+";
-        }
-
-        #endregion
-
         #region Public Interfaces
 
         /// <summary>
@@ -35,72 +18,124 @@ namespace SCICT.NLP.Utility.Parsers
         /// information about the patterns found.</returns>
         public IEnumerable<DigitizedNumberPatternInfo> FindAndParse(string str)
         {
-            List<DigitizedNumberPatternInfo> l = new List<DigitizedNumberPatternInfo>();
+            var l = new List<DigitizedNumberPatternInfo>();
 
-            Regex regex = new Regex(NumericChunksPattern());
-            DigitizedNumberPatternInfo curPi;
-            foreach (Match m in regex.Matches(str))
+            var wordTokenizer = new WordTokenizer(WordTokenizerOptions.None);
+            foreach(var wordInfo in wordTokenizer.Tokenize(str))
             {
-                curPi = ExtractFromDigitizedNumber(m);
-                if (curPi != null)
-                    l.Add(curPi);
+                if(wordInfo.IsNumber)
+                {
+                    var refinedWord = PostProcessNumberWordInfo(wordInfo);
+                    double result;
+                    if (Double.TryParse(ParsingUtils.ConvertNumber2English(refinedWord.Value), out result))
+                    {
+                        l.Add(new DigitizedNumberPatternInfo(refinedWord.Value, refinedWord.Index, refinedWord.Length, result));
+                    }
+                }
+            }
+            
+            return l;
+        }
+
+        private WordTokenInfo PostProcessNumberWordInfo(WordTokenInfo wordInfo)
+        {
+            string strNumber = wordInfo.Value;
+            // NOTE: this prevents detecting .123 as number and requires it to be as 0.123
+            //       you might remove it later
+            int preCutLength = 0;
+            int postCutLength = 0;
+
+            while (strNumber[preCutLength] == '.')
+            {
+                preCutLength++;
             }
 
-            return l;
+            while (strNumber[strNumber.Length - 1 - postCutLength] == '.')
+            {
+                postCutLength++;
+            }
+
+            if(preCutLength > 0 || postCutLength > 0)
+            {
+                string token = wordInfo.Value;
+                token = token.Substring(preCutLength);
+                token = token.Substring(0, token.Length - postCutLength);
+                var refinedWordInfo = new WordTokenInfo(token, wordInfo.Index + preCutLength, wordInfo.WordCategory);
+                return refinedWordInfo;
+            }
+
+            return wordInfo;
         }
 
         #endregion 
 
-        #region Extract (i.e. Parsing) Functions
+        #region Commented out ( Extract (i.e. Parsing) Functions )
 
-        /// <summary>
-        /// Extracts the digitized number we are looking for from the Regex <see cref="Match"/> object.
-        /// </summary>
-        /// <param name="m">The regex match object.</param>
-        /// <returns>An Instance of <see cref="DigitizedNumberPatternInfo"/> that contains the desired pattern found, 
-        /// or null if the pattern found, is not convertible to numeric data types.</returns>
-        private DigitizedNumberPatternInfo ExtractFromDigitizedNumber(Match m)
-        {
-            string strNumber = ParsingUtils.ConvertNumber2English(m.Value);
+        //#region Regex Patterns
 
-            string matchContent = m.Value.Trim();
-            int matchIndex = m.Index;
-            int matchLength = m.Length;
+        ///// <summary>
+        ///// Returns the whole pattern of a number in digits
+        ///// </summary>
+        //internal string NumericChunksPattern()
+        //{
+        //    // \u066B == Arabic decimal seperator
+        //    // \u066C == Arabic thousand seperator
 
-            // NOTE: this prevents detecting .123 as number and requires it to be as 0.123
-            //       you might remove it later
-            while (strNumber.StartsWith("."))
-            {
-                strNumber = strNumber.Substring(1);
-                matchContent = matchContent.Substring(1);
-                matchLength--;
-                matchIndex++;
-            }
+        //    const string allChars = @"\+|\-|\d|\t| |e|E|\.|/|,|\u066B|\u066C";
+        //    return @"(" + allChars + @")+";
+        //}
 
-            while(strNumber.EndsWith("."))
-            {
-                strNumber = strNumber.Substring(0, strNumber.Length - 1);
-                matchContent = matchContent.Substring(0, matchContent.Length - 1);
-                matchLength--;
-            }
+        //#endregion
 
-            string str = strNumber.TrimStart(null);
-            int diff = strNumber.Length - str.Length;
-            matchIndex += diff;
-            matchLength -= diff;
-            strNumber = str;
-            str = strNumber.TrimEnd(null);
-            diff = strNumber.Length - str.Length;
-            matchLength -= diff;
 
-            double doubleNumber = 0.0;
-            if (Double.TryParse(strNumber, out doubleNumber))
-            {
-                return new DigitizedNumberPatternInfo(matchContent, matchIndex, matchLength, doubleNumber);
-            }
+        ///// <summary>
+        ///// Extracts the digitized number we are looking for from the Regex <see cref="Match"/> object.
+        ///// </summary>
+        ///// <param name="m">The regex match object.</param>
+        ///// <returns>An Instance of <see cref="DigitizedNumberPatternInfo"/> that contains the desired pattern found, 
+        ///// or null if the pattern found, is not convertible to numeric data types.</returns>
+        //private DigitizedNumberPatternInfo ExtractFromDigitizedNumber(Match m)
+        //{
+        //    string strNumber = ParsingUtils.ConvertNumber2English(m.Value);
 
-            return null;
-        }
+        //    string matchContent = m.Value.Trim();
+        //    int matchIndex = m.Index;
+        //    int matchLength = m.Length;
+
+        //    // NOTE: this prevents detecting .123 as number and requires it to be as 0.123
+        //    //       you might remove it later
+        //    while (strNumber.StartsWith("."))
+        //    {
+        //        strNumber = strNumber.Substring(1);
+        //        matchContent = matchContent.Substring(1);
+        //        matchLength--;
+        //        matchIndex++;
+        //    }
+
+        //    while(strNumber.EndsWith("."))
+        //    {
+        //        strNumber = strNumber.Substring(0, strNumber.Length - 1);
+        //        matchContent = matchContent.Substring(0, matchContent.Length - 1);
+        //        matchLength--;
+        //    }
+
+        //    string str = strNumber.TrimStart(null);
+        //    int diff = strNumber.Length - str.Length;
+        //    matchIndex += diff;
+        //    matchLength -= diff;
+        //    strNumber = str;
+        //    str = strNumber.TrimEnd(null);
+        //    diff = strNumber.Length - str.Length;
+        //    matchLength -= diff;
+
+        //    double doubleNumber;
+        //    if (Double.TryParse(strNumber, out doubleNumber))
+        //    {
+        //        return new DigitizedNumberPatternInfo(matchContent, matchIndex, matchLength, doubleNumber);
+        //    }
+
+        //    return null;
+        //}
 
         #endregion
     }
@@ -153,10 +188,10 @@ namespace SCICT.NLP.Utility.Parsers
         /// <param name="number">The parsed number.</param>
         public DigitizedNumberPatternInfo(string content, int index, int len, double number)
         {
-            this.Content = content;
-            this.Index = index;
-            this.Length = len;
-            this.Number = number;
+            Content = content;
+            Index = index;
+            Length = len;
+            Number = number;
         }
 
         /// <summary>
@@ -170,5 +205,6 @@ namespace SCICT.NLP.Utility.Parsers
             return String.Format("Content:{1}{0}At:{2}{0}\tValue:{3}{0}", Environment.NewLine,
                 Content, Index , Number);
         }
+
     }
 }

@@ -8,8 +8,8 @@ namespace VirastyarWordAddin.Update
     /// </summary>
     public static class UpdateChecker
     {
-        private static MsiUpdateChecker s_msiUpdateChecker = null;
         private static WyUpdateChecker s_wyUpdateChecker = null;
+        private static MsiUpdateChecker s_msiUpdateChecker = null;
 
         private static readonly Timer s_updateTimer = new Timer(15000);
 
@@ -110,7 +110,6 @@ namespace VirastyarWordAddin.Update
 
         public static void CheckForUpdate()
         {
-            //InitWyUpdateChecker();
             ProperUpdater = null;
 
             if (s_updateTimer.Enabled)
@@ -123,7 +122,6 @@ namespace VirastyarWordAddin.Update
 
         public static void CheckForUpdate(bool recheck)
         {
-            //InitWyUpdateChecker();
             ProperUpdater = null;
             
             if (s_updateTimer.Enabled)

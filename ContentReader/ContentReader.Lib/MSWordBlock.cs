@@ -12,6 +12,7 @@ namespace SCICT.Microsoft.Office.Word.ContentReader
     /// <summary>
     /// Any kind of contents of a MS-Word Document.
     /// </summary>
+    [Obsolete("Use RangeWrapper instead!", true)]
     public class MSWordBlock : IBlock
     {
         #region Private Fields

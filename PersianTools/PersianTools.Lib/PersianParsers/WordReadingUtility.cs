@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Diagnostics;
 
 namespace SCICT.NLP.Utility.Parsers
 {
@@ -18,7 +19,7 @@ namespace SCICT.NLP.Utility.Parsers
         /// <param name="input">The input string.</param>
         /// <param name="isHalfSpaceADelim">if set to <c>true</c> the half-space character is considered as a word delimiter.</param>
         /// <returns>The sequence of words inside the input string.</returns>
-        public static IEnumerable<WordInfo> ReadWords(string input, bool isHalfSpaceADelim)
+        public static IEnumerable<TokenInfo> ReadWords(string input, bool isHalfSpaceADelim)
         {
             int startIndex = 0;
             int endIndex = 0;
@@ -138,8 +139,9 @@ namespace SCICT.NLP.Utility.Parsers
                 if (addNewWord)
                 {
                     endIndex = i - 1;
-                    yield return new WordInfo(sb.ToString(), startIndex, endIndex);
-                    //                    listWords.Add(sb.ToString());
+                    //yield return new TokenInfo(sb.ToString(), startIndex, endIndex);
+                    Debug.Assert((endIndex - startIndex + 1) == sb.ToString().Length);
+                    yield return new TokenInfo(sb.ToString(), startIndex);
                     sb = new StringBuilder();
                 }
 
@@ -168,7 +170,10 @@ namespace SCICT.NLP.Utility.Parsers
             if (addNewWord)
             {
                 endIndex = len - 1;
-                yield return new WordInfo(sb.ToString(), startIndex, endIndex);
+
+                //yield return new TokenInfo(sb.ToString(), startIndex, endIndex);
+                Debug.Assert((endIndex - startIndex + 1) == sb.ToString().Length);
+                yield return new TokenInfo(sb.ToString(), startIndex);
             }
         }
 
@@ -193,54 +198,6 @@ namespace SCICT.NLP.Utility.Parsers
             /// Character is neither White-Space, Letter, nor Digit.
             /// </summary>
             Other
-        }
-    }
-
-    /// <summary>
-    /// Holds information about the words and their location
-    /// </summary>
-    public class WordInfo
-    {
-        /// <summary>
-        /// Gets or sets the word content.
-        /// </summary>
-        /// <value>The word content.</value>
-        public string Word { get; private set; }
-
-        /// <summary>
-        /// Gets or sets the start index of the word.
-        /// </summary>
-        /// <value>The start index.</value>
-        public int StartIndex { get; private set; }
-
-        /// <summary>
-        /// Gets or sets the end index of the word.
-        /// </summary>
-        /// <value>The end index.</value>
-        public int EndIndex { get; private set; }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="WordInfo"/> class.
-        /// </summary>
-        /// <param name="word">The word.</param>
-        /// <param name="startIndex">The start index.</param>
-        /// <param name="endIndex">The end index.</param>
-        public WordInfo(string word, int startIndex, int endIndex)
-        {
-            Word = word;
-            this.StartIndex = startIndex;
-            this.EndIndex = endIndex;
-        }
-
-        /// <summary>
-        /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
-        /// </summary>
-        /// <returns>
-        /// A <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
-        /// </returns>
-        public override string ToString()
-        {
-            return String.Format("{0}: ({1}, {2})", Word, StartIndex, EndIndex);
         }
     }
 }

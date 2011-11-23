@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using SCICT.Microsoft.Win32;
+using SCICT.Microsoft.Windows;
+using SCICT.Utility.Windows;
 
 namespace VirastyarWordAddin
 {

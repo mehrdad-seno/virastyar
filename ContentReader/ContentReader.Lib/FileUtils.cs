@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace SCICT.Microsoft.Office.Word.ContentReader.Shared
@@ -10,6 +11,7 @@ namespace SCICT.Microsoft.Office.Word.ContentReader.Shared
     /// class it is placed in the PeresianContentReader.Lib project, so that 
     /// it is shared with the clients also.
     /// </summary>
+    [Obsolete("", true)]
     public static class FileUtils
     {
         /// <summary>

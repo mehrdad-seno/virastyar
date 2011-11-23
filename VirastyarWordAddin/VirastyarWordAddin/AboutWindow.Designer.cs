@@ -123,8 +123,8 @@
             this.linkLabel2.Size = new System.Drawing.Size(463, 49);
             this.linkLabel2.TabIndex = 9;
             this.linkLabel2.TabStop = true;
-            this.linkLabel2.Text = "این نرم‌افزار را دبیرخانه‌ی شورای عالی اطلاع‌رسانی تهیه کرده است.\r\nتمام حقوق مادّ" +
-    "ی و معنوی این نرم‌افزار برای دبیرخانه‌ی شورای عالی اطلاع‌رسانی محفوظ است.\r\n";
+            this.linkLabel2.Text = "این نرم‌افزار را دبیرخانهٔ شورای عالی اطلاع‌رسانی تهیه کرده است.\r\nتمام حقوق مادّی" +
+    " و معنوی این نرم‌افزار برای دبیرخانهٔ شورای عالی اطلاع‌رسانی محفوظ است.\r\n";
             this.linkLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.linkLabel2.UseCompatibleTextRendering = true;
             this.linkLabel2.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel2_LinkClicked);

@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Text;
+using SCICT.Utility.Windows;
 
-namespace SCICT.Microsoft.Win32
+namespace SCICT.Microsoft.Windows
 {
     public struct KeyState
     {

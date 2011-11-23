@@ -10,6 +10,7 @@ namespace SCICT.Microsoft.Office.Word.ContentReader
     /// this class is responsible for opening documents based upon their extensions, 
     /// and reclaiming their resources in the end.
     /// </summary>
+    [Obsolete("Use DocumentUtils instead!", true)]
     public class DocFactory : IDisposable
     {
         /// <summary>

@@ -22,6 +22,9 @@ namespace SCICT.NLP.Utility.WordContainer
         public AutoCompleteWordContainerTree(WordContainerTreeConfig wordContainerConfig) :
             base(wordContainerConfig) { }
 
+        public AutoCompleteWordContainerTree() :
+            base() { }
+
         ///<summary>
         /// Complete the rest of incomplete word
         ///</summary>

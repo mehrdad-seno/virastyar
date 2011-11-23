@@ -258,6 +258,9 @@ namespace SCICT.NLP.Utility.WordContainer
             while (!m_dicW.EndOfStream)
             {
                 m_dicW.NextTerm(out word);
+
+                word = word.Normalize(NormalizationForm.FormC);
+
                 this.AddWordToMemory(word);
             }
 
@@ -308,6 +311,24 @@ namespace SCICT.NLP.Utility.WordContainer
                 throw ex;
             }
         }
+
+        /// <summary>
+        /// Add a word to tree
+        /// </summary>
+        /// <param name="word">Word</param>
+        public bool AddWordBlind(string word)
+        {
+            try
+            {
+                AddWordToMemory(word);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
 
         /// <summary>
         /// Remove word from Dictinary
@@ -570,6 +591,9 @@ namespace SCICT.NLP.Utility.WordContainer
             while (!m_dicWF.EndOfStream)
             {
                 m_dicWF.NextTerm(out word, out freq);
+
+                word = word.Normalize(NormalizationForm.FormC);
+
                 this.AddWordToMemory(word, freq);
             }
 
@@ -735,6 +759,25 @@ namespace SCICT.NLP.Utility.WordContainer
                 throw ex;
             }
         }
+
+        /// <summary>
+        /// Add a word to tree
+        /// </summary>
+        /// <param name="word">Word</param>
+        /// <param name="freq">Word's usage frequency</param>
+        public bool AddWordBlind(string word, int freq)
+        {
+            try
+            {
+                AddWordToMemory(word, freq);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
 
         /// <summary>
         /// Remove a word from dictionary
@@ -1040,6 +1083,9 @@ namespace SCICT.NLP.Utility.WordContainer
             while (!m_dicWFPOS.EndOfStream)
             {
                 m_dicWFPOS.NextTerm(out word, out freq, out pos);
+
+                word = word.Normalize(NormalizationForm.FormC);
+
                 this.AddWordToMemory(word, freq, pos);
             }
 

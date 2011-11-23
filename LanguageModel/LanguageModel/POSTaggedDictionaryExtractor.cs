@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using SCICT.NLP.Persian.Constants;
 using SCICT.NLP.Utility.Parsers;
-using SCICT.NLP.Morphology.Lemmatization;
 using System.IO;
 using SCICT.NLP.Utility.WordContainer;
 using SCICT.Utility;
@@ -30,8 +29,8 @@ namespace SCICT.NLP.Utility.LanguageModel
         private readonly WordFreqPOSContainerTree m_wordContainerExternal = new WordFreqPOSContainerTree();
       
         private readonly Dictionary<string, int> m_wordList = new Dictionary<string, int>();
-        
-        private readonly PersianSuffixRecognizer m_suffixRecognizer = new PersianSuffixRecognizer(false, true);
+
+        private readonly PersianSuffixLemmatizer m_suffixRecognizer = new PersianSuffixLemmatizer(false, true);
 
         private readonly Dictionary<string, FreqPOSPair> m_finalList = new Dictionary<string, FreqPOSPair>();
 
@@ -195,7 +194,7 @@ namespace SCICT.NLP.Utility.LanguageModel
             
             if (suffix.Length > 0)
             {
-                PersianSuffixesCategory suffixCategory = m_suffixRecognizer.SuffixCategory(suffix);
+                PersianSuffixesCategory suffixCategory = InflectionAnalyser.SuffixCategory(suffix);
                 extractedPOSTag =  InflectionAnalyser.AcceptingPOS(suffixCategory);
 
                 extractedPOSTag = extractedPOSTag.Set(PersianPOSTag.UserPOS);

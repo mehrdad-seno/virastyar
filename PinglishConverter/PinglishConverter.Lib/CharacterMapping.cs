@@ -40,7 +40,7 @@ namespace SCICT.NLP.Utility.PinglishConverter
         /// <param name="letter">The letter which this instance will hold its mappings.</param>
         /// <param name="caseSensitive">if set to <c>true</c> [case sensitive].</param>
         /// <param name="values">Mapping values for the given letter.</param>
-        private CharacterMapping(char letter, bool caseSensitive, CharacterMappingInfo[] values)
+        private CharacterMapping(char letter, bool caseSensitive, IEnumerable<CharacterMappingInfo> values)
         {
             this.m_letter = letter;
             this.m_caseSensitive = caseSensitive;

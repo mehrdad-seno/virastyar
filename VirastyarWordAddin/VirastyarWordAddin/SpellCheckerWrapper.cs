@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.IO;
 using VirastyarWordAddin.Configurations;
 using SCICT.NLP.TextProofing.SpellChecker;
 using SCICT.Utility.SpellChecker;
@@ -16,17 +16,10 @@ namespace VirastyarWordAddin
         private readonly SessionLogger m_sessionLogger = new SessionLogger();
 
         private string[] m_dictionaries = new string[0];
-        private bool m_ruleVocabWordSpacingCorrection = false;
-        private bool m_ruleDontCheckSingleLetters = false;
-        private bool m_ruleHeYeConvertion = true;
 
-        private bool m_refineHaa = false;
-        private bool m_refineMee = false;
-        private bool m_refineHeYe = false;
-        private bool m_refineBe = false;
-        private bool m_refineAllAffixes = false;
-
-        private bool m_isInitialized = false;
+        private bool m_prespellCorrectPrefixes = false;
+        private bool m_prespellCorrectSuffixes = false;
+        private bool m_prespellCorrectBe = false;
 
         /// <summary>
         /// Gets a value indicating whether this instance is initialized.
@@ -34,13 +27,7 @@ namespace VirastyarWordAddin
         /// <value>
         /// 	<c>true</c> if this instance is initialized; otherwise, <c>false</c>.
         /// </value>
-        public bool IsInitialized
-        {
-            get
-            {
-                return m_isInitialized;
-            }
-        }
+        public bool IsInitialized { get; private set; }
 
         /// <summary>
         /// Gets the path to the user dictionary
@@ -72,45 +59,31 @@ namespace VirastyarWordAddin
         /// <summary>
         /// Initializes a new instance of the <see cref="SpellCheckerWrapper"/> class.
         /// </summary>
-        /// <param name="dicPath">The user dictionary path.</param>
+        /// <param name="userDicPath">The user dic path.</param>
         /// <param name="editDistance">The edit distance.</param>
-        /// <param name="maxSug">The max sug.</param>
-        /// <param name="dics"></param>
-        /// <param name="ruleVocabWordSpacingCorrection"></param>
-        /// <param name="ruleHeYeConvertion"></param>
-        /// <param name="refineAllAffixes"></param>
-        /// <param name="refineBe"></param>
-        /// <param name="refineHaa"></param>
-        /// <param name="refineHeYe"></param>
-        /// <param name="refineMee"></param>
-        public SpellCheckerWrapper(string dicPath, int editDistance, int maxSug, string[] dics,
-            bool ruleVocabWordSpacingCorrection, bool ruleDontCheckSingleLetters, bool ruleHeYeConvertion,
-            bool refineAllAffixes, bool refineBe, bool refineHaa, bool refineHeYe, bool refineMee, string stemPath)
+        /// <param name="maxSug">The maximum number of suggestions.</param>
+        /// <param name="dics">array of main and custom dictionary paths. It is expected that the main dictionary has the index 0.</param>
+        /// <param name="prespellCorrectPrefixes">if set to <c>true</c> enable correct-prefixes prespelling rule.</param>
+        /// <param name="prespellCorrectSuffixes">if set to <c>true</c> enable correct-suffixes prespelling rule.</param>
+        /// <param name="prespellCorrectBe">if set to <c>true</c> enable correct-suffixes prespelling rule.</param>
+        /// <param name="stemPath">The path to the stem file.</param>
+        public SpellCheckerWrapper(string userDicPath, int editDistance, int maxSug, string[] dics,
+            bool prespellCorrectPrefixes, bool prespellCorrectSuffixes, bool prespellCorrectBe, string stemPath)
         {
-            this.UserDictionary = dicPath;
-            this.m_spellCheckerSettings = new SpellCheckerConfig(dicPath, editDistance, maxSug);
-            this.m_spellCheckerSettings.StemPath = stemPath;
-            this.m_isInitialized = false;
-            this.Enabled = true;
+            UserDictionary = userDicPath;
+            m_spellCheckerSettings = new SpellCheckerConfig(userDicPath, editDistance, maxSug) {StemPath = stemPath};
+            IsInitialized = false;
+            Enabled = true;
             SetDictionaries(dics);
-            this.m_ruleVocabWordSpacingCorrection = ruleVocabWordSpacingCorrection;
-            this.m_ruleDontCheckSingleLetters = ruleDontCheckSingleLetters;
-            this.m_ruleHeYeConvertion = ruleHeYeConvertion;
 
-            this.m_refineAllAffixes = refineAllAffixes;
-            this.m_refineBe = refineBe;
-            this.m_refineHaa = refineHaa;
-            this.m_refineHeYe = refineHeYe;
-            this.m_refineMee = refineMee;
-
-            //
-            //new SpellCheckerEngine(new SpellCheckerConfig(
+            m_prespellCorrectBe = prespellCorrectBe;
+            m_prespellCorrectPrefixes = prespellCorrectPrefixes;
+            m_prespellCorrectSuffixes = prespellCorrectSuffixes;
         }
 
         public bool SetDictionaries(string[] dics)
         {
-            // TODO: check each
-            this.m_dictionaries = dics;
+            m_dictionaries = dics;
             return true;
         }
 
@@ -121,20 +94,14 @@ namespace VirastyarWordAddin
 
         public bool Initialize(SpellCheckSettingsChangedEventArgs e)
         {
-            this.m_spellCheckerSettings = new SpellCheckerConfig(e.Settings.DicPath, e.Settings.EditDistance, e.Settings.SuggestionCount);
-            m_spellCheckerSettings.StemPath = e.Settings.StemPath;
+            m_spellCheckerSettings = new SpellCheckerConfig(e.Settings.DicPath, e.Settings.EditDistance, e.Settings.SuggestionCount)
+                                         {StemPath = e.Settings.StemPath};
+            SetDictionaries(e.CustomDictionaries);
 
-            this.SetDictionaries(e.CustomDictionaries);
-            this.m_ruleVocabWordSpacingCorrection = e.RuleVocabWordSpacingCorrection;
-            this.m_ruleDontCheckSingleLetters = e.RuleDontCheckSingleLetters;
-            this.m_ruleHeYeConvertion = e.RuleHeYeConvertion;
+            m_prespellCorrectBe = e.PrespellCorrectBe;
+            m_prespellCorrectPrefixes = e.PrespellCorrectPrefixes;
+            m_prespellCorrectSuffixes = e.PrespellCorrectSuffixes;
             
-            this.m_refineHaa = e.RefineHaa;
-            this.m_refineMee = e.RefineMee;
-            this.m_refineHeYe = e.RefineHeYe;
-            this.m_refineBe = e.RefineBe;
-            this.m_refineAllAffixes = e.RefineAllAffixes;
-
             return InitializeCore(e);
         }
 
@@ -144,141 +111,105 @@ namespace VirastyarWordAddin
         /// <returns></returns>
         public bool InitializeCore(SpellCheckSettingsChangedEventArgs e)
         {
+            bool isFirstLoad = (e == null);
             try
             {
                 if (m_spellCheckerEngine == null)
                 {
+                    isFirstLoad = true;
                     m_spellCheckerEngine = new PersianSpellChecker(m_spellCheckerSettings);
                 }
-                else
+                else if (e != null && e.ReloadSpellCheckerEngine)
                 {
                     m_spellCheckerEngine.ClearDictionary();
                     m_spellCheckerEngine.Reconfigure(m_spellCheckerSettings);
                 }
 
-                #region Spelling Rules
+                #region Prespelling Rules
 
-                if (this.m_ruleVocabWordSpacingCorrection)
+                if (m_prespellCorrectPrefixes)
                 {
-                    m_spellCheckerEngine.SetSpellingRules(SpellingRules.VocabularyWordsSpaceCorrection);
+                    m_spellCheckerEngine.SetOnePassCorrectionRules(OnePassCorrectionRules.CorrectPrefix);
                 }
                 else
                 {
-                    m_spellCheckerEngine.UnsetSpellingRules(SpellingRules.VocabularyWordsSpaceCorrection);
+                    m_spellCheckerEngine.UnsetOnePassCorrectionRules(OnePassCorrectionRules.CorrectPrefix);
                 }
 
-                if (this.m_ruleDontCheckSingleLetters)
+
+                if (m_prespellCorrectSuffixes)
                 {
-                    m_spellCheckerEngine.SetSpellingRules(SpellingRules.IgnoreLetters);
+                    m_spellCheckerEngine.SetOnePassCorrectionRules(OnePassCorrectionRules.CorrectSuffix);
                 }
                 else
                 {
-                    m_spellCheckerEngine.UnsetSpellingRules(SpellingRules.IgnoreLetters);
+                    m_spellCheckerEngine.UnsetOnePassCorrectionRules(OnePassCorrectionRules.CorrectSuffix);
                 }
 
-                if (!this.m_ruleHeYeConvertion)
+                if (m_prespellCorrectBe)
                 {
-                    m_spellCheckerEngine.SetSpellingRules(SpellingRules.IgnoreHehYa);
+                    m_spellCheckerEngine.SetOnePassCorrectionRules(OnePassCorrectionRules.CorrectBe);
                 }
                 else
                 {
-                    m_spellCheckerEngine.UnsetSpellingRules(SpellingRules.IgnoreHehYa);
-                }
-
-                #endregion
-
-                #region OnePassConverting Rules
-
-                if (this.m_refineAllAffixes)
-                {
-                    m_spellCheckerEngine.SetOnePassConvertingRules(OnePassConvertingRules.ConvertAll);
-                }
-                else
-                {
-                    m_spellCheckerEngine.UnsetOnePassConvertingRules(OnePassConvertingRules.ConvertAll);
-                }
-
-                if (this.m_refineHaa)
-                {
-                    m_spellCheckerEngine.SetOnePassConvertingRules(OnePassConvertingRules.ConvertHaa);
-                }
-                else
-                {
-                    m_spellCheckerEngine.UnsetOnePassConvertingRules(OnePassConvertingRules.ConvertHaa);
-                }
-
-
-                if (this.m_refineHeYe)
-                {
-                    m_spellCheckerEngine.SetOnePassConvertingRules(OnePassConvertingRules.ConvertHehYa);
-                }
-                else
-                {
-                    m_spellCheckerEngine.UnsetOnePassConvertingRules(OnePassConvertingRules.ConvertHehYa);
-
-                }
-
-                if (this.m_refineMee)
-                {
-                    m_spellCheckerEngine.SetOnePassConvertingRules(OnePassConvertingRules.ConvertMee);
-                }
-                else
-                {
-                    m_spellCheckerEngine.UnsetOnePassConvertingRules(OnePassConvertingRules.ConvertMee);
-                }
-
-                if (this.m_refineBe)
-                {
-                    m_spellCheckerEngine.SetOnePassConvertingRules(OnePassConvertingRules.ConvertBe);
-                }
-                else
-                {
-                    m_spellCheckerEngine.UnsetOnePassConvertingRules(OnePassConvertingRules.ConvertBe);
+                    m_spellCheckerEngine.UnsetOnePassCorrectionRules(OnePassCorrectionRules.CorrectBe);
                 }
 
                 #endregion
 
             }
+            catch (FileLoadException ex)
+            {
+                LogHelper.DebugException("Some DLLs could not be loaded.", ex);
+                IsInitialized = false;
+                m_spellCheckerEngine = null;
+                if (e != null)
+                    e.CancelLoadingUserDictionary = true;
+                return false;
+            }
             catch (Exception ex)
             {
                 LogHelper.DebugException("", ex);
-                this.m_isInitialized = false;
-                this.m_spellCheckerEngine = null;
+                IsInitialized = false;
+                m_spellCheckerEngine = null;
                 if (e != null)
                     e.CancelLoadingUserDictionary = true;
                 return false;
             }
 
-            for (int i = 0; i < m_dictionaries.Length; ++i)
+            if (isFirstLoad || e.ReloadSpellCheckerEngine)
             {
-                try
+                foreach (string t in m_dictionaries)
                 {
-                    if (!m_spellCheckerEngine.AppendDictionary(m_dictionaries[i]))
-                        throw new Exception();
-                }
-                catch (Exception)
-                {
-                    if (e != null)
-                        e.ErroneousUserDictionaries.Add(m_dictionaries[i]);
+                    try
+                    {
+                        if (!m_spellCheckerEngine.AppendDictionary(t))
+                            throw new Exception();
+                    }
+                    catch (Exception)
+                    {
+                        if (e != null)
+                            e.ErroneousUserDictionaries.Add(t);
+                    }
                 }
             }
 
-            this.m_isInitialized = true;
-            this.Enabled = true;
+            IsInitialized = true;
+            Enabled = true;
 
             return IsInitialized;
         }
 
-        public bool Initialize(string dicPath)
+        public bool Initialize(string userDicPath)
         {
-            return Initialize(dicPath, m_spellCheckerSettings.EditDistance, m_spellCheckerSettings.SuggestionCount, m_dictionaries);
+            return Initialize(userDicPath, m_spellCheckerSettings.EditDistance, m_spellCheckerSettings.SuggestionCount, m_dictionaries);
         }
 
-        public bool Initialize(string dicPath, int editDistance, int maxSug, string[] customDics)
+        public bool Initialize(string userDicPath, int editDistance, int maxSug, string[] customDics)
         {
-            this.m_spellCheckerSettings = new SpellCheckerConfig(dicPath, editDistance, maxSug);
-            this.SetDictionaries(customDics);
-            return this.Initialize();
+            m_spellCheckerSettings = new SpellCheckerConfig(userDicPath, editDistance, maxSug);
+            SetDictionaries(customDics);
+            return Initialize();
         }
 
         /// <summary>
@@ -335,7 +266,7 @@ namespace VirastyarWordAddin
         public static string[] GetDictionariesArray(string mainDictionary, bool useMainDictionary,
             string dicPaths, int dicSelectionFlags)
         {
-            List<string> lstDics = new List<string>();
+            var lstDics = new List<string>();
             if (useMainDictionary)
                 lstDics.Add(mainDictionary);
 

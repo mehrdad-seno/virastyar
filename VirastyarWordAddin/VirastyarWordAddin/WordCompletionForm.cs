@@ -4,11 +4,12 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Microsoft.Office.Interop.Word;
 using SCICT.Microsoft.Office.Word.ContentReader;
-using SCICT.Microsoft.Win32;
+using SCICT.Microsoft.Windows;
 using SCICT.NLP.Persian.Constants;
 using SCICT.NLP.TextProofing.SpellChecker;
 using SCICT.NLP.Utility;
 using SCICT.Utility.SpellChecker;
+using SCICT.Utility.Windows;
 using VirastyarWordAddin.Log;
 using Point = System.Drawing.Point;
 

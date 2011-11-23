@@ -259,14 +259,12 @@ namespace VirastyarWordAddin.Log
         {
             var logEventInfo = new VirastyarLogEventInfo(LogLevel.Error, s_defaultLogger.Name, message);
 
-
             s_defaultLogger.Log(logEventInfo);
         }
 
         public static void Error(string keywords, string message)
         {
             var logEventInfo = new VirastyarLogEventInfo(LogLevel.Error, s_defaultLogger.Name, message);
-
             logEventInfo.Keywords = keywords;
 
             s_defaultLogger.Log(logEventInfo);
@@ -276,14 +274,12 @@ namespace VirastyarWordAddin.Log
         {
             var logEventInfo = new VirastyarLogEventInfo(LogLevel.Error, logger.Name, message);
 
-
             logger.Log(logEventInfo);
         }
 
         public static void Error(Logger logger, string keywords, string message)
         {
             var logEventInfo = new VirastyarLogEventInfo(LogLevel.Error, logger.Name, message);
-
             logEventInfo.Keywords = keywords;
 
             logger.Log(logEventInfo);
@@ -292,7 +288,6 @@ namespace VirastyarWordAddin.Log
         public static void Error(Logger logger, string message, params object[] args)
         {
             var logEventInfo = new VirastyarLogEventInfo(LogLevel.Debug, logger.Name, CultureInfo.CurrentCulture, message, args);
-
 
             logger.Log(logEventInfo);
         }

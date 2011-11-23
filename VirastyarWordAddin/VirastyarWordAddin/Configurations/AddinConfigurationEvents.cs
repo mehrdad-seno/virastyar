@@ -43,16 +43,11 @@ namespace VirastyarWordAddin.Configurations
         public bool CancelLoadingUserDictionary { get; set; }
         public List<string> ErroneousUserDictionaries  { get; set; }
 
-        public bool RuleVocabWordSpacingCorrection { get; set; }
-        public bool RuleDontCheckSingleLetters { get; set; }
+        public bool PrespellCorrectPrefixes { get; set; }
+        public bool PrespellCorrectSuffixes { get; set; }
+        public bool PrespellCorrectBe { get; set; }
 
-        public bool RuleHeYeConvertion { get; set; }
-
-        public bool RefineHaa { get; set; }
-        public bool RefineMee { get; set; }
-        public bool RefineHeYe { get; set; }
-        public bool RefineBe { get; set; }
-        public bool RefineAllAffixes { get; set; }
+        public bool ReloadSpellCheckerEngine { get; set; }
     }
 
     #endregion

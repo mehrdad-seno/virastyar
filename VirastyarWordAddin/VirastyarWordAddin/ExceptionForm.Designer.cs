@@ -45,7 +45,7 @@
             this.lblMessage.Name = "lblMessage";
             this.lblMessage.Size = new System.Drawing.Size(368, 19);
             this.lblMessage.TabIndex = 0;
-            this.lblMessage.Text = "بروز خطای غیر منتظره در افزونه‌ی ویراستیار.";
+            this.lblMessage.Text = "بروز خطای غیر منتظره در افزونهٔ ویراستیار.";
             // 
             // label1
             // 
