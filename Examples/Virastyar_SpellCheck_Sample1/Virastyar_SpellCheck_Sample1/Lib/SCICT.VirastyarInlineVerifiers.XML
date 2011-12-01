@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SCICT.VirastyarInlineVerifiers</name>
+    </assembly>
+    <members>
+        <member name="M:SCICT.VirastyarInlineVerifiers.ShrinkingVerifierBase.FindPattern(System.String)">
+            <summary>
+            Finds the first and the most prominent pattern in the string.
+            </summary>
+            <param name="content">The content to search the pattern in.</param>
+        </member>
+    </members>
+</doc>

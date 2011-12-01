@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SCICT.NLP.Utility.WordGenerator</name>
+    </assembly>
+    <members>
+        <member name="T:SCICT.NLP.Utility.WordGenerator.RespellingGenerationType">
+            <summary>
+             Indicates the methodes of generating respelling suggestions by insering or omitting a letter, substitution of a letter with other letters and transposing two adjacent letters
+            </summary>
+        </member>
+        <member name="F:SCICT.NLP.Utility.WordGenerator.RespellingGenerationType.Transpose">
+            <summary>
+             Transposition of two adjacent letters
+            </summary>
+        </member>
+        <member name="F:SCICT.NLP.Utility.WordGenerator.RespellingGenerationType.Insert">
+            <summary>
+             insertion of one letter
+            </summary>
+        </member>
+        <member name="F:SCICT.NLP.Utility.WordGenerator.RespellingGenerationType.Delete">
+            <summary>
+             Omission of one letter
+            </summary>
+        </member>
+        <member name="F:SCICT.NLP.Utility.WordGenerator.RespellingGenerationType.Substitute">
+            <summary>
+             Substitution of two letters
+            </summary>
+        </member>
+        <member name="T:SCICT.NLP.Utility.WordGenerator.WordGenerator">
+            <summary>
+             Word Generator Class, This class generates respelling suggestions in given edit distance for a word
+            </summary>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordGenerator.WordGenerator.GenerateRespelling(System.String,System.Int32)">
+            <summary>
+             Generates respelling suggestions in given edit distance for a word
+            </summary>
+            <param name="word">Word</param>
+            <param name="editDistance">Edit Distance</param>
+            <returns>Respelling Suggestions</returns>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordGenerator.WordGenerator.GenerateRespelling(System.String,System.Int32,SCICT.NLP.Utility.WordGenerator.RespellingGenerationType)">
+            <summary>
+             Generates respelling suggestions in given edit distance for a word
+            </summary>
+            <param name="word">Word</param>
+            <param name="editDistance">Edit Distance</param>
+            <param name="respellingType">Type of generating respelling, logically OR desired types</param>
+            <returns>Respelling Suggestions</returns>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordGenerator.WordGenerator.GenerateRespelling(System.String,System.Int32,SCICT.NLP.Utility.WordGenerator.RespellingGenerationType,System.Char[])">
+            <summary>
+             Generates respelling suggestions in given edit distance for a word
+            </summary>
+            <param name="word">Word</param>
+            <param name="editDistance">Edit Distance</param>
+            <param name="respellingType">Type of generating respelling, logically OR desired types</param>
+            <param name="alphabet">List of charachters used to generate respelling</param>
+            <returns>Respelling Suggestions</returns>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordGenerator.WordGenerator.SetAccuracy(System.Double)">
+            <summary>
+            Accuracy of generating homophone words, It can be a number between 0 to 1 which 0 means minimum accuracy but fastest and 1 means maximum accuracy but slowest
+            </summary>
+            <param name="p"></param>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordGenerator.WordGenerator.GenerateHomophoneWords(System.String)">
+            <summary>
+             Generate homophone words of given word, homophone words are those that can pronounce the same
+            </summary>
+            <param name="word">Word</param>
+            <returns>Homophone Words</returns>
+        </member>
+    </members>
+</doc>

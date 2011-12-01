@@ -1,0 +1,454 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SCICT.NLP.Utility.StringDistance</name>
+    </assembly>
+    <members>
+        <member name="T:SCICT.NLP.Utility.StringDistance.KeyboardLanguages">
+            <summary>
+             Define Language of Current Keyboard Layout
+            </summary>
+        </member>
+        <member name="F:SCICT.NLP.Utility.StringDistance.KeyboardLanguages.Persian">
+            <summary>
+             Used as Persian Standard Keyboad Layout 
+            </summary>
+        </member>
+        <member name="F:SCICT.NLP.Utility.StringDistance.KeyboardLanguages.English">
+            <summary>
+             Used as English Standard Keyboad Layout
+            </summary>
+        </member>
+        <member name="T:SCICT.NLP.Utility.StringDistance.KeyboardConfig">
+            <summary>
+             Keyboard Layout Data Structure
+            </summary>
+        </member>
+        <member name="F:SCICT.NLP.Utility.StringDistance.KeyboardConfig.FirstRowCharacters">
+            <summary>
+             In a keyboard layout with 3 rows, it indicates the first row.
+            </summary>
+        </member>
+        <member name="F:SCICT.NLP.Utility.StringDistance.KeyboardConfig.SecondRowCharacters">
+            <summary>
+             In a keyboard layout with 3 rows, it indicates the second row.
+            </summary>
+        </member>
+        <member name="F:SCICT.NLP.Utility.StringDistance.KeyboardConfig.ThirdRowCharacters">
+            <summary>
+             In a keyboard layout with 3 rows, it indicates the third row.
+            </summary>
+        </member>
+        <member name="F:SCICT.NLP.Utility.StringDistance.KeyboardConfig.KeyboardLanguage">
+            <summary>
+             Keyboard Language
+            </summary>
+        </member>
+        <member name="F:SCICT.NLP.Utility.StringDistance.KeyboardConfig.OtherCharacters">
+            <summary>
+             Other charachters that does not fit in 3 rowed structure layout like charachters which must typed with Shift 
+            </summary>
+        </member>
+        <member name="M:SCICT.NLP.Utility.StringDistance.KeyboardConfig.#ctor">
+            <summary>
+            If the language has not been specified, Persian will use as default. 
+            </summary>
+        </member>
+        <member name="M:SCICT.NLP.Utility.StringDistance.KeyboardConfig.#ctor(SCICT.NLP.Utility.StringDistance.KeyboardLanguages)">
+            <summary>
+             Class Constructor
+            </summary>
+            <param name="language">Keyboard Labguage</param>
+        </member>
+        <member name="M:SCICT.NLP.Utility.StringDistance.KeyboardConfig.LoadPersianDefault">
+            <summary>
+            this function loads Persian default keyboard layout into this config object.
+            </summary>
+        </member>
+        <member name="M:SCICT.NLP.Utility.StringDistance.KeyboardConfig.LoadEnglishDefault">
+            <summary>
+            this function loads English default keyboard layout into this config object.
+            </summary>
+        </member>
+        <member name="T:SCICT.NLP.Utility.StringDistance.KeyboardKey">
+            <summary>
+             Keboard Key (Letters) data structure in Cartesian Coordinate System
+            </summary>
+        </member>
+        <member name="F:SCICT.NLP.Utility.StringDistance.KeyboardKey.X">
+            <summary>
+             Indicates the x-axes position of a key (letter) in Cartesian Coordinate System
+            </summary>
+        </member>
+        <member name="F:SCICT.NLP.Utility.StringDistance.KeyboardKey.Y">
+            <summary>
+             Indicates the y-axes position of a key (letter) in Cartesian Coordinate System
+            </summary>
+        </member>
+        <member name="F:SCICT.NLP.Utility.StringDistance.KeyboardKey.UseShift">
+            <summary>
+             Indicates the needs of pressing Shift key to type corresponding key.
+            </summary>
+        </member>
+        <member name="F:SCICT.NLP.Utility.StringDistance.KeyboardKey.Value">
+            <summary>
+             Indicates the Unicode value of the key in current keyboard layout
+            </summary>
+        </member>
+        <member name="M:SCICT.NLP.Utility.StringDistance.KeyboardKey.#ctor">
+            <summary>
+             Class Constructor
+            </summary>
+        </member>
+        <member name="M:SCICT.NLP.Utility.StringDistance.KeyboardKey.#ctor(System.Char)">
+            <summary>
+             Class Constructor
+            </summary>
+            <param name="ch">Unicode value of the key in current keyboard layout</param>
+        </member>
+        <member name="M:SCICT.NLP.Utility.StringDistance.KeyboardKey.#ctor(System.Single,System.Single)">
+            <summary>
+             Class constructor
+            </summary>
+            <param name="x">x-axes position of a key (letter) in Cartesian Coordinate System</param>
+            <param name="y">y-axes position of a key (letter) in Cartesian Coordinate System</param>
+        </member>
+        <member name="M:SCICT.NLP.Utility.StringDistance.KeyboardKey.#ctor(System.Single,System.Single,System.Char)">
+            <summary>
+             Class Constructor
+            </summary>
+            <param name="x">x-axes position of a key (letter) in Cartesian Coordinate System</param>
+            <param name="y">y-axes position of a key (letter) in Cartesian Coordinate System</param>
+            <param name="ch">Unicode value of the key in current keyboard layout</param>
+        </member>
+        <member name="M:SCICT.NLP.Utility.StringDistance.KeyboardKey.#ctor(System.Single,System.Single,System.Char,System.Boolean)">
+            <summary>
+             Class Constructor
+            </summary>
+            <param name="x">x-axes position of a key (letter) in Cartesian Coordinate System</param>
+            <param name="y">y-axes position of a key (letter) in Cartesian Coordinate System</param>
+            <param name="ch">Unicode value of the key in current keyboard layout</param>
+            <param name="useShift">Is pressing Shift key needed to type corresponding key.</param>
+        </member>
+        <member name="T:SCICT.NLP.Utility.StringDistance.KeyboardKeyDistance">
+            <summary>
+             Calculate Euclidean and Cosine Distance between two letters on given keyboard layout
+            </summary>
+        </member>
+        <member name="M:SCICT.NLP.Utility.StringDistance.KeyboardKeyDistance.#ctor">
+            <summary>
+            default consturcor which also sets the language to Persian.
+            </summary>
+        </member>
+        <member name="M:SCICT.NLP.Utility.StringDistance.KeyboardKeyDistance.AddARow(System.Single,System.Single,System.String)">
+            <summary>
+            this function adds a row of m_keys to m_keys list. a row contains real characters on keyboard and can start from "Q", "A" and "Z".
+            </summary>
+            <param name="startX">for "Q" row it is 1.0, for "A" row it is "1.5" and for "Z" row it is 2.</param>
+            <param name="y">for "Q" row it is 3.0, for "A" row it is "2" and for "Z" row it is 1.</param>
+            <param name="values">list of letters in each row, e.g. for a English standard qwerty keyboard layout it could be "asdfghjkl;'" for second row</param>
+        </member>
+        <member name="M:SCICT.NLP.Utility.StringDistance.KeyboardKeyDistance.SetMaximumDistance">
+            <summary>
+            this function computes maximum possible distance between m_keys in the defined keyboard.
+            </summary>
+        </member>
+        <member name="M:SCICT.NLP.Utility.StringDistance.KeyboardKeyDistance.SetMinimumDistance">
+            <summary>
+            this function computes minimum possible distance between m_keys in the defined keyboard.
+            </summary>
+        </member>
+        <member name="M:SCICT.NLP.Utility.StringDistance.KeyboardKeyDistance.Reconfig(SCICT.NLP.Utility.StringDistance.KeyboardConfig)">
+            <summary>
+            this function sets keyboadr language to Farsi and sets up Keys list.
+            </summary>
+        </member>
+        <member name="M:SCICT.NLP.Utility.StringDistance.KeyboardKeyDistance.CosineDistance(System.Char,System.Char)">
+            <summary>
+            this function calculates simple Cosine distance between two characters on keyboard.
+            Note that this distance is not normalized!
+            If any of these characters doesn't exist in current keyboard setting, then this function returns Maximum Distance value specified in current object.
+            </summary>
+            <param name="ch1"></param>
+            <param name="ch2"></param>
+            <returns>returns distance between two characters in keyboard.</returns>
+        </member>
+        <member name="M:SCICT.NLP.Utility.StringDistance.KeyboardKeyDistance.NormalizedCosineDistance(System.Char,System.Char)">
+            <summary>
+            this function calculates simple Cosine distance between two characters on keyboard. 
+            </summary>
+            <param name="ch1"></param>
+            <param name="ch2"></param>
+            <returns>result is in range [0..1]. 0 means that two characters are near each other.</returns>
+        </member>
+        <member name="M:SCICT.NLP.Utility.StringDistance.KeyboardKeyDistance.EuclideanDistance(System.Char,System.Char)">
+            <summary>
+            this function calculates simple euclidean distance between two characters on keyboard.
+            Note that this distance is not normalized!
+            If any of these characters doesn't exist in current keyboard setting, then this function returns Maximum Distance value specified in current object.
+            </summary>
+            <param name="ch1"></param>
+            <param name="ch2"></param>
+            <returns>returns distance between two characters in keyboard.</returns>
+        </member>
+        <member name="M:SCICT.NLP.Utility.StringDistance.KeyboardKeyDistance.NormalizedEuclideanDistance(System.Char,System.Char)">
+            <summary>
+            this function calculates simple euclidean distance between two characters on keyboard. 
+            </summary>
+            <param name="ch1"></param>
+            <param name="ch2"></param>
+            <returns>result is in range [0..1]. 0 means that two characters are near each other.</returns>
+        </member>
+        <member name="P:SCICT.NLP.Utility.StringDistance.KeyboardKeyDistance.CurrentConfig">
+            <summary>
+             Keyboard layout
+            </summary>
+        </member>
+        <member name="P:SCICT.NLP.Utility.StringDistance.KeyboardKeyDistance.MinimumNormalizedDistance">
+            <summary>
+             Minimum possible distance
+            </summary>
+        </member>
+        <member name="P:SCICT.NLP.Utility.StringDistance.KeyboardKeyDistance.MaximumNormalizedDistance">
+            <summary>
+             Maximum possible distance
+            </summary>
+        </member>
+        <member name="T:SCICT.NLP.Utility.StringDistance.KashefiConfig">
+            <summary>
+             Kashefi String Distnace Metric Configuration Class
+            </summary>
+        </member>
+        <member name="M:SCICT.NLP.Utility.StringDistance.KashefiConfig.#ctor(SCICT.NLP.Utility.StringDistance.KeyboardKeyDistance,System.Double,System.Double,System.Double,System.Double)">
+            <summary>
+             Class Constructor
+            </summary>
+            <param name="keyboardKeyDistance">Keboard Layout</param>
+            <param name="kashefiInsertGapCost">Gap Cost of Mistakanly Insertaion of a letter</param>
+            <param name="kashefiDeleteGapCost">Gap Cost of Mistakenly Omission of a letter</param>
+            <param name="kashefiMaxSubstituteRange">Maximum Cost of Substitution of Two Letters</param>
+            <param name="kashefiTransCost">Transposition Cost</param>
+        </member>
+        <member name="M:SCICT.NLP.Utility.StringDistance.KashefiConfig.#ctor">
+            <summary>
+             Class Constructor
+             Set Default values
+            </summary>
+        </member>
+        <member name="P:SCICT.NLP.Utility.StringDistance.KashefiConfig.Keyboard">
+            <summary>
+             Define keyboard layout
+            </summary>
+        </member>
+        <member name="P:SCICT.NLP.Utility.StringDistance.KashefiConfig.InsertGapCost">
+            <summary>
+             Gap Cost of Mistakanly Insertaion of a letter
+            </summary>
+        </member>
+        <member name="P:SCICT.NLP.Utility.StringDistance.KashefiConfig.DeleteGapCost">
+            <summary>
+             Gap Cost of Mistakenly Omission of a letter
+            </summary>
+        </member>
+        <member name="P:SCICT.NLP.Utility.StringDistance.KashefiConfig.TranspositionGapCost">
+            <summary>
+             Gap Cost of Mistakenly Transposition of two adjacent letter
+            </summary>
+        </member>
+        <member name="P:SCICT.NLP.Utility.StringDistance.KashefiConfig.SubstituteGapCost">
+            <summary>
+             Maximum Cost of Substitution of Two Letters
+            </summary>
+        </member>
+        <member name="M:SCICT.NLP.Utility.StringDistance.StringDistanceAlgorithms.Hamming(System.String,System.String)">
+            <summary>
+            The Hamming distance H is defined only for strings of the same length. 
+            For two strings s and t, H(s, t) is the number of places in which the two string differ, i.e., have different characters.
+            ref: http://www.cut-the-knot.org/do_you_know/Strings.shtml
+            We also add difference of length of two strings to result.
+            </summary>
+            <param name="word1">First word</param>
+            <param name="word2">Second word</param>
+        </member>
+        <member name="M:SCICT.NLP.Utility.StringDistance.StringDistanceAlgorithms.Cosine(System.String,System.String)">
+            <summary>
+            Cosine similarity is a common vector based similarity measure similar to dice coefficient. 
+            Whereby the input string is transformed into vector space so that the Euclidean cosine rule can be used to determine similarity. 
+            The cosine similarity is often paired with other approaches to limit the dimensionality of the problem. 
+            For instance with simple strings at list of stopwords are used to exclude from the dimensionality of the comparison.
+            ref: http://www.dcs.shef.ac.uk/~sam/stringmetrics.html#cosine
+            </summary>
+            <param name="word1">First word</param>
+            <param name="word2">Second word</param>
+        </member>
+        <member name="M:SCICT.NLP.Utility.StringDistance.StringDistanceAlgorithms.Levenstein(System.String,System.String)">
+            <summary>
+            The Levenshtein distance between two strings is given by the minimum number of operations needed to transform one string into the other, 
+            where an operation is an insertion, deletion, or substitution of a single character.
+            ref: http://en.wikipedia.org/wiki/Levenshtein_distance
+            </summary>
+            <param name="word1">First word</param>
+            <param name="word2">Second word</param>
+        </member>
+        <member name="M:SCICT.NLP.Utility.StringDistance.StringDistanceAlgorithms.DamerauLevenstein(System.String,System.String)">
+            <summary>
+            The Levenshtein distance between two strings is given by the minimum number of operations needed to transform one string into the other, 
+            where an operation is an insertion, deletion, or substitution of a single character.
+            ref: http://en.wikipedia.org/wiki/Levenshtein_distance
+            </summary>
+            <param name="word1">First word</param>
+            <param name="word2">Second word</param>
+        </member>
+        <member name="M:SCICT.NLP.Utility.StringDistance.StringDistanceAlgorithms.WagnerFischer(System.String,System.String)">
+            <summary>
+            The Wagner-Fischer distance between two strings is given by the minimum number of operations needed to transform one string into the other, 
+            where an operation is an insertion, deletion, or substitution of a single character.
+            </summary>
+            <param name="word1">First word</param>
+            <param name="word2">Second word</param>
+        </member>
+        <member name="M:SCICT.NLP.Utility.StringDistance.StringDistanceAlgorithms.GNULevenstein(System.String,System.String)">
+            <summary>
+            The Levenshtein distance between two strings is given by the minimum number of operations needed to transform one string into the other, 
+            where an operation is an insertion, deletion, or substitution of a single character.
+            ref: http://en.wikipedia.org/wiki/Levenshtein_distance
+            </summary>
+            <param name="word1">First word</param>
+            <param name="word2">Second word</param>
+            <returns>Not normalized result obtain here</returns>
+        </member>
+        <member name="M:SCICT.NLP.Utility.StringDistance.StringDistanceAlgorithms.JaroWinckler(System.String,System.String)">
+            <summary>
+            The Jaro distance metric takes into account typical spelling deviations, this work comes from the following paper.
+            Jaro, M. A. 1989 "Advances in record linking methodology as applied to the 1985 census of Tampa Florida". Journal of the American Statistical Society 64:1183-1210 
+            Briefly, for two strings s and t, let s' be the characters in s that are “common with” t, and let t' be the charcaters in t that are "common with" s; 
+            roughly speaking, a character a in s is “in common” with t if the same character a appears in about the place in t.
+            Note that Jaro result is Normalized. 1 means maximum similarity, 0 means maximum difference.
+            ref:  http://en.wikipedia.org/wiki/Jaro-Winkler_distance
+            </summary>
+            <param name="word1">First word</param>
+            <param name="word2">Second word</param>
+        </member>
+        <member name="M:SCICT.NLP.Utility.StringDistance.StringDistanceAlgorithms.GetCommonCharactersForJaroMethod(System.String,System.String,System.Int32)">
+            <summary>
+            compute number of common characters and transpositions:
+            </summary>
+            <param name="s1">first string</param>
+            <param name="s2">second string</param>
+            <param name="windowLen">windows length</param>
+            <returns>common characters string</returns>
+        </member>
+        <member name="M:SCICT.NLP.Utility.StringDistance.StringDistanceAlgorithms.NeedlemanWunch(System.String,System.String,SCICT.NLP.Utility.StringDistance.NeedlemanConfig)">
+            <summary>
+            TThis approach is known by various names, Needleman-Wunch, Needleman-Wunch-Sellers, Sellers and the Improving Sellers algorithm. 
+            This is similar to the basic edit distance metric, Levenshtein distance, this adds an variable cost adjustment to the cost of a gap, i.e. insert/deletion, in the distance metric. 
+            So the Levenshtein distance can simply be seen as the Needleman-Wunch distance with G=1.
+            Where G = “gap cost” and SubstitutionCost is again an arbitrary distance function on characters (e.g. related to typographic frequencies, amino acid substitutibility, etc). 
+            ref:  http://www.dcs.shef.ac.uk/~sam/stringmetrics.html#needleman
+            </summary>
+            <param name="word1">First word</param>
+            <param name="word2">Second word</param>
+            <param name="needlemanConfig">NeedlemanConfig</param>
+            <returns> Normalized similarity between [0..1]. 0 means minimum similarity and 1 means maxumim smilarity</returns>
+        </member>
+        <member name="M:SCICT.NLP.Utility.StringDistance.StringDistanceAlgorithms.KashefiMeasure(System.String,System.String,SCICT.NLP.Utility.StringDistance.KashefiConfig)">
+            <param name="word1">First word</param>
+            <param name="word2">Second word</param>
+            <param name="kashefiConfig">KashefiConfig</param>
+            <returns> Normalized similarity between [0..1]. 0 means minimum similarity and 1 means maxumim smilarity</returns>
+        </member>
+        <member name="T:SCICT.NLP.Utility.StringDistance.StringDistanceAlgorithm">
+            <summary>
+             Indicates String Distance Algorithm
+            </summary>
+        </member>
+        <member name="F:SCICT.NLP.Utility.StringDistance.StringDistanceAlgorithm.Hamming">
+            <summary>
+             Hamming Distnace Algorithm
+            </summary>
+        </member>
+        <member name="F:SCICT.NLP.Utility.StringDistance.StringDistanceAlgorithm.Levenestain">
+            <summary>
+             Levenestain Distnace Algorithm
+            </summary>
+        </member>
+        <member name="F:SCICT.NLP.Utility.StringDistance.StringDistanceAlgorithm.JaroWinkler">
+            <summary>
+             JaroWinkler Distnace Algorithm
+            </summary>
+        </member>
+        <member name="F:SCICT.NLP.Utility.StringDistance.StringDistanceAlgorithm.DamerauLevenestain">
+            <summary>
+             Damerau-Levenestain Distnace Algorithm
+            </summary>
+        </member>
+        <member name="F:SCICT.NLP.Utility.StringDistance.StringDistanceAlgorithm.WagnerFischer">
+            <summary>
+             Wagner-Fischer Distnace Algorithm
+            </summary>
+        </member>
+        <member name="F:SCICT.NLP.Utility.StringDistance.StringDistanceAlgorithm.Needleman">
+            <summary>
+             Needleman Distnace Algorithm
+            </summary>
+        </member>
+        <member name="F:SCICT.NLP.Utility.StringDistance.StringDistanceAlgorithm.GNULevenesain">
+            <summary>
+             GNULevenesain Distnace Algorithm
+            </summary>
+        </member>
+        <member name="F:SCICT.NLP.Utility.StringDistance.StringDistanceAlgorithm.Cosine">
+            <summary>
+             Cosine Distnace Algorithm
+            </summary>
+        </member>
+        <member name="F:SCICT.NLP.Utility.StringDistance.StringDistanceAlgorithm.Kashefi">
+            <summary>
+             Kashefi Distnace Algorithm
+            </summary>
+        </member>
+        <member name="T:SCICT.NLP.Utility.StringDistance.StringDistanceLayout">
+            <summary>
+             String Distance Class
+            </summary>
+        </member>
+        <member name="M:SCICT.NLP.Utility.StringDistance.StringDistanceLayout.GetStringDistance(System.String,System.String,SCICT.NLP.Utility.StringDistance.StringDistanceAlgorithm)">
+            <summary>
+             Get String Distance
+            </summary>
+            <param name="word1">First Word</param>
+            <param name="word2">Second Word</param>
+            <param name="algorithm">String Distance Algorithm</param>
+            <returns>String Distance</returns>
+        </member>
+        <member name="M:SCICT.NLP.Utility.StringDistance.StringDistanceLayout.GetStringDistance(System.String,System.String,SCICT.NLP.Utility.StringDistance.StringDistanceAlgorithm,SCICT.NLP.Utility.StringDistance.KashefiConfig)">
+            <summary>
+             Get String Distance
+            </summary>
+            <param name="word1">First Word</param>
+            <param name="word2">Second Word</param>
+            <param name="algorithm">String Distance Algorithm</param>
+            <param name="kashefiConfig">Configuration of Kashefi's String Distance Method</param>
+            <returns>String Distance</returns>
+        </member>
+        <member name="M:SCICT.NLP.Utility.StringDistance.StringDistanceLayout.GetWordSimilarity(System.String,System.String,SCICT.NLP.Utility.StringDistance.StringDistanceAlgorithm)">
+            <summary>
+             Get Similarity Score
+            </summary>
+            <param name="word1">First Word</param>
+            <param name="word2">Second Word</param>
+            <param name="algorithm">String Distance Algorithm</param>
+            <returns>Similarity Score</returns>
+        </member>
+        <member name="M:SCICT.NLP.Utility.StringDistance.StringDistanceLayout.GetWordSimilarity(System.String,System.String,SCICT.NLP.Utility.StringDistance.StringDistanceAlgorithm,SCICT.NLP.Utility.StringDistance.KashefiConfig)">
+            <summary>
+             Get Similarity Score
+            </summary>
+            <param name="word1">First Word</param>
+            <param name="word2">Second Word</param>
+            <param name="algorithm">String Distance Algorithm</param>
+            <param name="kashefiConfig">Configuration of Kashefi's String Distance Method</param>
+            <returns>Similarity Score</returns>
+        </member>
+    </members>
+</doc>

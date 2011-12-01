@@ -1,0 +1,171 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SCICT.NLP.Morphology.Inflection</name>
+    </assembly>
+    <members>
+        <member name="T:SCICT.NLP.Morphology.Inflection.InflectionAnalyser">
+            <summary>
+             Analysis Persian inflection rules 
+            </summary>
+        </member>
+        <member name="M:SCICT.NLP.Morphology.Inflection.InflectionAnalyser.IsValidPhoneticComposition(System.String,System.String,SCICT.NLP.Persian.Constants.PersianPOSTag)">
+            <summary>
+             Check whether that given composition is a valid composition as phonetic rules
+            </summary>
+            <param name="stem">Stem word</param>
+            <param name="suffix">Suffix word</param>
+            <param name="pos">POS Tag of the stem</param>
+            <param name="suffixCategory">Suffix category that matchs the rule</param>
+            <returns>True if given composition is correct</returns>
+        </member>
+        <member name="M:SCICT.NLP.Morphology.Inflection.InflectionAnalyser.IsValidDeclension(SCICT.NLP.Persian.Constants.PersianPOSTag,SCICT.NLP.Persian.Constants.PersianSuffixesCategory)">
+            <summary>
+             Check whether that given composition is a valid suffix declension referring stem's POS
+            </summary>
+            <param name="pos">Stem's POS tag</param>
+            <param name="suffixCategory">Suffix Category</param>
+            <returns>True if given composition is correct</returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="M:SCICT.NLP.Morphology.Inflection.InflectionAnalyser.EqualSuffixWithCorrectPhonetic(System.String,System.String,SCICT.NLP.Persian.Constants.PersianSuffixesCategory)">
+            <summary>
+             Get equal suffix which is correct as phonetic rules 
+            </summary>
+            <param name="stem">Stem word</param>
+            <param name="suffix">Suffix</param>
+            <param name="suffixCategory">Suffix Category</param>
+            <returns>Equal correct suffix</returns>
+        </member>
+        <member name="M:SCICT.NLP.Morphology.Inflection.InflectionAnalyser.EqualSuffixWithCorrectPhonetic(System.String,System.String,SCICT.NLP.Persian.Constants.PersianSuffixesCategory,SCICT.NLP.Persian.Constants.PersianPOSTag)">
+            <summary>
+             Get equal suffix which is correct as phonetic rules 
+            </summary>
+            <param name="stem">Stem word</param>
+            <param name="suffix">Suffix</param>
+            <param name="suffixCategory">Suffix Category</param>
+            <param name="pos">Persian POS tag</param>
+            <returns>Equal correct suffix</returns>
+        </member>
+        <member name="M:SCICT.NLP.Morphology.Inflection.InflectionAnalyser.CalculateSpacingState(System.String,System.String,SCICT.NLP.Persian.Constants.PersianPOSTag)">
+            <summary>
+             Calculate spacing state of combining given stem and suffix
+            </summary>
+            <param name="stem">Stem word</param>
+            <param name="suffix">suffix</param>
+            <param name="pos">Pos Tag</param>
+            <returns>Spacing state</returns>
+        </member>
+        <member name="M:SCICT.NLP.Morphology.Inflection.InflectionAnalyser.AcceptingPOS(SCICT.NLP.Persian.Constants.PersianSuffixesCategory)">
+            <summary>
+             Return POS category of possible words that an accept suffixes in given category
+            </summary>
+            <param name="suffixCategory">Suffix categoy</param>
+            <returns>POS tag(s)</returns>
+        </member>
+        <member name="M:SCICT.NLP.Morphology.Inflection.InflectionAnalyser.ConsonantVowelState(System.String,System.String,System.String,SCICT.NLP.Persian.Constants.PersianSuffixesCategory)">
+            <summary>
+            Determine the state of ending with consonant or vowel letter
+            </summary>
+            <param name="word">Inflected Word</param>
+            <param name="suffix">Suffix</param>
+            <param name="stem">Stem</param>
+            <param name="suffixCategory">Suffix Category</param>
+            <returns></returns>
+        </member>
+        <member name="M:SCICT.NLP.Morphology.Inflection.InflectionAnalyser.SuffixCategory(System.String)">
+            <summary>
+             Return the suffix category
+            </summary>
+            <param name="suffix">Suffix</param>
+            <returns>Suffix category</returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="M:SCICT.NLP.Morphology.Inflection.InflectionAnalyser.EqualSuffixWithSpacingSymbols(System.String)">
+            <summary>
+             Return equal suffix with spacing symbols
+            </summary>
+            <param name="suffix">Suffix</param>
+            <returns>Suffix with spacing symbols</returns>
+        </member>
+        <member name="M:SCICT.NLP.Morphology.Inflection.InflectionAnalyser.MultiplyStrings(System.String,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Returns a sequence of strings gained from concatenating string <paramref name="first"/>
+            with all the strings in <paramref name="second"/>.
+            </summary>
+            <param name="first">The string to form the left-hand-side of the concatenations.</param>
+            <param name="second">The sequence of strings to form the right-hand-side of the concatenations.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SCICT.NLP.Morphology.Inflection.InflectionAnalyser.MultiplyStrings(System.Collections.Generic.IEnumerable{System.String},System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Returns a sequence of strings gained from concatenating all the strings 
+            in <paramref name="first"/> with all the strings in <paramref name="second"/>.
+            </summary>
+            <param name="first">The sequence of strings to form the left-hand-side of the concatenations.</param>
+            <param name="second">The sequence of strings to form the right-hand-side of the concatenations.</param>
+        </member>
+        <member name="T:SCICT.NLP.Morphology.Inflection.PersianSuffixLemmatizer">
+            <summary>
+            Helps recognize suffixes in Persian words.
+            </summary>
+        </member>
+        <member name="F:SCICT.NLP.Morphology.Inflection.PersianSuffixLemmatizer.m_revPatternMatcher">
+            <summary>
+            An instance of reverse pattern matcher to help find Suffixes patterns in the end of 
+            each word.
+            </summary>
+        </member>
+        <member name="F:SCICT.NLP.Morphology.Inflection.PersianSuffixLemmatizer.m_lstPatterns">
+            <summary>
+            List of Suffixes pattern
+            </summary>
+        </member>
+        <member name="M:SCICT.NLP.Morphology.Inflection.PersianSuffixLemmatizer.#ctor(System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:SCICT.NLP.Morphology.Inflection.PersianSuffixLemmatizer"/> class.
+            </summary>
+            <param name="useColloquals">if set to <c>true</c> it will recognize colloqual affixes as well.</param>
+        </member>
+        <member name="M:SCICT.NLP.Morphology.Inflection.PersianSuffixLemmatizer.#ctor(System.Boolean,System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:SCICT.NLP.Morphology.Inflection.PersianSuffixLemmatizer"/> class.
+            </summary>
+            <param name="useColloquals">if set to <c>true</c> it will recognize colloqual affixes as well.</param>
+            <param name="uniqueResults">if set to <c>true</c> unique results will be returned.</param>
+        </member>
+        <member name="M:SCICT.NLP.Morphology.Inflection.PersianSuffixLemmatizer.WordConstructionRules(System.String,System.String,System.String[]@,System.String[]@)">
+            <summary>
+            Performs Persian word construction rules to the given base-word and suffix strings.
+            </summary>
+            <param name="baseWord">The base word to modify.</param>
+            <param name="suffix">The suffix to modify.</param>
+            <param name="newBaseWords">The new base words to be added.</param>
+            <param name="newSuffixes">The new suffixes to be added.</param>
+        </member>
+        <member name="M:SCICT.NLP.Morphology.Inflection.PersianSuffixLemmatizer.InitPatternsList(SCICT.NLP.Persian.Constants.PersianSuffixesCategory,System.Boolean)">
+            <summary>
+            Creates the list of Persian Suffixes patterns.
+            </summary>
+        </member>
+        <member name="M:SCICT.NLP.Morphology.Inflection.PersianSuffixLemmatizer.MatchForSuffix(System.String)">
+            <summary>
+            Matches the input string for finding Persian Suffixes.
+            </summary>
+            <param name="input">The input string to find Suffixes.</param>
+            <returns></returns>
+        </member>
+        <member name="P:SCICT.NLP.Morphology.Inflection.PersianSuffixLemmatizer.UseColloquals">
+            <summary>
+            Gets a value indicating whether the colloqual Suffixes should be recognized.
+            </summary>
+            <value><c>true</c> if the colloqual Suffixes should be recognized; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:SCICT.NLP.Morphology.Inflection.PersianSuffixLemmatizer.ReturnUniqueResults">
+            <summary>
+            Gets a value indicating whether the returned results should be unique.
+            </summary>
+            <value><c>true</c> if the returned results should be unique; otherwise, <c>false</c>.</value>
+        </member>
+    </members>
+</doc>
