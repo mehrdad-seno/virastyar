@@ -1,0 +1,468 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SCICT.Utility</name>
+    </assembly>
+    <members>
+        <!-- Badly formed XML comment ignored for member "T:SCICT.Utility.EnumExtensions" -->
+        <member name="T:SCICT.Utility.IO.FileTools">
+            <summary>
+             Generic tools for filing
+            </summary>
+        </member>
+        <member name="M:SCICT.Utility.IO.FileTools.GetWordStartPositionInFile(System.IO.FileStream,System.String)">
+            <summary>
+            Find the position (byte index) of the given word in the specified stream.
+            </summary>
+            <param name="fstream"></param>
+            <param name="word"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SCICT.Utility.IO.FileTools.RemoveLineFromPosition(System.IO.FileStream,System.Int64)">
+            <summary>
+             Remove a line from file
+            </summary>
+            <param name="fstream">Opened file stream</param>
+            <param name="position">position of line</param>
+        </member>
+        <member name="T:SCICT.Utility.IO.DictionaryLoader">
+            <summary>
+             Load dictionary file
+            </summary>
+        </member>
+        <member name="M:SCICT.Utility.IO.DictionaryLoader.LoadFile(System.String)">
+            <summary>
+             Load file
+            </summary>
+            <param name="fileName">File name</param>
+            <returns>True if suucessfully loade, otherwise False</returns>
+        </member>
+        <member name="M:SCICT.Utility.IO.DictionaryLoader.NextLine(System.String@)">
+            <summary>
+             Get next line
+            </summary>
+            <param name="line">Line contents</param>
+            <returns>True if not EOF, False on EOF</returns>
+        </member>
+        <member name="M:SCICT.Utility.IO.DictionaryLoader.CloseFile">
+            <summary>
+            Close Stream Reader
+            </summary>
+        </member>
+        <member name="M:SCICT.Utility.IO.DictionaryLoader.AddLine(System.String)">
+            <summary>
+             Add a term to dictionary
+            </summary>
+            <param name="line">word</param>
+            <returns>True if word successfully added, otherwise False</returns>
+        </member>
+        <member name="M:SCICT.Utility.IO.DictionaryLoader.AddLine(System.String,System.String)">
+            <summary>
+             Add a term to dictionary
+            </summary>
+            <param name="line">word</param>
+            <param name="fileName">File name</param>
+            <returns>True if word successfully added, otherwise False</returns>
+        </member>
+        <member name="P:SCICT.Utility.IO.DictionaryLoader.EndOfStream">
+            <summary>
+             End of Stream
+            </summary>
+        </member>
+        <member name="T:SCICT.Utility.IO.DictionaryWordLoader">
+            <summary>
+             Load words from dictionary file
+            </summary>
+        </member>
+        <member name="M:SCICT.Utility.IO.DictionaryWordLoader.NextTerm(System.String@)">
+            <summary>
+             Next dictionary term
+            </summary>
+            <param name="word">Extracted word</param>
+            <returns>True if word successfully extracted, False if EOF</returns>
+        </member>
+        <member name="M:SCICT.Utility.IO.DictionaryWordLoader.AddTerm(System.String)">
+            <summary>
+             Add a term to dictionary
+            </summary>
+            <param name="word">word</param>
+            <returns>True if word successfully added, otherwise False</returns>
+        </member>
+        <member name="M:SCICT.Utility.IO.DictionaryWordLoader.AddTerm(System.String,System.String)">
+            <summary>
+             Add a term to dictionary
+            </summary>
+            <param name="word">word</param>
+            <param name="fileName">File name</param>
+            <returns>True if word successfully added, otherwise False</returns>
+        </member>
+        <member name="T:SCICT.Utility.IO.DictionaryWordFreqLoader">
+            <summary>
+             Load words and usage frequency from dictionary file
+            </summary>
+        </member>
+        <member name="M:SCICT.Utility.IO.DictionaryWordFreqLoader.NextTerm(System.String@,System.Int32@)">
+            <summary>
+             Pars line's content
+            </summary>
+            <param name="word">Extracted word</param>
+            <param name="freq">Extracted word's usage frequency</param>
+            <returns>True if word successfully extracted, otherwise False</returns>
+        </member>
+        <member name="M:SCICT.Utility.IO.DictionaryWordFreqLoader.AddTerm(System.String,System.Int32)">
+            <summary>
+             Add a term to dictionary
+            </summary>
+            <param name="word">word</param>
+            <param name="freq">word's usage frequency</param>
+            <returns>True if word successfully added, otherwise False</returns>
+        </member>
+        <member name="M:SCICT.Utility.IO.DictionaryWordFreqLoader.AddTerm(System.String,System.Int32,System.String)">
+            <summary>
+             Add a term to dictionary
+            </summary>
+            <param name="word">word</param>
+            <param name="freq">word's usage frequency</param>
+            <param name="fileName">File name</param>
+            <returns>True if word successfully added, otherwise False</returns>
+        </member>
+        <member name="T:SCICT.Utility.IO.DictionaryWordFreqPOSLoader">
+            <summary>
+             Load words, usage frequency and POS tag from dictionary file
+            </summary>
+        </member>
+        <member name="M:SCICT.Utility.IO.DictionaryWordFreqPOSLoader.NextTerm(System.String@,System.Int32@,System.String@)">
+            <summary>
+             Pars line's content
+            </summary>
+            <param name="word">Extracted word</param>
+            <param name="freq">Extracted word's usage frequency</param>
+            <param name="pos">Extracted word's POS tag</param>
+            <returns>True if word successfully extracted, otherwise False</returns>
+        </member>
+        <member name="M:SCICT.Utility.IO.DictionaryWordFreqPOSLoader.AddTerm(System.String,System.Int32,System.String)">
+            <summary>
+             Add a term to dictionary
+            </summary>
+            <param name="word">word</param>
+            <param name="freq">word's usage frequency</param>
+            <param name="pos">word's POS tag</param>
+            <returns>True if word successfully added, otherwise False</returns>
+        </member>
+        <member name="M:SCICT.Utility.IO.DictionaryWordFreqPOSLoader.AddTerm(System.String,System.Int32,System.String,System.String)">
+            <summary>
+             Add a term to dictionary
+            </summary>
+            <param name="word">word</param>
+            <param name="freq">word's usage frequency</param>
+            <param name="pos">word's POS tag</param>
+            <param name="fileName">File name</param>
+            <returns>True if word successfully added, otherwise False</returns>
+        </member>
+        <member name="T:SCICT.Utility.Keyboard.Hotkey">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SCICT.Utility.Keyboard.Hotkey.Parse(System.String)">
+            <summary>
+            Parses and returns a new instance of Hotkey, from the given string
+            </summary>
+        </member>
+        <member name="P:SCICT.Utility.Keyboard.Hotkey.Key">
+            <summary>
+            Gets the m_key.
+            </summary>
+            <value>The m_key.</value>
+        </member>
+        <member name="P:SCICT.Utility.Keyboard.Hotkey.Alt">
+            <summary>
+            Gets a value indicating whether this <see cref="T:SCICT.Utility.Keyboard.Hotkey"/> contains alt.
+            </summary>
+            <value><c>true</c> if alt; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:SCICT.Utility.Keyboard.Hotkey.Control">
+            <summary>
+            Gets a value indicating whether this <see cref="T:SCICT.Utility.Keyboard.Hotkey"/> contains control.
+            </summary>
+            <value><c>true</c> if control; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:SCICT.Utility.Keyboard.Hotkey.Win">
+            <summary>
+            Gets a value indicating whether this <see cref="T:SCICT.Utility.Keyboard.Hotkey"/> contains win.
+            </summary>
+            <value><c>true</c> if win; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:SCICT.Utility.Keyboard.Hotkey.Shift">
+            <summary>
+            Gets a value indicating whether this <see cref="T:SCICT.Utility.Keyboard.Hotkey"/> contains shift.
+            </summary>
+            <value><c>true</c> if shift; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:SCICT.Utility.Keyboard.Hotkey.Modifiers">
+            <summary>
+            Gets the m_modifiers.
+            </summary>
+            <value>The m_modifiers.</value>
+        </member>
+        <member name="T:SCICT.Utility.Keyboard.IHotkeyEngine">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SCICT.Utility.Keyboard.HotkeyEngine">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SCICT.Utility.Keyboard.HotkeyEngine.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:SCICT.Utility.Keyboard.HotkeyEngine"/> class.
+            </summary>
+        </member>
+        <member name="M:SCICT.Utility.Keyboard.HotkeyEngine.#ctor(SCICT.Utility.Keyboard.ApplicationIsActiveDelegate)">
+            <summary>
+            Initializes a new instance of the <see cref="T:SCICT.Utility.Keyboard.HotkeyEngine"/> class.
+            </summary>
+            <param name="applicationIsActiveDelegate">A function to determine whether application is active or not</param>
+        </member>
+        <member name="M:SCICT.Utility.Keyboard.HotkeyEngine.RegisterHotkey(SCICT.Utility.Keyboard.Hotkey,System.EventHandler)">
+            <summary>
+            Registers the hotkey.
+            </summary>
+            <param name="hotkey">The hotkey.</param>
+            <param name="handler">The handler.</param>
+            <exception cref="T:System.ArgumentException">If the given hotkey is already registered in our application.</exception>
+            <returns></returns>
+        </member>
+        <member name="M:SCICT.Utility.Keyboard.HotkeyEngine.UnregisterHotkey(SCICT.Utility.Keyboard.Hotkey)">
+            <summary>
+            Unregisters the hotkey.
+            </summary>
+            <param name="hotkey">The hotkey.</param>
+            <returns></returns>
+        </member>
+        <member name="P:SCICT.Utility.Keyboard.HotkeyEngine.IsEnabled">
+            <summary>
+            Gets or sets a value indicating whether this instance is enabled.
+            </summary>
+            <value>
+            	<c>true</c> if this instance is enabled; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="M:SCICT.Utility.Keyboard.KeyboardHelper.KeyCodeToChar(System.Windows.Forms.Keys)">
+            <summary>
+            Converts a keycode to its corresponding string representation
+            </summary>
+        </member>
+        <member name="T:SCICT.Utility.Keyboard.SystemHotkey">
+            <summary>
+            Handles a System Hotkey
+            </summary>
+        </member>
+        <member name="M:SCICT.Utility.Keyboard.SystemHotkey.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="E:SCICT.Utility.Keyboard.SystemHotkey.Error">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:SCICT.Utility.Windows.VK">
+            <summary>
+            Virtual Keys
+            </summary>
+        </member>
+        <member name="T:SCICT.Utility.Windows.WindowsHooks">
+            <summary>
+            Windows Hook constants (hook ids)
+            </summary>
+        </member>
+        <member name="T:SCICT.Microsoft.Windows.MSG">
+            <summary>
+            Structure used by WH_GETMESSAGE
+            </summary>
+        </member>
+        <member name="T:SCICT.Microsoft.Windows.CWPSTRUCT">
+            <summary>
+            Message structure used by WH_CALLWNDPROC
+            </summary>
+        </member>
+        <member name="T:SCICT.Microsoft.Windows.MessageEventHandler">
+            <summary>
+            Defines a delegate for Message handling
+            </summary>
+        </member>
+        <member name="T:SCICT.Microsoft.Windows.NativeWindowWithEvent">
+            <summary>
+            Inherits from System.Windows.Form.NativeWindow. Provides an Event for Message handling
+            </summary>
+        </member>
+        <member name="T:SCICT.Microsoft.Windows.DummyWindowWithEvent">
+            <summary>
+            Inherits from NativeWindowWithEvent and automatic creates/destroys of a dummy window
+            </summary>
+        </member>
+        <member name="T:SCICT.Utility.RoundQueue`1">
+            <summary>
+            RoundQueue used in N-Gram text reading
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="T:SCICT.Utility.SpellChecker.IgnoreList">
+            <summary>
+             An ignore list used to ignore desired words from processing
+            </summary>
+        </member>
+        <member name="M:SCICT.Utility.SpellChecker.IgnoreList.AddToIgnoreList(System.String)">
+            <summary>
+            Add a word to ignore list 
+            </summary>
+            <param name="word">Input word</param>
+            <returns></returns>
+        </member>
+        <member name="M:SCICT.Utility.SpellChecker.IgnoreList.RemoveFromIgnoreList(System.String)">
+            <summary>
+            Remove a word to ignore list 
+            </summary>
+            <param name="word">Input word</param>
+            <returns></returns>
+        </member>
+        <member name="M:SCICT.Utility.SpellChecker.IgnoreList.ClearIgnoreList">
+            <summary>
+            Clear ignore list
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SCICT.Utility.SpellChecker.IgnoreList.IsExistInIgnoreList(System.String)">
+            <summary>
+            check for word existance in ignore list
+            </summary>
+            <param name="word"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SCICT.Utility.SpellChecker.DictionaryTools">
+            <summary>
+             Tools for dictionary
+            </summary>
+        </member>
+        <member name="M:SCICT.Utility.SpellChecker.DictionaryTools.LoadDic(System.String)">
+            <summary>
+             Load a dictionary
+            </summary>
+            <param name="dictionaryFileName">Dictionary path</param>
+            <returns></returns>
+            <exception cref="T:System.Exception"></exception>
+        </member>
+        <member name="M:SCICT.Utility.SpellChecker.DictionaryTools.LoadDic(System.String,System.Collections.Generic.Dictionary{System.String,System.Int32})">
+            <summary>
+             Load a dictionary into given data structure
+            </summary>
+            <param name="dictionaryFileName">Dictionary path</param>
+            <param name="entry">Dictionary data structure</param>
+            <returns></returns>
+            <exception cref="T:System.Exception"></exception>
+        </member>
+        <member name="M:SCICT.Utility.SpellChecker.DictionaryTools.LoadDic(System.String,System.Collections.Generic.Dictionary{System.String,System.Int32[]})">
+            <summary>
+             Load a dictionary into given data structure considering affix combination
+            </summary>
+            <param name="dictionaryFileName">Dictionary path</param>
+            <param name="entry">Dictionary data structure</param>
+            <returns></returns>
+            <exception cref="T:System.Exception"></exception>
+        </member>
+        <member name="M:SCICT.Utility.SpellChecker.DictionaryTools.GenerateLanguageModel(System.String)">
+            <summary>
+             Genrate a dictionary (language model) from a text corpus
+            </summary>
+            <param name="corpusFileName">Courpus path</param>
+            <returns></returns>
+            <exception cref="T:System.Exception"></exception>
+        </member>
+        <member name="M:SCICT.Utility.SpellChecker.DictionaryTools.DumpDic(System.String,System.Int32,System.Int32)">
+            <summary>
+             Dump dictionary to disk
+            </summary>
+            <param name="fileName">File path</param>
+            <param name="count">Word with smaller usage frequency does not dumped</param>
+            <param name="length">Word with smaller length does not dumped</param>
+            <returns></returns>
+            <exception cref="T:System.Exception"></exception>
+        </member>
+        <member name="M:SCICT.Utility.SpellChecker.DictionaryTools.AppendDictionary(System.String)">
+            <summary>
+             Append another dictionary
+            </summary>
+            <param name="dictionaryFileName">Dictionary path</param>
+            <returns></returns>
+            <exception cref="T:System.Exception"></exception>
+        </member>
+        <member name="T:SCICT.Utility.SpellChecker.LanguageModel">
+            <summary>
+             Generate a dictionary and freqency of usage of each word from text corpus
+            </summary>
+        </member>
+        <member name="M:SCICT.Utility.SpellChecker.LanguageModel.AddWord(System.String)">
+            <summary>
+             Add a word
+            </summary>
+            <param name="word">Word</param>
+        </member>
+        <member name="M:SCICT.Utility.SpellChecker.LanguageModel.AddWord(System.String,System.Int32)">
+            <summary>
+             Add word with usage frequency
+            </summary>
+            <param name="word">Word</param>
+            <param name="freq">Usage frequency</param>
+        </member>
+        <member name="M:SCICT.Utility.SpellChecker.LanguageModel.AddWord(System.String[])">
+            <summary>
+             Add alist of word
+            </summary>
+            <param name="wordList">List of word</param>
+        </member>
+        <member name="M:SCICT.Utility.SpellChecker.LanguageModel.AddPlainText(System.String)">
+            <summary>
+             Add a text corpus
+            </summary>
+            <param name="text">Text string</param>
+        </member>
+        <member name="M:SCICT.Utility.SpellChecker.LanguageModel.SaveOnDisk(System.String)">
+            <summary>
+             Save dictionary to disk
+            </summary>
+            <param name="fileName">Absolute path of file</param>
+            <exception cref="T:System.Exception"></exception>
+        </member>
+        <member name="M:SCICT.Utility.SpellChecker.LanguageModel.SaveOnDisk(System.String,System.Boolean)">
+            <summary>
+             Save dictionary to disk
+            </summary>
+            <param name="fileName">Absolute path of file</param>
+            <param name="append">Append dictionary to existing file</param>
+            <exception cref="T:System.Exception"></exception>
+        </member>
+        <member name="T:SCICT.Utility.SpellChecker.SessionLogger">
+            <summary>
+             Log user's activity and sort by frequent of usage in each session
+            </summary>
+        </member>
+        <member name="M:SCICT.Utility.SpellChecker.SessionLogger.AddUsage(System.String)">
+            <summary>
+             Add a usage log
+            </summary>
+            <param name="word">Word</param>
+        </member>
+        <member name="M:SCICT.Utility.SpellChecker.SessionLogger.Sort(System.String[])">
+            <summary>
+             Sort a list of word by usage frequency
+            </summary>
+            <param name="words">Word</param>
+            <returns>Sorted List</returns>
+        </member>
+    </members>
+</doc>

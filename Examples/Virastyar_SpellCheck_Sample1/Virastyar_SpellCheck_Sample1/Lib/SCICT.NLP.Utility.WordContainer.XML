@@ -1,0 +1,714 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SCICT.NLP.Utility.WordContainer</name>
+    </assembly>
+    <members>
+        <member name="T:SCICT.NLP.Utility.WordContainer.Node">
+            <summary>
+             Simple character node
+            </summary>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.Node.#ctor(System.Char)">
+            <summary>
+             Class Constructor
+            </summary>
+            <param name="letter">character value</param>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.Node.#ctor(System.Char,System.Boolean)">
+            <summary>
+             Class Constructor
+            </summary>
+            <param name="letter">character value</param>
+            <param name="isEndLetter">Current letter is the final letter of corresponding word?</param>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.Node.ContainLetter(System.Char)">
+            <summary>
+             Search for having a child
+            </summary>
+            <param name="c">child's Unicode value</param>
+            <returns>True if contain child, otherwise False</returns>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.Node.HaveLinks">
+            <summary>
+             Check if current node have any child
+            </summary>
+            <returns>True if having any child, otherwise False</returns>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.Node.RemoveLink(SCICT.NLP.Utility.WordContainer.Node)">
+            <summary>
+             Remove a child node
+            </summary>
+            <param name="node">Child node</param>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.Node.RemoveLink(System.Char)">
+            <summary>
+             Remove a child by value
+            </summary>
+            <param name="c">Child's Unicode value</param>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.Node.LogicalRemove">
+            <summary>
+             Logically remove current word (if current node is final letter of a word)
+            </summary>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.Node.Clear">
+            <summary>
+             Remove current word and all the words that start with this word (if current node is final letter of a word)
+            </summary>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.Node.AddLink(SCICT.NLP.Utility.WordContainer.Node)">
+            <summary>
+             Add a child node
+            </summary>
+            <param name="node">Child node</param>
+            <returns>Node pointer to added child node</returns>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.Node.GetNextNode(System.Char)">
+            <summary>
+             Get a pointer to a child node by child value
+            </summary>
+            <param name="letter">Child's Unicode value</param>
+            <returns>Node pointer to child node</returns>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.Node.GetLinks">
+            <summary>
+             Get all child nodes
+            </summary>
+            <returns>Child nodes</returns>
+        </member>
+        <member name="P:SCICT.NLP.Utility.WordContainer.Node.Value">
+            <summary>
+             Unicode value of current node
+            </summary>
+        </member>
+        <member name="P:SCICT.NLP.Utility.WordContainer.Node.LinkCount">
+            <summary>
+             Number of childs
+            </summary>
+        </member>
+        <member name="P:SCICT.NLP.Utility.WordContainer.Node.IsEndOfWord">
+            <summary>
+             Check if current node is final letter of a word
+            </summary>
+        </member>
+        <member name="T:SCICT.NLP.Utility.WordContainer.NodeWithFreq">
+            <summary>
+             Node structure which can store words' usage frequency
+            </summary>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.NodeWithFreq.#ctor(System.Char,System.Boolean,System.Int32)">
+            <summary>
+             Class Constructor
+            </summary>
+            <param name="letter">character value</param>
+            <param name="isEndLetter">Current letter is the final letter of corresponding word?</param>
+            <param name="count">Usage frequency of word</param>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.NodeWithFreq.ContainLetter(System.Char)">
+            <summary>
+             Search for having a child
+            </summary>
+            <param name="c">child's unicode value</param>
+            <returns>True if contain child, otherwise False</returns>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.NodeWithFreq.HaveLinks">
+            <summary>
+             Check if current node have any child
+            </summary>
+            <returns>True if having any child, otherwise False</returns>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.NodeWithFreq.AddLink(SCICT.NLP.Utility.WordContainer.NodeWithFreq)">
+            <summary>
+             Add a child node
+            </summary>
+            <param name="node">Child node</param>
+            <returns>Node pointer to added child node</returns>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.NodeWithFreq.GetNextNode(System.Char)">
+            <summary>
+             Get a pointer to a child node by child value
+            </summary>
+            <param name="letter">Child's unicode value</param>
+            <returns>Node pointer to child node</returns>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.NodeWithFreq.GetLinks">
+            <summary>
+             Get all child nodes
+            </summary>
+            <returns>Child nodes</returns>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.NodeWithFreq.RemoveLink(SCICT.NLP.Utility.WordContainer.NodeWithFreq)">
+            <summary>
+             Remove a child node
+            </summary>
+            <param name="node">Child node</param>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.NodeWithFreq.LogicalRemove">
+            <summary>
+             Logically remove current word (if current node is final letter of a word)
+            </summary>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.NodeWithFreq.Clear">
+            <summary>
+             Remove current word and all the words that start with this word (if current node is final letter of a word)
+            </summary>
+        </member>
+        <member name="P:SCICT.NLP.Utility.WordContainer.NodeWithFreq.Value">
+            <summary>
+             Unicode value of current node
+            </summary>
+        </member>
+        <member name="P:SCICT.NLP.Utility.WordContainer.NodeWithFreq.LinkCount">
+            <summary>
+             Number of childs
+            </summary>
+        </member>
+        <member name="P:SCICT.NLP.Utility.WordContainer.NodeWithFreq.IsEndOfWord">
+            <summary>
+             Check if current node is final letter of a word
+            </summary>
+        </member>
+        <member name="P:SCICT.NLP.Utility.WordContainer.NodeWithFreq.WordFrequency">
+            <summary>
+             Usage frequency of word (if current node is final letter of word)
+            </summary>
+        </member>
+        <member name="T:SCICT.NLP.Utility.WordContainer.NodeWithFreqandPOS">
+            <summary>
+             Node structure which can store words' usage frequency and POS tag
+            </summary>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.NodeWithFreqandPOS.#ctor(System.Char,System.Boolean,System.Int32,System.String)">
+            <summary>
+             Class Constructor
+            </summary>
+            <param name="letter">character value</param>
+            <param name="isEndLetter">Current letter is the final letter of corresponding word?</param>
+            <param name="count">Usage frequency of word</param>
+            <param name="pos">POS tag</param>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.NodeWithFreqandPOS.ContainLetter(System.Char)">
+            <summary>
+             Search for having a child
+            </summary>
+            <param name="c">child's Unicode value</param>
+            <returns>True if contain child, otherwise False</returns>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.NodeWithFreqandPOS.HaveLinks">
+            <summary>
+             Check if current node have any child
+            </summary>
+            <returns>True if having any child, otherwise False</returns>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.NodeWithFreqandPOS.AddLink(SCICT.NLP.Utility.WordContainer.NodeWithFreqandPOS)">
+            <summary>
+             Add a child node
+            </summary>
+            <param name="node">Child node</param>
+            <returns>Node pointer to added child node</returns>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.NodeWithFreqandPOS.GetNextNode(System.Char)">
+            <summary>
+             Get a pointer to a child node by child value
+            </summary>
+            <param name="letter">Child's unicode value</param>
+            <returns>Node pointer to child node</returns>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.NodeWithFreqandPOS.GetLinks">
+            <summary>
+             Get all child nodes
+            </summary>
+            <returns>Child nodes</returns>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.NodeWithFreqandPOS.RemoveLink(SCICT.NLP.Utility.WordContainer.NodeWithFreqandPOS)">
+            <summary>
+             Remove a child node
+            </summary>
+            <param name="node">Child node</param>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.NodeWithFreqandPOS.LogicalRemove">
+            <summary>
+             Logically remove current word (if current node is final letter of a word)
+            </summary>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.NodeWithFreqandPOS.Clear">
+            <summary>
+             Remove current word and all the words that start with this word (if current node is final letter of a word)
+            </summary>
+        </member>
+        <member name="P:SCICT.NLP.Utility.WordContainer.NodeWithFreqandPOS.Value">
+            <summary>
+             Unicode value of current node
+            </summary>
+        </member>
+        <member name="P:SCICT.NLP.Utility.WordContainer.NodeWithFreqandPOS.LinkCount">
+            <summary>
+             Number of childs
+            </summary>
+        </member>
+        <member name="P:SCICT.NLP.Utility.WordContainer.NodeWithFreqandPOS.IsEndOfWord">
+            <summary>
+             Check if current node is final letter of a word
+            </summary>
+        </member>
+        <member name="P:SCICT.NLP.Utility.WordContainer.NodeWithFreqandPOS.WordFrequency">
+            <summary>
+             Usage frequency of word (if current node is final letter of word)
+            </summary>
+        </member>
+        <member name="P:SCICT.NLP.Utility.WordContainer.NodeWithFreqandPOS.POSTag">
+            <summary>
+             POS tag of of word (if current node is final letter of word)
+            </summary>
+        </member>
+        <member name="T:SCICT.NLP.Utility.WordContainer.TreeTraveralType">
+            <summary>
+             Tree Traversal Method
+            </summary>
+        </member>
+        <member name="F:SCICT.NLP.Utility.WordContainer.TreeTraveralType.DFS">
+            <summary>
+             Depth First Search
+            </summary>
+        </member>
+        <member name="F:SCICT.NLP.Utility.WordContainer.TreeTraveralType.BFS">
+            <summary>
+             Breadth First Search
+            </summary>
+        </member>
+        <member name="T:SCICT.NLP.Utility.WordContainer.WordContainerTreeConfig">
+            <summary>
+             Word container tree data structure's configuration
+            </summary>
+        </member>
+        <member name="F:SCICT.NLP.Utility.WordContainer.WordContainerTreeConfig.DictionaryFileName">
+            <summary>
+             The absolute path of dictionary
+            </summary>
+        </member>
+        <member name="F:SCICT.NLP.Utility.WordContainer.WordContainerTreeConfig.SuggestionCount">
+            <summary>
+            Number of returned words, 0 for all
+            </summary>
+        </member>
+        <member name="T:SCICT.NLP.Utility.WordContainer.WordContainerTree">
+            <summary>
+             A data structure for efficient management of words, This structure is a character level tree.
+            </summary>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.WordContainerTree.#ctor">
+            <summary>
+             Class constructor
+            </summary>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.WordContainerTree.#ctor(SCICT.NLP.Utility.WordContainer.WordContainerTreeConfig)">
+            <summary>
+             Class Constructor
+            </summary>
+            <param name="wordContainerConfig">Configuration</param>
+            <exception cref="T:System.Exception"></exception>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.WordContainerTree.Clear(SCICT.NLP.Utility.WordContainer.Node)">
+            <summary>
+            Teaverse Tree on Depth First Type
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.WordContainerTree.DoDFSTraverse(SCICT.NLP.Utility.WordContainer.Node)">
+            <summary>
+            Teaverse Tree on Depth First Type
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.WordContainerTree.DoBFSTraverse(SCICT.NLP.Utility.WordContainer.Node)">
+            <summary>
+            Teaverse Tree on Breath First Type
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.WordContainerTree.GenerateNode(System.Char,System.Boolean)">
+            <summary>
+            Utility Function, Generate Node from Letter
+            </summary>
+            <param name="c">Letter</param>
+            <param name="isEndLetter"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.WordContainerTree.Contain(System.String)">
+            <summary>
+            Check if a word exists
+            </summary>
+            <param name="word">Word</param>
+            <returns>If the dictionary contains the word, returns true, else returns false.</returns>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.WordContainerTree.AddWord(System.String)">
+            <summary>
+            Add a word to tree
+            </summary>
+            <param name="word">Word</param>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.WordContainerTree.AddWordBlind(System.String)">
+            <summary>
+            Add a word to tree
+            </summary>
+            <param name="word">Word</param>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.WordContainerTree.RemoveWord(System.String)">
+            <summary>
+            Remove word from Dictinary
+            </summary>
+            <param name="word">Word</param>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.WordContainerTree.AppendDictionary(System.String)">
+            <summary>
+             Append a new dictionary
+            </summary>
+            <param name="fileName">Absolute path of dictionary</param>
+            <returns>True if successfully added</returns>
+            <exception cref="T:System.Exception"></exception>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.WordContainerTree.Clear">
+            <summary>
+             Clear all words
+            </summary>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.WordContainerTree.ReverseString(System.String)">
+            <summary>
+            Utility Function, Reverse a word
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.WordContainerTree.TraverseTree(SCICT.NLP.Utility.WordContainer.TreeTraveralType)">
+            <summary>
+            Traverse tree to retrieve all words
+            </summary>
+            <param name="traversType">Traversal Type</param>
+            <returns>All Words</returns>
+        </member>
+        <member name="P:SCICT.NLP.Utility.WordContainer.WordContainerTree.DictionaryWordsCount">
+            <summary>
+             Number of existing words
+            </summary>
+        </member>
+        <member name="T:SCICT.NLP.Utility.WordContainer.WordFreqContainerTree">
+            <summary>
+             A data structure for efficient management of words, This structure is a character level tree.
+            </summary>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.WordFreqContainerTree.#ctor">
+            <summary>
+             Class Constructor
+            </summary>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.WordFreqContainerTree.#ctor(SCICT.NLP.Utility.WordContainer.WordContainerTreeConfig)">
+            <summary>
+             Class Constructor
+            </summary>
+            <param name="wordContainerConfig">Configuration</param>
+            <exception cref="T:System.Exception"></exception>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.WordFreqContainerTree.DoDFSTraverse(SCICT.NLP.Utility.WordContainer.NodeWithFreq)">
+            <summary>
+            Teaverse Tree on Depth First Type
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.WordFreqContainerTree.DoBFSTraverse(SCICT.NLP.Utility.WordContainer.NodeWithFreq)">
+            <summary>
+            Teaverse Tree on Breath First Type
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.WordFreqContainerTree.GenerateNode(System.Char,System.Int32,System.Boolean)">
+            <summary>
+            Utility Function, Generate Node from Letter
+            </summary>
+            <param name="c">Letter</param>
+            <param name="freq">Usage frequency</param>
+            <param name="isEndLetter">end of word</param>
+            <returns></returns>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.WordFreqContainerTree.Contain(System.String)">
+            <summary>
+            Check if a word exists
+            </summary>
+            <param name="word">Word</param>
+            <returns>If the dictionary contains the word, returns true, else returns false.</returns>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.WordFreqContainerTree.Contain(System.String,System.Int32@)">
+            <summary>
+            Check if a word exists
+            </summary>
+            <param name="word">Word</param>
+            <param name="freq">Word's usage frequency</param>
+            <returns>If the dictionary contains the word, returns true, else returns false.</returns>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.WordFreqContainerTree.AddWord(System.String,System.Int32)">
+            <summary>
+            Add a word to tree
+            </summary>
+            <param name="word">Word</param>
+            <param name="freq">Word's usage frequency</param>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.WordFreqContainerTree.AddWordBlind(System.String,System.Int32)">
+            <summary>
+            Add a word to tree
+            </summary>
+            <param name="word">Word</param>
+            <param name="freq">Word's usage frequency</param>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.WordFreqContainerTree.RemoveWord(System.String)">
+            <summary>
+            Remove a word from dictionary
+            </summary>
+            <param name="word">Word</param>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.WordFreqContainerTree.AppendDictionary(System.String)">
+            <summary>
+             Append a new dictionary
+            </summary>
+            <param name="fileName">Absolute path of dictionary</param>
+            <returns>True if successfully added</returns>
+            <exception cref="T:System.Exception"></exception>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.WordFreqContainerTree.WordFrequency(System.String)">
+            <summary>
+            Word frequency
+            </summary>
+            <param name="word">word</param>
+            <returns>usage frequency</returns>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.WordFreqContainerTree.Clear">
+            <summary>
+             Clear all words
+            </summary>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.WordFreqContainerTree.TraverseTree(SCICT.NLP.Utility.WordContainer.TreeTraveralType)">
+            <summary>
+            Traverse Tree to Retrieve All Words
+            </summary>
+            <param name="traversType">Traversal Type</param>
+            <returns>All Words</returns>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.WordFreqContainerTree.ReverseString(System.String)">
+            <summary>
+            Utility Function, Reverse a word
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:SCICT.NLP.Utility.WordContainer.WordFreqContainerTree.FreqSummation">
+            <summary>
+             Total frequency
+            </summary>
+        </member>
+        <member name="P:SCICT.NLP.Utility.WordContainer.WordFreqContainerTree.TotalNumberofWords">
+            <summary>
+             Total Number of Words
+            </summary>
+        </member>
+        <member name="P:SCICT.NLP.Utility.WordContainer.WordFreqContainerTree.DictionaryWordsCount">
+            <summary>
+             Number of existing words
+            </summary>
+        </member>
+        <member name="T:SCICT.NLP.Utility.WordContainer.WordFreqPOSContainerTree">
+            <summary>
+             A data structure for efficient management of words, This structure is a character level tree.
+            </summary>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.WordFreqPOSContainerTree.#ctor">
+            <summary>
+             Class Constructor
+            </summary>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.WordFreqPOSContainerTree.#ctor(SCICT.NLP.Utility.WordContainer.WordContainerTreeConfig)">
+            <summary>
+             Class Constructor
+            </summary>
+            <param name="wordContainerConfig">Configuration</param>
+            <exception cref="T:System.Exception"></exception>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.WordFreqPOSContainerTree.DoDFSTraverse(SCICT.NLP.Utility.WordContainer.NodeWithFreqandPOS)">
+            <summary>
+            Teaverse Tree on Depth First Type
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.WordFreqPOSContainerTree.DoBFSTraverse(SCICT.NLP.Utility.WordContainer.NodeWithFreqandPOS)">
+            <summary>
+            Teaverse Tree on Breath First Type
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.WordFreqPOSContainerTree.GenerateNode(System.Char,System.Int32,System.Boolean,System.String)">
+            <summary>
+            Utility Function, Generate Node from Letter
+            </summary>
+            <param name="c">Letter</param>
+            <param name="freq">Usage frequency</param>
+            <param name="isEndLetter">end of word</param>
+            <param name="pos">POS tag of word</param>
+            <returns></returns>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.WordFreqPOSContainerTree.Contain(System.String)">
+            <summary>
+            Check if a word exists
+            </summary>
+            <param name="word">Word</param>
+            <returns>If the dictionary contains the word, returns true, else returns false.</returns>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.WordFreqPOSContainerTree.Contain(System.String,System.Int32@)">
+            <summary>
+            Check if a word exists
+            </summary>
+            <param name="word">Word</param>
+            <param name="freq">Word's usage frequency</param>
+            <returns>If the dictionary contains the word, returns true, else returns false.</returns>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.WordFreqPOSContainerTree.Contain(System.String,SCICT.NLP.Persian.Constants.PersianPOSTag@)">
+            <summary>
+            Check if a word exists
+            </summary>
+            <param name="word">Word</param>
+            <param name="posTag">Word's POS tag</param>
+            <returns>If the dictionary contains the word, returns true, else returns false.</returns>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.WordFreqPOSContainerTree.Contain(System.String,System.Int32@,SCICT.NLP.Persian.Constants.PersianPOSTag@)">
+            <summary>
+            Check if a word exists
+            </summary>
+            <param name="word">Word</param>
+            <param name="freq">Word's usage frequency</param>
+            <param name="posTag">Word's POS tag</param>
+            <returns>If the dictionary contains the word, returns true, else returns false.</returns>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.WordFreqPOSContainerTree.AddWord(System.String,System.Int32,SCICT.NLP.Persian.Constants.PersianPOSTag)">
+            <summary>
+            Add a word to tree
+            </summary>
+            <param name="word">Word</param>
+            <param name="freq">Word's usage frequency</param>
+            <param name="posTag">Word's pos</param>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.WordFreqPOSContainerTree.AddWordBlind(System.String,System.Int32,SCICT.NLP.Persian.Constants.PersianPOSTag)">
+            <summary>
+            Add a word to tree
+            </summary>
+            <param name="word">Word</param>
+            <param name="freq">Word's usage frequency</param>
+            <param name="posTag">Word's pos</param>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.WordFreqPOSContainerTree.AddWord(System.String,System.Int32,SCICT.NLP.Persian.Constants.PersianPOSTag,System.String)">
+            <summary>
+            Add a word to tree
+            </summary>
+            <param name="word">Word</param>
+            <param name="freq">Word's usage frequency</param>
+            <param name="posTag">Word's pos</param>
+            <param name="fileName">File name</param>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.WordFreqPOSContainerTree.RemoveWord(System.String)">
+            <summary>
+            Remove word from Dictinary
+            </summary>
+            <param name="word">Word</param>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.WordFreqPOSContainerTree.AppendDictionary(System.String)">
+            <summary>
+             Append a new dictionary
+            </summary>
+            <param name="fileName">Absolute path of dictionary</param>
+            <returns>True if successfully added</returns>
+            <exception cref="T:System.Exception"></exception>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.WordFreqPOSContainerTree.WordFrequency(System.String)">
+            <summary>
+            Word frequency
+            </summary>
+            <param name="word">word</param>
+            <returns>usage frequency</returns>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.WordFreqPOSContainerTree.WordPOS(System.String)">
+            <summary>
+            Word pos
+            </summary>
+            <param name="word">word</param>
+            <returns>POS tag</returns>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.WordFreqPOSContainerTree.Clear">
+            <summary>
+             Clear all words
+            </summary>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.WordFreqPOSContainerTree.TraverseTree(SCICT.NLP.Utility.WordContainer.TreeTraveralType)">
+            <summary>
+            Traverse Tree to Retrieve All Words
+            </summary>
+            <param name="traversType">Traversal Type</param>
+            <returns>All Words</returns>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.WordFreqPOSContainerTree.ReverseString(System.String)">
+            <summary>
+            Utility Function, Reverse a word
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:SCICT.NLP.Utility.WordContainer.WordFreqPOSContainerTree.FreqSummation">
+            <summary>
+             Total frequency
+            </summary>
+        </member>
+        <member name="P:SCICT.NLP.Utility.WordContainer.WordFreqPOSContainerTree.DictionaryWordsCount">
+            <summary>
+             Number of existing words
+            </summary>
+        </member>
+        <member name="T:SCICT.NLP.Utility.WordContainer.AutoCompleteWordContainerTree">
+            <summary>
+             A data structure for efficient management of words with auto complete feature, This structure is a character level tree.
+            </summary>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.AutoCompleteWordContainerTree.#ctor(SCICT.NLP.Utility.WordContainer.WordContainerTreeConfig)">
+            <summary>
+             Class Constructor
+            </summary>
+            <param name="wordContainerConfig">Configuration</param>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.AutoCompleteWordContainerTree.Complete(System.String)">
+            <summary>
+             Complete the rest of incomplete word
+            </summary>
+             <param name="subWord">Incomplete word</param>
+             <returns>Completed words start with incomplete word</returns>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.AutoCompleteWordContainerTree.Complete(System.String,System.Int32)">
+            <summary>
+             Complete the rest of incomplete word
+            </summary>
+             <param name="subWord">Incomplete word</param>
+            <param name="count">Number of returned suggestions</param>
+             <returns>Completed words start with incomplete word</returns>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.AutoCompleteWordContainerTree.CompleteWithPseudoSpase(System.String)">
+            <summary>
+             Complete the rest of incomplete word considering PseudoSpase after current part
+            </summary>
+             <param name="subWord">Incomplete word</param>
+             <returns>Completed words start with incomplete word</returns>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.AutoCompleteWordContainerTree.GetAllWords">
+            <summary>
+            Retrive all existing words
+            </summary>
+            <returns>All words</returns>
+        </member>
+        <member name="M:SCICT.NLP.Utility.WordContainer.AutoCompleteWordContainerTree.SaveDictionaryToFile(System.String)">
+            <summary>
+             Save Loaded Dictionaryt to File
+            </summary>
+            <param name="fileName">File name</param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
